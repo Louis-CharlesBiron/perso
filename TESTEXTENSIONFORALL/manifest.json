@@ -1,0 +1,88 @@
+{
+  "name": "TEST",
+  "short_name": "t",
+  "description": "test",
+  "version": "1",
+  "version_name": "1.0 TestOnly",
+  "manifest_version": 3,
+  "icons": {
+      "128": "./img/icon-128x128.png"
+      
+  },
+    
+  "background": {
+      "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://localhost:8080/*","<all_urls>"],
+      "js": ["./backdrop/content.js"],
+      "css": ["./backdrop/test.css"]
+    }
+  ],
+  "action": {
+    "default_title": "Browser_Action title",
+      "default_popup": "popup.html",
+      "default_icons": {
+          "16": "./img/icon-16x16.png",
+          "32": "./img/icon-32x32.png",
+          "48": "./img/icon-48x48.png",
+          "128": "./img/icon-128x128.png"
+      }
+  },
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "permissions": [
+    "storage",
+    "identity",
+    "identity.email",
+    "activeTab",
+    "alarms",
+    "background",
+    "bookmarks",
+    "browsingData",
+    "clipboardRead",
+    "clipboardWrite",
+    "contentSettings",
+    "contextMenus",
+    "cookies",
+    "debugger",
+    "declarativeContent",
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback",
+    "desktopCapture",
+    "downloads",
+    "downloads.open",
+    "fontSettings",
+    "gcm",
+    "geolocation",
+    "history",
+    "idle",
+    "management",
+    "nativeMessaging",
+    "notifications",
+    "pageCapture",
+    "power",
+    "printerProvider",
+    "privacy",
+    "proxy",
+    "scripting",
+    "search",
+    "sessions",
+    "storage",
+    "system.cpu",
+    "system.display",
+    "system.memory",
+    "system.storage",
+    "tabCapture",
+    "tabGroups",
+    "tabs",
+    "topSites",
+    "tts",
+    "ttsEngine",
+    "unlimitedStorage",
+    "webNavigation",
+    "webRequest"
+]}
+

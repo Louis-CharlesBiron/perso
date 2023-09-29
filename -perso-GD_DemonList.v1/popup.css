@@ -1,0 +1,43 @@
+/* CSS */
+html {
+    user-select: none;
+    overflow: hidden;
+}
+body{
+    width: 50px; /*MAX FOR BOTH*/
+    height: 50px;
+    background-color: aliceblue;
+}
+button {
+    cursor: pointer;
+}
+.totally_hidden {
+    display: none;
+    visibility: hidden;
+    user-select: none;
+    appearance: none;
+    cursor: none;
+    border: none;
+    outline: none;
+    opacity: 0;
+    background-color: #ffffff00;
+    color: #ffffff00;
+    width: 0px;
+    height: 0px;
+    position: absolute;
+}
+.space {
+    visibility: hidden;
+    height: 20px;
+}
+.version {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    color: teal;
+}
+::selection {
+    background-color: rgb(0 128 128 / 45%);
+  }
+/* BASICS ↑ */

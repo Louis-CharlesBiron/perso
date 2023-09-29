@@ -1,0 +1,212 @@
+<!-- 
+   HTML
+   Convenient Extension by Louis-Charles Biron
+   Please don't use or credit this code as your own.
+ -->
+<!doctype html>
+<html lang="fr">
+   <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta charset="UTF-8">
+      <title>Menu</title>
+      <link rel="stylesheet" href="popup.css">
+      <script src="popup.js"></script>
+   </head>
+   <body>
+
+      <div class="header">
+         <h2>Convenient Extension !</h2>
+         <a class="version" title="Créé par Louis-Charles Biron">V1.0</a>
+         <div class="time" title="">00:00:00</div>
+      </div>
+
+      <div class="sectionsParent">
+         <div class="section">
+            <div class="sectionHeader">
+               <h3>Bloc Note</h3>
+               <input type="checkbox" id="s1" class="section_checkbox">
+               <label class="dd_btn_parent" for="s1"><div class="dd_btn"></div></label>
+            </div>
+            <div class="content">
+               <textarea id="blocNote" placeholder="Notes..." autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"></textarea>
+            </div>
+         </div>
+
+         <div class="section">
+            <div class="sectionHeader">
+               <h3>Raccourcis</h3>
+               <input type="checkbox" id="s2" class="section_checkbox">
+               <label class="dd_btn_parent" for="s2"><div class="dd_btn"></div></label>
+            </div>
+            <div class="content">
+               
+               <div class="center">
+                  <button id="goCShortCuts">Aller aux raccourcis ></button>
+               </div>
+               
+               <div class="sc_top">
+                  <div class="sc_parent"><!---->
+                     <span id="sch1" class="sc_header" title="Aller aux raccourcis >">Liens :</span>
+                  </div>
+                  <div class="sc_parent">
+                     <input type="text" id="sc1" placeholder="URL Raccourci #1" class="scInput" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
+                     <span id="url1" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <input type="text" id="sc2" placeholder="URL Raccourci #2" class="scInput" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
+                     <span id="url2" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <input type="text" id="sc3" placeholder="URL Raccourci #3" class="scInput" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
+                     <span id="url3" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <input type="text" id="sc4" placeholder="URL Raccourci #4" class="scInput" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
+                     <span id="url4" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <input type="text" id="sc5" placeholder="URL Raccourci #5" class="scInput" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
+                     <span id="url5" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <input type="text" id="sc6" placeholder="URL Raccourci #6" class="scInput" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
+                     <span id="url6" class="sc_keys"></span>
+                  </div>
+
+
+                  <div class="sc_parent"><!---->
+                     <span id="sch1" class="sc_header" title="Aller aux raccourcis >">Onglet :</span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <span class="scN">Dupliquer l'onglet : </span>
+                     <span id="duplicate_tab" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <span class="scN">Épingler l'onglet : </span>
+                     <span id="pin_tab" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <span class="scN">Onglet AFK : </span>
+                     <span id="afk" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <span class="scN">Sauvegarder Pages : </span>
+                     <span id="savew" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <span class="scN">Charger Pages : </span>
+                     <span id="loadw" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent"><!---->
+                     <span id="sch1" class="sc_header" title="Aller aux raccourcis >">Page :</span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <span class="scN">Monter mots de passe : </span>
+                     <span id="toggle_passwords" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <span class="scN">Inverser luminosité : </span>
+                     <span id="invert" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <span class="scN">Augmenter luminosité : </span>
+                     <span id="upB" class="sc_keys"></span>
+                  </div>
+                  
+                  <div class="sc_parent">
+                     <span class="scN">Diminuer luminosité : </span>
+                     <span id="downB" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <span class="scN">Réinitialiser luminosité : </span>
+                     <span id="resetB" class="sc_keys"></span>
+                  </div>
+
+
+                  <div class="sc_parent"><!---->
+                     <span id="sch1" class="sc_header" title="Aller aux raccourcis >">Presse-papiers personnalisé :</span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <input type="text" id="cbv1" placeholder="Valeur #1" class="scInput" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
+                     <span id="clip1" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <input type="text" id="cbv2" placeholder="Valeur #2" class="scInput" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
+                     <span id="clip2" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <input type="text" id="cbv3" placeholder="Valeur #3" class="scInput" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
+                     <span id="clip3" class="sc_keys"></span>
+                  </div>
+                  
+               </div>
+
+            </div>
+         </div>
+
+         <div class="section">
+            <div class="sectionHeader">
+               <h3>Options</h3>
+               <input type="checkbox" id="s3" class="section_checkbox">
+               <label class="dd_btn_parent" for="s3"><div class="dd_btn"></div></label>
+            </div>
+            <div class="content">
+               
+               <div class="optionDiv">
+                  <label for="sc_target" title="La cible des raccourcis">Cible Raccourcis: </label>
+                     <select id="sc_target">
+                        <option value="_self">Même page</option>
+                        <option value="_blank">Nouvel onglet</option>
+                        <option value="_nw">Nouvelle fenêtre</option>
+                     </select>
+               </div>
+
+               <div class="optionDiv">
+                  <label for="lang" title="La langue utilisée pour l'extension">Langage: </label>
+                     <select id="lang">
+                        <option value="fr">Français</option>
+                        <option value="en">English</option>
+                     </select>
+               </div>
+
+               <div class="optionDiv">
+                  <label for="darkMode" title="Activer / Désactiver le mode sombre sur l'extension">Mode Sombre: </label>
+                  <div class="uc"><label class="switch"><input type="checkbox" id="darkMode" class="totally_hidden"></input><span class="slider"></span></label></div>
+               </div>
+
+               <div class="optionDiv">
+                  <label for="lumPers" title="Activer / Désactiver la persistence des options de luminosité sur les pages lors d'un changement d'URL">Persistence: </label>
+                  <div class="uc"><label class="switch"><input type="checkbox" id="lumPers" class="totally_hidden"></input><span class="slider"></span></label></div>
+               </div>
+
+               <div class="optionDiv">
+                  <label for="hue" title="Le degré de nuance (hue)">Nuance: </label>
+                  <div class="hue_parent">
+                     <input type="range" id="hue" min="-180" max="180" value="0" title="Clic droit pour réinitialiser">
+                     <span id="hue_deg">0 deg</span>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+   </body>
+</html>

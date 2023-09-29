@@ -1,0 +1,74 @@
+function format_specials(value, mode) {
+    let v = value
+    if (!mode) {// when setting storage
+        for (let i=0;i<spc_ll;i++) {
+            let regex = new RegExp('(<span class="'+display[i]+'">(.+)*</span>)',"g")
+            v.replaceAll(regex, specials[i])
+        }
+    } else for (let i=0;i<spc_ll;i++) v.replaceAll(specials[i], "<span class="+display[i]+"></span>") // when getting storage
+
+    return v
+}
+
+
+ - - - MAIN MENU - - - 
+
+    / quick notes
+    - mode : last opened | select | 
+
+    / notes
+    - filter : (a)ll | (r)ecents | (f)avorites | (s)ynced  (p)
+
+    / settings
+    - theme (t) : l | d 
+    - lang­ (l) : e | f
+    - save as (d) : 1 | 0
+    - Downlaod name conflict action: (c) uniquify | overwrite | prompt
+    - automatically open created notes (ao) : 1 | 0
+    - font size (f) : 12 | num
+    - default creation name (n) / .ext (e) / storage (s) / color (q)
+    - cxtmenu selection adding prefix (cp) / suffix (cs)
+    //- extension shortcut -> link to chrome:shortcuts
+    - set passwords (p1, p2)
+    
+    //- quick_mode (qm) | "le" | .
+
+    //sync quota maxed action: | turn note to local ("l")
+
+
+
+ - - - MODIFY MENU - - - 
+
+    / sidebar
+    - Home button
+    - Recents
+
+    / top settings
+      / option bar
+      - Download?
+      - open in browser
+      - add to favorite
+
+      - storage type
+      - font-settings
+      - file ext → .txt | .?
+      - infos
+      - set private (password accessible)
+
+   add / remove tab
+
+ - - - OTHERS - - - 
+ 
+    / contextmenus
+    - add selection to last notepad
+
+
+- TODOs
+extension icon, desc, webstore, etc..
+
+- TODOS idk later
+sort mm note list
+private notes (try maybe to find something to encode storage)
+uninstall page
+use extension in browser/ open note in browser
+more themes

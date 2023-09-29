@@ -1,0 +1,55 @@
+<!-- 
+   HTML
+   Omnivox Extension by Louis-Charles Biron
+   Please don't use or credit this code as your own.
+ -->
+<!doctype html>
+<html>
+   <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta charset="UTF-8">
+      <title>Omnivox Extension</title>
+      <link rel="stylesheet" href="popup.css">
+      <script src="popup.js"></script>
+   </head>
+   <body>
+      <span id="version">V1.0</span>
+      <span id="time">00:00:00</span>
+      
+      <div class="main">
+         <div class="header">
+            <h2 class="title" id="hl" title="Aller à https://climoilou.omnivox.ca">Omnivox Extension</h2>
+         </div>
+
+         <div class="content">
+
+            <div class="notepad_p">
+               <textarea id="blocNote" placeholder="Notes..."></textarea>
+            </div>
+
+            <div class="dm">
+               <div class="dmc">
+                  <div class="opt_label">Mode Sombre:</div>
+                  <label class="checkbox_parent"><input type="checkbox" id="dmcheck"><span class="check_core"></span></label>
+               </div>
+            </div>
+
+            <div class="lg">
+               <div class="lgen">
+                  <div class="opt_label">Connexion Auto:</div>
+                  <label class="checkbox_parent"><input type="checkbox" id="lgcheck"><span class="check_core"></span></label>
+               </div>
+
+               <div class="form">
+                  <input type="text" id="user" placeholder="No de DA">
+                  <input type="password" id="pw" placeholder="Mot de passe">
+                  <button id="savelg">Sauvegarder</button>
+               </div>
+            </div>
+         </div>
+
+      </div>
+
+
+   </body>
+</html>

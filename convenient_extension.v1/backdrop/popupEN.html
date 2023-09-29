@@ -1,0 +1,217 @@
+<!-- 
+   HTML
+   Convenient Extension by Louis-Charles Biron
+   Please don't use or credit this code as your own.
+ -->
+<!doctype html>
+<html lang="en">
+   <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta charset="UTF-8">
+      <title>Menu</title>
+      <link rel="stylesheet" href="../popup.css">
+      <script src="../popup.js"></script>
+   </head>
+   <body>
+
+      <div class="header">
+         <h2>Convenient Extension !</h2>
+         <a class="version" title="Made by Louis-Charles Biron">V1.0</a>
+         <div class="time" title="">00:00:00</div>
+      </div>
+
+      <div class="sectionsParent">
+
+         <div class="section">
+            <div class="sectionHeader">
+               <h3>Notepad</h3>
+               <input type="checkbox" id="s1" class="section_checkbox">
+               <label class="dd_btn_parent" for="s1"><div class="dd_btn"></div></label>
+            </div>
+            <div class="content">
+               <textarea id="blocNote" placeholder="Notes..."></textarea>
+            </div>
+         </div>
+
+         <div class="section">
+            <div class="sectionHeader">
+               <h3>Shortcuts</h3>
+               <input type="checkbox" id="s2" class="section_checkbox">
+               <label class="dd_btn_parent" for="s2"><div class="dd_btn"></div></label>
+            </div>
+            <div class="content">
+               
+               <div class="center">
+                  <button id="goCShortCuts">Go to Shortcuts ></button>
+               </div>
+               
+               <div class="sc_top">
+                  <div class="sc_parent"><!---->
+                     <span id="sch1" class="sc_header" title="Go to Shortcuts >">Links :</span>
+                  </div>
+                  <div class="sc_parent">
+                     <input type="text" id="sc1" placeholder="URL Shortcut #1" class="scInput">
+                     <span id="url1" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <input type="text" id="sc2" placeholder="URL Shortcut #2" class="scInput">
+                     <span id="url2" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <input type="text" id="sc3" placeholder="URL Shortcut #3" class="scInput">
+                     <span id="url3" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <input type="text" id="sc4" placeholder="URL Shortcut #4" class="scInput">
+                     <span id="url4" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <input type="text" id="sc5" placeholder="URL Shortcut #5" class="scInput">
+                     <span id="url5" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <input type="text" id="sc6" placeholder="URL Shortcut #6" class="scInput">
+                     <span id="url6" class="sc_keys"></span>
+                  </div>
+
+
+                  <div class="sc_parent"><!---->
+                     <span id="sch1" class="sc_header" title="Go to Shortcuts >">Tab :</span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <span class="scN">Duplicate tab : </span>
+                     <span id="duplicate_tab" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <span class="scN">Pin Tab : </span>
+                     <span id="pin_tab" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <span class="scN">AFK Tab : </span>
+                     <span id="afk" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <span class="scN">Save Tabs : </span>
+                     <span id="savew" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <span class="scN">Load Tabs : </span>
+                     <span id="loadw" class="sc_keys"></span>
+                  </div>
+
+
+                  <div class="sc_parent"><!---->
+                     <span id="sch1" class="sc_header" title="Go to Shortcuts >">Page :</span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <span class="scN">Show passwords : </span>
+                     <span id="toggle_passwords" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <span class="scN">Invert Light : </span>
+                     <span id="invert" class="sc_keys"></span>
+                  </div>
+                  
+                  <div class="sc_parent">
+                     <span class="scN">Increase Brightness : </span>
+                     <span id="upB" class="sc_keys"></span>
+                  </div>
+                  
+                  <div class="sc_parent">
+                     <span class="scN">Decrease Brightness : </span>
+                     <span id="downB" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <span class="scN">Reset Brightness : </span>
+                     <span id="resetB" class="sc_keys"></span>
+                  </div>
+                  
+                  <div class="sc_parent"><!---->
+                     <span id="sch1" class="sc_header" title="Go to Shortcuts >">Custom Clipboard :</span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <input type="text" id="cbv1" placeholder="Paste Value #1" class="scInput" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="800">
+                     <span id="clip1" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <input type="text" id="cbv2" placeholder="Paste Value #2" class="scInput" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="800">
+                     <span id="clip2" class="sc_keys"></span>
+                  </div>
+
+                  <div class="sc_parent">
+                     <input type="text" id="cbv3" placeholder="Paste Value #3" class="scInput" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="800">
+                     <span id="clip3" class="sc_keys"></span>
+                  </div>
+
+               </div>
+
+            </div>
+         </div>
+
+         <div class="section">
+            <div class="sectionHeader">
+               <h3>Settings</h3>
+               <input type="checkbox" id="s3" class="section_checkbox">
+               <label class="dd_btn_parent" for="s3"><div class="dd_btn"></div></label>
+            </div>
+            <div class="content">
+               
+               <div class="optionDiv">
+                  <label for="sc_target" title="Target of Shortcuts">Shortcut Target: </label>
+                     <select id="sc_target">
+                        <option value="_self">Same Tab</option>
+                        <option value="_blank">New Tab</option>
+                        <option value="_nw">New Window</option>
+                     </select>
+               </div>
+
+               <div class="optionDiv">
+                  <label for="lang" title="The language used for the extension">Language: </label>
+                     <select id="lang">
+                        <option value="fr">Français</option>
+                        <option value="en">English</option>
+                     </select>
+               </div>
+
+               <div class="optionDiv">
+                  <label for="darkMode" title="Toggle on/off the dark mode for the extension">Dark Mode: </label>
+                  <div class="uc"><label class="switch"><input type="checkbox" id="darkMode" class="totally_hidden"></input><span class="slider"></span></label></div>
+               </div>
+
+               <div class="optionDiv"> 
+                  <label for="lumPers" title="Toggle on and off the persistence off brightness options on tab on URL change.">Persistence: </label>
+                  <div class="uc"><label class="switch"><input type="checkbox" id="lumPers" class="totally_hidden"></input><span class="slider"></span></label></div>
+               </div>
+
+               <div class="optionDiv">
+                  <label for="hue" title="Change the hue of the extension">Hue: </label>
+                  <div class="hue_parent">
+                     <input type="range" id="hue" min="-180" max="180" value="0" title="Right click to reset">
+                     <span id="hue_deg">0 deg</span>
+                  </div>
+               </div>
+
+
+            </div>
+         </div>
+
+
+      </div>
+
+   </body>
+</html>

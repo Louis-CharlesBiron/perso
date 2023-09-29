@@ -1,0 +1,34 @@
+/* 
+    CSS
+    Omnivox Extension by Louis-Charles Biron
+    Please don't use nor credit this code as your own.
+*/
+
+html {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+.identification-intraflex {
+    background-color: rgb(255 255 255 / 95%) !important;
+}
+
+img:not(.noinv), image:not(.noinv), iframe:not(.noinv), video:not(.noinv),
+#headerImage, .cPhoto {
+    filter: invert(1) hue-rotate(180deg) saturate(1.2);
+}
+
+
+footer#footer {
+    background-color: #dcdcdc;
+}
+
+.body-identification-intraflex:not(#dmbi) {
+    background-image: url("/Login/Content/Images/GEN/background.jpg") !important;
+}
+
+*::-webkit-scrollbar {width: 8px;}
+*::-webkit-scrollbar-track {background: transparent;}
+*::-webkit-scrollbar-thumb {background: rgb(60 110 104 / 30%);border-radius: 10px;}
+*::-webkit-scrollbar-thumb:hover {background: rgb(60 110 104 / 40%);}
+
+

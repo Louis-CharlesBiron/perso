@@ -1,0 +1,16 @@
+/* 
+    CSS
+    Convenient Extension by Louis-Charles Biron
+    Please don't use or credit this code as your own.
+*/
+html {
+    filter: hue-rotate(180deg) brightness(0.9) invert(1);
+}
+
+#hue {
+    filter: drop-shadow(0px 2px 4px rgba(255, 255, 255, 0.2));
+}
+
+input + .slider:before {
+    background-color: black;
+}

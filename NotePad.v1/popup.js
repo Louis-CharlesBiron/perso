@@ -564,7 +564,7 @@ function create_tab(file) {
     tab_ext.type = "text"
     tab_ext.value = file.e
     tab_ext.oninput=()=>{
-        let v = tab_ext.value = tab_ext.input_opt("a-zA-Z", "valid", "txt").toLocaleLowerCase()
+        let v = tab_ext.value = tab_ext.input_opt("a-zA-Z0-9", "valid", "txt").toLocaleLowerCase()
         if (v !== "") file.updateAttr({path:"e",value:v})
         o_list.querySelector("[id='"+getOpened().t+"'] .n_ext").textContent = "."+v
     }

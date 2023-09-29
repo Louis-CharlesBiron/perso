@@ -287,11 +287,11 @@ edit_values.querySelectorAll("input").forEach((el)=>{
     }
 })
 
-e_rank.onkeydown=(e)=>{
+e_rank.addEventListener("keydown",(e)=>{
     let k = e.key.toLowerCase(), v = Number(e_rank.value)
     if (k == "arrowup") e_rank.value = v-2
     else if (k == "arrowdown") e_rank.value = v+2
-}
+})
 
 gobt.onclick=()=>{
     list.scrollTo(0, (gobt.className == "tobot") ? list.scrollHeight : 0)

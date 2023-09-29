@@ -176,6 +176,7 @@ textarea {
     overflow: overlay;
     resize: none;
     background-color: aliceblue;
+    tab-size: 30px;
 }
 
 .blur {
@@ -1167,7 +1168,7 @@ svg:hover {
 }
 
 .pi_ilist > div > div > span {
-    font-weight: normal;
+    font-weight: 500;
 }
 
 #pi_note_title {

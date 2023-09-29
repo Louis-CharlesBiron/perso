@@ -79,10 +79,11 @@ function getFileInfos(f) {
     spaces = chars-charsNoSpace,
     shortest = words[words_mll.indexOf(Math.min(...words_mll))]||"",
     longest = words[words_mll.indexOf(Math.max(...words_mll))]||"",
+    mostCommonChar = Object.entries([...v].reduce((a, b)=>(a[b]=(a[b]??0)+1,a),{})).sort((a, b)=>b[1]-a[1])[0]||["", 0]
     lmd = (f&&f.m)&&new Date(f.m)||null
     lmdd = lmd&&lmd.getFullYear()+"-"+pad0(lmd.getMonth())+"-"+pad0(lmd.getDate())+" "+pad0(lmd.getHours())+":"+pad0(lmd.getMinutes())+":"+pad0(lmd.getSeconds())+","+pad0(lmd.getMilliseconds())||"Never",
     size = new Blob([v]).size
-    return [words.length, chars, spaces, charsNoSpace, shortest, "("+shortest.length+")", longest, "("+longest.length+")", lmdd, size+(size > 1 ? " bytes" : " byte"), f&&f.t||"", f&&f.e||"", f&&f.s||"", Boolean(f&&f.f||0), Boolean(f&&f.p||0)]
+    return [words.length, chars, spaces, charsNoSpace, shortest, "("+shortest.length+")", longest, "("+longest.length+")", mostCommonChar[0], "("+mostCommonChar[1]+" | "+((mostCommonChar[1]*100/v.length)||0).toFixed(1)+"%)", lmdd, size+(size > 1 ? " bytes" : " byte"), f&&f.t||"", f&&f.e||"", f&&f.s||"", Boolean(f&&f.f||0), Boolean(f&&f.p||0)]
 }
 
 document.onkeydown=(e)=>{
@@ -97,6 +98,15 @@ document.onkeydown=(e)=>{
         last_del = null
     }
 }
+
+txtedits.forEach((te)=>{
+    te.onkeydown=(e)=>{
+        if (e.key.toLowerCase() == "tab") {
+            e.preventDefault()
+            te.value += "\t"
+        }
+    }
+})
 
 function setStorage(type, obj, errCallBack) {
     chrome.storage[type].set(obj).catch(e=>{if (typeof errCallBack == "function") errCallBack()})
@@ -495,6 +505,7 @@ function open_tab(file, tab) {
             document.querySelectorAll(".tab").forEach((el)=>{el.className = "tab"})
             tab.className = "tab opened_tab"
             recent_list.querySelector("[id='"+getOpened().t+"'] .rn_radio").checked = true
+            displayBIU(file, file.s)
     } else open_mm()
 }
 
@@ -841,7 +852,7 @@ box_info.onclick=()=>{
 
 pi_shmotoc.oninput=()=>{
     let v = getOpened().c, regex = new RegExp("["+pi_shmotoc.value+"]", "g"), r = v.match(regex)||[], r_ll = r.length, v_ll = v.length
-    pi_shmotoc_r.textContent = (pi_shmotoc.value == "") ? "Enter a character..." : r_ll+" / "+v_ll+" ("+(isNaN(Math.floor(r_ll*100/v_ll))?"0":Math.floor(r_ll*100/v_ll))+"%)"
+    pi_shmotoc_r.textContent = (pi_shmotoc.value == "") ? "Enter a character..." : r_ll+" / "+v_ll+" ("+(isNaN(Math.floor(r_ll*100/v_ll)) ? "0" : (r_ll*100/v_ll).toFixed(1))+"%)"
 }
 
 function displayBIU(f, storageType) {

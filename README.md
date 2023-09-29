@@ -1,2 +1,2 @@
-# perso
+# Personnal Projects
 My projects :)

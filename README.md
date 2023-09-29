@@ -1,2 +1,3 @@
 # Personnal Projects
-My projects :D
+
+My projects, the stuff I like to work on :D

@@ -1,0 +1,125 @@
+<!-- 
+   HTML
+   Time Since Extension by Louis-Charles Biron
+   Please don't use or credit this code as your own.
+ -->
+<!doctype html>
+<html>
+   <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta charset="UTF-8">
+      <title>Time Since ...</title>
+      <link rel="stylesheet" href="popup.css">
+      <link rel="shortcut icon" href="img/icon.png" type="image/x-icon">
+      <script src="popup.js"></script>
+   </head>
+   <body>
+
+      <div class="side_bar">
+
+         <div class="clock_parent">
+            <div class="c_time_display">
+               <div id="c_date">01 January 1970</div>
+               <div id="c_time">10:00:00</div>
+            </div>
+            
+         </div>
+
+         <div class="creation_parent">
+
+            <div class="c_manage_parent">
+               <img src="img/plus.png" id="m_add_event" title="Add" alt="+"></img>
+               <img src="img/minus.png" id="m_del_event" title="Delete" alt="-"></img>
+            </div>
+
+            <div class="c_event_parent">
+               <div class="date_parent">
+                  <span class="little_date_label_jar">Date :</span>
+                  <div class="d_inputs">
+                     <input type="date" id="date_input">
+                     <div class="precise_d_input">
+                        <input type="number" id="hours_input" placeholder="00" min="0" max="23" maxlength="3" title="Hours">
+                        <span>:</span>
+                        <input type="number" id="min_input" placeholder="00" min="0" max="59" maxlength="3" title="Minutes">
+                        <span>:</span>
+                        <input type="number" id="sec_input" placeholder="00" min="0" max="59" maxlength="3" title="Seconds">
+                     </div>
+                  </div>
+                  <div class="d_buttons">
+                     <input type="color" id="color_input" title="Set Color">
+                     <button id="d_clear" title="Clear">×</button>
+                     <button id="d_set_default" title="Current Time">&nbsp;Now&nbsp;</button>
+                  </div>
+               </div>
+
+               <div class="info_parent">
+                  <label>Title : <input type="text" id="info_title" autocapitalize="false" autocomplete="false" spellcheck="false" placeholder="Title..."></label>
+                  <label>Description : <textarea type="text" id="info_message" autocapitalize="false" autocomplete="false" spellcheck="false" placeholder="Description..."></textarea></label>
+               </div>
+            </div>
+
+            <div class="c_status_parent">
+               <span id="status_info">Total events :</span>
+               <span class="save_status" title="Saved 0 time">↻</span>
+            </div>
+
+         </div>
+
+         <div class="settings_menu">
+            <div class="display_opt_parent">
+               <span>Quick time display</span>
+               <div class="dopc">
+                  <label>Milisec :<input type="radio" name="display_types" id="display_mili"></label>
+                  <label>Seconds :<input type="radio" name="display_types" id="display_sec"></label>
+                  <label>Minutes :<input type="radio" name="display_types" id="display_min"></label>
+                  <label>Hours &nbsp;&nbsp;:<input type="radio" name="display_types" id="display_hours"></label>
+                  <label>Days &nbsp;&nbsp;&nbsp;:<input type="radio" name="display_types" id="display_days" checked></label>
+                  <label>Years &nbsp;&nbsp;:<input type="radio" name="display_types" id="display_years"></label>
+               </div>
+            </div>
+
+            <div class="client_opt_parent">
+
+               <label>
+                  &nbsp;Dark Mode:
+                  <label class="checkbox_parent"><input type="checkbox" id="dm"><span class="check_core"></span></label>
+               </label>
+
+               <label>
+                  &nbsp;Random Create Color: 
+                  <label class="checkbox_parent"><input type="checkbox" id="rcc"><span class="check_core"></span></label>
+               </label>
+
+               <label>
+                  &nbsp;Display precision:
+                  <div class="dt_parent">
+                     <input type="range" id="dt_precision" min="0", max="10" value="0">
+                     <span id="dtp_value">0</span>
+                  </div>
+
+               </label>
+
+            </div>
+         </div>
+
+         <div class="settings_parent">
+            <label for="go_settings_checkbox" title="Settings">
+               <input type="checkbox" id="go_settings_checkbox">
+               <img src="img/settings.png" alt="Settings" id="go_settings">
+            </label>
+         </div>
+         
+      </div>
+
+      <div class="content">
+         <label class="list" for="box_deselector">
+            <input type="radio" name="box_selector" id="box_deselector" class="box_selector" checked>
+
+         </label>
+
+      </div>
+
+
+    <a class="version">V1.0</a>
+   </body>
+</html>

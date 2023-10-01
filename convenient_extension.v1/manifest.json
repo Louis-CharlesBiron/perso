@@ -1,8 +1,8 @@
 {
   "name": "Convenient Extension",
   "description": "Ajoutez plusieurs raccourcis personnalisables et plus!",
-  "version": "2.4",
-  "version_name": "2.4",
+  "version": "2.5",
+  "version_name": "2.5",
   "manifest_version": 3,
   "icons": {
       "128": "./img/icon.png"

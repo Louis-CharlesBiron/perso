@@ -16,7 +16,7 @@ var active_menu = mm, modm_locked = false, last_del = null, files = [], o = {}
 
 
 function sendMessage(type, content) {
-    chrome.runtime.sendMessage({content: content, type: type})  
+    chrome.runtime.sendMessage({content: content, type: type})
 }
 function ivb(str) {try {atob(str)}catch (e){return false}return true}
 function dit(e){if(e&&ivb(e)){let t=atob(e).split("."),l="",r=0;for(let n=0;n<t[1].length;n++){let o=t[0].slice(r,r+(k=Number(t[1].charAt(n))));r+=k,l+=String.fromCharCode(o)}return l}return null}

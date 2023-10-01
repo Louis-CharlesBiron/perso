@@ -7,9 +7,9 @@ function sendMessage(content, type, toContent) {// str, str, boolean
     if (toContent == true) {
     chrome.tabs.query({currentWindow: true,active: true}, function(tabs) {
         if (tabs[0]) {
-        chrome.tabs.sendMessage(tabs[0].id, {content: content, type: type})
+        chrome.tabs.sendMessage(tabs[0].id, {content: content, type: type}).catch(err=>{console.log(err)})
     }})} else {
-        chrome.runtime.sendMessage({content: content, type: type})  
+        chrome.runtime.sendMessage({content: content, type: type})
 }}
 
 function set_storage(type, name, value) {chrome.storage[type].set({[name]:value})}
@@ -17,8 +17,14 @@ function set_storage(type, name, value) {chrome.storage[type].set({[name]:value}
 chrome.runtime.onInstalled.addListener((e)=>{
     if (e.reason == "install") {
         console.log("Extension Successfully installed !")
-    }
+    } else if (e.reason == "update") updateActionTitle()
 })
+
+function updateActionTitle() {
+    chrome.commands.getAll((cmds)=>{
+        chrome.action.setTitle({title:"Menu ("+(cmds[0].shortcut||"No Shortcut")+")"})
+    })
+}
 
 chrome.contextMenus.removeAll()
 chrome.contextMenus.create({contexts:["all"], enabled:true, id:"duplicateTab", title:"Dupliquer l'onglet", visible:true, type:"normal"})
@@ -55,6 +61,7 @@ chrome.contextMenus.onClicked.addListener((e)=>{
     else if (e.menuItemId == "savew") saveWindows()
     else if (e.menuItemId == "loadw") loadWindows()
     else if (e.menuItemId.includes("clip")) cb_paste(e.menuItemId)
+    updateActionTitle()
 })
 
 //commands
@@ -72,6 +79,7 @@ chrome.commands.onCommand.addListener((command)=>{
     else if (command == "savew") saveWindows()
     else if (command == "loadw") loadWindows()
     else if (command.includes("clip")) cb_paste(command)
+    updateActionTitle()
 })
 
 function cb_paste(command) {
@@ -171,11 +179,13 @@ function loadWindows() {
     chrome.storage.sync.get((r)=>{
         if (r.sw && r.sw.ws.length > 0) {
             r.sw.ws.forEach((w)=>{
-                chrome.windows.create({focused:w.focused, height:w.height, width:w.width, left:w.left, top:w.top, state:w.state, type:w.type}, (cw)=>{
+                let createTabs=(cw)=>{
                     w.tabs.forEach((t)=>{
                         chrome.tabs.create({active:t.active,index:t.index,pinned:t.pinned,url:t.url,windowId:cw.id})
                     })
-                })
+                }
+                if (["maximized", "minimized", "fullscreen"].includes(w.state)) chrome.windows.create({focused:w.focused, state:w.state, type:w.type}, createTabs)
+                else chrome.windows.create({focused:w.focused, height:w.height, width:w.width, left:w.left, top:w.top, state:w.state, type:w.type}, createTabs)
             })
         }
     })

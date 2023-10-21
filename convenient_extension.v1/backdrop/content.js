@@ -88,3 +88,16 @@ chrome.storage.sync.get((result)=>{
     }
 })
 
+
+function test() {
+    let a = document.createElement("canvas")
+    .style = `
+       display: flex;
+       position: fixed;
+       background-color: transparent;
+       top: 0;
+       left: 0;
+       z-index: 1000000;
+       width: 100%;`
+    document.querySelector("body").appendChild(a)
+}

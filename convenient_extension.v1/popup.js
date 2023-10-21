@@ -12,8 +12,8 @@ chrome.management.getSelf().then((e)=>{v_el.textContent = "V"+e.version})
 function set_storage(type, name, value) {chrome.storage[type].set({[name]:value})}
 
 let month_bank = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"]
-function getDate(date) {// 2 juillet 2022
-    let d = date ? new Date(date) : new Date()
+function getDate(date) {// jj m y
+    let d = date ? new Date(date) : new Date()  
     return d.getDate()+" "+month_bank[d.getMonth()]+" "+d.getFullYear()+", "+["getHours","getMinutes","getSeconds"].reduce((a, b)=>{return a+":"+(d[b]()>9?d[b]():"0"+d[b]())},"").slice(1)
 }
 

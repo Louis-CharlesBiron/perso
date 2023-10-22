@@ -96,6 +96,7 @@ for (let i = 0;i<legl;i++) {let legacy = legacys[i].title.toLowerCase()
     else if (legacy.includes("marathon")) {DM.innerHTML += "<br><br>"+legacy+" : "+Marathon_Progress+"% !"}
     else if (legacy.includes("cataclysm")) {DM.innerHTML += "<br><br>"+legacy+" : 100% !"}
     else if (legacy.includes("phobos")) {DM.innerHTML += legacy+" : 100% !"}
+    else if (legacy.includes("ice carbon diablo x")) {DM.innerHTML += "<br><br>"+legacy+" : 100% !"}
 }
 
 let list = result.list

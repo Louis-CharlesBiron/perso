@@ -1,0 +1,17 @@
+{
+  "name": "GD Web DemonList Extension",
+  "description": "cool",
+  "version": "1",
+  "version_name": "(Perso)",
+  "manifest_version": 3,
+  "content_scripts": [
+    {
+      "matches": ["https://www.pointercrate.com/demonlist/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "permissions": [
+    "storage"
+  ]
+}
+

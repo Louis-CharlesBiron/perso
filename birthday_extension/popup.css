@@ -1,13 +1,13 @@
 /* 
     CSS
-    Template Extension by Louis-Charles Biron
+    Birthday manager by Louis-Charles Biron
     Please don't use or credit this code as your own.
 */
 :root {
     --no_of: hidden !important;
 }
 html, body {
-    width: 780px;
+    width: 560px;
     height: 580px;
     background-color: aliceblue;
     margin: 0px;
@@ -22,6 +22,148 @@ html, body {
     z-index: 10;
     color: teal;
 }
-::selection {background-color: rgb(0 128 128 / 45%);}
-*::-webkit-scrollbar {width: 8px;height: 5px;}*::-webkit-scrollbar-track {background: transparent;}*::-webkit-scrollbar-thumb {background: rgb(60 110 104 / 30%);border-radius: 10px;}*::-webkit-scrollbar-thumb:hover {background: rgb(60 110 104 / 40%);}
+::selection {background-color: rgba(105, 105, 105, 0.45);}
+*::-webkit-scrollbar {width: 8px;height: 5px;}*::-webkit-scrollbar-track {background: transparent;}*::-webkit-scrollbar-thumb {background: rgba(101, 101, 101, 0.3);border-radius: 10px;}*::-webkit-scrollbar-thumb:hover {background: rgba(87, 87, 87, 0.4);}
 
+.top {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+#main {
+    width: 98%;
+    height: 98%;
+}
+
+h2 {
+    margin: 0;
+    font-size: 2.7em;
+    letter-spacing: 1px;
+}
+
+.header {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#settingsBtn {
+    position: absolute;
+    right: 5%;
+}
+
+.content {
+    width: 100%;
+    height: 88%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.month_list {
+    width: 85%;
+    height: 93%;
+    overflow-y: overlay;
+    overflow-x: hidden;
+    border: 2px solid black;
+    padding: 2%;
+    display: flex;
+    flex-direction: column;
+}
+
+.month {
+    width: 95%;
+    min-height: 50px;
+    margin-bottom: 4%;
+    padding: 3%;
+    border-radius: 12px;
+}
+
+.m_header {
+    font-size: 2.3em;
+    padding-bottom: 1%;
+    font-weight: 600;
+    letter-spacing: 2px;
+    border-bottom: 3px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.bd {
+    width: 100%;
+    padding: 2% 0%;
+    font-size: 1.5em;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1%;
+}
+
+#jan {
+    background-color: #f9b8ba;
+    border: 2px solid #ebacae;
+}
+
+#feb {
+    background-color: #c5b4f5;
+    border: 2px solid #b3a4e0;
+}
+
+#mar {
+    background-color: #aef0dd;
+    border: 2px solid #a7e6d4;
+}
+
+#jun {
+    background-color: #dac8f8;
+    border: 2px solid #c5b5e0;
+}
+
+#dec {
+    background-color: #b3b9f1;
+    border: 2px solid #a2a8dc;
+}
+
+#apr {
+    background-color: #f1adc5;
+    border: 2px solid #d696ad;
+}
+
+#may {
+    background-color: #9ee4e9;
+    border: 2px solid #91d0d4;
+}
+
+#jul {
+    background-color: #b2f1b9;
+    border: 2px solid #a5dcab;
+}
+
+#sep {
+    background-color: #f3f9b1;
+    border: 2px solid #e3e8ae;
+}
+
+#oct {
+    background-color: #ffb58f;
+    border: 2px solid #e39e7a;
+}
+
+#nov {
+    background-color: #cfe8f9;
+    border: 2px solid #c1d7e6;
+}
+
+#aug {
+    background-color: #d7def6;
+    border: 2px solid #bcc3db;
+}

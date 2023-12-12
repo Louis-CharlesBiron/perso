@@ -3,24 +3,43 @@
 // Please don't use or credit this code as your own.
 //
 class Birthday {
-    constructor() {
-        this.date
-        this.name
-        this.isDone
-        this.id = this.name+this.date
+    constructor(name, date, month, important, gift, done) {
+        let ad = new Date(date+" "+month+" "+new Date().getFullYear())
+
+        this.name = name
+        this.date = ad
+        this.isDone = done||0
+        this.isImportant = important||0
+        this.gift = gift||[]
+
+        //transients
+        this.id = this.name+this.date 
+        this.el
     }
 
+    getFormated() {
+        return {n:this.name, d:this.date, c:this.isDone, i:this.isImportant, g:this.gift}
+    }
 
+    save() {
+        console.log("save")
+        // chrome.storage.sync.set({
+            
+        // })
+    }
+    
+    
     getRemaining() {
-        
+        let d = this.date.getTime(), c = new Date().getTime(), t = msToTime((c < d) ? d-c : (d+MSYEAR)-c)
+        return (t[1]>3) ? `${t[1]} day${p(t[1])}` : `${t[1]} day${p(t[1])}, ${t[2]} hour${p(t[2])}`
     }
 
     createHTML() {
         let bd = document.createElement("bd")
         bd.className = "bd"
-        bd.id = this.id
+        bd.id = this.id ///
         let span = document.createElement("span")
-        span.textContent = "" // TODO
+        span.className = "bd_preview"
         let bd_check = document.createElement("label")
         bd_check.className = "bd_check"
         let input = document.createElement("input")
@@ -34,6 +53,17 @@ class Birthday {
         bd.appendChild(bd_edit)
         bd_edit.appendChild(assets.children[0].cloneNode(2))
 
-        return bd
+        return this.updateHTML(bd)
+    }
+
+    updateHTML(el) {
+        let prev = el.querySelector(".bd_preview"),
+        check = el.querySelector(".bd_check > input")
+        // TODO show important
+
+        prev.textContent = `${wday_bankEN[this.date.getDay()].slice(0,3)}, ${this.date.getDate()}. In ${this.getRemaining()} | ${this.name} | ${this.gift.length} gift idea${p(this.gift.length)}`
+        check.checked = this.isDone
+
+        return this.el = el
     }
 }

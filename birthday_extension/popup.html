@@ -10,9 +10,49 @@
       <meta charset="UTF-8">
       <title>Birthday Manager</title>
       <link rel="stylesheet" href="popup.css">
+      <script src="Birthday.js" async></script>
+      <script src="utilities.js" async></script>
    </head>
    <body>
       <div class="top">
+
+         <div id="newPanelBack">
+            <div class="newPanel">
+               <div class="np_header">
+                  Create Birthday Entry
+                  <svg width="48" height="48" viewBox="0 -960 960 960"><path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"></path></svg>
+               </div>
+               <div>
+                  <label>Name: <input type="text" id="np_name"></label>
+                  <label>Birth date: <input type="number" id="np_date"></label>
+                  <label>Important: <input type="checkbox" id="np_important"></label>
+                  <label>Gift ideas? <textarea cols="30" rows="10" id="np_gift"></textarea></label>
+               </div>
+               <div>
+                  <button id="np_create">Create</button>
+                  <button id="np_cancel">Cancel</button>
+               </div>
+            </div>
+         </div>
+
+         <div id="editPanelBack">
+            <div class="editPanel">
+               <div class="ep_header">
+                  Edit Birthday Entry
+                  <svg width="48" height="48" viewBox="0 -960 960 960"><path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"></path></svg>
+               </div>
+               <div>
+                  <label>Name: <input type="text" id="ep_name"></label>
+                  <label>Birth date: <input type="number" id="ep_date"></label>
+                  <label>Important: <input type="checkbox" id="ep_important"></label>
+                  <label>Gift ideas: <textarea cols="30" rows="10" id="ep_gift"></textarea></label>
+               </div>
+               <div>
+                  <button id="ep_create">Save</button>
+                  <button id="ep_cancel">Cancel</button>
+               </div>
+            </div>
+         </div>
 
          <div id="main">
             <div class="header">
@@ -105,6 +145,7 @@
       </div><!--top-->
 
       <div id="assets">
+         <!-- edit -->
          <svg height="24" viewBox="0 -960 960 960" width="24"><path d="M160-400v-80h280v80H160Zm0-160v-80h440v80H160Zm0-160v-80h440v80H160Zm360 560v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 22q0 11-4 22.5T863-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z"/></svg>
       </div>
 

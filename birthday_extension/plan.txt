@@ -1,9 +1,14 @@
 onInstall little guide ?
+notifications ?
 
 
+------------------------
 
+r {
+    a: 0 | 1  // (first install)
+    bd : [Object: Birthday] // (bd_list)
 
-
+}
 
 
 

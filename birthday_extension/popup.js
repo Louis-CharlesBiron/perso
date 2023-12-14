@@ -13,7 +13,7 @@ chrome.storage.sync.get((r)=>{
     bd_list = r.bd
     
 
-
+    add_bd({name:"test", date:new Date("2023-12-14 00:00").getTime(), isImportant:false, gift:[], isDone:false}, false)
 })
 
 //Display version
@@ -23,11 +23,10 @@ chrome.management.getSelf((e)=>{version.textContent="V"+e.version})
 let months_el = document.querySelectorAll(".month"), cm = new Date().getMonth()
 for (let i=0;i<12;i++) months_el[(cm+i)%12].style.order=i
 
-function manageCreatePanel(open, month) {
+function manageCreatePanel(open) {
     if (open) {
         np_name.value = np_date.value = np_gift.value = ""
         np_important.checked = false
-        np_create.setAttribute("m", month)
         newPanelBack.className = "nPB_opened"
     } else {
         newPanelBack.className = ""
@@ -36,31 +35,40 @@ function manageCreatePanel(open, month) {
 
 //Add "add" event
 document.querySelectorAll(".m_add").forEach((el)=>{
-    el.addEventListener("click", (e)=>{
-        let top = e.target
-        while (top.className !== "month") top = top.parentElement 
-        manageCreatePanel(true, top.id)
+    el.addEventListener("click", ()=>{
+        manageCreatePanel(true)
     })
 })
 
 // Birthday creation
+function add_bd(b, isNew) {// name:str, date:int, isImp:bool, gift:[], isDone:bool
+    let bd = new Birthday(b.name, b.date, b.isImportant, b.gift, b.isDone)
+    
+    bd_list.push(bd)
+    if (isNew) bd.save()
+    document.querySelector(`#${SHORT_MONTHS[new Date(b.date).getMonth()]} > .m_content`).appendChild(bd.createHTML())
+
+    return bd
+}
+
+// Creation panel onclick
 np_create.onclick=()=>{
     let name = np_name.value,
-    date = np_date.value,
+    date = new Date(np_date.value+" 00:00").getTime(),
     important = np_important.checked,
-    gift = np_gift.value
+    gift = np_gift.value,
+    errors = validate([name == "", !isFinite(date), date > new Date().getTime()], ["The name is invalid","The birth date is invalid (incomplete)", "The birth date is invalid (impossible)"], ", ")
 
-    if (name == '') console.log("name bad")
-    if (date == '') console.log("date bad")
 
-    if (1 == 1) {
-        let m = np_create.getAttribute("m"), b = new Birthday(name, date, m, important, gift)
-        bd_list.push(b)
-        b.save()
-        document.querySelector(`#${m} > .m_content`).appendChild(b.createHTML())
+    if (!errors) {
+        add_bd({name:name, date:date, isImportant:important, gift:gift}, true)
         manageCreatePanel(false)
+    } else {
+        console.log(errors)
     }
 }
 
-}onload();
 
+
+
+}onload();

@@ -25,3 +25,7 @@ function typeWriter(txt, speed, el) {
 function p(v) {
     return (v>1) ? "s" : ""
 }
+
+function validate(conditions, errs, errSeparator='') {// [if true then error], [error msg] (same length)
+    return errs.reduce((a,b,i)=>(a[i]&&=errSeparator+b,a),conditions.map(x=>x||'')).join('').slice(errSeparator.length)
+}

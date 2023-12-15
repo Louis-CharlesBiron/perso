@@ -10,10 +10,10 @@ var bd_list
 function onload() {
 // Init get storage sync call
 chrome.storage.sync.get((r)=>{
-    bd_list = r.bd
+    //load stored birthdays
+    bd_list = r.$bd.map(b=>add_bd(r[b]))
     
 
-    add_bd({name:"test", date:new Date("2023-12-14 00:00").getTime(), isImportant:false, gift:[], isDone:false}, false)
 })
 
 //Display version
@@ -40,7 +40,7 @@ document.querySelectorAll(".m_add").forEach((el)=>{
     })
 })
 
-// Birthday creation
+// Birthday client creation
 function add_bd(b, isNew) {// name:str, date:int, isImp:bool, gift:[], isDone:bool
     let bd = new Birthday(b.name, b.date, b.isImportant, b.gift, b.isDone)
     
@@ -52,19 +52,19 @@ function add_bd(b, isNew) {// name:str, date:int, isImp:bool, gift:[], isDone:bo
 }
 
 // Creation panel onclick
+let errorsDiv = document.getElementById("errorsDiv")
 np_create.onclick=()=>{
     let name = np_name.value,
     date = new Date(np_date.value+" 00:00").getTime(),
     important = np_important.checked,
     gift = np_gift.value,
     errors = validate([name == "", !isFinite(date), date > new Date().getTime()], ["The name is invalid","The birth date is invalid (incomplete)", "The birth date is invalid (impossible)"], ", ")
-
+    
+    errorsDiv.textContent = errors
 
     if (!errors) {
         add_bd({name:name, date:date, isImportant:important, gift:gift}, true)
         manageCreatePanel(false)
-    } else {
-        console.log(errors)
     }
 }
 

@@ -3,8 +3,6 @@
 // Please don't use or credit this code as your own.
 //
 
-const MSYEAR = 31536000000
-
 let month_bankEN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
 wday_bankEN = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
@@ -28,4 +26,12 @@ function p(v) {
 
 function validate(conditions, errs, errSeparator='') {// [if true then error], [error msg] (same length)
     return errs.reduce((a,b,i)=>(a[i]&&=errSeparator+b,a),conditions.map(x=>x||'')).join('').slice(errSeparator.length)
+}
+
+function asda() {
+    chrome.storage.sync.clear()
+    chrome.storage.sync.set({
+        $a:1,
+        $bd:[]
+    })
 }

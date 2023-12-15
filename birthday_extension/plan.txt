@@ -6,8 +6,8 @@ notifications ?
 
 r {
     a: 0 | 1  // (first install)
-    bd : [Object: Birthday] // (bd_list)
-
+    bd : [] // (list of bd ids)
+    'bd_ex' : {n:name, d:date, c:isDone, i:isImportant, g:gift}
 }
 
 

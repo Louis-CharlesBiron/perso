@@ -16,41 +16,30 @@
    <body>
       <div class="top">
 
-         <div id="newPanelBack">
-            <div class="newPanel">
-               <div class="np_header">
-                  Create Birthday Entry
-                  <svg width="48" height="48" viewBox="0 -960 960 960"><path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"></path></svg>
+         <div id="panelBack">
+            <div class="panel">
+               <div class="p_header">
+                  <span id="p_title">Create Birthday Entry</span>
+                  <svg class="p_close" width="48" height="48" viewBox="0 -960 960 960"><path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"></path></svg>
                </div>
-               <div>
-                  <label>Name: <input type="text" id="np_name"></label>
-                  <label>Birth date: <input type="date" id="np_date"></label>
-                  <label>Important: <input type="checkbox" id="np_important"></label>
-                  <label>Gift ideas? <textarea cols="30" rows="10" id="np_gift"></textarea></label>
-               </div>
-               <div id="errorsDiv"></div>
-               <div>
-                  <button id="np_create">Create</button>
-                  <button id="np_cancel">Cancel</button>
-               </div>
-            </div>
-         </div>
 
-         <div id="editPanelBack">
-            <div class="editPanel">
-               <div class="ep_header">
-                  Edit Birthday Entry
-                  <svg width="48" height="48" viewBox="0 -960 960 960"><path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"></path></svg>
-               </div>
                <div>
-                  <label>Name: <input type="text" id="ep_name"></label>
-                  <label>Birth date: <input type="date" id="ep_date"></label>
-                  <label>Important: <input type="checkbox" id="ep_important"></label>
-                  <label>Gift ideas: <textarea cols="30" rows="10" id="ep_gift"></textarea></label>
+                  <label>Name: <input type="text" id="p_name"></label>
+                  <label>Birth date: <input type="date" id="p_date"></label>
+                  <label>Important: <input type="checkbox" id="p_important"></label>
+                  <label>Gift ideas? <textarea cols="30" rows="10" id="p_gift"></textarea></label>
                </div>
+
+               <div id="edit_panel" class="hidden">
+                  <label>Done: <input type="checkbox" id="p_done"></label>
+               </div>
+
+               <div id="errorsDiv">errrors</div>
                <div>
-                  <button id="ep_create">Save</button>
-                  <button id="ep_cancel">Cancel</button>
+                  <button id="p_create">Create</button>
+                  <button id="p_edit" class="hidden">Save</button>
+                  <button id="p_delete" class="hidden">Delete</button>
+                  <button class="p_close">Cancel</button>
                </div>
             </div>
          </div>

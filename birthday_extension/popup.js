@@ -4,7 +4,7 @@
 //
 
 const SHORT_MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
-var bd_list
+var bd_list = []
 
 //On load
 function onload() {
@@ -23,49 +23,81 @@ chrome.management.getSelf((e)=>{version.textContent="V"+e.version})
 let months_el = document.querySelectorAll(".month"), cm = new Date().getMonth()
 for (let i=0;i<12;i++) months_el[(cm+i)%12].style.order=i
 
-function manageCreatePanel(open) {
-    if (open) {
-        np_name.value = np_date.value = np_gift.value = ""
-        np_important.checked = false
-        newPanelBack.className = "nPB_opened"
+function managePanel(open, isCreation, v={n:'',d:'',i:'',g:[],c:''}) {// open(bool), isCreation(bool), values(obj)
+    panelBack.className = (open) ? "nPB_opened" : ""
+
+    if (isCreation) {
+        edit_panel.className = "hidden"
+        p_edit.className = "hidden"
+        p_delete.className = "hidden"
+        p_create.className = ""
+        p_title.textContent = "Create Birthday Entry"
     } else {
-        newPanelBack.className = ""
+        edit_panel.className = ""
+        p_edit.className = ""
+        p_delete.className = ""
+        p_create.className = "hidden"
+        p_title.textContent = "Edit Birthday Entry"
     }
+
+    p_name.value = v.n
+    p_date.value = v.d
+    p_important.checked = v.i
+    p_gift.value = v.g.join(", ")
+    p_done.checked = v.c
 }
 
 //Add "add" event
 document.querySelectorAll(".m_add").forEach((el)=>{
     el.addEventListener("click", ()=>{
-        manageCreatePanel(true)
+        managePanel(true, true)
     })
 })
 
 // Birthday client creation
-function add_bd(b, isNew) {// name:str, date:int, isImp:bool, gift:[], isDone:bool
-    let bd = new Birthday(b.name, b.date, b.isImportant, b.gift, b.isDone)
+function add_bd(b, isNew) {// {n:name(str), d:date(int), i:isImportant(bool), g:gift([]), c:isDone(bool)}
+    let bd = new Birthday(b.n, b.d, b.i, b.g, b.c)
     
     bd_list.push(bd)
     if (isNew) bd.save()
-    document.querySelector(`#${SHORT_MONTHS[new Date(b.date).getMonth()]} > .m_content`).appendChild(bd.createHTML())
+    document.querySelector(`#${SHORT_MONTHS[new Date(bd.date).getMonth()]} > .m_content`).appendChild(bd.createHTML())
 
     return bd
 }
 
-// Creation panel onclick
+// Panel
+// panel oncreate
 let errorsDiv = document.getElementById("errorsDiv")
-np_create.onclick=()=>{
-    let name = np_name.value,
-    date = new Date(np_date.value+" 00:00").getTime(),
-    important = np_important.checked,
-    gift = np_gift.value,
+p_create.onclick=()=>{
+    let name = p_name.value,
+    date = new Date(p_date.value+" 00:00").getTime(),
+    important = p_important.checked,
+    gift = p_gift.value,
     errors = validate([name == "", !isFinite(date), date > new Date().getTime()], ["The name is invalid","The birth date is invalid (incomplete)", "The birth date is invalid (impossible)"], ", ")
     
     errorsDiv.textContent = errors
 
     if (!errors) {
-        add_bd({name:name, date:date, isImportant:important, gift:gift}, true)
-        manageCreatePanel(false)
+        add_bd({n:name, d:date, i:important, g:gift}, true)
+        managePanel(false)
     }
+}
+
+// panel oncancel
+document.querySelectorAll(".p_close").forEach((el)=>{
+    el.onclick=()=>{
+        managePanel(false)
+    }
+})
+
+// panel onsave
+p_edit.onclick=()=>{
+
+}
+
+// panel ondelete
+p_delete.onclick=()=>{
+
 }
 
 

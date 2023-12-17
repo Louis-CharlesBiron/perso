@@ -197,13 +197,13 @@ svg {
     height: 0;
 }
 
-.newPanel {
+.panel {
     width: 80%;
     height: 60%;
     background-color: antiquewhite;
 }
 
-#newPanelBack, #editPanelBack {
+#panelBack {
     transition: 0.4s all;
     background-color: transparent;
     width: 100%;
@@ -235,4 +235,8 @@ svg {
 .m_content {
     display: flex;
     flex-direction: column;
+}
+
+.hidden {
+    display: none;
 }

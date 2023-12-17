@@ -6,56 +6,143 @@ const MSYEAR = 31536000000,
       MSDAY = 86400000
 
 class Birthday {
-    constructor(name, date, important, gift, done) {
+    constructor(name, date, isImportant, gift, isDone) {
         let ad = new Date(date)
 
-        this.name = name // str*
-        this.date = ad.getTime() // int
-        this.isDone = done||0 // bool
-        this.isImportant = important||0 // bool
-        this.gift = gift||[] // array[str]
+        this._name = name // str*
+        this._date = ad.getTime() // int
+        this._isImportant = isImportant||0 // bool
+        this._gift = gift||[] // array[str]
+        this._isDone = isDone||0 // bool
 
         //transients
-        this.id = this.name+this.date
-        this.el
-        this.ad = ad
+        this._id = this._name+this._date
+        this._el
+        this._ad = ad
     }
 
-    get formated() {
-        return {n:this.name, d:this.date, c:+this.isDone, i:+this.isImportant, g:this.gift}
+    get name() {
+        return this._name
     }
 
-    get id() {
-        return this.id
+    get date() {
+        return this._date
     }
 
-    save() {
-        console.log("save")
-        // chrome.storage.sync.set({
-            
-        // })
+    get isImportant() {
+        return this._isImportant
     }
 
-    get currentAge() {
-        return msToTime(new Date().getTime()-this.ad.getTime())[0]
+    get gift() {
+        return this._gift
     }
 
-    get BDdateCurrentYear() {
-        return new Date(`${new Date().getFullYear()}-${this.ad.getMonth()+1}-${this.ad.getDate()} 00:00`)
+    get isDone() {
+        return this._isDone
+    }
+
+    get name() {
+        return this._name
+    }
+    
+    get id() {// id of the Birthday object : name+date
+        return this._id
+    }
+
+    set id(id) {
+        return this._id = id
+    }
+    
+    get el() {// html element of the birthday
+        return this._el
+    }
+
+    set el(el) {
+        return this._el = el
+    }
+
+    get ad() {// birthday as Date object
+        return this._ad
+    }
+    
+    getCurrentAge() {
+        return msToTime(new Date().getTime()-this._ad.getTime())[0]
+    }
+
+    getBDdateCurrentYear() {
+        return new Date(`${new Date().getFullYear()}-${this._ad.getMonth()+1}-${this._ad.getDate()} 00:00`)
     }
     
     getRemaining() {
-        let d = this.BDdateCurrentYear.getTime(), 
-        c = new Date().getTime(),
+        let d = this.getBDdateCurrentYear().getTime(), c = new Date().getTime(),
         t = msToTime(((c/MSDAY)>>0 <= (d/MSDAY)>>0) ? d-c : (d+MSYEAR)-c)
         return t[1]==0?"TODAY":(t[1]>3||t[2]<=0)?`${t[1]} day${p(t[1])}`:`${t[1]} day${p(t[1])}, ${t[2]} hour${p(t[2])}`
     }
 
+    getFormated() {
+        return {n:this._name, d:this._date, c:+this._isDone, i:+this._isImportant, g:this._gift}
+    }
+
+    save() {
+        console.log("save")
+        chrome.storage.sync.get((r)=>{
+            let nlist = r.$bd
+            nlist.push(this._id)
+            chrome.storage.sync.set({
+                [this._id]: this.getFormated(),
+                $bd:nlist
+            })
+        })
+    }
+
+    edit(v) {// {i:isImportant(bool), g:gift([]), c:isDone(bool)}
+        if (v.i) this._isImportant = v.i
+        if (v.g) this._gift = v.g
+        if (v.c) this._isDone = v.c
+        chrome.storage.sync.set({
+            [this._id]: this.getFormated()
+        })
+    }
+
+    editId(name=this._name, date=this._date) {// name(str), date(int)
+            let oldId = this._id,
+            nn = name||this._name,
+            nd = date||this._date
+            this._id = nn+nd
+            this._name = nn
+            this._date = nd
+
+            chrome.storage.sync.remove(oldId)
+            chrome.storage.sync.get((r)=>{
+                let list = r.$bd
+                list[list.indexOf(oldId)] = this._id
+                chrome.storage.sync.set({
+                    [this._id]: this.getFormated(),
+                    $bd:list
+                })
+            })
+
+            this.updateHTML()
+    }
+
+    delete() {
+        chrome.storage.sync.get((r)=>{
+            console.log(r.$bd.filter(b=>b!==this._id), this._id)
+            chrome.storage.sync.remove(this._id)
+            chrome.storage.sync.set({
+                $bd:r.$bd.filter(b=>b!==this._id)
+            })
+        })
+
+        bd_list = bd_list.filter(b=>b.id!==this._id)
+        this._el.remove()
+    }
+
     createHTML() {
-        let bd = document.createElement("bd"), o = this.ad.getDate()-new Date().getDate()
+        let bd = document.createElement("div"), o = this._ad.getDate()-new Date().getDate()
         bd.style.order = (o < 0) ? 31+o : o
         bd.className = "bd"
-        bd.id = this.id ///
+        bd.id = this._id ///
         let span = document.createElement("span")
         span.className = "bd_preview"
         let bd_edit = document.createElement("bd_edit")
@@ -65,15 +152,18 @@ class Birthday {
         bd.appendChild(bd_edit)
         bd_edit.appendChild(assets.children[0].cloneNode(2))
 
-        return this.updateHTML(bd)
+        this._el = bd
+
+        return this.updateHTML()
     }
 
-    updateHTML(el) {
-        let prev = el.querySelector(".bd_preview")
+    updateHTML() {
+        let prev = this._el.querySelector(".bd_preview")
         // TODO show important
+        this._el.id = this._id
 
-        prev.textContent = `${wday_bankEN[this.BDdateCurrentYear.getDay()].slice(0,3)}, ${this.ad.getDate()}. ${(this.getRemaining() == "TODAY")?"":"In "}${this.getRemaining()} | ${this.name}, turning ${this.currentAge+1} | ${this.gift.length} gift idea${p(this.gift.length)}`
+        prev.textContent = `${wday_bankEN[this.getBDdateCurrentYear().getDay()].slice(0,3)}, ${this._ad.getDate()}. ${(this.getRemaining() == "TODAY")?"":"In "}${this.getRemaining()} | ${this._name}, turning ${this.getCurrentAge()+1} | ${this._gift.length} gift idea${p(this._gift.length)}`
 
-        return this.el = el
+        return this._el
     }
 }

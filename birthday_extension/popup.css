@@ -240,3 +240,11 @@ svg {
 .hidden {
     display: none;
 }
+
+#sttPanel {
+    position: absolute;
+    width: 70%;
+    height: 100%;
+    right: -80%;
+    background-color: red;
+}

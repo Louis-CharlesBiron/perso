@@ -1,6 +1,13 @@
 onInstall little guide ?
 notifications ?
 
+TODO:
+-settings / settings panel
+-pretty up
+- finish features: isImportant and stuff
+-beat Aftermath
+
+
 
 ------------------------
 

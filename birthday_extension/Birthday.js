@@ -3,7 +3,8 @@
 // Please don't use or credit this code as your own.
 //
 const MSYEAR = 31536000000,
-      MSDAY = 86400000
+      MSDAY = 86400000,
+      SHORT_MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
 
 class Birthday {
     constructor(name, date, isImportant, gift, isDone) {
@@ -83,6 +84,10 @@ class Birthday {
         return {n:this._name, d:this._date, c:+this._isDone, i:+this._isImportant, g:this._gift}
     }
 
+    getDateInputFormated() {
+        return `${this.ad.getFullYear()}-${this.ad.getMonth()+1}-${this.ad.getDate()}`
+    }
+
     save() {
         console.log("save")
         chrome.storage.sync.get((r)=>{
@@ -96,9 +101,9 @@ class Birthday {
     }
 
     edit(v) {// {i:isImportant(bool), g:gift([]), c:isDone(bool)}
-        if (v.i) this._isImportant = v.i
-        if (v.g) this._gift = v.g
-        if (v.c) this._isDone = v.c
+        this._isImportant = v.i??this._isImportant
+        this._gift = v.g??this._gift
+        this._isDone = v.c??this._isDone
         chrome.storage.sync.set({
             [this._id]: this.getFormated()
         })
@@ -111,6 +116,7 @@ class Birthday {
             this._id = nn+nd
             this._name = nn
             this._date = nd
+            this._ad = new Date(this._date)
 
             chrome.storage.sync.remove(oldId)
             chrome.storage.sync.get((r)=>{
@@ -127,7 +133,6 @@ class Birthday {
 
     delete() {
         chrome.storage.sync.get((r)=>{
-            console.log(r.$bd.filter(b=>b!==this._id), this._id)
             chrome.storage.sync.remove(this._id)
             chrome.storage.sync.set({
                 $bd:r.$bd.filter(b=>b!==this._id)
@@ -142,10 +147,10 @@ class Birthday {
         let bd = document.createElement("div"), o = this._ad.getDate()-new Date().getDate()
         bd.style.order = (o < 0) ? 31+o : o
         bd.className = "bd"
-        bd.id = this._id ///
+        bd.id = this._id
         let span = document.createElement("span")
         span.className = "bd_preview"
-        let bd_edit = document.createElement("bd_edit")
+        let bd_edit = document.createElement("div")
         bd_edit.className = "bd_edit"
 
         bd.appendChild(span)

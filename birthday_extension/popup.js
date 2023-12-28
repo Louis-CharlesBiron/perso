@@ -25,6 +25,7 @@ for (let i=0;i<12;i++) months_el[(cm+i)%12].style.order=i
 function managePanel(open, bd=null) {// open(bool), bd(Birthday | null)
     panelBack.className = (open) ? "nPB_opened" : ""
     panelBack.setAttribute("bdId",bd?.id||null)
+    errorsDiv.textContent = ""
 
     if (bd) {// edit
         edit_panel.className = ""
@@ -74,13 +75,12 @@ function add_bd(b, isNew) {// {n:name(str), d:date(int), i:isImportant(bool), g:
 
 // Panel
 // panel oncreate
-let errorsDiv = document.getElementById("errorsDiv")
 p_create.onclick=()=>{
     let name = p_name.value,
     date = new Date(p_date.value+" 00:00").getTime(),
     important = p_important.checked,
-    gift = p_gift.value,
-    errors = validate([name == "", !isFinite(date), date > new Date().getTime()], ["The name is invalid","The birth date is invalid (incomplete)", "The birth date is invalid (impossible)"], ", ")
+    gift = p_gift.value.split(",").map(v=>v.trim()).filter(v=>v!==""),
+    errors = validate([name == "", !isFinite(date), date > new Date().getTime(), isDuplicate(name+date)], ["The name is invalid","The birth date is invalid (incomplete)", "The birth date is invalid (impossible)", "There is already a birthday entry with the exact same name and date"], ", ")
     
     errorsDiv.textContent = errors
 
@@ -102,6 +102,10 @@ function getBd(id) {
     return bd_list.filter(b=>b.id == id)[0]
 }
 
+function isDuplicate(bdId, exception='') {
+    return bd_list.map(b=>b.id).filter(x=>x!==exception).includes(bdId)
+}
+
 // panel onsave
 p_edit.onclick=()=>{
     let bd = getBd(panelBack.getAttribute("bdId")),
@@ -109,11 +113,13 @@ p_edit.onclick=()=>{
     date = new Date(p_date.value+" 00:00").getTime()
 
     // validation
-    errors = validate([name == "", !isFinite(date), date > new Date().getTime()], ["The name is invalid","The birth date is invalid (incomplete)", "The birth date is invalid (impossible)"], ", ")
+    errors = validate([name == "", !isFinite(date), date > new Date().getTime(), isDuplicate(name+date, bd.id)], ["The name is invalid","The birth date is invalid (incomplete)", "The birth date is invalid (impossible)", "There is already a birthday entry with the exact same name and date"], ", ")// this and the next line could be a one-liner in the if()
+
+    errorsDiv.textContent = errors
 
     if (!errors) {
         // edit values
-        bd.edit({i:p_important.checked, g:p_gift.value.split(","), c:p_done.checked})
+        bd.edit({i:p_important.checked, g:p_gift.value.split(",").map(v=>v.trim()).filter(v=>v!==""), c:p_done.checked})
 
         //edit id
         if (bd.id !== name+date) {
@@ -131,6 +137,19 @@ p_delete.onclick=()=>{
     managePanel(false)
 }
 
+// Settings
+// open settings
+settingsBtn.onclick=()=>{
+    sttPanel.className = "sp_opened"
+}
+
+// close settings
+s_close.onclick=()=>{
+    sttPanel.className = ""
+}
+
+// toggle dark mode
+keep_checkbox(dm, "sync", "$dm", false, false, ()=>{console.log("dark mode on")}, ()=>{console.log("dark mode off")})
 
 
 

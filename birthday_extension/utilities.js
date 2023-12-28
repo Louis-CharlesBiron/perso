@@ -24,8 +24,13 @@ function p(v) {
     return (v>1) ? "s" : ""
 }
 
-function validate(conditions, errs, errSeparator='') {// [if true then error], [error msg] (same length)
+function validate(conditions, errs, errSeparator='') {// [if true then error], [error msg]   (same length)
     return errs.reduce((a,b,i)=>(a[i]&&=errSeparator+b,a),conditions.map(x=>x||'')).join('').slice(errSeparator.length)
+}
+
+function keep_checkbox(el, storageType, storageName, initChecked, cbOnclick, callbackOn, callbackOff) {//*arg filled
+    chrome.storage[storageType].get((r)=>(el.checked=r[storageName]??initChecked)?cbOnclick||callbackOn():cbOnclick||callbackOff())
+    return el.addEventListener("click",()=>chrome.storage[storageType].set({[storageName]:((el.checked?callbackOn():callbackOff()),el.checked)})),el
 }
 
 function asda() {
@@ -34,4 +39,8 @@ function asda() {
         $a:1,
         $bd:[]
     })
+}
+
+function r() {
+    chrome.storage.sync.get((r)=>{console.log(r)})
 }

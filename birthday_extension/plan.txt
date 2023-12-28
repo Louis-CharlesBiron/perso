@@ -4,16 +4,17 @@ notifications ?
 TODO:
 -settings / settings panel
 -pretty up
-- finish features: isImportant and stuff
--beat Aftermath
+- finish features: isImportant
+-beat Aftermath 😭 soon
 
 
 
 ------------------------
 
 r {
-    a: 0 | 1  // (first install)
-    bd : [] // (list of bd ids)
+    $a: 0 | 1+  // (number of installs)
+    $dm: 0 | 1  // (dark mode enabled)
+    $bd : [] // (list of bd ids)
     'bd_ex' : {n:name(str), d:date(int), i:isImportant(bool), g:gift([]), c:isDone(bool)}
 }
 

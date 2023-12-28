@@ -107,6 +107,8 @@ class Birthday {
         chrome.storage.sync.set({
             [this._id]: this.getFormated()
         })
+        
+        this.updateHTML()
     }
 
     editId(name=this._name, date=this._date) {// name(str), date(int)

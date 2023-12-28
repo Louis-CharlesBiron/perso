@@ -9,7 +9,8 @@ chrome.runtime.onInstalled.addListener((e)=>{
             if (!r.a) {
                 chrome.storage.sync.set({
                     $a:1,
-                    $bd:[]
+                    $bd:[],
+                    $dm:0
                 })
                 console.log("Welcome!")
             }

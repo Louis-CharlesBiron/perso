@@ -85,7 +85,7 @@ class Birthday {
     }
 
     getDateInputFormated() {
-        return `${this.ad.getFullYear()}-${this.ad.getMonth()+1}-${this.ad.getDate()}`
+        return `${this.ad.getFullYear()}-${pad0(this.ad.getMonth()+1)}-${pad0(this.ad.getDate())}`
     }
 
     save() {

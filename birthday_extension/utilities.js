@@ -28,10 +28,12 @@ function validate(conditions, errs, errSeparator='') {// [if true then error], [
     return errs.reduce((a,b,i)=>(a[i]&&=errSeparator+b,a),conditions.map(x=>x||'')).join('').slice(errSeparator.length)
 }
 
-function keep_checkbox(el, storageType, storageName, initChecked, cbOnclick, callbackOn, callbackOff) {//*arg filled
+function keepCheckbox(el, storageType, storageName, initChecked, cbOnclick, callbackOn, callbackOff) {//*arg filled
     chrome.storage[storageType].get((r)=>(el.checked=r[storageName]??initChecked)?cbOnclick||callbackOn():cbOnclick||callbackOff())
     return el.addEventListener("click",()=>chrome.storage[storageType].set({[storageName]:((el.checked?callbackOn():callbackOff()),el.checked)})),el
 }
+
+function pad0(num) {return (num	< 10) ? '0'+ num : num}
 
 function asda() {
     chrome.storage.sync.clear()

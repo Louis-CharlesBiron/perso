@@ -10,8 +10,8 @@
       <meta charset="UTF-8">
       <title>Birthday Manager</title>
       <link rel="stylesheet" href="popup.css">
-      <script src="Birthday.js" async></script>
-      <script src="utilities.js" async></script>
+      <script src="Birthday.js"></script>
+      <script src="utilities.js"></script>
    </head>
    <body>
       <div class="top">
@@ -23,18 +23,18 @@
                   <svg class="p_close" width="48" height="48" viewBox="0 -960 960 960"><path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"></path></svg>
                </div>
 
-               <div class="p_inputs">
-                  <label>Name: <input type="text" id="p_name"></label>
-                  <label>Birth date: <input type="date" id="p_date"></label>
-                  <label>Important: <input type="checkbox" id="p_important"></label>
-                  <label>Gift ideas? <textarea cols="30" rows="10" id="p_gift"></textarea></label>
+               <div class="p_content">
+                  <div class="p_inputs">
+                     <label>Name:<input type="text" id="p_name"></label>
+                     <label>Birth date:<input type="date" id="p_date"></label>
+                     <label>Important:<input type="checkbox" id="p_important"></label>
+                     <label title='Seperate ideas with commas (",")'>Gift ideas:<textarea cols="30" rows="2" id="p_gift"></textarea></label>
+                     <label id="edit_panel" class="hidden">Done:<input type="checkbox" id="p_done"></label>
+                  </div>
+                  
+                  <div id="errorsDiv"></div>
                </div>
-
-               <div id="edit_panel" class="hidden">
-                  <label>Done: <input type="checkbox" id="p_done"></label>
-               </div>
-
-               <div id="errorsDiv"></div>
+               
                <div class="p_buttons">
                   <button id="p_create">Create</button>
                   <button id="p_edit" class="hidden">Save</button>

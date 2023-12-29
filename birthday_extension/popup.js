@@ -149,7 +149,7 @@ s_close.onclick=()=>{
 }
 
 // toggle dark mode
-keep_checkbox(dm, "sync", "$dm", false, false, ()=>{console.log("dark mode on")}, ()=>{console.log("dark mode off")})
+keepCheckbox(dm, "sync", "$dm", false, false, ()=>{console.log("dark mode on")}, ()=>{console.log("dark mode off")})
 
 
 

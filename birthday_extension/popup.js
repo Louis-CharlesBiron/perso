@@ -5,14 +5,19 @@
 
 var bd_list = []
 
+const minhm = 35
+
 //On load
 function onload() {
 // Init get storage sync call
 chrome.storage.sync.get((r)=>{
     //load stored birthdays
     bd_list = r.$bd.map(b=>add_bd(r[b]))
-    
 
+    // Months display height
+    document.querySelectorAll(".month > .m_content").forEach((el)=>{
+        el.parentElement.style.minHeight = (minhm+el.childElementCount*30)+"px"
+    })
 })
 
 //Display version
@@ -21,6 +26,18 @@ chrome.management.getSelf((e)=>{version.textContent="V"+e.version})
 //Set months' order
 let months_el = document.querySelectorAll(".month"), cm = new Date().getMonth()
 for (let i=0;i<12;i++) months_el[(cm+i)%12].style.order=i
+
+// Month expand
+// document.querySelectorAll(".month > .m_header").forEach((el)=>{
+//     el.onclick=()=>{
+//         let top = el.parentElement,
+//         content = el.nextElementSibling,
+//         minh = minhm+(content.childElementCount*20)+"px"
+
+
+//     }
+// })
+
 
 function managePanel(open, bd=null) {// open(bool), bd(Birthday | null)
     panelBack.className = (open) ? "nPB_opened" : ""
@@ -64,7 +81,10 @@ function add_bd(b, isNew) {// {n:name(str), d:date(int), i:isImportant(bool), g:
     
     bd_list.push(bd)
     if (isNew) bd.save()
-    document.querySelector(`#${SHORT_MONTHS[new Date(bd.date).getMonth()]} > .m_content`).appendChild(bdEl)
+    let appendEl = document.querySelector(`#${SHORT_MONTHS[new Date(bd.date).getMonth()]} > .m_content`)
+    appendEl.appendChild(bdEl)
+    // month display height
+    appendEl.parentElement.style.minHeight = (minhm+appendEl.childElementCount*30)+"px"
     //Add "edit" event
     bdEl.querySelector(".bd_edit").onclick=()=>{
         managePanel(true, bd)
@@ -149,8 +169,15 @@ s_close.onclick=()=>{
 }
 
 // toggle dark mode
-keepCheckbox(dm, "sync", "$dm", false, false, ()=>{console.log("dark mode on")}, ()=>{console.log("dark mode off")})
-
-
+keepCheckbox(dm, "sync", "$dm", false, false, ()=>{
+    let s = document.createElement("link")
+    s.rel = "stylesheet"
+    s.href = "dm.css"
+    s.id = "dmsc"
+    document.querySelector("head").appendChild(s)
+}, ()=>{
+    let s = document.getElementById("dmsc")
+    if (s) s.remove()
+})
 
 }onload();

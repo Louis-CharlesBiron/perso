@@ -27,31 +27,17 @@ chrome.management.getSelf((e)=>{version.textContent="V"+e.version})
 let months_el = document.querySelectorAll(".month"), cm = new Date().getMonth()
 for (let i=0;i<12;i++) months_el[(cm+i)%12].style.order=i
 
-// Month expand
-// document.querySelectorAll(".month > .m_header").forEach((el)=>{
-//     el.onclick=()=>{
-//         let top = el.parentElement,
-//         content = el.nextElementSibling,
-//         minh = minhm+(content.childElementCount*20)+"px"
-
-
-//     }
-// })
-
-
 function managePanel(open, bd=null) {// open(bool), bd(Birthday | null)
     panelBack.className = (open) ? "nPB_opened" : ""
     panelBack.setAttribute("bdId",bd?.id||null)
     errorsDiv.textContent = ""
 
     if (bd) {// edit
-        edit_panel.className = ""
         p_edit.className = ""
         p_delete.className = ""
         p_create.className = "hidden"
         p_title.textContent = "Edit Birthday Entry"
     } else {
-        edit_panel.className = "hidden"
         p_edit.className = "hidden"
         p_delete.className = "hidden"
         p_create.className = ""
@@ -63,7 +49,6 @@ function managePanel(open, bd=null) {// open(bool), bd(Birthday | null)
     p_date.value = bd?.getDateInputFormated()||""
     p_important.checked = bd?.isImportant||false
     p_gift.value = bd?bd.gift.join(", "):""
-    p_done.checked = bd?.isDone||false
 
     return bd
 }
@@ -76,7 +61,7 @@ document.querySelectorAll(".m_add").forEach((el)=>{
 })
 
 // Birthday client creation
-function add_bd(b, isNew) {// {n:name(str), d:date(int), i:isImportant(bool), g:gift([]), c:isDone(bool)}, bool
+function add_bd(b, isNew) {// {n:name(str), d:date(int), i:isImportant(bool), g:gift([])}, bool
     let bd = new Birthday(b.n, b.d, b.i, b.g, b.c), bdEl = bd.createHTML()
     
     bd_list.push(bd)
@@ -139,7 +124,7 @@ p_edit.onclick=()=>{
 
     if (!errors) {
         // edit values
-        bd.edit({i:p_important.checked, g:p_gift.value.split(",").map(v=>v.trim()).filter(v=>v!==""), c:p_done.checked})
+        bd.edit({i:p_important.checked, g:p_gift.value.split(",").map(v=>v.trim()).filter(v=>v!=="")})
 
         //edit id
         if (bd.id !== name+date) {

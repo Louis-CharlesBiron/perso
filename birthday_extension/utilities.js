@@ -32,7 +32,7 @@ function keepCheckbox(el, storageType, storageName, initChecked, cbOnclick, call
 
 function pad0(num) {return (num	< 10) ? '0'+ num : num}
 
-function asda() {
+function hardReset() {
     chrome.storage.sync.clear()
     chrome.storage.sync.set({
         $a:1,

@@ -7,14 +7,13 @@ const MSYEAR = 31536000000,
       SHORT_MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
 
 class Birthday {
-    constructor(name, date, isImportant, gift, isDone) {
+    constructor(name, date, isImportant, gift) {
         let ad = new Date(date)
 
         this._name = name // str*
         this._date = ad.getTime() // int
         this._isImportant = isImportant||0 // bool
         this._gift = gift||[] // array[str]
-        this._isDone = isDone||0 // bool
 
         //transients
         this._id = this._name+this._date
@@ -36,10 +35,6 @@ class Birthday {
 
     get gift() {
         return this._gift
-    }
-
-    get isDone() {
-        return this._isDone
     }
 
     get name() {
@@ -81,7 +76,7 @@ class Birthday {
     }
 
     getFormated() {
-        return {n:this._name, d:this._date, c:+this._isDone, i:+this._isImportant, g:this._gift}
+        return {n:this._name, d:this._date, i:+this._isImportant, g:this._gift}
     }
 
     getDateInputFormated() {
@@ -100,10 +95,9 @@ class Birthday {
         })
     }
 
-    edit(v) {// {i:isImportant(bool), g:gift([]), c:isDone(bool)}
+    edit(v) {// {i:isImportant(bool), g:gift([])}
         this._isImportant = v.i??this._isImportant
         this._gift = v.g??this._gift
-        this._isDone = v.c??this._isDone
         chrome.storage.sync.set({
             [this._id]: this.getFormated()
         })
@@ -167,6 +161,7 @@ class Birthday {
     updateHTML() {
         let prev = this._el.querySelector(".bd_preview")
         // TODO show important
+        prev.className = (this._isImportant) ? "bd_preview important" : "bd_preview"
         this._el.id = this._id
 
         prev.textContent = `${wday_bankEN[this.getBDdateCurrentYear().getDay()].slice(0,3)}, ${this._ad.getDate()}. ${(this.getRemaining() == "TODAY")?"":"In "}${this.getRemaining()} | ${this._name}, turning ${this.getCurrentAge()+1} | ${this._gift.length} gift idea${p(this._gift.length)}`

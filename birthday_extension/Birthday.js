@@ -69,10 +69,10 @@ class Birthday {
         return new Date(`${new Date().getFullYear()}-${this._ad.getMonth()+1}-${this._ad.getDate()} 00:00`)
     }
     
-    getRemaining() {
+    getRemaining(onlyDays) {
         let d = this.getBDdateCurrentYear().getTime(), c = new Date().getTime(),
         t = msToTime(((c/MSDAY)>>0 <= (d/MSDAY)>>0) ? d-c : (d+MSYEAR)-c)
-        return t[1]==0?"TODAY":(t[1]>3||t[2]<=0)?`${t[1]} day${p(t[1])}`:`${t[1]} day${p(t[1])}, ${t[2]} hour${p(t[2])}`
+        return onlyDays ? t[1] : t[1]==0?"TODAY":(t[1]>3||t[2]<=0)?`${t[1]} day${p(t[1])}`:`${t[1]} day${p(t[1])}, ${t[2]} hour${p(t[2])}`
     }
 
     getFormated() {

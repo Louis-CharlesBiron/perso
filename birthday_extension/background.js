@@ -21,3 +21,8 @@ chrome.runtime.onInstalled.addListener((e)=>{
         })
     }
 })
+
+// TODO
+chrome.storage.sync.get((r)=>{
+    r.$bd.map(x=>new Birthday(r[x].n, r[x].d, r[x].i, r[x].g)).sort((a, b)=>(a.getRemaining(true)-b.getRemaining(true))).filter(x=>x <= 30)
+})

@@ -2,8 +2,8 @@ onInstall little guide ?
 notifications ?
 
 TODO:
-- finish features: isImportant
-
+display bd count in header
+display something in action badge
 
 
 ------------------------

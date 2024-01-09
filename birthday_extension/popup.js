@@ -4,7 +4,6 @@
 //
 
 var bd_list = []
-
 const minhm = 35
 
 //On load
@@ -22,6 +21,9 @@ chrome.storage.sync.get((r)=>{
 
 //Display version
 chrome.management.getSelf((e)=>{version.textContent="V"+e.version})
+
+//Dynamic Birthday check
+chrome.runtime.sendMessage({type: "checkbd"})  
 
 //Set months' order
 let months_el = document.querySelectorAll(".month"), cm = new Date().getMonth()

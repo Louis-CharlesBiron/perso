@@ -69,10 +69,10 @@ class Birthday {
         return new Date(`${new Date().getFullYear()}-${this._ad.getMonth()+1}-${this._ad.getDate()} 00:00`)
     }
     
-    getRemaining(onlyDays) {
+    getRemaining(isToday) {
         let d = this.getBDdateCurrentYear().getTime(), c = new Date().getTime(),
-        t = msToTime(((c/MSDAY)>>0 <= (d/MSDAY)>>0) ? d-c : (d+MSYEAR)-c)
-        return onlyDays ? t[1] : t[1]==0?"TODAY":(t[1]>3||t[2]<=0)?`${t[1]} day${p(t[1])}`:`${t[1]} day${p(t[1])}, ${t[2]} hour${p(t[2])}`
+        ms = ((c/MSDAY)>>0 <= (d/MSDAY)>>0) ? d-c : (d+MSYEAR)-c, t = msToTime(ms)
+        return isToday ? Math.sign(ms)<1 : Math.sign(ms)<1?"TODAY":(t[1]>3||t[2]<=0)?`${t[1]} day${p(t[1])}`:`${t[1]} day${p(t[1])}, ${t[2]} hour${p(t[2])}`
     }
 
     getFormated() {
@@ -84,7 +84,6 @@ class Birthday {
     }
 
     save() {
-        console.log("save")
         chrome.storage.sync.get((r)=>{
             let nlist = r.$bd
             nlist.push(this._id)
@@ -93,6 +92,7 @@ class Birthday {
                 $bd:nlist
             })
         })
+        setTimeout(()=>{chrome.runtime.sendMessage({type: "checkbd"})},500)
     }
 
     edit(v) {// {i:isImportant(bool), g:gift([])}
@@ -125,6 +125,7 @@ class Birthday {
             })
 
             this.updateHTML()
+            setTimeout(()=>{chrome.runtime.sendMessage({type: "checkbd"})},500)
     }
 
     delete() {
@@ -162,6 +163,7 @@ class Birthday {
         let prev = this._el.querySelector(".bd_preview")
         // TODO show important
         prev.className = (this._isImportant) ? "bd_preview important" : "bd_preview"
+        prev.className = this.getRemaining(true) ? prev.className+" isToday" : prev.className.replace(" isToday", "")
         this._el.id = this._id
 
         prev.textContent = `${wday_bankEN[this.getBDdateCurrentYear().getDay()].slice(0,3)}, ${this._ad.getDate()}. ${(this.getRemaining() == "TODAY")?"":"In "}${this.getRemaining()} | ${this._name}, turning ${this.getCurrentAge()+1} | ${this._gift.length} gift idea${p(this._gift.length)}`

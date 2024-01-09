@@ -3,7 +3,6 @@ notifications ?
 
 TODO:
 display bd count in header
-display something in action badge
 
 
 ------------------------

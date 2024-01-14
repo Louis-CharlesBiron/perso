@@ -1,6 +1,3 @@
-onInstall little guide ?
-notifications ?
-
 TODO:
 display bd count in header
 

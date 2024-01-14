@@ -1,6 +1,6 @@
 {
-  "name": "bd extennsion",
-  "description": "Extension description",
+  "name": "Birthday Manager",
+  "description": "Keep track of upcoming birthdays with this simple but efficient extension.",
   "version": "1",
   "version_name": "1 SomeText",
   "manifest_version": 3,

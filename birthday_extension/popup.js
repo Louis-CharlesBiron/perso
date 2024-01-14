@@ -17,6 +17,8 @@ chrome.storage.sync.get((r)=>{
     document.querySelectorAll(".month > .m_content").forEach((el)=>{
         el.parentElement.style.minHeight = (minhm+el.childElementCount*30)+"px"
     })
+
+    updateCount()
 })
 
 //Display version
@@ -67,7 +69,10 @@ function add_bd(b, isNew) {// {n:name(str), d:date(int), i:isImportant(bool), g:
     let bd = new Birthday(b.n, b.d, b.i, b.g, b.c), bdEl = bd.createHTML()
     
     bd_list.push(bd)
-    if (isNew) bd.save()
+    if (isNew) {
+        bd.save()
+        updateCount()
+    }
     let appendEl = document.querySelector(`#${SHORT_MONTHS[new Date(bd.date).getMonth()]} > .m_content`)
     appendEl.appendChild(bdEl)
     // month display height
@@ -78,6 +83,13 @@ function add_bd(b, isNew) {// {n:name(str), d:date(int), i:isImportant(bool), g:
     }
 
     return bd
+}
+
+function updateCount() {
+    Object.entries(bd_list.reduce((a, b)=>{
+        let m = SHORT_MONTHS[new Date(b.date).getMonth()]
+        return a[m] = (a[m]??0)+1,a
+    },{})).forEach((x)=>{document.querySelector("#"+x[0]+" .m_count").textContent = " ("+x[1]+")"})
 }
 
 // Panel

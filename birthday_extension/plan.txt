@@ -1,0 +1,35 @@
+TODO:
+display bd count in header
+
+
+------------------------
+
+r {
+    $a: 0 | 1+  // (number of installs)
+    $dm: 0 | 1  // (dark mode enabled)
+    $bd : [] // (list of bd ids)
+    'bd_ex' : {n:name(str), d:date(int), i:isImportant(bool), g:gift([]), c:isDone(bool)}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

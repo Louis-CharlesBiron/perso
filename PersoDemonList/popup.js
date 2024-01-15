@@ -366,7 +366,7 @@ function update_overview() {
     let deaths = level_list.flatMap((x)=>{return {p: x.progs, n:x.name}}).filter(x=>x.p!=="").flatMap((x)=>{return {f:100-Number(x.p.replace("100","").trim().split(" ")[x.p.replace("100","").trim().split(" ").length-1]), n:x.n}}).sort((a, b)=>{return a.f-b.f})
     for (let i=0;i<death_ll;i++) {
         let d = deaths[i]
-        death_c[i].textContent = (d) ? "(#"+get_rank(d.n)+") "+d.n+", from "+(100-d.f)+"%" : "No Level Yet..."
+        death_c[i].textContent = (d) ? "(#"+get_rank(d.n)+") "+d.n+", to "+(100-d.f)+"%" : "No Level Yet..."
     }
 
     // biggest journeys

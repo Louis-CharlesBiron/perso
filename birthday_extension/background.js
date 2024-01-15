@@ -12,7 +12,7 @@ chrome.runtime.onInstalled.addListener((e)=>{
 
     if (e.reason == "install") {
         chrome.storage.sync.get((r)=>{
-            if (!r.a) {
+            if (!r.$a) {
                 chrome.storage.sync.set({
                     $a:1,
                     $bd:[],
@@ -21,8 +21,8 @@ chrome.runtime.onInstalled.addListener((e)=>{
                 console.log("Welcome!")
             }
             else {
-                chrome.storage.sync.set({a:r.a+1})
-                console.log(`Welcome back! (${r.a+1})`)
+                chrome.storage.sync.set({$a:r.$a+1})
+                console.log(`Welcome back! (${r.$a+1})`)
             }
         })
     }

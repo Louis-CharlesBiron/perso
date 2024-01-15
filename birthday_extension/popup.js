@@ -66,7 +66,7 @@ document.querySelectorAll(".m_add").forEach((el)=>{
 
 // Birthday client creation
 function add_bd(b, isNew) {// {n:name(str), d:date(int), i:isImportant(bool), g:gift([])}, bool
-    let bd = new Birthday(b.n, b.d, b.i, b.g, b.c), bdEl = bd.createHTML()
+    let bd = new Birthday(b.n.replaceAll("$",""), b.d, b.i, b.g, b.c), bdEl = bd.createHTML()
     
     bd_list.push(bd)
     if (isNew) {

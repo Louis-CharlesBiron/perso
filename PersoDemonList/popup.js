@@ -5,41 +5,8 @@
 
 let level_list = []
 
-document.addEventListener("DOMContentLoaded", function() {
-
 //Display version
 chrome.management.getSelf((e)=>{document.getElementById("version").textContent="V"+e.version})
-
-function pad0(num) {return (num	< 10) ? '0'+ num : num}
-Element.prototype.num_input_opt = function num_input_opt(invalids, replaceElementValue, min, max) {// valids = "1234567890-+.e"
-    let v = this.value
-    min = (isNaN(min)) ? Number(this.min) : Number(min),
-    max = (isNaN(max)) ? Number(this.max) : Number(max)
-    v = v.replaceAll(new RegExp("(["+invalids+"])+","gi"), "")
-    if (v !== "") v = (v < min) ? min : (v > max) ? max : v
-    if (replaceElementValue) {
-        this.onblur=()=>{
-            if (v == "") this.value = min
-            if (typeof this.oninput == "function") this.oninput()
-        }
-        this.value = v
-    }
-    return v
-}
-Element.prototype.input_opt = function(chars, charstate, replaceElementValue) {// chars(the characters to check), charstate(whether the characters are valid or invalid), replaceElementValue(if defined, will replace the element value and this arg value is the default value)
-    let new_v = this.value.replaceAll(new RegExp("(["+((charstate=="valid") ? "^" : "")+chars+"])+","g"), "")
-    if (replaceElementValue !== null && replaceElementValue !== false) {
-        this.onblur=()=>{
-            if (this.value == "") this.value = replaceElementValue
-            if (typeof this.oninput == "function") this.oninput()
-        }
-        this.value = new_v
-    }
-    return new_v
-}
-Number.prototype.numSep = String.prototype.numSep = function(){
-    return (this+"").split("").reduce((a, b)=>{return b+a}).split("").reduce((x, y, i)=>{return y+(i%3==0?",":"")+x})
-}
 
 // Elements
 let o_attemptsmost = document.getElementById("o_attemptsmost"), o_recent = document.getElementById("o_recent"), o_objectsminus = document.getElementById("o_objectsminus"), list = document.getElementById("thelist"), next2user = document.getElementById("next2user"), userdisplay = document.getElementById("userdisplay"), useri = document.getElementById("username"), u_cd, edit_menu = document.getElementById("edit_menu"), edit_save = document.getElementById("edit_save"), edit_close = document.getElementById("edit_close"), e_name = document.getElementById("e_name"), add_level = document.getElementById("add_level"), nolvlyet = document.getElementById("nolvlyet"), edit_del = document.getElementById("edit_del"), wday_bank = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"], month_bank = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"], e_rank = document.getElementById("e_rank"), e_title = document.getElementById("e_title"), e_attempts = document.getElementById("e_attempts"), e_progs = document.getElementById("e_progs"), e_time = document.getElementById("e_time"), e_date = document.getElementById("e_date"), e_enjoy = document.getElementById("e_enjoy"), e_url = document.getElementById("e_url"), e_id = document.getElementById("e_id"), e_length = document.getElementById("e_length"), e_song = document.getElementById("e_song"), e_songURL = document.getElementById("e_songURL"), e_objects = document.getElementById("e_objects"), e_diff = document.getElementById("e_diff"), edit_values = document.querySelector(".edit_values"), gobt = document.getElementById("gobt"), goov = document.getElementById("goov"), overview_p = document.getElementById("overview_p"), o_demons = document.getElementById("o_demons"), o_stars = document.getElementById("o_stars"), o_attempts = document.getElementById("o_attempts"), o_objects = document.getElementById("o_objects"), o_oldest = document.getElementById("o_oldest"), o_fluke = document.getElementById("o_fluke"), o_death = document.getElementById("o_death"), o_long = document.getElementById("o_long")
@@ -317,6 +284,10 @@ goov.onclick=()=>{
     overview_p.style.left = (overview_p.style.left == "") ? "0%" : ""
 }
 
+next2user.onclick=close_p.onclick=()=>{
+    profile_p.style.left = (profile_p.style.left == "") ? "0%" : ""
+}
+
 function get_rank(name) {
     return level_list.flatMap(x=>x.name).indexOf(name)+1
 }
@@ -378,6 +349,9 @@ function update_overview() {
 
 }
 
-
-
-});
+function update_profile() {
+    fetch('https://gdbrowser.com/api/profile/'+username.value).then(r=>r.json()).then(stats=>{
+    console.log(stats)
+    console.log(stats.username)
+    }).catch(e=>{console.log(e)})
+} update_profile()

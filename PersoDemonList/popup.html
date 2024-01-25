@@ -10,7 +10,7 @@
       <meta charset="UTF-8">
       <title>DemonList Extension :]</title>
       <link rel="stylesheet" href="popup.css">
-      <script src="popup.js"></script>
+      <script src="utilities.js"></script>
    </head>
    <body>
       <span id="version">V1.0</span>
@@ -144,7 +144,44 @@
          </div>
       </div>
 
-      
+      <div id="profile_p">
+         <div class="profile">
+            <div class="p_header">
+               <div id="close_p"><svg height="48" width="48" viewBox="0 -960 960 960"><path d="M450-450H200v-60h250v-250h60v250h250v60H510v250h-60v-250Z"/></svg></div>
+               Profile
+            </div>
+            <div class="o_content">
+               
+               <div>
+                  <label class="o_label">Profile Info</label>
+                  <div id="p_info" class="o_list">
+                     <div>Rank:</div>
+                     <div>Stars:</div>
+                     <div>Moons:</div>
+                     <div>Coins:</div>
+                     <div>User Coins:</div>
+                     <div>Diamonds:</div>
+                     <div>Creator Points:</div>
+                     <div></div>
+                  </div>     
+               </div>
+
+               <div>
+                  <label class="o_label">Profile Demons (<span id="p_totalDemons">0</span>)</label>
+                  <div id="p_demons" class="o_list">
+                     <div>easy Demon: <span>0<img src="img/easy.png" class="small_icon"></span></div>
+                     <div>medium Demon: <span>0<img src="img/medium.png" class="small_icon"></span></div>
+                     <div>hard Demon: <span>0<img src="img/hard.png" class="small_icon"></span></div>
+                     <div>insane Demon: <span>0<img src="img/insane.png" class="small_icon"></span></div>
+                     <div>extreme Demon: <span>0<img src="img/extreme.png" class="small_icon"></span></div>
+                  </div>
+               </div>
+
+            </div>
+         </div>
+      </div>
+
+      <script src="popup.js" async></script>
 
    </body>
 </html>

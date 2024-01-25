@@ -1,0 +1,38 @@
+// JS
+// MyDemonList Extension by Louis-Charles Biron
+// Please don't use or credit this code as your own.
+//
+
+function pad0(num) {return (num	< 10) ? '0'+ num : num}
+
+Element.prototype.num_input_opt = function num_input_opt(invalids, replaceElementValue, min, max) {// valids = "1234567890-+.e"
+    let v = this.value
+    min = (isNaN(min)) ? Number(this.min) : Number(min),
+    max = (isNaN(max)) ? Number(this.max) : Number(max)
+    v = v.replaceAll(new RegExp("(["+invalids+"])+","gi"), "")
+    if (v !== "") v = (v < min) ? min : (v > max) ? max : v
+    if (replaceElementValue) {
+        this.onblur=()=>{
+            if (v == "") this.value = min
+            if (typeof this.oninput == "function") this.oninput()
+        }
+        this.value = v
+    }
+    return v
+}
+
+Element.prototype.input_opt = function(chars, charstate, replaceElementValue) {// chars(the characters to check), charstate(whether the characters are valid or invalid), replaceElementValue(if defined, will replace the element value and this arg value is the default value)
+    let new_v = this.value.replaceAll(new RegExp("(["+((charstate=="valid") ? "^" : "")+chars+"])+","g"), "")
+    if (replaceElementValue !== null && replaceElementValue !== false) {
+        this.onblur=()=>{
+            if (this.value == "") this.value = replaceElementValue
+            if (typeof this.oninput == "function") this.oninput()
+        }
+        this.value = new_v
+    }
+    return new_v
+}
+
+Number.prototype.numSep = String.prototype.numSep = function(){
+    return (this+"").split("").reduce((a, b)=>{return b+a}).split("").reduce((x, y, i)=>{return y+(i%3==0?",":"")+x})
+}

@@ -583,7 +583,7 @@ svg:hover {
     list-style: decimal;
 }
 
-#o_demons > span, #p_demons > div {
+#o_demons > span, #p_demonsAll > span {
     margin-top: 3%;
     width: 75%;
     display: flex;
@@ -606,10 +606,25 @@ img.lvl_img {
     opacity: 1;
 }
 
-#o_demons > span > span, #p_demons > span > span {
-    width: 30%;
+#o_demons > span > span, #p_demonsAll > span > span {
+    width: 35%;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
+#p_info > div {
+    margin-top: 5%;
+    width: 65%;
+    display: flex;
+    font-weight: bold;
+}
+
+#p_info span {
+    margin-left: 10%;
+    font-weight: normal;
+}
+
+#p_info {
+    width: 85%;
+}

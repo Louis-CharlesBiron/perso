@@ -17,11 +17,13 @@ useri.oninput=()=>{
     userdisplay.textContent = v || "???"
     next2user.textContent = "'"+((v.charAt(v.length-1) == "s")?"":"s")+" DemonList"
     clearTimeout(u_cd)
-    setTimeout(()=>{
+    u_cd = setTimeout(()=>{
         chrome.storage.sync.set({$u:v})
-    },700)
+        update_profile()
+    },1000)
 }
 
+// Storage Call
 chrome.storage.sync.get((r)=>{
     let usern = r.$u
     if (usern) {
@@ -36,6 +38,7 @@ chrome.storage.sync.get((r)=>{
     })
 
     update_overview()
+    update_profile()
 })
 
 function Level(name, rank, title, url, attempts, progs, time, date, enjoy, id, length, song, songURL, objects, diff) {
@@ -349,9 +352,28 @@ function update_overview() {
 
 }
 
+let statsEls = document.querySelectorAll("#p_info span, #p_demons"), demonsAll = document.querySelectorAll("#p_demonsAll > span")
+
 function update_profile() {
-    fetch('https://gdbrowser.com/api/profile/'+username.value).then(r=>r.json()).then(stats=>{
-    console.log(stats)
-    console.log(stats.username)
-    }).catch(e=>{console.log(e)})
-} update_profile()
+
+    let u = username.value.trim()
+    
+    if (u) fetch('https://gdbrowser.com/api/profile/'+username.value).then(r=>r.json()).then(stats=>{
+        console.log(stats)
+        
+        statsEls.forEach((el)=>{
+            let s = stats[el.id.replace("p_","")]
+            el.textContent = s||"N.A"
+            el.title = s ? `${el.id.replace('p_','')} ${s}` : "Probably 0"
+        })
+
+        let demonCounts = stats.demonTypes.split(","), demonTypes = ["Easy", "Medium", "Hard", "Insane", "Extreme"]
+        for (let i=0,d=demonTypes;i<5;i++) demonsAll[i].innerHTML = `${d[i]} Demon: <span>${demonCounts[i].numSep()}<img src='img/${d[i]}.png' class='small_icon'></img></span>`
+
+    }).catch(e=>{console.log("Invalid user", e)})
+    else {
+        console.log("Invalid user, didn't even try")
+    }
+    
+
+}

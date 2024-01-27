@@ -20,8 +20,9 @@
             <svg height="42"width="42" viewBox="0 -960 960 960"><path d="M160-160v-440h140v440H160Zm250 0v-640h140v640H410Zm250 0v-280h140v280H660Z"/></svg>
          </div>
          <div class="rh">
-            <input type="text" id="username" autocomplete="off" max="20" value="">
-            <label for="username" id="userdisplay">???</label><span id="next2user">'s DemonList</span>
+            <div id="goProfile" title="Open profile">
+               <label for="username" id="userdisplay">???</label><span id="next2user">'s DemonList</span>
+            </div>
          </div>
          <div class="left_header">
             <div id="gobt" class="tobot">
@@ -152,10 +153,15 @@
             </div>
             <div class="o_content">
                
+               <div class="o_list o_list2">
+                  <label class="o_label o_label2">Username</label>
+                  <input type="text" id="username" autocomplete="off" max="20" value="">
+               </div>
+
                <div>
                   <label class="o_label">Profile Info</label>
+
                   <div id="p_info" class="o_list">
-                     <div>Username:<span id="p_username"></span></div>
                      <div>Rank:<span id="p_rank"></span></div>
                      <div>Stars:<span id="p_stars"></span></div>
                      <div>Moons:<span id="p_moons"></span></div>

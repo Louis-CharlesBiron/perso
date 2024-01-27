@@ -18,8 +18,8 @@ useri.oninput=()=>{
     next2user.textContent = "'"+((v.charAt(v.length-1) == "s")?"":"s")+" DemonList"
     clearTimeout(u_cd)
     u_cd = setTimeout(()=>{
-        chrome.storage.sync.set({$u:v})
         update_profile()
+        //chrome.storage.sync.set({$u:v})
     },1000)
 }
 
@@ -287,7 +287,7 @@ goov.onclick=()=>{
     overview_p.style.left = (overview_p.style.left == "") ? "0%" : ""
 }
 
-next2user.onclick=close_p.onclick=()=>{
+goProfile.onclick=close_p.onclick=()=>{
     profile_p.style.left = (profile_p.style.left == "") ? "0%" : ""
 }
 
@@ -358,21 +358,41 @@ function update_profile() {
 
     let u = username.value.trim()
     
-    if (u) fetch('https://gdbrowser.com/api/profile/'+username.value).then(r=>r.json()).then(stats=>{
-        console.log(stats)
-        
+    //I love GD cologne!
+    if (u) fetch('https://gdbrowser.com/api/profile/'+u).then(r=>r.json()).then(stats=>{
+        // adjust username
+        username.value = userdisplay.textContent = stats.username
+        chrome.storage.sync.set({$u:stats.username})//
+
+
+        // some stats
         statsEls.forEach((el)=>{
             let s = stats[el.id.replace("p_","")]
             el.textContent = s||"N.A"
             el.title = s ? `${el.id.replace('p_','')} ${s}` : "Probably 0"
         })
 
-        let demonCounts = stats.demonTypes.split(","), demonTypes = ["Easy", "Medium", "Hard", "Insane", "Extreme"]
-        for (let i=0,d=demonTypes;i<5;i++) demonsAll[i].innerHTML = `${d[i]} Demon: <span>${demonCounts[i].numSep()}<img src='img/${d[i]}.png' class='small_icon'></img></span>`
+        // demons
+        displayProfileDemon(stats.demonTypes)
 
-    }).catch(e=>{console.log("Invalid user", e)})
+    }).catch(e=>{
+        displayProfileDemon()
+        clearProfileStats()
+    })
     else {
-        console.log("Invalid user, didn't even try")
+        displayProfileDemon()
+        clearProfileStats()
+    }
+
+    function displayProfileDemon(demonCounts='0,0,0,0,0') {
+        let dc = demonCounts.split(","), demonTypes = ["Easy", "Medium", "Hard", "Insane", "Extreme"]
+        for (let i=0;i<5;i++) demonsAll[i].innerHTML = `${demonTypes[i]} Demon: <span>${dc[i].numSep()}<img src='img/${demonTypes[i]}.png' class='small_icon'></img></span>`
+    }
+
+    function clearProfileStats() {
+        statsEls.forEach((el)=>{
+            el.textContent = "N.A"
+        })
     }
     
 

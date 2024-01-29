@@ -3,7 +3,7 @@
 // Please don't use or credit this code as your own.
 //
 
-function Level(name, rank, title, url, attempts, progs, time, date, enjoy, id, length, song, songURL, objects, diff) {
+function Level(name, rank, title, url, attempts, progs, time, date, enjoy, id, length, song, songURL, objects, diff, creator, featureLevel, gameVersion) {
     this.name = name
     this.title = title
     this.url = url
@@ -19,6 +19,9 @@ function Level(name, rank, title, url, attempts, progs, time, date, enjoy, id, l
     this.songURL = songURL
     this.objects = objects
     this.diff = diff
+    this.creator = creator
+    this.featureLevel = featureLevel
+    this.gameVersion = gameVersion
 
     this.save = function() {
         chrome.storage.sync.set({
@@ -68,15 +71,16 @@ function Level(name, rank, title, url, attempts, progs, time, date, enjoy, id, l
         <span class="lvl_att">Attempts: ${level.attempts||"???"}~</span>
         <span class="lvl_prog">Progresses: ${(level.progs == "") ? "???" : [...new Set(level.progs.split(" ").flatMap(x=>x+"%").filter(x=>x!=="%"))].join(", ")}</span>
         <span class="lvl_time">Time to Beat: ${level.time||"???"} days</span>
-        <span class="lvl_date" title="${(wday_bank[beatenDate.getDay()]||"???")+" le "+(pad0(beatenDate.getDate()+1)||"???")+" "+(month_bank[beatenDate.getMonth()]||"???")+" "+(beatenDate.getFullYear()||"???")}">Beaten On: ${(pad0(beatenDate.getFullYear())||"???")+"-"+(pad0(beatenDate.getMonth()+1)||"???")+"-"+(pad0(beatenDate.getDate()+1)||"???")}</span>
+        <span class="lvl_date" title="${(wday_bank[beatenDate.getDay()]||"???")+" le "+(pad0(beatenDate.getDate()+1)||"???")+" "+(month_bank[beatenDate.getMonth()]||"???")+" "+(beatenDate.getFullYear()||"???")}">Beaten On: ${(pad0(beatenDate.getFullYear())||"???")+"-"+(pad0(beatenDate.getMonth()+1)||"???")+"-"+(pad0(beatenDate.getDate()+1)||"???")} (teim since)</span>
         <span class="lvl_enjoy">Enjoyement: ${level.enjoy||"???"}/100</span>
         </div>
         <div class="lvl_info" id="ex" style="display: none;">
-        <span class="lvl_id" style="user-select: text;">Id: ${level.id||"???"}</span>
-        <span class="lvl_length">Length: ${(level.length.split(":").flatMap(x=>pad0(Number(x))).join(":") == "00" || level.length.split(":").length > 2) ? "???" : level.length.split(":").flatMap(x=>pad0(Number(x))).join(":")||"???"}</span>
+        <span class="lvl_id" style="user-select: text;">Id: ${level.id||"???"} (2.1 or smth)</span>
+        <span class="lvl_creator" style="user-select: text;">Id: ${level.creator||"???"}</span>
+        <span class="lvl_length">Length: ${(level.length.split(":").flatMap(x=>pad0(Number(x))).join(":") == "00" || level.length.split(":").length > 2) ? "???" : level.length.split(":").flatMap(x=>pad0(Number(x))).join(":")||"???"} (XL or idk)</span>
         <span id="lvl_song" class="link" title="Open ${level.songURL||"???"}">Song: ${level.song||"???"}</span>
         <span class="lvl_obj">Object Count: ${level.objects||"???"}</span>
-        <span class="lvl_diff">Difficulty: ${(level.diff||"???")+" Demon"}</span>
+        <span class="lvl_diff">Difficulty: ${(level.diff||"???")+" Demon"} (feature or epic or)</span>
         </div>`, el = document.createElement("div")
         el.innerHTML = html
         el.className = "level"

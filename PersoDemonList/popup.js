@@ -112,6 +112,17 @@ edit_close.onclick=close_edit_menu
 
 add_level.onclick=()=>{edit()}
 
+// API call to fill the most entries during level creation / edit
+function fillLevelEntries() {
+    let id
+    if (id) fetch('https://gdbrowser.com/api/level/'+"61079355").then(r=>r.json()).then((stats)=>{
+        
+        console.log(stats.name, stats.songName, stats.customSong, stats.author, stats.difficultyFace, stats.objects, stats.length)
+
+    }).catch((e)=>{console.log("bad id or", e)})
+    else {console.log("bad id")}
+}
+
 e_rank.oninput=()=>{
     e_rank.num_input_opt("-+.Ee", true, 1, Infinity)
 }
@@ -150,7 +161,7 @@ edit_values.querySelectorAll("input").forEach((el)=>{
 })
 
 e_rank.addEventListener("keydown",(e)=>{
-    let k = e.key.toLowerCase(), v = Number(e_rank.value)
+    let k = e.key.toLowerCase(), v = +e_rank.value
     if (k == "arrowup") e_rank.value = v-2
     else if (k == "arrowdown") e_rank.value = v+2
 })
@@ -246,9 +257,7 @@ function update_overview() {
 }
 
 let statsEls = document.querySelectorAll("#p_info span, #p_demons"), demonsAll = document.querySelectorAll("#p_demonsAll > span")
-
 function update_profile() {
-
     let u = username.value.trim()
     
     //I love GD cologne!
@@ -287,6 +296,4 @@ function update_profile() {
             el.textContent = "N.A"
         })
     }
-    
-
 }

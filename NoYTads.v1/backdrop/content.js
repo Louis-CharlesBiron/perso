@@ -15,7 +15,7 @@ var isInterval = -1
 
 chrome.runtime.onMessage.addListener(function(message) {
     if(message.type == "tab_updated" && message.content.info.status == "complete") {//
-        console.log(message.content.e, message.content.info)
+        //console.log(message.content.e, message.content.info)
         init()
     }
 })
@@ -37,6 +37,11 @@ function init() {
 
         if (document.querySelector(".ytp-ad-skip-button-container")) {
             document.querySelector(".ytp-ad-skip-button-container").click()
+        }
+
+        if (document.querySelector("button[class*='ad-skip']")) {
+            console.log("ad-skip", document.querySelector("button[class*='ad-skip']"))
+            document.querySelector("button[class*='ad-skip']").click()
         }
 
         //video ads

@@ -40,6 +40,7 @@ function init() {
         }
 
         if (document.querySelector("button[class*='ad-skip']")) {
+            console.log("ad-skip", document.querySelector("button[class*='ad-skip']"))
             document.querySelector("button[class*='ad-skip']").click()
         }
 

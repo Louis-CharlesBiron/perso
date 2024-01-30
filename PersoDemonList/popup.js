@@ -66,7 +66,7 @@ function edit(level) {
 
     edit_save.onclick=()=>{
         let rk = (e_rank.value > level_list.length || e_rank.value == "") ? level_list.length : e_rank.value-1
-        if (isLvl) {
+        if (isLvl) {// edit Level
             if (e_name.value !== level.name) level.editName(e_name.value)
             inps.forEach((el)=>{
                 level[el.id.replace("e_","")] = (el.value == "???") ? "" : el.value.trim()
@@ -75,8 +75,8 @@ function edit(level) {
 
             setTimeout(()=>{level.save()},250)
             level.htmlRefresh(rk)
-        } else {
-            let newLevel = new Level(e_name.value, rk, e_title.value, e_url.value, e_attempts.value, e_progs.value, e_time.value, e_date.value, e_enjoy.value, e_id.value, e_length.value, e_song.value, e_songURL.value, e_objects.value, e_diff.value)
+        } else {// create new Level
+            let newLevel = new Level(e_name.value, rk, e_title.value, e_url.value, e_attempts.value, e_progs.value, e_time.value, e_date.value, e_enjoy.value, e_id.value, e_length.value, e_song.value, e_songURL.value, e_objects.value, e_diff.value, e_creator.value, e_featureLevel.value, e_gameVersion.value, e_lazyLength.value)
             newLevel.htmlAdd(rk)
             newLevel.save()
         }
@@ -113,14 +113,30 @@ edit_close.onclick=close_edit_menu
 add_level.onclick=()=>{edit()}
 
 // API call to fill some entries in level creation / edit panel
-function fillLevelEntries() {
-    let id
-    if (id) fetch('https://gdbrowser.com/api/level/'+"61079355").then(r=>r.json()).then((stats)=>{
-        
-        console.log(stats.name, stats.songName, stats.customSong, stats.author, stats.difficultyFace, stats.objects, stats.length)
+function fillLevelEntries(id) {
+    // I Love GD Cologne :D
+    fetch('https://gdbrowser.com/api/level/'+id).then(r=>r.json()).then((stats)=>{
+        console.log(stats)
+
+        e_name.value ||= stats.name
+        e_song.value ||= stats.songName
+        e_songURL.value ||= `https://www.newgrounds.com/audio/listen/${stats.customSong}` // TODO main song
+        e_date.value ||= getDateFormated()
+        e_objects.value ||= stats.objects
+
+        e_diff.value = stats.difficulty.match(/(easy|medium|hard|insane|extreme)/gi)[0].toLowerCase()||'extreme'
+        e_creator.value = stats.author
+        e_gameVersion.value = stats.gameVersion
+        e_lazyLength.value = stats.length
+        e_featureLevel.value = !!stats.stars+[stats.featured, stats.epic, stats.legendary, stats.mythic].reduce((a, b, i)=>a+(b&&i),0)
 
     }).catch((e)=>{console.log("bad id or", e)})
-    else {console.log("bad id")}
+}
+
+searchId.onclick=(e)=>{
+    if (e.ctrlKey) {}
+    let id = e_id.value||73667628
+    if (id) fillLevelEntries(id)
 }
 
 e_rank.oninput=()=>{

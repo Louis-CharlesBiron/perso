@@ -3,9 +3,16 @@
 // Please don't use or credit this code as your own.
 //
 
-let wday_bank = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"], month_bank = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
+const wday_bank = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
+month_bank = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
+featureLevels = ["no rate", "rate", "featured", "epic", "legendary", "mythic"]
 
 function pad0(num) {return (num	< 10) ? '0'+ num : num}
+
+function getDateFormated() {
+    let d = new Date()
+    return `${pad0(d.getFullYear())}-${pad0(d.getMonth()+1)}-${pad0(d.getDate())}`
+}
 
 Element.prototype.num_input_opt = function num_input_opt(invalids, replaceElementValue, min, max) {// valids = "1234567890-+.e"
     let v = this.value

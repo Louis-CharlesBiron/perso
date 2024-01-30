@@ -47,13 +47,7 @@
             <!-- TODO
                
                fetch('https://gdbrowser.com/api/level/'+"61079355").then((r)=>{console.log(r.json())})
-
-               do name
-               do song
                do song url (official song / new ground)
-
-               try objects
-               try difficulty
 
                filter level?
 
@@ -63,16 +57,17 @@
 
                Rework level desc (expand):
                time since completion
-               level creator
-               id + (game version)
-               add XL, long, etc next to Length
 
-               ??maybe?? likes / downloads
+               ??maybe?? likes / downloads (maybe onexpand)
             -->
+            <input type="hidden" id="e_creator">
+            <input type="hidden" id="e_featureLevel">
+            <input type="hidden" id="e_gameVersion">
+            <input type="hidden" id="e_lazyLength">
 
             <div class="edit_values_id">
                <label title="The in game ID of the level">Id: <input type="number" id="e_id" placeholder="..." autocomplete="off"></label>
-               <label><button id="searchId">Search <svg height="24" width="24" viewBox="0 -960 960 960"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg></button>
+               <label title="Click to enter a level from Id"><button id="searchId">Search <svg height="24" width="24" viewBox="0 -960 960 960"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg></button>
                </label>
             </div>
 
@@ -83,18 +78,18 @@
                   <label>Attempts: <input type="number" id="e_attempts" min="0" placeholder="..." autocomplete="off"></label>
                   <label title="All the new bests on the level. (Enter values as such: 2 8 17 42 53 78 98 100)">Progresses: <input type="text" id="e_progs" placeholder="..." autocomplete="off"></label>
                   <label title="Time, in days, taken to beat the level">Time taken: <input type="text" id="e_time" placeholder="..." autocomplete="off"></label>
-                  <label title="The date of the completion">Beaten on: <input type="date" id="e_date" autocomplete="off"></label> <!-- Try today -->
+                  <label title="The date of the completion">Beaten on: <input type="date" id="e_date" autocomplete="off"></label>
                   <label class="ev_s">Enjoyement: <div class="yoyo"><input type="text" id="e_enjoy" placeholder="..." autocomplete="off">/100</div></label>
                </div>
 
                <div>
-                  <label>Name: <input type="text" id="e_name" placeholder="..." autocomplete="off"></label> <!-- Try -->
+                  <label>Name: <input type="text" id="e_name" placeholder="..." autocomplete="off"></label>
                   <label title="The URL of a YouTube video of the completion">Completion URL: <input type="url" id="e_url" placeholder="https..." autocomplete="off"></label>
                   <label title="The in game length of the level (Enter values as such: 1:27 or 3:45 or 0:50 or 2:00 )">Length: <input type="text" id="e_length" placeholder="00:00..." autocomplete="off"></label>
-                  <label title="Name of the song used in the level">Song: <input type="text" id="e_song" placeholder="Song..." autocomplete="off"></label> <!-- Try -->
-                  <label title="The link that leads to the song">Song URL: <input type="url" id="e_songURL" placeholder="https..." autocomplete="off"></label> <!-- Try -->
-                  <label title="Number of objects used in the level">Objects: <input type="number" id="e_objects" min="1" placeholder="..." autocomplete="off"></label> <!-- Try -->
-                  <label title="The in game difficulty of the level">Difficulty: <select id="e_diff" placeholder="... Demon"> <!-- Try -->
+                  <label title="Name of the song used in the level">Song: <input type="text" id="e_song" placeholder="Song..." autocomplete="off"></label>
+                  <label title="The link that leads to the song">Song URL: <input type="url" id="e_songURL" placeholder="https..." autocomplete="off"></label> 
+                  <label title="Number of objects used in the level">Objects: <input type="number" id="e_objects" min="1" placeholder="..." autocomplete="off"></label>
+                  <label title="The in game difficulty of the level">Difficulty: <select id="e_diff" placeholder="... Demon">
                      <option value="extreme">Extreme Demon</option>
                      <option value="insane">Insane Demon</option>
                      <option value="hard">Hard Demon</option>

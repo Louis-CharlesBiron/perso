@@ -85,6 +85,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
     padding-top: 2%;
     border-top: 3px solid black;
     letter-spacing: 1px;
+    user-select: text;
 }
 
 .lvl_img {
@@ -128,7 +129,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 #l_expand {
     position: absolute;
     bottom: -8px;
-    right: 0;
+    right: -5px;
     width: 10.5%;
     cursor: pointer;
 }
@@ -165,7 +166,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 #l_edit {
     position: absolute;
     top: 3px;
-    right: 0px;
+    right: -5px;
     width: 8.5%;
     cursor: pointer;
 }
@@ -220,6 +221,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
     text-underline-offset: 2px;
     text-decoration-color: rgba(240, 248, 255, 0.5);
     cursor: pointer;
+    color: aliceblue;
+    margin-top: 1.5%;
 }
 
 #edit_menu {

@@ -3,7 +3,7 @@
 // Please don't use or credit this code as your own.
 //
 
-function Level(name, rank, title, url, attempts, progs, time, date, enjoy, id, length, song, songURL, objects, diff, creator, featureLevel, gameVersion) {
+function Level(name, rank, title, url, attempts, progs, time, date, enjoy, id, length, song, songURL, objects, diff, creator, featureLevel, gameVersion, lazyLength) {
     this.name = name
     this.title = title
     this.url = url
@@ -22,6 +22,7 @@ function Level(name, rank, title, url, attempts, progs, time, date, enjoy, id, l
     this.creator = creator
     this.featureLevel = featureLevel
     this.gameVersion = gameVersion
+    this.lazyLength = lazyLength
 
     this.save = function() {
         chrome.storage.sync.set({
@@ -75,12 +76,12 @@ function Level(name, rank, title, url, attempts, progs, time, date, enjoy, id, l
         <span class="lvl_enjoy">Enjoyement: ${level.enjoy||"???"}/100</span>
         </div>
         <div class="lvl_info" id="ex" style="display: none;">
-        <span class="lvl_id" style="user-select: text;">Id: ${level.id||"???"} (2.1 or smth)</span>
-        <span class="lvl_creator" style="user-select: text;">Id: ${level.creator||"???"}</span>
-        <span class="lvl_length">Length: ${(level.length.split(":").flatMap(x=>pad0(Number(x))).join(":") == "00" || level.length.split(":").length > 2) ? "???" : level.length.split(":").flatMap(x=>pad0(Number(x))).join(":")||"???"} (XL or idk)</span>
-        <span id="lvl_song" class="link" title="Open ${level.songURL||"???"}">Song: ${level.song||"???"}</span>
+        <span class="lvl_id">Id: ${level.id||"???"} (${level.gameVersion||"?"})</span>
+        <span class="lvl_creator">Creator: ${level.creator||"???"}</span>
+        <span class="lvl_length">Length: ${(level.length.split(":").flatMap(x=>pad0(Number(x))).join(":") == "00" || level.length.split(":").length > 2) ? "???" : level.length.split(":").flatMap(x=>pad0(Number(x))).join(":")||"???"} (${level.lazyLength||"?"})</span>
+        <a id="lvl_song" class="link" target="_blank" href="${level.songURL||"???"}" title="Open ${level.songURL||"???"}">Song: ${level.song||"???"}</a>
         <span class="lvl_obj">Object Count: ${level.objects||"???"}</span>
-        <span class="lvl_diff">Difficulty: ${(level.diff||"???")+" Demon"} (feature or epic or)</span>
+        <span class="lvl_diff">Difficulty: ${(level.diff||"???")+" Demon"} (${featureLevels[level.featureLevel]||"?"})</span>
         </div>`, el = document.createElement("div")
         el.innerHTML = html
         el.className = "level"

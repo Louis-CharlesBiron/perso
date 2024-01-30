@@ -141,7 +141,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
     transition: 0.4s all;
 }
 
-#goProfile {
+#goProfile, #close_p {
     cursor: pointer;
 }
 
@@ -237,16 +237,17 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 }
 
 .edit_values {
-    width: 80%;
+    width: 88%;
     height: 72%;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 4%;
+    flex-direction: column;
+    padding: 4% 0%;
     outline: solid black 3px;
     background-color: #141313;
     color: #cbd9e6;
     border-radius: 10px;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #edit_close {
@@ -272,7 +273,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
     outline: none;
     color: #c0d5e6;
     width: 90%;
-    height: 50%;
+    height: 59%;
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -326,13 +327,6 @@ svg:hover {
     font-size: 0.9em;
 }
 
-.edit_values > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-}
-
 .yoyo {
     display: flex;
     width: 100%;
@@ -344,7 +338,7 @@ svg:hover {
 
 #e_enjoy {
     text-align: center;
-    width: 30%;
+    width: 68%;
     height: 60%;
 }
 
@@ -641,4 +635,60 @@ img.lvl_img {
 
 .o_label2 {
     margin-bottom: 5%;
+}
+
+.edit_values_b {
+    display: flex;
+    flex-direction: row;
+    height: 90%;
+    width: 90%;
+    justify-content: flex-end;
+}
+
+.edit_values_id {
+    width: 83%;
+    height: 12%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.edit_values_b > div {
+    height: 100%;
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#e_id {
+    height: 60%;
+    width: 72%;
+}
+
+.edit_values_id > label {
+    height: 75%;
+    width: 48%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#searchId {
+    cursor: pointer;
+    height: 80%;
+    width: 55%;
+    display: flex;
+    padding: 2.5% 4%;
+    letter-spacing: 2px;
+    color: #cbd9e6;
+    background-color: #1d1d1d;
+    border: 2px solid #a3b6c6;
+    border-radius: 2px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 24%;
 }

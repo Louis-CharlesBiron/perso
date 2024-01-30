@@ -70,31 +70,38 @@
                ??maybe?? likes / downloads
             -->
 
-            <div>
-               <label>Name: <input type="text" id="e_name" placeholder="..." autocomplete="off"></label> <!-- Try -->
-               <label>Rank: <input type="number" id="e_rank" min="1" placeholder="..." autocomplete="off"></label>
-               <label title="Text on hover">Title: <input type="text" id="e_title" placeholder="..." autocomplete="off"></label>
-               <label>Attempts: <input type="number" id="e_attempts" min="0" placeholder="..." autocomplete="off"></label>
-               <label title="All the new bests on the level. (Enter values as such: 2 8 17 42 53 78 98 100)">Progresses: <input type="text" id="e_progs" placeholder="..." autocomplete="off"></label>
-               <label title="Time, in days, taken to beat the level">Time taken: <input type="text" id="e_time" placeholder="..." autocomplete="off"></label>
-               <label title="The date of the completion">Beaten on: <input type="date" id="e_date" autocomplete="off"></label> <!-- Try today -->
-               <label class="ev_s">Enjoyement: <div class="yoyo"><input type="text" id="e_enjoy" placeholder="..." autocomplete="off">/100</div></label>
+            <div class="edit_values_id">
+               <label title="The in game ID of the level">Id: <input type="number" id="e_id" placeholder="..." autocomplete="off"></label>
+               <label><button id="searchId">Search <svg height="24" width="24" viewBox="0 -960 960 960"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg></button>
+               </label>
             </div>
 
-            <div>
-               <label title="The URL of a YouTube video of the completion">Completion URL: <input type="url" id="e_url" placeholder="https..." autocomplete="off"></label>
-               <label title="The in game ID of the level">Id: <input type="number" id="e_id" placeholder="..." autocomplete="off"></label>
-               <label title="The in game length of the level (Enter values as such: 1:27 or 3:45 or 0:50 or 2:0 )">Length: <input type="text" id="e_length" placeholder="00:00..." autocomplete="off"></label>
-               <label title="Name of the song used in the level">Song: <input type="text" id="e_song" placeholder="Song..." autocomplete="off"></label> <!-- Try -->
-               <label title="The link that leads to the song">Song URL: <input type="url" id="e_songURL" placeholder="https..." autocomplete="off"></label> <!-- Try -->
-               <label title="Number of objects used in the level">Objects: <input type="number" id="e_objects" min="1" placeholder="..." autocomplete="off"></label> <!-- Try -->
-               <label title="The in game difficulty of the level">Difficulty: <select id="e_diff" placeholder="... Demon"> <!-- Try -->
-                  <option value="extreme">Extreme Demon</option>
-                  <option value="insane">Insane Demon</option>
-                  <option value="hard">Hard Demon</option>
-                  <option value="medium">Medium Demon</option>
-                  <option value="easy">Easy Demon</option>
-               </select></label>
+            <div class="edit_values_b">
+               <div>
+                  <label>Rank: <input type="number" id="e_rank" min="1" placeholder="..." autocomplete="off"></label>
+                  <label title="Text on hover">Title: <input type="text" id="e_title" placeholder="..." autocomplete="off"></label>
+                  <label>Attempts: <input type="number" id="e_attempts" min="0" placeholder="..." autocomplete="off"></label>
+                  <label title="All the new bests on the level. (Enter values as such: 2 8 17 42 53 78 98 100)">Progresses: <input type="text" id="e_progs" placeholder="..." autocomplete="off"></label>
+                  <label title="Time, in days, taken to beat the level">Time taken: <input type="text" id="e_time" placeholder="..." autocomplete="off"></label>
+                  <label title="The date of the completion">Beaten on: <input type="date" id="e_date" autocomplete="off"></label> <!-- Try today -->
+                  <label class="ev_s">Enjoyement: <div class="yoyo"><input type="text" id="e_enjoy" placeholder="..." autocomplete="off">/100</div></label>
+               </div>
+
+               <div>
+                  <label>Name: <input type="text" id="e_name" placeholder="..." autocomplete="off"></label> <!-- Try -->
+                  <label title="The URL of a YouTube video of the completion">Completion URL: <input type="url" id="e_url" placeholder="https..." autocomplete="off"></label>
+                  <label title="The in game length of the level (Enter values as such: 1:27 or 3:45 or 0:50 or 2:00 )">Length: <input type="text" id="e_length" placeholder="00:00..." autocomplete="off"></label>
+                  <label title="Name of the song used in the level">Song: <input type="text" id="e_song" placeholder="Song..." autocomplete="off"></label> <!-- Try -->
+                  <label title="The link that leads to the song">Song URL: <input type="url" id="e_songURL" placeholder="https..." autocomplete="off"></label> <!-- Try -->
+                  <label title="Number of objects used in the level">Objects: <input type="number" id="e_objects" min="1" placeholder="..." autocomplete="off"></label> <!-- Try -->
+                  <label title="The in game difficulty of the level">Difficulty: <select id="e_diff" placeholder="... Demon"> <!-- Try -->
+                     <option value="extreme">Extreme Demon</option>
+                     <option value="insane">Insane Demon</option>
+                     <option value="hard">Hard Demon</option>
+                     <option value="medium">Medium Demon</option>
+                     <option value="easy">Easy Demon</option>
+                  </select></label>
+               </div>
             </div>
 
          </div>

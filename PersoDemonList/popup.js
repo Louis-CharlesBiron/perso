@@ -112,7 +112,7 @@ edit_close.onclick=close_edit_menu
 
 add_level.onclick=()=>{edit()}
 
-// API call to fill the most entries during level creation / edit
+// API call to fill some entries in level creation / edit panel
 function fillLevelEntries() {
     let id
     if (id) fetch('https://gdbrowser.com/api/level/'+"61079355").then(r=>r.json()).then((stats)=>{
@@ -193,6 +193,9 @@ goov.onclick=()=>{
 
 goProfile.onclick=close_p.onclick=()=>{
     profile_p.style.left = (profile_p.style.left == "") ? "0%" : ""
+}
+profile_p.onclick=(e)=>{
+    if (e.target == profile_p) profile_p.style.left = ""
 }
 
 function get_rank(name) {

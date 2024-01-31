@@ -14,6 +14,10 @@ function getDateFormated() {
     return `${pad0(d.getFullYear())}-${pad0(d.getMonth()+1)}-${pad0(d.getDate())}`
 }
 
+function daysBetweenDates(d1, d2=new Date().getTime()) {
+    return Math.floor(Math.abs(d1-d2)/86400000)
+}
+
 Element.prototype.num_input_opt = function num_input_opt(invalids, replaceElementValue, min, max) {// valids = "1234567890-+.e"
     let v = this.value
     min = (isNaN(min)) ? Number(this.min) : Number(min),

@@ -3,62 +3,62 @@
 // Please don't use or credit this code as your own.
 //
 
-function Level(name, rank, title, url, attempts, progs, time, date, enjoy, id, length, song, songURL, objects, diff, creator, featureLevel, gameVersion, lazyLength) {
-    this.name = name
-    this.title = title
-    this.url = url
-    this.attempts = attempts
-    this.progs = progs
-    this.time = time
-    this.date = date
-    let beatenDate = new Date(date)
-    this.enjoy = enjoy
-    this.id = id
-    this.length = length
-    this.song = song
-    this.songURL = songURL
-    this.objects = objects
-    this.diff = diff
-    this.creator = creator
-    this.featureLevel = featureLevel
-    this.gameVersion = gameVersion
-    this.lazyLength = lazyLength
+class Level {
+    constructor(name, rank, title, url, attempts, progs, time, date, enjoy, id, length, song, songURL, objects, diff, creator, featureLevel, gameVersion, lazyLength) {
+        this.name = name
+        this.title = title
+        this.url = url
+        this.attempts = attempts
+        this.progs = progs
+        this.time = time
+        this.date = date
+        let beatenDate = new Date(date + " 00:00")
+        this.enjoy = enjoy
+        this.id = id
+        this.length = length
+        this.song = song
+        this.songURL = songURL
+        this.objects = objects
+        this.diff = diff
+        this.creator = creator
+        this.featureLevel = featureLevel
+        this.gameVersion = gameVersion
+        this.lazyLength = lazyLength
 
-    this.save = function() {
-        chrome.storage.sync.set({
-            [this.name]:this,
-            $l:level_list.flatMap(x => x.name)
-        })
-    }
+        this.save = function () {
+            chrome.storage.sync.set({
+                [this.name]: this,
+                $l: level_list.flatMap(x => x.name)
+            })
+        }
 
-    this.editName = function(newName) {
-        let oldName = this.name
-        this.name = newName
-        chrome.storage.sync.remove(oldName)
-        chrome.storage.sync.set({[newName]:this})
+        this.editName = function (newName) {
+            let oldName = this.name
+            this.name = newName
+            chrome.storage.sync.remove(oldName)
+            chrome.storage.sync.set({ [newName]: this })
 
-        document.getElementById(oldName).id = this.name
-    }
+            document.getElementById(oldName).id = this.name
+        }
 
-    this.remove = function() {
-        chrome.storage.sync.remove(this.name)
-        level_list = level_list.filter(x => x.name !== this.name)
-        chrome.storage.sync.set({$l:level_list.flatMap(x => x.name)})
-    }
+        this.remove = function () {
+            chrome.storage.sync.remove(this.name)
+            level_list = level_list.filter(x => x.name !== this.name)
+            chrome.storage.sync.set({ $l: level_list.flatMap(x => x.name) })
+        }
 
-    function htmlElGet(level) {
-        if (level.name == "") level.name = "Unnamed "+level_list.length
-        let html = `<div class="lvl_main">
+        function htmlElGet(level) {
+            if (level.name == "") level.name = "Unnamed " + level_list.length
+            let html = `<div class="lvl_main">
         <div class="l_top">
             <div class="lvl_img_p">
             ${(level.url.split("watch?v=")[1])
-            ? '<iframe src="https://www.youtube.com/embed/'+level.url.split("watch?v=")[1]+'" loading="lazy" frameborder="0" title="Cool Video of '+(level.name||"???")+'" class="lvl_img" allow="autoplay; encrypted-media; picture-in-picture;"></iframe>'
-            : '<img class="lvl_img" src="img/'+(level.diff||"hard")+'.png"></img>'
-            }
+                    ? '<iframe src="https://www.youtube.com/embed/' + level.url.split("watch?v=")[1] + '" loading="lazy" frameborder="0" title="Cool Video of ' + (level.name || "???") + '" class="lvl_img" allow="autoplay; encrypted-media; picture-in-picture;"></iframe>'
+                    : '<img class="lvl_img" src="img/' + (level.diff || "hard") + '.png"></img>'}
             </div>
             <div class="l_display">
-                <span class="lvl_name" title="${level.title||"???"}"><span id="lr" class="level${Number(rank)}">#${rank||"???"}</span> - ${level.name||"???"}</span>
-                <span id="lvl_link" class="link" title="Open ${level.url||"???"}">Completion Vid</span>
+                <span class="lvl_name" title="${level.title || "???"}"><span id="lr" class="level${Number(rank)}">#${rank || "???"}</span> - ${level.name || "???"}</span>
+                <span id="lvl_link" class="link" title="Open ${level.url || "???"}">Completion Vid</span>
             </div>
         </div>
         <div id="l_expand">
@@ -69,53 +69,57 @@ function Level(name, rank, title, url, attempts, progs, time, date, enjoy, id, l
         </div>
         </div>
         <div class="lvl_ci" id="ex" style="display: none;">
-        <span class="lvl_att">Attempts: ${level.attempts||"???"}~</span>
-        <span class="lvl_prog">Progresses: ${(level.progs == "") ? "???" : [...new Set(level.progs.split(" ").flatMap(x=>x+"%").filter(x=>x!=="%"))].join(", ")}</span>
-        <span class="lvl_time">Time to Beat: ${level.time||"???"} days</span>
-        <span class="lvl_date" title="${(wday_bank[beatenDate.getDay()]||"???")+" le "+(pad0(beatenDate.getDate()+1)||"???")+" "+(month_bank[beatenDate.getMonth()]||"???")+" "+(beatenDate.getFullYear()||"???")}">Beaten On: ${(pad0(beatenDate.getFullYear())||"???")+"-"+(pad0(beatenDate.getMonth()+1)||"???")+"-"+(pad0(beatenDate.getDate()+1)||"???")} (teim since)</span>
-        <span class="lvl_enjoy">Enjoyement: ${level.enjoy||"???"}/100</span>
+        <span class="lvl_att">Attempts: ${level.attempts || "???"}~</span>
+        <span class="lvl_prog">Progresses: ${(level.progs == "") ? "???" : [...new Set(level.progs.split(" ").flatMap(x => x + "%").filter(x => x !== "%"))].join(", ")}</span>
+        <span class="lvl_time">Time to Beat: ${level.time || "???"} days</span>
+        <span class="lvl_date" title="${(wday_bank[beatenDate.getDay()] || "???") + " le " + (pad0(beatenDate.getDate()) || "???") + " " + (month_bank[beatenDate.getMonth()] || "???") + " " + (beatenDate.getFullYear() || "???")}">Beaten On: ${(pad0(beatenDate.getFullYear()) || "???") + "-" + (pad0(beatenDate.getMonth() + 1) || "???") + "-" + (pad0(beatenDate.getDate()) || "???")} (${!isNaN(daysBetweenDates(beatenDate.getTime())) ? (daysBetweenDates(beatenDate.getTime()) + " days ago") : "?"})</span>
+        <span class="lvl_enjoy">Enjoyement: ${level.enjoy || "???"}/100</span>
         </div>
         <div class="lvl_info" id="ex" style="display: none;">
-        <span class="lvl_id">Id: ${level.id||"???"} (${level.gameVersion||"?"})</span>
-        <span class="lvl_creator">Creator: ${level.creator||"???"}</span>
-        <span class="lvl_length">Length: ${(level.length.split(":").flatMap(x=>pad0(Number(x))).join(":") == "00" || level.length.split(":").length > 2) ? "???" : level.length.split(":").flatMap(x=>pad0(Number(x))).join(":")||"???"} (${level.lazyLength||"?"})</span>
-        <a id="lvl_song" class="link" target="_blank" href="${level.songURL||"???"}" title="Open ${level.songURL||"???"}">Song: ${level.song||"???"}</a>
-        <span class="lvl_obj">Object Count: ${level.objects||"???"}</span>
-        <span class="lvl_diff">Difficulty: ${(level.diff||"???")+" Demon"} (${featureLevels[level.featureLevel]||"?"})</span>
+        <span class="lvl_id">Id: ${level.id || "???"} (${level.gameVersion || "?"})</span>
+        <span class="lvl_creator">Creator: ${level.creator || "???"}</span>
+        <span class="lvl_length">Length: ${(level.length.split(":").flatMap(x => pad0(Number(x))).join(":") == "00" || level.length.split(":").length > 2) ? "???" : level.length.split(":").flatMap(x => pad0(Number(x))).join(":") || "???"} (${level.lazyLength || "?"})</span>
+        <span id="lvl_song" class="link" title="Open ${level.songURL || "???"}">Song: ${level.song || "???"}</span>
+        <span class="lvl_obj">Object Count: ${level.objects || "???"}</span>
+        <span class="lvl_diff">Difficulty: ${(level.diff || "???") + " Demon"} (${featureLevels[level.featureLevel] || "?"})</span>
         </div>`, el = document.createElement("div")
-        el.innerHTML = html
-        el.className = "level"
-        el.id = level.name
-        el.style.order = rank
-        return el
-    }
-
-    this.htmlRefresh = function(rank) {
-        document.getElementById(this.name).remove()
-        level_list = level_list.filter(x => x.name !== this.name)
-        this.htmlAdd(rank)
-    }
-
-    this.htmlAdd = function(rank) {
-        let el = htmlElGet(this)
-        list.appendChild(el)
-
-        nolvlyet.style.display = "none"
-
-        el.querySelector("#lvl_link").onclick=()=>{chrome.windows.create({url:this.url})}
-        el.querySelector("#lvl_song").onclick=()=>{chrome.windows.create({url:this.songURL})}
-
-        let opened = false, l_ex = el.querySelector("#l_expand")
-        l_ex.onclick=()=>{
-            opened = !opened
-            l_ex.firstElementChild.style.transform = (opened) ? "rotateZ(180deg)" : ""
-            el.querySelectorAll("#ex").forEach((el)=>{
-                el.style = (opened) ? "" : "display: none;" 
-            })
+            el.innerHTML = html
+            el.className = "level"
+            el.id = level.name
+            el.style.order = rank
+            return el
         }
 
-        el.querySelector("#l_edit").onclick=()=>{edit(this)}
-        level_list.splice((rank==null)?level_list.length:rank, 0, this)
-        // setTimeout(()=>{console.clear()},1500)
+        this.htmlRefresh = function (rank) {
+            document.getElementById(this.name).remove()
+            level_list = level_list.filter(x => x.name !== this.name)
+            this.htmlAdd(rank)
+        }
+
+        this.htmlAdd = function (rank) {
+            let el = htmlElGet(this)
+            list.appendChild(el)
+
+            nolvlyet.style.display = "none"
+
+            // urls
+            el.querySelector("#lvl_link").onclick = () => { chrome.windows.create({ url: this.url }) }
+            el.querySelector("#lvl_song").onclick = () => { chrome.windows.create({ url: this.songURL }) }
+
+            // expand button
+            let opened = false, l_ex = el.querySelector("#l_expand")
+            l_ex.onclick = () => {
+                opened = !opened
+                l_ex.firstElementChild.style.transform = (opened) ? "rotateZ(180deg)" : ""
+                el.querySelectorAll("#ex").forEach((el) => {
+                    el.style = (opened) ? "" : "display: none;"
+                })
+            }
+
+            // edit level button
+            el.querySelector("#l_edit").onclick = () => { edit(this) }
+            level_list.splice((rank == null) ? level_list.length : rank, 0, this)
+            // setTimeout(()=>{console.clear()},1500)
+        }
     }
 }

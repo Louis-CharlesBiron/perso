@@ -37,7 +37,7 @@ chrome.storage.sync.get((r)=>{
 
     //Create Levels from memory
     if (r.$l) r.$l.forEach((l)=>{
-        let lvl = r[l], nlvl = new Level(lvl.name, r.$l.indexOf(l)+1, lvl.title, lvl.url, lvl.attempts, lvl.progs, lvl.time, lvl.date, lvl.enjoy, lvl.id, lvl.length, lvl.song, lvl.songURL, lvl.objects, lvl.diff)
+        let lvl = r[l], nlvl = new Level(lvl.name, r.$l.indexOf(l)+1, lvl.title, lvl.url, lvl.attempts, lvl.progs, lvl.time, lvl.date, lvl.enjoy, lvl.id, lvl.length, lvl.song, lvl.songURL, lvl.objects, lvl.diff, lvl.creator, lvl.featureLevel, lvl.gameVersion, lvl.lazyLength)
         nlvl.htmlAdd()
     })
 
@@ -55,7 +55,7 @@ function edit(level) {
     edit_del.style.display = (isLvl)?"":"none"
 
     inps.forEach((el)=>{
-        el.value = (isLvl) ? level[el.id.replace("e_","")] : ""
+        el.value = (isLvl) ? level[el.id.replace("e_","")]??'?' : ""
 
         el.onkeydown=e_diff.onkeydown=(e)=>{
             if (e.key == "Enter") edit_save.click()
@@ -113,30 +113,33 @@ edit_close.onclick=close_edit_menu
 add_level.onclick=()=>{edit()}
 
 // API call to fill some entries in level creation / edit panel
-function fillLevelEntries(id) {
+let mainSongsURL = []
+function fillLevelEntries(id, force) {
     // I Love GD Cologne :D
     fetch('https://gdbrowser.com/api/level/'+id).then(r=>r.json()).then((stats)=>{
         console.log(stats)
 
-        e_name.value ||= stats.name
-        e_song.value ||= stats.songName
-        e_songURL.value ||= `https://www.newgrounds.com/audio/listen/${stats.customSong}` // TODO main song
-        e_date.value ||= getDateFormated()
-        e_objects.value ||= stats.objects
+        if (force) e_name.value=e_song.value=e_songURL.value=e_date.value=e_objects.value=e_id.value=""
 
-        e_diff.value = stats.difficulty.match(/(easy|medium|hard|insane|extreme)/gi)[0].toLowerCase()||'extreme'
-        e_creator.value = stats.author
-        e_gameVersion.value = stats.gameVersion
-        e_lazyLength.value = stats.length
-        e_featureLevel.value = !!stats.stars+[stats.featured, stats.epic, stats.legendary, stats.mythic].reduce((a, b, i)=>a+(b&&i),0)
+        e_song.value ||= stats.songName||''
+        e_songURL.value ||= stats.customSong ? `https://www.newgrounds.com/audio/listen/${stats.customSong}` :  mainSongsURL[stats.songID.match(/[0-9]+/gi)[0]] // TODO main song
+        e_date.value ||= getDateFormated()
+        e_objects.value ||= stats.objects||''
+
+        e_name.value = stats.name
+        e_id.value = stats.id
+        e_diff.value = stats.difficulty.match(/(easy|medium|hard|insane|extreme)/gi)[0].toLowerCase()||'hard'
+        e_creator.value = stats.author||''
+        e_gameVersion.value = stats.gameVersion||''
+        e_lazyLength.value = stats.length||''
+        e_featureLevel.value = !!stats.stars+[stats.featured, stats.epic, stats.legendary, stats.mythic].reduce((a, b, i)=>a+(b&&i),0)||''
 
     }).catch((e)=>{console.log("bad id or", e)})
 }
 
 searchId.onclick=(e)=>{
-    if (e.ctrlKey) {}
     let id = e_id.value||73667628
-    if (id) fillLevelEntries(id)
+    if (id) fillLevelEntries(id, e.ctrlKey)
 }
 
 e_rank.oninput=()=>{

@@ -342,7 +342,7 @@ svg:hover {
 #e_enjoy {
     text-align: center;
     width: 68%;
-    height: 60%;
+    height: 80%;
 }
 
 #e_diff {
@@ -694,4 +694,25 @@ img.lvl_img {
     align-items: center;
     justify-content: space-between;
     margin-left: 24%;
+    outline: none;
+}
+
+.edit_values_hidden {
+    position: absolute;
+    left: 0.5%;
+    top: 91.1%;
+    transition: 0.4s all;
+}
+
+.edit_values_hidden > input {
+    background-color: transparent;
+    border: none;
+    opacity: .1;
+    font-size: 0.7em;
+    letter-spacing: 1px;
+    margin-top: -2.5%;
+}
+
+.edit_values_hidden:hover > input {
+    opacity: .5;
 }

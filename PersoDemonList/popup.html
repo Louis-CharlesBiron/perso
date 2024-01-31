@@ -47,6 +47,7 @@
             <!-- TODO
                
                fetch('https://gdbrowser.com/api/level/'+"61079355").then((r)=>{console.log(r.json())})
+
                do song url (official song / new ground)
 
                filter level?
@@ -54,16 +55,32 @@
                add featured/
 
                expand.onclick => ↓
-
                Rework level desc (expand):
                time since completion
 
                ??maybe?? likes / downloads (maybe onexpand)
+
+               ??maybe?? add support for progress only (Moment 76%)
+
+               
+               - BUGS -
+               date doesn't update
+            
+
+               overview:
+               filter by demon categories
+               extend the top 3s
+
+               most recent completions
+               longest levels
+
             -->
-            <input type="hidden" id="e_creator">
-            <input type="hidden" id="e_featureLevel">
-            <input type="hidden" id="e_gameVersion">
-            <input type="hidden" id="e_lazyLength">
+            <div class="edit_values_hidden">
+               <input type="text" id="e_featureLevel" readonly disabled>
+               <input type="text" id="e_gameVersion" readonly disabled>
+               <input type="text" id="e_lazyLength" readonly disabled>
+               <input type="text" id="e_creator" readonly disabled>
+            </div>
 
             <div class="edit_values_id">
                <label title="The in game ID of the level">Id: <input type="number" id="e_id" placeholder="..." autocomplete="off"></label>

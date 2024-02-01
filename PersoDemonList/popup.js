@@ -119,7 +119,7 @@ function fillLevelEntries(id, force) {
     fetch('https://gdbrowser.com/api/level/'+id).then(r=>r.json()).then((stats)=>{
         console.log(stats)
 
-        if (force) e_name.value=e_song.value=e_songURL.value=e_date.value=e_objects.value=e_id.value=""
+        if (force) e_name.value=e_song.value=e_songURL.value=e_objects.value=e_id.value=""
 
         e_song.value ||= stats.songName||''
         e_songURL.value ||= stats.customSong ? `https://www.newgrounds.com/audio/listen/${stats.customSong}` :  mainSongsURL[stats.songID.match(/[0-9]+/gi)[0]] // TODO main song
@@ -222,7 +222,7 @@ function get_rank(name) {
 }
 
 function update_overview() {
-    let dem_c = [...o_demons.children], dem_ll = dem_c.length, death_c = [...o_death.children], death_ll = death_c.length, fluke_c = [...o_fluke.children], fluke_ll = fluke_c.length, long_c = [...o_long.children], long_ll = long_c.length, attm_c = [...o_attemptsmost.children], attm_ll = attm_c.length
+    let dem_c = [...o_demons.children], dem_ll = dem_c.length, death_c = [...o_death.children], death_ll = death_c.length, fluke_c = [...o_fluke.children], fluke_ll = fluke_c.length, long_c = [...o_long.children], long_ll = long_c.length, attm_c = [...o_attemptsmost.children], attm_ll = attm_c.length, longLc = [...o_longL.children], longLl = longLc.length 
 
     // demon count
     let dc = level_list.flatMap(x=>x.diff).reduce((a, b)=>{a[b]++;return a},{easy:0,medium:0,hard:0,insane:0,extreme:0})
@@ -274,6 +274,13 @@ function update_overview() {
     for (let i=0;i<long_ll;i++) {
         let d = days[i]
         long_c[i].textContent = (d) ? "(#"+get_rank(d.n)+") "+d.n+", "+d.d+" days" : "No Level Yet..."
+    }
+
+    // longest levels
+    let ll = level_list.sort((a,b)=>b.getLengthInSeconds()-a.getLengthInSeconds())
+    for (let i=0;i<longLl;i++) {
+        let l = ll[i]
+        longLc[i].textContent = (l) ? `(#${get_rank(l.name)}) ${l.name}, ${l.getFormatedLength()}` : "No Level Yet..."
     }
 
 }

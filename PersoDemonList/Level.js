@@ -12,7 +12,6 @@ class Level {
         this.progs = progs
         this.time = time
         this.date = date
-        let beatenDate = new Date(date + " 00:00")
         this.enjoy = enjoy
         this.id = id
         this.length = length
@@ -24,6 +23,19 @@ class Level {
         this.featureLevel = featureLevel
         this.gameVersion = gameVersion
         this.lazyLength = lazyLength
+
+        this.getBeatenDate = function() {
+            return new Date(this.date + " 00:00")
+        }
+
+        this.getLengthInSeconds = function() {
+            return this.length?.split(":").reduce((a, b, i)=>a+=i?+b:b*60,0)||0
+        }
+
+        this.getFormatedLength = function() {
+            let t = msToTime(this.getLengthInSeconds()*1000)
+            return `${pad0(t[3])}:${pad0(t[4])} (${this.lazyLength})`
+        }
 
         this.save = function () {
             chrome.storage.sync.set({
@@ -47,18 +59,19 @@ class Level {
             chrome.storage.sync.set({ $l: level_list.flatMap(x => x.name) })
         }
 
-        function htmlElGet(level) {
-            if (level.name == "") level.name = "Unnamed " + level_list.length
+        this.htmlElGet = function() {
+            if (this.name == "") this.name = "Unnamed " + level_list.length
+
             let html = `<div class="lvl_main">
         <div class="l_top">
             <div class="lvl_img_p">
-            ${(level.url.split("watch?v=")[1])
-                    ? '<iframe src="https://www.youtube.com/embed/' + level.url.split("watch?v=")[1] + '" loading="lazy" frameborder="0" title="Cool Video of ' + (level.name || "???") + '" class="lvl_img" allow="autoplay; encrypted-media; picture-in-picture;"></iframe>'
-                    : '<img class="lvl_img" src="img/' + (level.diff || "hard") + '.png"></img>'}
+            ${(this.url.split("watch?v=")[1])
+                    ? '<iframe src="https://www.youtube.com/embed/' + this.url.split("watch?v=")[1] + '" loading="lazy" frameborder="0" title="Cool Video of ' + (this.name || "???") + '" class="lvl_img" allow="autoplay; encrypted-media; picture-in-picture;"></iframe>'
+                    : '<img class="lvl_img" src="img/' + (this.diff || "hard") + '.png"></img>'}
             </div>
             <div class="l_display">
-                <span class="lvl_name" title="${level.title || "???"}"><span id="lr" class="level${Number(rank)}">#${rank || "???"}</span> - ${level.name || "???"}</span>
-                <span id="lvl_link" class="link" title="Open ${level.url || "???"}">Completion Vid</span>
+                <span class="lvl_name" title="${this.title || "???"}"><span id="lr" class="level${Number(rank)}">#${rank || "???"}</span> - ${this.name || "???"}</span>
+                <span id="lvl_link" class="link" title="Open ${this.url || "???"}">Completion Vid</span>
             </div>
         </div>
         <div id="l_expand">
@@ -69,23 +82,23 @@ class Level {
         </div>
         </div>
         <div class="lvl_ci" id="ex" style="display: none;">
-        <span class="lvl_att">Attempts: ${level.attempts || "???"}~</span>
-        <span class="lvl_prog">Progresses: ${(level.progs == "") ? "???" : [...new Set(level.progs.split(" ").flatMap(x => x + "%").filter(x => x !== "%"))].join(", ")}</span>
-        <span class="lvl_time">Time to Beat: ${level.time || "???"} days</span>
-        <span class="lvl_date" title="${(wday_bank[beatenDate.getDay()] || "???") + " le " + (pad0(beatenDate.getDate()) || "???") + " " + (month_bank[beatenDate.getMonth()] || "???") + " " + (beatenDate.getFullYear() || "???")}">Beaten On: ${(pad0(beatenDate.getFullYear()) || "???") + "-" + (pad0(beatenDate.getMonth() + 1) || "???") + "-" + (pad0(beatenDate.getDate()) || "???")} (${!isNaN(daysBetweenDates(beatenDate.getTime())) ? (daysBetweenDates(beatenDate.getTime()) + " days ago") : "?"})</span>
-        <span class="lvl_enjoy">Enjoyement: ${level.enjoy || "???"}/100</span>
+        <span class="lvl_att">Attempts: ${this.attempts || "???"}~</span>
+        <span class="lvl_prog">Progresses: ${(this.progs == "") ? "???" : [...new Set(this.progs.split(" ").flatMap(x => x + "%").filter(x => x !== "%"))].join(", ")}</span>
+        <span class="lvl_time">Time to Beat: ${this.time || "???"} days</span>
+        <span class="lvl_date" title="${(wday_bank[this.getBeatenDate().getDay()] || "???") + " le " + (pad0(this.getBeatenDate().getDate()) || "???") + " " + (month_bank[this.getBeatenDate().getMonth()] || "???") + " " + (this.getBeatenDate().getFullYear() || "???")}">Beaten On: ${(pad0(this.getBeatenDate().getFullYear()) || "???") + "-" + (pad0(this.getBeatenDate().getMonth() + 1) || "???") + "-" + (pad0(this.getBeatenDate().getDate()) || "???")} (${!isNaN(daysBetweenDates(this.getBeatenDate().getTime())) ? (daysBetweenDates(this.getBeatenDate().getTime()) + " days ago") : "?"})</span>
+        <span class="lvl_enjoy">Enjoyement: ${this.enjoy || "???"}/100</span>
         </div>
         <div class="lvl_info" id="ex" style="display: none;">
-        <span class="lvl_id">Id: ${level.id || "???"} (${level.gameVersion || "?"})</span>
-        <span class="lvl_creator">Creator: ${level.creator || "???"}</span>
-        <span class="lvl_length">Length: ${(level.length.split(":").flatMap(x => pad0(Number(x))).join(":") == "00" || level.length.split(":").length > 2) ? "???" : level.length.split(":").flatMap(x => pad0(Number(x))).join(":") || "???"} (${level.lazyLength || "?"})</span>
-        <span id="lvl_song" class="link" title="Open ${level.songURL || "???"}">Song: ${level.song || "???"}</span>
-        <span class="lvl_obj">Object Count: ${level.objects || "???"}</span>
-        <span class="lvl_diff">Difficulty: ${(level.diff || "???") + " Demon"} (${featureLevels[level.featureLevel] || "?"})</span>
+        <span class="lvl_id">Id: ${this.id || "???"} (${this.gameVersion || "?"})</span>
+        <span class="lvl_creator">Creator: ${this.creator || "???"}</span>
+        <span class="lvl_length">Length: ${(this.length.split(":").flatMap(x => pad0(Number(x))).join(":") == "00" || this.length.split(":").length > 2) ? "???" : this.length.split(":").flatMap(x => pad0(Number(x))).join(":") || "???"} (${this.lazyLength || "?"})</span>
+        <span id="lvl_song" class="link" title="Open ${this.songURL || "???"}">Song: ${this.song || "???"}</span>
+        <span class="lvl_obj">Object Count: ${this.objects || "???"}</span>
+        <span class="lvl_diff">Difficulty: ${(this.diff || "???") + " Demon"} (${featureLevels[this.featureLevel] || "?"})</span>
         </div>`, el = document.createElement("div")
             el.innerHTML = html
             el.className = "level"
-            el.id = level.name
+            el.id = this.name
             el.style.order = rank
             return el
         }
@@ -97,7 +110,7 @@ class Level {
         }
 
         this.htmlAdd = function (rank) {
-            let el = htmlElGet(this)
+            let el = this.htmlElGet()
             list.appendChild(el)
 
             nolvlyet.style.display = "none"

@@ -119,14 +119,14 @@ edit_close.onclick=close_edit_menu
 add_level.onclick=()=>{edit()}
 
 // API call to fill some entries in level creation / edit panel
-let mainSongsURL = []
+let mainSongsURL = []// TODO main song
 function fillLevelEntries(id, force) {
     // I Love GD Cologne :D
     fetch('https://gdbrowser.com/api/level/'+id).then(r=>r.json()).then((stats)=>{
         if (force) e_name.value=e_song.value=e_songURL.value=e_objects.value=e_id.value=""
 
         e_song.value ||= stats.songName||''
-        e_songURL.value ||= stats.customSong ? `https://www.newgrounds.com/audio/listen/${stats.customSong}` :  mainSongsURL[stats.songID.match(/[0-9]+/gi)[0]] // TODO main song
+        e_songURL.value ||= stats.customSong ? `https://www.newgrounds.com/audio/listen/${stats.customSong}` :  mainSongsURL[stats.songID.match(/[0-9]+/gi)[0]]
         e_date.value ||= getDateFormated()
         e_objects.value ||= stats.objects||''
 
@@ -136,7 +136,7 @@ function fillLevelEntries(id, force) {
         e_creator.value = stats.author||''
         e_gameVersion.value = stats.gameVersion||''
         e_lazyLength.value = stats.length||''
-        e_featureLevel.value = !!stats.stars+[stats.featured, stats.epic, stats.legendary, stats.mythic].reduce((a, b, i)=>a+(b&&i),0)||''
+        e_featureLevel.value = !!stats.stars+[stats.featured, stats.epic, stats.legendary, stats.mythic].reduce((a, b, i)=>a+(b&&i),0)??''
 
     }).catch((e)=>{
         editPanelError("There is no existing level for this id")
@@ -151,8 +151,8 @@ function editPanelError(errorMsg) {
     }, 2000);
 }
 
-searchId.onclick=(e)=>{
-    let id = e_id.value||73667628//make random maybe lol
+searchId.onclick=(e)=>{//bloodbath, buff this, vsc, tartarus, cognition, apollo 11
+    let id = e_id.value||[10565740, 3830693, 60805571, 59075347, 57600307, 83164497][random(0,5)]
     if (ONLINE) fillLevelEntries(id, e.ctrlKey)
     else editPanelError("Cannot search, no internet connection")
 }
@@ -227,7 +227,7 @@ function get_rank(name) {
 }
 
 function update_overview() {
-    let dem_c = [...o_demons.children], dem_ll = dem_c.length, death_c = [...o_death.children], death_ll = death_c.length, fluke_c = [...o_fluke.children], fluke_ll = fluke_c.length, long_c = [...o_long.children], long_ll = long_c.length, attm_c = [...o_attemptsmost.children], attm_ll = attm_c.length, longLc = [...o_longL.children], longLl = longLc.length 
+    let dem_c = [...o_demons.children], dem_ll = dem_c.length, death_c = [...o_death.children], death_ll = death_c.length, fluke_c = [...o_fluke.children], fluke_ll = fluke_c.length, long_c = [...o_long.children], long_ll = long_c.length, attm_c = [...o_attemptsmost.children], attm_ll = attm_c.length, longLc = [...o_longL.children], longLl = longLc.length , recComc = [...o_recentComp.children], recComc_ll = recComc.length
 
     // demon count
     let dc = level_list.flatMap(x=>x.diff).reduce((a, b)=>{a[b]++;return a},{easy:0,medium:0,hard:0,insane:0,extreme:0})
@@ -250,12 +250,12 @@ function update_overview() {
         attm_c[i].textContent = (a) ? "(#"+get_rank(a.n)+") "+a.n+", "+a.a.numSep()+" attempts" : "No Level Yet..."
     }
 
-    // most object
+    // most/least object
     let objs = level_list.flatMap(x=>Number(x.objects||Infinity)), obj = Math.max(...objs.filter(x=>x!==Infinity)), objm = Math.min(...objs)
     o_objects.firstElementChild.textContent = (isFinite(obj)) ? obj.numSep()+" ("+level_list.filter(x=>x.objects==obj)[0].name+")" : "No Level Yet..."
     o_objectsminus.firstElementChild.textContent = (isFinite(objm)) ? objm.numSep()+" ("+level_list.filter(x=>x.objects==objm)[0].name+")" : "No Level Yet..."
 
-    // oldest level
+    // oldest/most recent level
     let ids = level_list.flatMap(x=>Number(x.id||Infinity)), id = Math.min(...ids), idm = Math.max(...ids.filter(x=>x!==Infinity))
     o_oldest.firstElementChild.textContent = (isFinite(id)) ? level_list.filter(x=>x.id==id)[0].name+" (Id: "+id+")" : "No Level Yet..."
     o_recent.firstElementChild.textContent = (isFinite(idm)) ? level_list.filter(x=>x.id==idm)[0].name+" (Id: "+idm+")" : "No Level Yet..."
@@ -288,8 +288,17 @@ function update_overview() {
         longLc[i].textContent = (l) ? `(#${get_rank(l.name)}) ${l.name}, ${l.getFormatedLength()}` : "No Level Yet..."
     }
 
+    // recent completions
+    let rc = level_list.sort((a, b)=>b.getBeatenDate().getTime()-a.getBeatenDate().getTime())
+    for (let i=0;i<recComc_ll;i++) {
+        let c = rc[i]
+        recComc[i].textContent = (c) ? `(#${get_rank(c.name)}) ${c.name}, ${c.getDaysAgo()} days ago` : "No Level Yet..."
+        recComc[i].title = (c) ? c.date : "No Level Yet..."
+    }
+
 }
 
+// profile section update
 let statsEls = document.querySelectorAll("#p_info span, #p_demons"), demonsAll = document.querySelectorAll("#p_demonsAll > span")
 function update_profile() {
     let u = username.value.trim()

@@ -53,25 +53,16 @@
 
                add featured/
 
-               click in expand to copy?
-
-               expand.onclick => ↓
-               Rework level desc (expand):
-
-               ?maybe? likes / downloads (maybe onexpand)
-
-               ??maybe? add support for progress only (Moment 76%x3)
-
-               
-               - BUGS -
-            
-
                overview:
                filter by demon categories
                extend the top 3s
 
-               most recent completions
+               - BUG -
+               if No Rate then no "x demon"
 
+
+               ?maybe? likes / downloads (maybe onexpand)
+               ??maybe? add support for progress only (Moment 76%x3)          
             -->
             <div class="edit_values_hidden">
                <input type="text" id="e_featureLevel" readonly disabled>
@@ -192,6 +183,15 @@
                      <span>#2</span>
                      <span>#3</span>
                   </div>                  
+               </div>
+               
+               <div>
+                  <label class="o_label">Recent Completions</label>
+                  <div id="o_recentComp" class="o_list ols">
+                     <span>#1 (name) (rank) (days ago)</span>
+                     <span></span>
+                     <span></span>
+                  </div>
                </div>
 
             </div>

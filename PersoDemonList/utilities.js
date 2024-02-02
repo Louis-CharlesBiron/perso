@@ -14,6 +14,10 @@ function getDateFormated() {
     return `${pad0(d.getFullYear())}-${pad0(d.getMonth()+1)}-${pad0(d.getDate())}`
 }
 
+function random(min, max) {
+    return Math.floor(Math.random()*(max-min+1))+min
+}
+
 function daysBetweenDates(d1, d2=new Date().getTime()) {
     return Math.floor(Math.abs(d1-d2)/86400000)
 }

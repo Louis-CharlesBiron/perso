@@ -4,12 +4,18 @@
 //
 
 let level_list = []
-const ONLINE = navigator.onLine
+
+// extension is onLine
+let ONLINE
+function checkLine() {
+    ONLINE = navigator.onLine
+    onLine.textContent = ONLINE ? "" : "OFFLINE" 
+}checkLine()
 
 //Display version
 chrome.management.getSelf((e)=>{document.getElementById("version").textContent="V"+e.version})
 
-// Elements
+// Elements y
 let o_attemptsmost = document.getElementById("o_attemptsmost"), o_recent = document.getElementById("o_recent"), o_objectsminus = document.getElementById("o_objectsminus"), list = document.getElementById("thelist"), next2user = document.getElementById("next2user"), userdisplay = document.getElementById("userdisplay"), useri = document.getElementById("username"), edit_menu = document.getElementById("edit_menu"), edit_save = document.getElementById("edit_save"), edit_close = document.getElementById("edit_close"), e_name = document.getElementById("e_name"), add_level = document.getElementById("add_level"), nolvlyet = document.getElementById("nolvlyet"), edit_del = document.getElementById("edit_del"), e_rank = document.getElementById("e_rank"), e_title = document.getElementById("e_title"), e_attempts = document.getElementById("e_attempts"), e_progs = document.getElementById("e_progs"), e_time = document.getElementById("e_time"), e_date = document.getElementById("e_date"), e_enjoy = document.getElementById("e_enjoy"), e_url = document.getElementById("e_url"), e_id = document.getElementById("e_id"), e_length = document.getElementById("e_length"), e_song = document.getElementById("e_song"), e_songURL = document.getElementById("e_songURL"), e_objects = document.getElementById("e_objects"), e_diff = document.getElementById("e_diff"), edit_values = document.querySelector(".edit_values"), gobt = document.getElementById("gobt"), goov = document.getElementById("goov"), overview_p = document.getElementById("overview_p"), o_demons = document.getElementById("o_demons"), o_stars = document.getElementById("o_stars"), o_attempts = document.getElementById("o_attempts"), o_objects = document.getElementById("o_objects"), o_oldest = document.getElementById("o_oldest"), o_fluke = document.getElementById("o_fluke"), o_death = document.getElementById("o_death"), o_long = document.getElementById("o_long")
 
 // username input .oninput
@@ -20,7 +26,7 @@ useri.oninput=()=>{
     next2user.textContent = "'"+((v.charAt(v.length-1) == "s")?"":"s")+" DemonList"
     clearTimeout(u_cd)
     u_cd = setTimeout(()=>{
-        update_profile()
+        if (ONLINE) update_profile()
         //chrome.storage.sync.set({$u:v})
     },1000)
 }
@@ -42,7 +48,7 @@ chrome.storage.sync.get((r)=>{
     })
 
     update_overview()
-    update_profile()
+    if (ONLINE) update_profile()
 })
 
 function edit(level) {
@@ -50,8 +56,8 @@ function edit(level) {
     if (isLvl) ork = level_list.flatMap(x=>x.name).indexOf(level.name)
 
     edit_menu.style.display = ""
-    edit_menu.querySelector(".edit_header").textContent = (isLvl)?"Edit":"Create"+" Level"
-    edit_save.textContent = (isLvl)?"Save":"Create"+" Level"
+    edit_menu.querySelector(".edit_header").textContent = isLvl?"Edit":"Create"
+    edit_save.textContent = (isLvl?"Save":"Create")+" Level"
     edit_del.style.display = (isLvl)?"":"none"
 
     inps.forEach((el)=>{
@@ -117,8 +123,6 @@ let mainSongsURL = []
 function fillLevelEntries(id, force) {
     // I Love GD Cologne :D
     fetch('https://gdbrowser.com/api/level/'+id).then(r=>r.json()).then((stats)=>{
-        console.log(stats)
-
         if (force) e_name.value=e_song.value=e_songURL.value=e_objects.value=e_id.value=""
 
         e_song.value ||= stats.songName||''
@@ -134,40 +138,39 @@ function fillLevelEntries(id, force) {
         e_lazyLength.value = stats.length||''
         e_featureLevel.value = !!stats.stars+[stats.featured, stats.epic, stats.legendary, stats.mythic].reduce((a, b, i)=>a+(b&&i),0)||''
 
-    }).catch((e)=>{console.log("bad id or", e)})
+    }).catch((e)=>{
+        editPanelError("There is no existing level for this id")
+    })
+}
+
+function editPanelError(errorMsg) {
+    errorDiv.className = "errorDivAnim"
+    errorDiv.textContent = errorMsg
+    setTimeout(() => {
+        errorDiv.className = ""
+    }, 2000);
 }
 
 searchId.onclick=(e)=>{
-    let id = e_id.value||73667628
-    if (id) fillLevelEntries(id, e.ctrlKey)
+    let id = e_id.value||73667628//make random maybe lol
+    if (ONLINE) fillLevelEntries(id, e.ctrlKey)
+    else editPanelError("Cannot search, no internet connection")
 }
 
-e_rank.oninput=()=>{
-    e_rank.num_input_opt("-+.Ee", true, 1, Infinity)
-}
-e_attempts.oninput=()=>{
-    e_attempts.num_input_opt("-+.Ee", true, 1, Infinity)
-}
-e_id.oninput=()=>{
-    e_id.num_input_opt("-+.Ee", true, 1, Infinity)
-}
-e_objects.oninput=()=>{
-    e_objects.num_input_opt("-+.Ee", true, 1, Infinity)
-}
-e_time.oninput=()=>{
-    e_time.num_input_opt("-+Ee", true, 1, Infinity)
-}
+//input validation
+e_rank.oninput=()=>{e_rank.num_input_opt("-+.Ee", true, 1, Infinity)}
+e_attempts.oninput=()=>{e_attempts.num_input_opt("-+.Ee", true, 1, Infinity)}
+e_id.oninput=()=>{e_id.num_input_opt("-+.Ee", true, 1, Infinity)}
+e_objects.oninput=()=>{e_objects.num_input_opt("-+.Ee", true, 1, Infinity)}
+e_time.oninput=()=>{e_time.num_input_opt("-+Ee", true, 1, Infinity)}
+e_length.oninput=()=>{e_length.input_opt("0-9:", "valid", "00:00")}
+e_name.oninput=()=>{e_name.input_opt("0-9a-zA-Z -", "valid", "Unammed "+level_list.length)}
 e_progs.oninput=()=>{
     e_progs.input_opt("0-9 ", "valid", 1)
     e_progs.value.trim()
 }
-e_length.oninput=()=>{
-    e_length.input_opt("0-9:", "valid", "00:00")
-}
-e_name.oninput=()=>{
-    e_name.input_opt("0-9a-zA-Z -", "valid", "Unammed "+level_list.length)
-}
 
+//input "???" display
 edit_values.querySelectorAll("input").forEach((el)=>{
     if (el.type == "text") {
         el.onfocus=()=>{
@@ -179,12 +182,14 @@ edit_values.querySelectorAll("input").forEach((el)=>{
     }
 })
 
+// adjust arrow navigation for the rank input
 e_rank.addEventListener("keydown",(e)=>{
     let k = e.key.toLowerCase(), v = +e_rank.value
     if (k == "arrowup") e_rank.value = v-2
     else if (k == "arrowdown") e_rank.value = v+2
 })
 
+// go to bottom / top button
 gobt.onclick=()=>{
     list.scrollTo(0, (gobt.className == "tobot") ? list.scrollHeight : 0)
 }

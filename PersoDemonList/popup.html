@@ -15,6 +15,7 @@
    </head>
    <body>
       <span id="version">V1.0</span>
+      <span id="onLine" title="Click to retry connection">online</span>
 
       <div class="header">
          <div id="goov" title="Open overview">
@@ -44,9 +45,7 @@
          <div id="edit_close" title="Close Menu"><svg width="42" height="42" viewBox="0 -960 960 960"><path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"></path></svg></div>
          <div class="edit_header"></div>
          <div class="edit_values">
-            <!-- TODO
-               
-               fetch('https://gdbrowser.com/api/level/'+"61079355").then((r)=>{console.log(r.json())})
+            <!-- TODO fetch('https://gdbrowser.com/api/level/'+"61079355").then((r)=>{console.log(r.json())})
 
                do song url (official song / new ground)
 
@@ -58,7 +57,6 @@
 
                expand.onclick => ↓
                Rework level desc (expand):
-               time since completion
 
                ?maybe? likes / downloads (maybe onexpand)
 
@@ -117,6 +115,7 @@
             </div>
 
          </div>
+         <div id="errorDiv">test</div>
          <button id="edit_save"></button>
          <button id="edit_del" title="Delete Level Entry"><svg width="38" height="38" viewBox="0 -960 960 960"><path d="M261-120q-24.75 0-42.375-17.625T201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"/></svg></button>
       </div>

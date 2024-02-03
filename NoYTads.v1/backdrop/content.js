@@ -35,14 +35,10 @@ function init() {
                 el.remove()
         })
 
-        if (document.querySelector(".ytp-ad-skip-button-container")) {
-            document.querySelector(".ytp-ad-skip-button-container").click()
-        }
-
-        if (document.querySelector("button[class*='ad-skip']")) {
-            console.log("ad-skip", document.querySelector("button[class*='ad-skip']"))
-            document.querySelector("button[class*='ad-skip']").click()
-        }
+        //kkdocument.querySelectorAll("[class*='ad-skip']").forEach((el)=>{
+        //kk    console.log(el)
+        //kk    el.click()
+        //kk})
 
         //video ads
         if (document.querySelector(".ytp-ad-preview-container")) {

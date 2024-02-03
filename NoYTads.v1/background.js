@@ -6,9 +6,9 @@
 function sendMessage(content, type, toContent) {// str, str, boolean
     if (toContent == true) {
     chrome.tabs.query({currentWindow: true,active: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {content: content, type: type})
+        chrome.tabs.sendMessage(tabs[0].id, {content: content, type: type}).catch((e)=>console.log(e))
     })} else {
-        chrome.runtime.sendMessage({content: content, type: type})  
+        chrome.runtime.sendMessage({content: content, type: type})
 }}
 
 

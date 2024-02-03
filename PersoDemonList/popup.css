@@ -25,12 +25,26 @@ html, body {
 #version {
     position: absolute;
     left: 3px;
-    bottom: 1px;
+    top: 1px;
     z-index: 10;
     color: rgb(255 255 255);
     font-size: 10px;
     letter-spacing: 0px;
     opacity: 0.5;
+}
+#onLine {
+    position: absolute;
+    right: 3px;
+    top: 1px;
+    z-index: 10;
+    color: rgb(255, 0, 0);
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    opacity: 1;
+    cursor: pointer;
+}
+#onLine:active {
+    opacity: 0.2;
 }
 ::selection {background-color: rgb(0 128 128 / 45%);}
 *::-webkit-scrollbar {width: 6px;height: 5px;}*::-webkit-scrollbar-track {background: transparent;}*::-webkit-scrollbar-thumb {background: rgba(96, 96, 96, 0.15);border-radius: 5px;}*::-webkit-scrollbar-thumb:hover {background: rgba(98, 98, 98, 0.2);}
@@ -85,6 +99,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
     padding-top: 2%;
     border-top: 3px solid black;
     letter-spacing: 1px;
+    user-select: text;
 }
 
 .lvl_img {
@@ -128,7 +143,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 #l_expand {
     position: absolute;
     bottom: -8px;
-    right: 0;
+    right: -5px;
     width: 10.5%;
     cursor: pointer;
 }
@@ -141,7 +156,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
     transition: 0.4s all;
 }
 
-#goProfile {
+#goProfile, #close_p {
     cursor: pointer;
 }
 
@@ -165,7 +180,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 #l_edit {
     position: absolute;
     top: 3px;
-    right: 0px;
+    right: -5px;
     width: 8.5%;
     cursor: pointer;
 }
@@ -220,6 +235,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
     text-underline-offset: 2px;
     text-decoration-color: rgba(240, 248, 255, 0.5);
     cursor: pointer;
+    color: aliceblue;
+    margin-top: 1.5%;
 }
 
 #edit_menu {
@@ -237,16 +254,17 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 }
 
 .edit_values {
-    width: 80%;
+    width: 88%;
     height: 72%;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 4%;
+    flex-direction: column;
+    padding: 4% 0%;
     outline: solid black 3px;
     background-color: #141313;
     color: #cbd9e6;
     border-radius: 10px;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #edit_close {
@@ -272,7 +290,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
     outline: none;
     color: #c0d5e6;
     width: 90%;
-    height: 50%;
+    height: 59%;
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -326,13 +344,6 @@ svg:hover {
     font-size: 0.9em;
 }
 
-.edit_values > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-}
-
 .yoyo {
     display: flex;
     width: 100%;
@@ -344,8 +355,8 @@ svg:hover {
 
 #e_enjoy {
     text-align: center;
-    width: 30%;
-    height: 60%;
+    width: 68%;
+    height: 80%;
 }
 
 #e_diff {
@@ -641,4 +652,113 @@ img.lvl_img {
 
 .o_label2 {
     margin-bottom: 5%;
+}
+
+.edit_values_b {
+    display: flex;
+    flex-direction: row;
+    height: 90%;
+    width: 90%;
+    justify-content: flex-end;
+}
+
+.edit_values_id {
+    width: 83%;
+    height: 12%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.edit_values_b > div {
+    height: 100%;
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#e_id {
+    height: 60%;
+    width: 72%;
+}
+
+.edit_values_id > label {
+    height: 75%;
+    width: 48%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#searchId {
+    cursor: pointer;
+    height: 80%;
+    width: 55%;
+    display: flex;
+    padding: 2.5% 4%;
+    letter-spacing: 2px;
+    color: #cbd9e6;
+    background-color: #1d1d1d;
+    border: 2px solid #a3b6c6;
+    border-radius: 2px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 24%;
+    outline: none;
+}
+
+.edit_values_hidden {
+    position: absolute;
+    left: 0.5%;
+    top: 91.1%;
+    transition: 0.4s all;
+}
+
+.edit_values_hidden > input {
+    background-color: transparent;
+    border: none;
+    opacity: .1;
+    font-size: 0.7em;
+    letter-spacing: 1px;
+    margin-top: -2.5%;
+}
+
+.edit_values_hidden:hover > input {
+    opacity: .5;
+}
+
+#errorDiv {
+    color: #bb0404;
+    font-size: 0.8em;
+    position: absolute;
+    top: 1%;
+    left: 1.6%;
+    width: 40%;
+    letter-spacing: 1px;
+    font-weight: bold;
+    transition: 0.4s all;
+    opacity: 0;
+}
+
+.errorDivAnim {
+    animation: errorAnim 2s 0s 1 forwards;
+}
+
+@keyframes errorAnim {
+    0% {
+        opacity: 0;
+    }
+    15% {
+        opacity: 1;
+    }
+    85% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }

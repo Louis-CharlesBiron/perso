@@ -119,14 +119,14 @@ edit_close.onclick=close_edit_menu
 add_level.onclick=()=>{edit()}
 
 // API call to fill some entries in level creation / edit panel
-let mainSongsURL = []// TODO main song
+let mainSongsID = [500476, 522654, 523561, 49854, 404997, 485351, 168734, 529148, 291458, 516735, 505816, 350290, 479319, 790341, 368392, 568699, 230308, 472925, 641172, 503731, 860287, 1284388]
 function fillLevelEntries(id, force) {
     // I Love GD Cologne :D
     fetch('https://gdbrowser.com/api/level/'+id).then(r=>r.json()).then((stats)=>{
         if (force) e_name.value=e_song.value=e_songURL.value=e_objects.value=e_id.value=""
 
         e_song.value ||= stats.songName||''
-        e_songURL.value ||= stats.customSong ? `https://www.newgrounds.com/audio/listen/${stats.customSong}` :  mainSongsURL[stats.songID.match(/[0-9]+/gi)[0]]
+        e_songURL.value ||= `https://www.newgrounds.com/audio/listen/${stats.customSong||mainSongsID[+stats.songID.match(/[0-9]+/gi)[0]-1]||''}`
         e_date.value ||= getDateFormated()
         e_objects.value ||= stats.objects||''
 

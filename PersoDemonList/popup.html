@@ -47,8 +47,6 @@
          <div class="edit_values">
             <!-- TODO fetch('https://gdbrowser.com/api/level/'+"61079355").then((r)=>{console.log(r.json())})
 
-               do song url (official song / new ground)
-
                filter level?
 
                add featured/
@@ -56,13 +54,6 @@
                overview:
                filter by demon categories
                extend the top 3s
-
-               - BUG -
-               if No Rate then no "x demon"
-
-
-               ?maybe? likes / downloads (maybe onexpand)
-               ??maybe? add support for progress only (Moment 76%x3)          
             -->
             <div class="edit_values_hidden">
                <input type="text" id="e_featureLevel" readonly disabled>
@@ -119,7 +110,7 @@
             <div class="o_content">
 
                <div>
-                  <label class="o_label">Ranked Demons</label>
+                  <label class="o_label" id="o_filterValue">Ranked Demons</label>
                   <div id="o_demons" class="o_list">
                      <span>Easy Demons: </span>
                      <span>Medium Demons: </span>

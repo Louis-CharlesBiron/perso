@@ -762,3 +762,7 @@ img.lvl_img {
         opacity: 0;
     }
 }
+
+.o_filterSelect {
+    cursor: pointer;
+}

@@ -127,40 +127,42 @@
                   <div>
                      <div>Filter Settings</div>
                      <div id="s_filterContent">
-                        <label><input type="text" id="s_filterValue"></label>
-
                         <!-- 
                            String : strict match, match
                            Num : strict match, range, bigger than, small than
                            Date: strict match, range, bigger than, small than
                            Select : strict match: bigger than, small than
                          -->
-
                         <div class="s_filterSettingsString">
-                           <label></label>
-                        </div>
-
-                        <div class="s_filterSettingsNum">
-                           <label></label>
-                        </div>
-
-                        <div class="s_filterSettingsDate">
-                           <label></label>
-                        </div>
-
-                        <div class="s_filterSettingsSelect">
-                           <label></label>
+                           <div>
+                              Filter by: 
+                              <span id="s_filterWhichValue"></span> <!-- change textContent -->
+                              <select id="s_filterMode"> <!-- change display -->
+                                 <option value="match"></option>
+                                 <option value="strict"></option>
+                                 <option value="bigger"></option>
+                                 <option value="smaller"></option>
+                              </select> 
+                              <input type="text" id="s_filterValue">
+                           </div>
                         </div>
                      </div>
                   </div>
-            </div>
+               </div>
 
-            <div class="s_inputs">
+               <div class="s_inputs">
+                  <span>Results (<span id="s_resultCount">0/0</span>)</span>
+                  <div id="s_resultList">
 
-            </div>
+                     <!-- GENERATED -->
+                     <div class="s_resultParent">
+                        <div>(#x) Name,</div>
+                     </div>
 
-          </div>
-          <button id="s_search">Search</button>
+                  </div>
+
+               </div>
+         </div>
       </div>
       
       <div id="overview_p">

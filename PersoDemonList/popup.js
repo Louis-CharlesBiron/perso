@@ -49,6 +49,7 @@ chrome.storage.sync.get((r)=>{
 
     update_overview()
     if (ONLINE) update_profile()
+    displayLevelSearch(levelSearch("", "name", "match"), "name")
 })
 
 function edit(level) {
@@ -362,11 +363,13 @@ function update_profile() {
 // level search / filter
 
 // close / open menu
-s_close.onclick=()=>{
-    search_menu.style.display = "none"
-}
+s_close.onclick=closeSearchMenu
+
 lvlSearch.onclick=()=>{
     search_menu.style.display = ""
+}
+function closeSearchMenu() {
+    search_menu.style.display = "none"
 }
 
 function levelSearch(v, filter, mode) {
@@ -384,10 +387,20 @@ function levelSearch(v, filter, mode) {
     return filteredList
 }
 
-s_filterInput.oninput=()=>{
-    let v = s_filterInput.value, filter = s_filterWhich.value, mode = s_filterMode.value,
-    res = levelSearch(v, filter, mode)
+function displayLevelSearch(list, filter) {
+    s_resultCount.textContent = list.length+"/"+level_list.length
+    // TODO onclick
+    s_resultList.innerHTML = list.map(x => `<span class='s_result' onclick="()=>{levelSearchGoTo(${x.name})"}>(#${get_rank(x.name)}) ${x.name}, ${filter}:${x[filter]}</span>`).sort((a, b)=>get_rank(b.name)-get_rank(a.name)).join("")
+}
 
-    s_resultCount.textContent = res.length+"/"+level_list.length
-    s_resultList.innerHTML = res.map(x => `<span class='s_result'>(#${get_rank(x.name)}) ${x.name}, ${filter}:${x[filter]}</span>`).sort((a, b)=>get_rank(b.name)-get_rank(a.name)).join("")
+s_filterInput.oninput=s_filterMode.oninput=s_filterWhich.oninput=()=>{
+    let filter = s_filterWhich.value
+    displayLevelSearch(levelSearch(s_filterInput.value, filter, s_filterMode.value), filter)
+}
+
+function levelSearchGoTo(name) {
+    closeSearchMenu()
+    console.log(name)
+    thelist.querySelector(`#${name}`).scrollIntoView()
+    // animation
 }

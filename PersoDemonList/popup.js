@@ -118,14 +118,6 @@ edit_close.onclick=close_edit_menu
 
 add_level.onclick=()=>{edit()}
 
-lvlSearch.onclick=()=>{
-    search_menu.style.display = ""
-}
-
-s_close.onclick=()=>{
-    search_menu.style.display = "none"
-}
-
 
 let mainSongsID = [500476, 522654, 523561, 49854, 404997, 485351, 168734, 529148, 291458, 516735, 505816, 350290, 479319, 790341, 368392, 568699, 230308, 472925, 641172, 503731, 860287, 1284388]
 // API call to fill some entries in level creation / edit panel
@@ -365,4 +357,37 @@ function update_profile() {
             el.textContent = "N.A"
         })
     }
+}
+
+// level search / filter
+
+// close / open menu
+s_close.onclick=()=>{
+    search_menu.style.display = "none"
+}
+lvlSearch.onclick=()=>{
+    search_menu.style.display = ""
+}
+
+function levelSearch(v, filter, mode) {
+    let filteredList = []
+
+    if (mode == "match") filteredList = level_list.filter(x => x[filter]?.includes(v))
+    else if (mode == "strict") filteredList = level_list.filter(x => x[filter] == v)
+    else if (mode == "bigger") filteredList = level_list.filter(x => x[filter] > +v.trim())
+    else if (mode == "smaller") filteredList = level_list.filter(x => x[filter] < +v.trim())
+    else if (mode == "range") {
+        let limits = v.match(/[0-9]+/g)
+        filteredList = level_list.filter(x => (x[filter] >= limits[0]) || (x[filter] <= limits[1]))
+    }
+
+    return filteredList
+}
+
+s_filterInput.oninput=()=>{
+    let v = s_filterInput.value, filter = s_filterWhich.value, mode = s_filterMode.value,
+    res = levelSearch(v, filter, mode)
+
+    s_resultCount.textContent = res.length+"/"+level_list.length
+    s_resultList.innerHTML = res.map(x => `<span class='s_result'>(#${get_rank(x.name)}) ${x.name}, ${filter}:${x[filter]}</span>`).sort((a, b)=>get_rank(b.name)-get_rank(a.name)).join("")
 }

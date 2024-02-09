@@ -108,60 +108,40 @@
           <div class="edit_header">Level Search</div>
           <div class="edit_values s_values">
             <div class="s_inputs">
-                  <div>
-                     <label>Filter by:<select id="s_filterWhich">
-                        <option value="name">Name</option>
-                        <option value="creator">Creator</option>
-                        <option value="id">Id</option>
-                        <option value="gameVersion">Game version</option>
-                        <option value="attempts">Attempts</option>
-                        <option value="time">Time taken</option>
-                        <option value="date">Beaten Date</option>
-                        <option value="enjoy">Enjoyement</option>
-                        <option value="length">Length</option>
-                        <option value="objects">Objects</option>
-                        <option value="diff">Difficulty</option>
-                     </select></label>
-                  </div>
-
-                  <div>
-                     <div>Filter Settings</div>
-                     <div id="s_filterContent">
-                        <!-- 
-                           String : strict match, match
-                           Num : strict match, range, bigger than, small than
-                           Date: strict match, range, bigger than, small than
-                           Select : strict match: bigger than, small than
-                         -->
-                        <div class="s_filterSettingsString">
-                           <div>
-                              Filter by: 
-                              <span id="s_filterWhichValue"></span> <!-- change textContent -->
-                              <select id="s_filterMode"> <!-- change display -->
-                                 <option value="match"></option>
-                                 <option value="strict"></option>
-                                 <option value="bigger"></option>
-                                 <option value="smaller"></option>
-                              </select> 
-                              <input type="text" id="s_filterValue">
-                           </div>
-                        </div>
-                     </div>
-                  </div>
+               <div class="s_filterSettings">
+                  <span>Filter levels by: </span>
+                  <label>
+                     <select id="s_filterWhich">
+                     <option value="name">Name</option>
+                     <option value="creator">Creator</option>
+                     <option value="id">Id</option>
+                     <option value="gameVersion">Game version</option>
+                     <option value="featureLevel">Feature level</option>
+                     <option value="attempts">Attempts</option>
+                     <option value="time">Time taken</option>
+                     <option value="date">Beaten Date</option>
+                     <option value="enjoy">Enjoyement</option>
+                     <option value="length">Length</option>
+                     <option value="objects">Objects</option>
+                     <option value="diff">Difficulty</option>
+                     </select>
+                  </label>
+                  <select id="s_filterMode">
+                     <option value="match">*=</option>
+                     <option value="strict">=</option>
+                     <option value="bigger">></option>
+                     <option value="smaller">&lt;</option>
+                     <option value="range">[x-y]</option>
+                  </select> 
+                  <input type="text" id="s_filterInput">
                </div>
+            </div>
 
-               <div class="s_inputs">
-                  <span>Results (<span id="s_resultCount">0/0</span>)</span>
-                  <div id="s_resultList">
-
-                     <!-- GENERATED -->
-                     <div class="s_resultParent">
-                        <div>(#x) Name,</div>
-                     </div>
-
-                  </div>
-
-               </div>
+            <div class="s_inputs">
+               <span>Results (<span id="s_resultCount">0/0</span>)</span>
+               <div id="s_resultList"></div>
+            </div>
+            
          </div>
       </div>
       

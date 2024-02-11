@@ -390,17 +390,20 @@ function levelSearch(v, filter, mode) {
 function displayLevelSearch(list, filter) {
     s_resultCount.textContent = list.length+"/"+level_list.length
     // TODO onclick
-    s_resultList.innerHTML = list.map(x => `<span class='s_result' onclick="()=>{levelSearchGoTo(${x.name})"}>(#${get_rank(x.name)}) ${x.name}, ${filter}:${x[filter]}</span>`).sort((a, b)=>get_rank(b.name)-get_rank(a.name)).join("")
+    s_resultList.innerHTML = ""
+    list.sort((a, b)=>get_rank(b.name)-get_rank(a.name)).forEach((l)=>{
+        let span = document.createElement("span")
+        span.className = "s_result"
+        span.onclick=()=>{
+            closeSearchMenu()
+            console.log(l.name)
+            thelist.querySelector(`#${l.name}`).scrollIntoView()
+        }
+        span.textContent = `(#${get_rank(x.name)}) ${x.name}, ${filter}:${x[filter]}`
+    })
 }
 
 s_filterInput.oninput=s_filterMode.oninput=s_filterWhich.oninput=()=>{
     let filter = s_filterWhich.value
     displayLevelSearch(levelSearch(s_filterInput.value, filter, s_filterMode.value), filter)
-}
-
-function levelSearchGoTo(name) {
-    closeSearchMenu()
-    console.log(name)
-    thelist.querySelector(`#${name}`).scrollIntoView()
-    // animation
 }

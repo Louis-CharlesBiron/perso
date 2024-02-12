@@ -54,7 +54,7 @@ chrome.storage.sync.get((r)=>{
 
 function edit(level) {
     let isLvl = (!!level), inps = edit_menu.querySelectorAll("input"), ork
-    if (isLvl) ork = level_list.flatMap(x=>x.name).indexOf(level.name)
+    if (isLvl) ork = level_list.map(x=>x.name).indexOf(level.name)
 
     edit_menu.style.display = ""
     edit_menu.querySelector(".edit_header").textContent = isLvl?"Edit":"Create"
@@ -102,7 +102,7 @@ function edit(level) {
 }
 
 function set_order() {
-    let list = level_list.flatMap(x=>x.name)
+    let list = level_list.map(x=>x.name)
     list.forEach((lvl)=>{
         let el = document.getElementById(lvl), rank = list.indexOf(lvl), dr = el.querySelector("#lr")
         el.style.order = rank
@@ -225,14 +225,14 @@ profile_p.onclick=(e)=>{
 }
 
 function get_rank(name) {
-    return level_list.flatMap(x=>x.name).indexOf(name)+1
+    return level_list.map(x=>x.name).indexOf(name)+1
 }
 
 function update_overview() {
     let dem_c = [...o_demons.children], dem_ll = dem_c.length, death_c = [...o_death.children], death_ll = death_c.length, fluke_c = [...o_fluke.children], fluke_ll = fluke_c.length, long_c = [...o_long.children], long_ll = long_c.length, attm_c = [...o_attemptsmost.children], attm_ll = attm_c.length, longLc = [...o_longL.children], longLl = longLc.length , recComc = [...o_recentComp.children], recComc_ll = recComc.length
 
     // demon count
-    let dc = level_list.flatMap(x=>x.diff).reduce((a, b)=>{a[b]++;return a},{easy:0,medium:0,hard:0,insane:0,extreme:0})
+    let dc = level_list.map(x=>x.diff).reduce((a, b)=>{a[b]++;return a},{easy:0,medium:0,hard:0,insane:0,extreme:0})
 
     for (let i=0;i<dem_ll;i++) {
         let d = Object.keys(dc)[i]
@@ -259,41 +259,41 @@ function update_overview() {
         o_stars.firstElementChild.textContent = (filteredLevel_list.filter(x=>x!=="0").length*10).numSep()+"★"
 
         // total attempts
-        let atts = filteredLevel_list.flatMap(x=>Number(x.attempts||0))
+        let atts = filteredLevel_list.map(x=>Number(x.attempts||0))
         o_attempts.firstElementChild.textContent = atts.reduce((x, y)=>{return x+y},0).numSep()
 
-        let attsm = filteredLevel_list.flatMap((x)=>{return {a:Number(x.attempts), n:x.name}}).filter(x=>x.a!==0).sort((a, b)=>{return b.a-a.a})
+        let attsm = filteredLevel_list.map((x)=>{return {a:Number(x.attempts), n:x.name}}).filter(x=>x.a!==0).sort((a, b)=>{return b.a-a.a})
         for (let i=0;i<attm_ll;i++) {
             let a = attsm[i]
             attm_c[i].textContent = (a) ? "(#"+get_rank(a.n)+") "+a.n+", "+a.a.numSep()+" attempts" : "No Level Yet..."
         }
 
         // most/least object
-        let objs = filteredLevel_list.flatMap(x=>Number(x.objects||Infinity)), obj = Math.max(...objs.filter(x=>x!==Infinity)), objm = Math.min(...objs)
+        let objs = filteredLevel_list.map(x=>Number(x.objects||Infinity)), obj = Math.max(...objs.filter(x=>x!==Infinity)), objm = Math.min(...objs)
         o_objects.firstElementChild.textContent = (isFinite(obj)) ? obj.numSep()+" ("+filteredLevel_list.filter(x=>x.objects==obj)[0].name+")" : "No Level Yet..."
         o_objectsminus.firstElementChild.textContent = (isFinite(objm)) ? objm.numSep()+" ("+filteredLevel_list.filter(x=>x.objects==objm)[0].name+")" : "No Level Yet..."
 
         // oldest/most recent level
-        let ids = filteredLevel_list.flatMap(x=>Number(x.id||Infinity)), id = Math.min(...ids), idm = Math.max(...ids.filter(x=>x!==Infinity))
+        let ids = filteredLevel_list.map(x=>Number(x.id||Infinity)), id = Math.min(...ids), idm = Math.max(...ids.filter(x=>x!==Infinity))
         o_oldest.firstElementChild.textContent = (isFinite(id)) ? filteredLevel_list.filter(x=>x.id==id)[0].name+" (Id: "+id+")" : "No Level Yet..."
         o_recent.firstElementChild.textContent = (isFinite(idm)) ? filteredLevel_list.filter(x=>x.id==idm)[0].name+" (Id: "+idm+")" : "No Level Yet..."
 
         // best flukes
-        let flukes = filteredLevel_list.flatMap((x)=>{return {p: x.progs, n:x.name}}).filter(x=>x.p!=="").flatMap((x)=>{return {f:100-Number(x.p.replace("100","").trim().split(" ")[x.p.replace("100","").trim().split(" ").length-1]), n:x.n}}).sort((a, b)=>{return b.f-a.f})
+        let flukes = filteredLevel_list.map((x)=>{return {p: x.progs, n:x.name}}).filter(x=>x.p!=="").map((x)=>{return {f:100-Number(x.p.replace("100","").trim().split(" ")[x.p.replace("100","").trim().split(" ").length-1]), n:x.n}}).sort((a, b)=>{return b.f-a.f})
         for (let i=0;i<fluke_ll;i++) {
             let f = flukes[i]
             fluke_c[i].textContent = (f) ? "(#"+get_rank(f.n)+") "+f.n+", from "+(100-f.f)+"% ("+f.f+"%)" : "No Level Yet..."
         }
 
         // worst deaths
-        let deaths = filteredLevel_list.flatMap((x)=>{return {p: x.progs, n:x.name}}).filter(x=>x.p!=="").flatMap((x)=>{return {f:100-Number(x.p.replace("100","").trim().split(" ")[x.p.replace("100","").trim().split(" ").length-1]), n:x.n}}).sort((a, b)=>{return a.f-b.f})
+        let deaths = filteredLevel_list.map((x)=>{return {p: x.progs, n:x.name}}).filter(x=>x.p!=="").map((x)=>{return {f:100-Number(x.p.replace("100","").trim().split(" ")[x.p.replace("100","").trim().split(" ").length-1]), n:x.n}}).sort((a, b)=>{return a.f-b.f})
         for (let i=0;i<death_ll;i++) {
             let d = deaths[i]
             death_c[i].textContent = (d) ? "(#"+get_rank(d.n)+") "+d.n+", to "+(100-d.f)+"%" : "No Level Yet..."
         }
 
         // biggest journeys
-        let days = filteredLevel_list.flatMap((x)=>{return {d:Number(x.time), n:x.name}}).filter(x=>x.d!==0).sort((a, b)=>{return b.d-a.d})
+        let days = filteredLevel_list.map((x)=>{return {d:Number(x.time), n:x.name}}).filter(x=>x.d!==0).sort((a, b)=>{return b.d-a.d})
         for (let i=0;i<long_ll;i++) {
             let d = days[i]
             long_c[i].textContent = (d) ? "(#"+get_rank(d.n)+") "+d.n+", "+d.d+" days" : "No Level Yet..."
@@ -303,14 +303,14 @@ function update_overview() {
         let ll = filteredLevel_list.sort((a,b)=>b.getLengthInSeconds()-a.getLengthInSeconds())
         for (let i=0;i<longLl;i++) {
             let l = ll[i]
-            longLc[i].textContent = (l) ? `(#${get_rank(l.name)}) ${l.name}, ${l.getFormatedLength()}` : "No Level Yet..."
+            longLc[i].textContent = (l) ? `(#${l.rank}) ${l.name}, ${l.getFormatedLength()}` : "No Level Yet..."
         }
 
         // recent completions
         let rc = filteredLevel_list.sort((a, b)=>b.getBeatenDate().getTime()-a.getBeatenDate().getTime())
         for (let i=0;i<recComc_ll;i++) {
             let c = rc[i]
-            recComc[i].textContent = (c) ? `(#${get_rank(c.name)}) ${c.name}, ${c.getDaysAgo()} days ago` : "No Level Yet..."
+            recComc[i].textContent = (c) ? `(#${c.rank}) ${c.name}, ${c.getDaysAgo()} days ago` : "No Level Yet..."
             recComc[i].title = (c) ? c.date : "No Level Yet..."
         }
     }
@@ -372,16 +372,20 @@ function closeSearchMenu() {
     search_menu.style.display = "none"
 }
 
-function levelSearch(v, filter, mode) {
+function levelSearch(v, f, mode) {
     let filteredList = []
+    //gameVersion: only numbers
+    //feature level: accept feature name
+    //date: date.getTime() and transform input in type=date
+    //length : seconds
 
-    if (mode == "match") filteredList = level_list.filter(x => x[filter]?.includes(v))
-    else if (mode == "strict") filteredList = level_list.filter(x => x[filter] == v)
-    else if (mode == "bigger") filteredList = level_list.filter(x => x[filter] > +v.trim())
-    else if (mode == "smaller") filteredList = level_list.filter(x => x[filter] < +v.trim())
+    if (mode == "match") filteredList = level_list.filter(x => x[f]?.includes(v) && x[f]!=null)
+    else if (mode == "strict") filteredList = level_list.filter(x => x[f] == v && x[f]!=null)
+    else if (mode == "bigger") filteredList = level_list.filter(x => x[f] > +v.trim() && x[f]!=null)
+    else if (mode == "smaller") filteredList = level_list.filter(x => x[f] < +v.trim() && x[f]!=null)
     else if (mode == "range") {
         let limits = v.match(/[0-9]+/g)
-        filteredList = level_list.filter(x => (x[filter] >= limits[0]) || (x[filter] <= limits[1]))
+        filteredList = level_list.filter(x => (x[f] >= limits[0]) || (x[f] <= limits[1]) && x[f]!=null)
     }
 
     return filteredList
@@ -389,17 +393,20 @@ function levelSearch(v, filter, mode) {
 
 function displayLevelSearch(list, filter) {
     s_resultCount.textContent = list.length+"/"+level_list.length
-    // TODO onclick
     s_resultList.innerHTML = ""
-    list.sort((a, b)=>get_rank(b.name)-get_rank(a.name)).forEach((l)=>{
+
+    list.sort((a, b)=>a.rank-b.rank).forEach((l)=>{
         let span = document.createElement("span")
         span.className = "s_result"
         span.onclick=()=>{
             closeSearchMenu()
-            console.log(l.name)
-            thelist.querySelector(`#${l.name}`).scrollIntoView()
+            let el = document.getElementById(l.name)
+            el.scrollIntoView()
+            el.className = "level selectedAnim"
+            setTimeout(()=>{el.className = "level"},2000)
         }
-        span.textContent = `(#${get_rank(x.name)}) ${x.name}, ${filter}:${x[filter]}`
+        span.textContent = `(#${l.rank}) ${l.name}, ${filter}:${l[filter]}`
+        s_resultList.appendChild(span)
     })
 }
 

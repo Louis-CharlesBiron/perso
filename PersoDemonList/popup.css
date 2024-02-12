@@ -857,3 +857,19 @@ img.lvl_img {
     margin-bottom: 5px;
     cursor: pointer;
 }
+
+@keyframes selectedAnim {
+    0% {
+        background-color: #292b2f;
+    }
+    50% {
+        background-color: #253d37
+    }
+    100% {
+        background-color: #292b2f;
+    }
+}
+
+.selectedAnim {
+    animation: selectedAnim 2s cubic-bezier(0.075, 0.82, 0.165, 1) 0s 1 forwards;
+}

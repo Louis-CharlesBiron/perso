@@ -373,22 +373,28 @@ function closeSearchMenu() {
 }
 
 function levelSearch(v, f, mode) {
-    let filteredList = []
-    //gameVersion: only numbers
-    //feature level: accept feature name
-    //date: date.getTime() and transform input in type=date
-    //length : seconds
+    let filteredList = [], ulist = level_list.map((x, i)=>({v:x[f], i:i}))
+    if (f == "gameVersion") {//gameVersion: only numbers
+        ulist = ulist.map(x=>({v:x.v?.match(/[0-9,.]+/g)[0]||null, i:x.i}))
+    } else if (f == "featureLevel") {//feature level: accept feature name
+        //convert input text to num and leave num alonee
+    } else if (f == "date") {//date: date.getTime() and transform input in type=date
+        ulist = ulist.map(x=>({v:new Date(x.v)?.getTime()||null, i:x.i}))
+        v = new Date(v).getTime()
+    } else if (f == "length") {//length : seconds
 
-    if (mode == "match") filteredList = level_list.filter(x => x[f]?.includes(v) && x[f]!=null)
-    else if (mode == "strict") filteredList = level_list.filter(x => x[f] == v && x[f]!=null)
-    else if (mode == "bigger") filteredList = level_list.filter(x => x[f] > +v.trim() && x[f]!=null)
-    else if (mode == "smaller") filteredList = level_list.filter(x => x[f] < +v.trim() && x[f]!=null)
-    else if (mode == "range") {
-        let limits = v.match(/[0-9]+/g)
-        filteredList = level_list.filter(x => (x[f] >= limits[0]) || (x[f] <= limits[1]) && x[f]!=null)
     }
-
-    return filteredList
+    
+    if (mode == "match") filteredList = ulist.filter(x => (x.v+"")?.includes(v) && x.v!=null)
+    else if (mode == "strict") filteredList = ulist.filter(x => x.v == v && x.v!=null)
+    else if (mode == "bigger") filteredList = ulist.filter(x => x.v > +v.trim() && x.v!=null)
+    else if (mode == "smaller") filteredList = ulist.filter(x => x.v < +v.trim() && x.v!=null)
+    else if (mode == "range") {
+        let limits = v.match(/[0-9]+/g)??[0,0]
+        filteredList = ulist.filter(x => (x.v >= limits[0]) || (x.v <= limits[1]) && x.v!=null)
+    }
+    
+    return filteredList.map(x => level_list[x.i])
 }
 
 function displayLevelSearch(list, filter) {

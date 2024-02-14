@@ -35,7 +35,7 @@ class Level {
     }
 
     getLengthInSeconds = function() {
-        return this.length?.split(":").reduce((a, b, i)=>a+=i?+b:b*60,0)||0
+        return (this.length+"")?.split(":").reduce((a, b, i)=>a+=i?+b:b*60,0)||0
     }
 
     getFormatedLength = function() {

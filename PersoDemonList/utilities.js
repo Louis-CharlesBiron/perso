@@ -18,6 +18,10 @@ function random(min, max) {
     return Math.floor(Math.random()*(max-min+1))+min
 }
 
+function getLengthInSeconds(length) {
+    return (length+"")?.split(":").reduce((a, b, i)=>a+=i?+b:b*60,0)||0
+}
+
 function daysBetweenDates(d1, d2=new Date().getTime()) {
     return Math.floor(Math.abs(d1-d2)/86400000)
 }

@@ -376,22 +376,28 @@ function levelSearch(v, f, mode) {
     let filteredList = [], ulist = level_list.map((x, i)=>({v:x[f], i:i}))
     if (f == "gameVersion") {//gameVersion: only numbers
         ulist = ulist.map(x=>({v:x.v?.match(/[0-9,.]+/g)[0]||null, i:x.i}))
+        v = (mode == "range") ? v.match(/[0-9]{1}[.]{0,1}[0-9]+/g)||[1.0, 2.2]
+        : v
     } else if (f == "featureLevel") {//feature level: accept feature name
         //convert input text to num and leave num alonee
     } else if (f == "date") {//date: date.getTime() and transform input in type=date
         ulist = ulist.map(x=>({v:new Date(x.v)?.getTime()||null, i:x.i}))
-        v = new Date(v).getTime()
+        v = (mode == "range") ? v.match(/[0-9]{4}[/-][0-9]{1,2}[/-][0-9]{1,2}/g)?.map(x=>new Date(x).getTime())||[new Date().getTime(), new Date().getTime()]
+        : new Date(v)?.getTime()||new Date().getTime()
     } else if (f == "length") {//length : seconds
-
+        ulist = ulist.map(x=>({v:getLengthInSeconds(x.v)||null, i:x.i}))
+        v = (mode == "range") ? v.match()
+        : getLengthInSeconds(v)||0
     }
     
     if (mode == "match") filteredList = ulist.filter(x => (x.v+"")?.includes(v) && x.v!=null)
     else if (mode == "strict") filteredList = ulist.filter(x => x.v == v && x.v!=null)
-    else if (mode == "bigger") filteredList = ulist.filter(x => x.v > +v.trim() && x.v!=null)
-    else if (mode == "smaller") filteredList = ulist.filter(x => x.v < +v.trim() && x.v!=null)
+    else if (mode == "bigger") filteredList = ulist.filter(x => x.v > +v && x.v!=null)
+    else if (mode == "smaller") filteredList = ulist.filter(x => x.v < +v && x.v!=null)
     else if (mode == "range") {
-        let limits = v.match(/[0-9]+/g)??[0,0]
-        filteredList = ulist.filter(x => (x.v >= limits[0]) || (x.v <= limits[1]) && x.v!=null)
+        let limits = (["date", "gameVersion", "length"].includes(f)) ? v
+        : v.match(/[0-9]+/g)??[0,0]
+        filteredList = ulist.filter(x => (x.v >= limits[0]) && (x.v <= limits[1]) && x.v!=null)
     }
     
     return filteredList.map(x => level_list[x.i])

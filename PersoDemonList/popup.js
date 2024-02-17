@@ -378,16 +378,15 @@ function levelSearch(v, f, mode) {
         ulist = ulist.map(x=>({v:x.v?.match(/[0-9,.]+/g)[0]||null, i:x.i}))
         v = (mode == "range") ? v.match(/[0-9]{1}[.]{0,1}[0-9]+/g)||[1.0, 2.2]
         : v
-    } else if (f == "featureLevel") {//feature level: accept feature name
-        //convert input text to num and leave num alonee
     } else if (f == "date") {//date: date.getTime() and transform input in type=date
         ulist = ulist.map(x=>({v:new Date(x.v)?.getTime()||null, i:x.i}))
         v = (mode == "range") ? v.match(/[0-9]{4}[/-][0-9]{1,2}[/-][0-9]{1,2}/g)?.map(x=>new Date(x).getTime())||[new Date().getTime(), new Date().getTime()]
         : new Date(v)?.getTime()||new Date().getTime()
     } else if (f == "length") {//length : seconds
         ulist = ulist.map(x=>({v:getLengthInSeconds(x.v)||null, i:x.i}))
-        v = (mode == "range") ? v.match()
+        v = (mode == "range") ? v.match(/[0-9:]+/g)?.map((x)=>getLengthInSeconds(x))||[0,100]
         : getLengthInSeconds(v)||0
+        console.log(v)
     }
     
     if (mode == "match") filteredList = ulist.filter(x => (x.v+"")?.includes(v) && x.v!=null)

@@ -4,9 +4,9 @@
 //
 
 class Level {
-    constructor(name, rank, title, url, attempts, progs, time, date, enjoy, id, length, song, songURL, objects, diff, creator, featureLevel, gameVersion, lazyLength) {
+    constructor(name, title, url, attempts, progs, time, date, enjoy, id, length, song, songURL, objects, diff, creator, featureLevel, gameVersion, lazyLength) {
         this.name = name
-        this.rank = rank
+        this.rank
         this.title = title
         this.url = url
         this.attempts = attempts
@@ -24,6 +24,10 @@ class Level {
         this.featureLevel = featureLevel
         this.gameVersion = gameVersion
         this.lazyLength = lazyLength
+    }
+
+    getRank() {
+        return this.rank = level_list.indexOf(this)+1
     }
 
     getBeatenDate() {
@@ -46,7 +50,7 @@ class Level {
     save = function () {
         chrome.storage.sync.set({
             [this.name]: this,
-            $l: level_list.flatMap(x => x.name)
+            $l: level_list.map(x => x.name)
         })
     }
 
@@ -62,11 +66,11 @@ class Level {
     remove = function () {
         chrome.storage.sync.remove(this.name)
         level_list = level_list.filter(x => x.name !== this.name)
-        chrome.storage.sync.set({ $l: level_list.flatMap(x => x.name) })
+        chrome.storage.sync.set({ $l: level_list.map(x => x.name) })
     }
 
     htmlElGet = function() {
-        if (this.name == "") this.name = "Unnamed " + level_list.length
+        if (this.name == "") this.name = "Unnamed " + level_list.length+1
 
         let html = `<div class="lvl_main">
     <div class="l_top">
@@ -76,7 +80,7 @@ class Level {
                 : '<img class="lvl_img" src="img/' + (this.diff || "hard") + '.png"></img>'}
         </div>
         <div class="l_display">
-            <span class="lvl_name" title="${this.title || "???"}"><span id="lr" class="level${this.rank}">#${this.rank || "???"}</span> - ${this.name || "???"}</span>
+            <span class="lvl_name" title="${this.title || "???"}"><span id="lr" class="level${this.getRank()}">#${this.getRank() || "???"}</span> - ${this.name || "???"}</span>
             <span id="lvl_link" class="link" title="Open ${this.url || "???"}">Completion Vid</span>
         </div>
     </div>
@@ -89,7 +93,7 @@ class Level {
     </div>
     <div class="lvl_ci" id="ex" style="display: none;">
     <span class="lvl_att">Attempts: ${this.attempts || "???"}~</span>
-    <span class="lvl_prog">Progresses: ${(this.progs == "") ? "???" : [...new Set(this.progs.split(" ").flatMap(x => x + "%").filter(x => x !== "%"))].join(", ")}</span>
+    <span class="lvl_prog">Progresses: ${(this.progs == "") ? "???" : [...new Set(this.progs.split(" ").map(x => x + "%").filter(x => x !== "%"))].join(", ")}</span>
     <span class="lvl_time">Time to Beat: ${this.time || "???"} days</span>
     <span class="lvl_date" title="${(wday_bank[this.getBeatenDate().getDay()] || "???") + " le " + (pad0(this.getBeatenDate().getDate()) || "???") + " " + (month_bank[this.getBeatenDate().getMonth()] || "???") + " " + (this.getBeatenDate().getFullYear() || "???")}">Beaten On: ${(pad0(this.getBeatenDate().getFullYear()) || "???") + "-" + (pad0(this.getBeatenDate().getMonth() + 1) || "???") + "-" + (pad0(this.getBeatenDate().getDate()) || "???")} (${!isNaN(this.getDaysAgo()) ? (this.getDaysAgo() + " days ago") : "?"})</span>
     <span class="lvl_enjoy">Enjoyement: ${this.enjoy || "???"}/100</span>
@@ -97,7 +101,7 @@ class Level {
     <div class="lvl_info" id="ex" style="display: none;">
     <span class="lvl_id">Id: ${this.id || "???"} (${this.gameVersion || "?"})</span>
     <span class="lvl_creator">Creator: ${this.creator || "???"}</span>
-    <span class="lvl_length">Length: ${(this.length.split(":").flatMap(x => pad0(Number(x))).join(":") == "00" || this.length.split(":").length > 2) ? "???" : this.length.split(":").flatMap(x => pad0(Number(x))).join(":") || "???"} (${this.lazyLength || "?"})</span>
+    <span class="lvl_length">Length: ${(this.length.split(":").map(x => pad0(Number(x))).join(":") == "00" || this.length.split(":").length > 2) ? "???" : this.length.split(":").map(x => pad0(Number(x))).join(":") || "???"} (${this.lazyLength || "?"})</span>
     <span id="lvl_song" class="link" title="Open ${this.songURL || "???"}">Song: ${this.song || "???"}</span>
     <span class="lvl_obj">Object Count: ${this.objects || "???"}</span>
     <span class="lvl_diff">Difficulty: ${(this.diff || "???") + " Demon"} (${featureLevels[this.featureLevel] || "?"})</span>
@@ -105,7 +109,7 @@ class Level {
         el.innerHTML = html
         el.className = "level"
         el.id = this.name
-        el.style.order = this.rank
+        el.style.order = this.getRank()
         return el
     }
 
@@ -120,11 +124,11 @@ class Level {
         list.appendChild(el)
         nolvlyet.style.display = "none"
         // urls
-        el.querySelector("#lvl_link").onclick = () => { chrome.windows.create({ url: this.url }) }
-        el.querySelector("#lvl_song").onclick = () => { chrome.windows.create({ url: this.songURL }) }
+        el.querySelector("#lvl_link").onclick=()=>{ chrome.windows.create({ url: this.url })}
+        el.querySelector("#lvl_song").onclick=()=>{ chrome.windows.create({ url: this.songURL})}
         // expand button
         let opened = false, l_ex = el.querySelector("#l_expand")
-        l_ex.onclick = () => {
+        l_ex.onclick=()=>{
             opened = !opened
             l_ex.firstElementChild.style.transform = (opened) ? "rotateZ(180deg)" : ""
             el.querySelectorAll("#ex").forEach((el) => {
@@ -132,8 +136,7 @@ class Level {
             })
         }
         // edit level button
-        el.querySelector("#l_edit").onclick = () => { edit(this) }
-        level_list.splice((rank == null) ? level_list.length : rank, 0, this)
-        // setTimeout(()=>{console.clear()},1500)
+        el.querySelector("#l_edit").onclick=()=>{edit(this)}
+        level_list.splice((rank == null) ? level_list.length : rank, 0, this) // insert level at right index
     }
 }

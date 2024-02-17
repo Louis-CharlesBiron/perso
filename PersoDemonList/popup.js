@@ -43,9 +43,10 @@ chrome.storage.sync.get((r)=>{
 
     //Create Levels from memory
     if (r.$l) r.$l.forEach((l)=>{
-        let lvl = r[l], nlvl = new Level(lvl.name, r.$l.indexOf(l)+1, lvl.title, lvl.url, lvl.attempts, lvl.progs, lvl.time, lvl.date, lvl.enjoy, lvl.id, lvl.length, lvl.song, lvl.songURL, lvl.objects, lvl.diff, lvl.creator, lvl.featureLevel, lvl.gameVersion, lvl.lazyLength)
-        nlvl.htmlAdd()
+        let lvl = r[l], nlvl = new Level(lvl.name, lvl.title, lvl.url, lvl.attempts, lvl.progs, lvl.time, lvl.date, lvl.enjoy, lvl.id, lvl.length, lvl.song, lvl.songURL, lvl.objects, lvl.diff, lvl.creator, lvl.featureLevel, lvl.gameVersion, lvl.lazyLength)
+        nlvl.htmlAdd(r.$l.indexOf(l)+1)
     })
+    set_order()
 
     update_overview()
     if (ONLINE) update_profile()
@@ -53,8 +54,8 @@ chrome.storage.sync.get((r)=>{
 })
 
 function edit(level) {
-    let isLvl = (!!level), inps = edit_menu.querySelectorAll("input"), ork
-    if (isLvl) ork = level_list.map(x=>x.name).indexOf(level.name)
+    let isLvl = !!level, inps = edit_menu.querySelectorAll("input")
+    //if (isLvl) ork = get_rank(level.name) //level_list.map(x=>x.name).indexOf(level.name)
 
     edit_menu.style.display = ""
     edit_menu.querySelector(".edit_header").textContent = isLvl?"Edit":"Create"
@@ -62,13 +63,13 @@ function edit(level) {
     edit_del.style.display = (isLvl)?"":"none"
 
     inps.forEach((el)=>{
-        el.value = (isLvl) ? level[el.id.replace("e_","")]??'?' : ""
+        el.value = (isLvl) ? level[el.id.replace("e_","")]??"" : ""
 
         el.onkeydown=e_diff.onkeydown=(e)=>{
             if (e.key == "Enter") edit_save.click()
         }
     })
-    e_rank.value = (isLvl)?ork+1:""
+    e_rank.value = (isLvl)?level.getRank():""
     if (isLvl) e_diff.value = level.diff
 
     edit_save.onclick=()=>{
@@ -76,20 +77,20 @@ function edit(level) {
         if (isLvl) {// edit Level
             if (e_name.value !== level.name) level.editName(e_name.value)
             inps.forEach((el)=>{
-                level[el.id.replace("e_","")] = (el.value == "???") ? "" : el.value.trim()
+                level[el.id.replace("e_","")] = (el.value.trim() == "???") ? "" : el.value.trim()
             })
             level.diff = e_diff.value
 
             setTimeout(()=>{level.save()},250)
             level.htmlRefresh(rk)
         } else {// create new Level
-            let newLevel = new Level(e_name.value, rk, e_title.value, e_url.value, e_attempts.value, e_progs.value, e_time.value, e_date.value, e_enjoy.value, e_id.value, e_length.value, e_song.value, e_songURL.value, e_objects.value, e_diff.value, e_creator.value, e_featureLevel.value, e_gameVersion.value, e_lazyLength.value)
+            let newLevel = new Level(e_name.value, e_title.value, e_url.value, e_attempts.value, e_progs.value, e_time.value, e_date.value, e_enjoy.value, e_id.value, e_length.value, e_song.value, e_songURL.value, e_objects.value, e_diff.value, e_creator.value, e_featureLevel.value, e_gameVersion.value, e_lazyLength.value)
             newLevel.htmlAdd(rk)
             newLevel.save()
         }
-        set_order()
         close_edit_menu()
         update_overview()
+        set_order()
     }
 
     edit_del.onclick=()=>{
@@ -102,12 +103,11 @@ function edit(level) {
 }
 
 function set_order() {
-    let list = level_list.map(x=>x.name)
-    list.forEach((lvl)=>{
-        let el = document.getElementById(lvl), rank = list.indexOf(lvl), dr = el.querySelector("#lr")
-        el.style.order = rank
-        dr.textContent = "#"+(rank+1)
-        dr.className = "level"+(rank+1)
+    level_list.forEach((lvl)=>{
+        let el = document.getElementById(lvl.name), dr = el.querySelector("#lr"), r = lvl.getRank()
+        el.style.order = r
+        dr.textContent = "#"+r
+        dr.className = "level"+r
     })
 }
 
@@ -240,8 +240,8 @@ function update_overview() {
     }
 
     // filter
-    let filteredLevel_list = level_list, filter
-
+    let filteredLevel_list = [...level_list], filter
+    
     o_demons.querySelectorAll(".o_filterSelect").forEach((el)=>{
         el.onclick=()=>{
             filter = (filter == el.getAttribute("d")) ? "" : el.getAttribute("d")
@@ -300,17 +300,17 @@ function update_overview() {
         }
 
         // longest levels
-        let ll = filteredLevel_list.sort((a,b)=>b.getLengthInSeconds()-a.getLengthInSeconds())
+        let ll = filteredLevel_list.toSorted((a,b)=>b.getLengthInSeconds()-a.getLengthInSeconds())
         for (let i=0;i<longLl;i++) {
             let l = ll[i]
-            longLc[i].textContent = (l) ? `(#${l.rank}) ${l.name}, ${l.getFormatedLength()}` : "No Level Yet..."
+            longLc[i].textContent = (l) ? `(#${l.getRank()}) ${l.name}, ${l.getFormatedLength()}` : "No Level Yet..."
         }
-
+        
         // recent completions
-        let rc = filteredLevel_list.sort((a, b)=>b.getBeatenDate().getTime()-a.getBeatenDate().getTime())
+        let rc = filteredLevel_list.toSorted((a, b)=>b.getBeatenDate().getTime()-a.getBeatenDate().getTime())
         for (let i=0;i<recComc_ll;i++) {
             let c = rc[i]
-            recComc[i].textContent = (c) ? `(#${c.rank}) ${c.name}, ${c.getDaysAgo()} days ago` : "No Level Yet..."
+            recComc[i].textContent = (c) ? `(#${c.getRank()}) ${c.name}, ${c.getDaysAgo()} days ago` : "No Level Yet..."
             recComc[i].title = (c) ? c.date : "No Level Yet..."
         }
     }
@@ -375,7 +375,7 @@ function closeSearchMenu() {
 function levelSearch(v, f, mode) {
     let filteredList = [], ulist = level_list.map((x, i)=>({v:x[f], i:i}))
     if (f == "gameVersion") {//gameVersion: only numbers
-        ulist = ulist.map(x=>({v:x.v?.match(/[0-9,.]+/g)[0]||null, i:x.i}))
+        ulist = ulist.map(x=>({v:x.v?.match(/[0-9.]+/g)?.[0]||null, i:x.i}))
         v = (mode == "range") ? v.match(/[0-9]{1}[.]{0,1}[0-9]+/g)||[1.0, 2.2]
         : v
     } else if (f == "date") {//date: date.getTime() and transform input in type=date
@@ -386,10 +386,9 @@ function levelSearch(v, f, mode) {
         ulist = ulist.map(x=>({v:getLengthInSeconds(x.v)||null, i:x.i}))
         v = (mode == "range") ? v.match(/[0-9:]+/g)?.map((x)=>getLengthInSeconds(x))||[0,100]
         : getLengthInSeconds(v)||0
-        console.log(v)
     }
     
-    if (mode == "match") filteredList = ulist.filter(x => (x.v+"")?.includes(v) && x.v!=null)
+    if (mode == "match") filteredList = ulist.filter(x => (x.v+"")?.toLowerCase()?.includes(v?.toLowerCase()) && x.v!=null)
     else if (mode == "strict") filteredList = ulist.filter(x => x.v == v && x.v!=null)
     else if (mode == "bigger") filteredList = ulist.filter(x => x.v > +v && x.v!=null)
     else if (mode == "smaller") filteredList = ulist.filter(x => x.v < +v && x.v!=null)

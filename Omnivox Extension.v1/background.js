@@ -32,7 +32,7 @@ function dmon() {
     // Register
     chrome.scripting.registerContentScripts([{
         id: "dm",
-        css: ["backdrop/injected.css"],
+        css: ["backdrop/dm.css"],
         persistAcrossSessions: true,
         matches: ["https://climoilou.omnivox.ca/*", "https://climoilou-lea.omnivox.ca/*", "https://climoilou-estd.omnivox.ca/*"],
         excludeMatches: ["https://climoilou-lea.omnivox.ca/cvir/ddle/VisualiseDocument.aspx*"]

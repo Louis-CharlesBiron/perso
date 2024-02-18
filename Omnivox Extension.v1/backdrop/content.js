@@ -14,7 +14,7 @@ chrome.runtime.onMessage.addListener(function(message) {
 // auto login
 function login(force) {
     let href = location.href.toLowerCase()
-    if (href.includes("login") && ((!href.includes("logout=1") && !href.includes("error")) || force)) {
+    if ((href.includes("login") && (!href.includes("error")) || force)) {
         let user = document.getElementById("Identifiant"), pw = document.getElementById("Password"), form = document.getElementById("formLogin")
 
         if (user && pw) {
@@ -23,7 +23,6 @@ function login(force) {
                     let isu = r.u && r.u !== "", isp = r.p && r.p !== ""
                     if (isu) user.value = r.u
                     if (isp) pw.value = r.p
-                    console.log(pw.value, r.p)
                     if (isu && isp) form.submit()
                 }
             })

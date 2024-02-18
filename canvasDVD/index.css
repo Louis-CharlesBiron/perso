@@ -1,0 +1,12 @@
+html, body {
+    background-color: black;
+    overflow: hidden;
+}
+
+#cvs {
+    border: 2px solid aliceblue;
+}
+
+#fpsd {
+    color: aliceblue;
+}

@@ -129,7 +129,7 @@ function fillLevelEntries(id, force) {
 
         e_song.value ||= stats.songName||''
         e_songURL.value ||= `https://www.newgrounds.com/audio/listen/${stats.customSong||mainSongsID[+stats.songID.match(/[0-9]+/gi)[0]-1]||''}`
-        e_date.value ||= getDateFormated()
+        if (e_date.value == "") e_date.value = getDateFormated()
         e_objects.value ||= stats.objects||''
 
         e_name.value = stats.name

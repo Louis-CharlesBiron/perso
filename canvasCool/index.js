@@ -96,6 +96,13 @@ document.onkeydown=(e)=>{
     if (e.key.toLowerCase() == "z" && e.ctrlKey) dots = dots.slice(0, dots.length-1)
 }
 
+c_color.oninput=()=>{
+    DEFAULT_COLOR = hexToRgb(c_color.value)
+    dots.forEach((d)=>{
+        d.color = DEFAULT_COLOR
+    })
+}
+
 // anims
 let t=[] //fps things
 

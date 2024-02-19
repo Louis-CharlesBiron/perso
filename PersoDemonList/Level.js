@@ -60,7 +60,7 @@ class Level {
         chrome.storage.sync.remove(oldName)
         chrome.storage.sync.set({ [newName]: this })
 
-        document.getElementById(oldName).id = this.name
+        document.getElementById(oldName).id = this.name.trim()
     }
 
     remove = function () {
@@ -108,13 +108,13 @@ class Level {
     </div>`, el = document.createElement("div")
         el.innerHTML = html
         el.className = "level"
-        el.id = this.name
+        el.id = this.name.trim()
         el.style.order = this.getRank()
         return el
     }
 
     htmlRefresh = function (rank) {
-        document.getElementById(this.name).remove()
+        document.getElementById(this.name.trim()).remove()
         level_list = level_list.filter(x => x.name !== this.name)
         this.htmlAdd(rank)
     }

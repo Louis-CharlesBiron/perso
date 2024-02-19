@@ -25,6 +25,7 @@ class Dot {
     set range(r) {this._range = r}
     set showRange(s) {this._showRange = s}
     set speed(s) {this._speed = s}
+    set color(c) {this._c = c}
 
     draw() {
         ctx.fillStyle = this.color

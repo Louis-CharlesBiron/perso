@@ -43,14 +43,14 @@ start.onclick=()=>{
     v = v.length>1 ? random(+v[0], +v[1]) : v
 
     for (let i=0;i<v;i++) {
-        dots.push(new Dot(random(5, cvs.width-5), random(5, cvs.height-5), DEFAULT_RADIUS, DEFAULT_COLOR, DEFAULT_RANGE, DEFAULT_SHOWRANGES, DEFAULT_SPEED))
+        dots.push(new Dot(random(5, cvs.width-5), random(5, cvs.height-5)))
     }
     
     startLoop()
 }
 
 cvs.onclick=(e)=>{
-    dots.push(new Dot(e.x, e.y, DEFAULT_RADIUS, DEFAULT_COLOR, DEFAULT_RANGE, DEFAULT_SHOWRANGES, DEFAULT_SPEED))
+    dots.push(new Dot(e.x, e.y))
     startLoop()
 }
 

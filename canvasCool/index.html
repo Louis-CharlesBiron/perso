@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="count">Canvas</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="utilities.js"></script>
+    <script src="Dot.js"></script>
+</head>
+<body>
+    <canvas id="cvs" style="color: aliceblue;" width="1280" height="640"></canvas>
+    <div id="fps"></div>
+    <div>
+        <button id="test">test</button>
+        <button id="lol">LOL</button>
+        <button id="reset">reset</button>
+    </div>
+    <div>
+        Custom spawn: 
+        <input type="text" value="10" id="num">
+        <button id="start">spawn</button>
+    </div>
+    <div>
+        Show Range: 
+        <select id="toggleRanges">
+            <option value="no">no</option>
+            <option value="all">ALL</option>
+            <option value="active">active</option>
+        </select>
+        <span>
+            Range: 
+            <input type="range" value="100" min="5" max="1000" id="setRange">
+            <span id="setRangeDisplay">100</span>
+        </span>
+    </div>
+    <div>
+        Speed:
+        <input type="range" value="1" min="0" max="10" id="setSpeed" step="0.1">
+        <span id="setSpeedDisplay">1</span>
+    </div>
+
+    <script src="index.js" async></script>
+</body>
+</html>

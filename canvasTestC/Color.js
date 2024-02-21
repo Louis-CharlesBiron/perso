@@ -40,7 +40,7 @@ class Color {
                 //bottom-right
                 if (v) for (x=v[0];x<w;x++) {
                     px = p+x*4
-                    if (d[px] < br || d[px] > tr) {
+                    if ((d[px] <= br || d[px] >= tr) && (d[px+1] <= bg || d[px+1] >= tg) && (d[px] <= bb || d[px] >= tb)) {
                         v2 = [x, y]
                         break;
                     }
@@ -52,9 +52,9 @@ class Color {
         return v&&v2 ? {tl:{x:v[0], y:v[1]}, br:{x:v2[0], y:v2[1]},c:{x:(v[0]+(v2[0]-v[0])/2)>>0, y:(v[1]+(v2[1]-v[1])/2)>>0}} : null
     }
 
-    draw() {
-        let pos = this.getPos(DEFAULT_TEMPERANCE)
-        if (pos) {//console.log("draw")
+    draw(t) {
+        let pos = this.getPos(t??DEFAULT_TEMPERANCE)
+        if (pos) {console.log("draw")
             this._ctxD.fillStyle = this.toString()
             this._ctxD.beginPath()
             this._ctxD.arc(pos.c.x, pos.c.y, DEFAULT_RADIUS, 0, CIRC)

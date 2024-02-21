@@ -48,4 +48,46 @@ function get_random_color(format) {
 //    return null;
 //}
 
+//https://dirask.com/posts/JavaScript-play-web-camera-video-on-canvas-element-webcam-usage-example-1xJEWp
+function playStream(canvas, stream) {
+    var video = document.createElement('video');
+    video.addEventListener('loadedmetadata', function() {
+        const context = canvas.getContext('2d');
+        var drawFrame = function() {
+            context.drawImage(video, 0, 0);
+            window.requestAnimationFrame(drawFrame);
+        };
+        drawFrame();
+    });
+    video.autoplay = true;
+    video.srcObject = stream;
+}
 
+function playCamera(canvas, preferedWidth, preferedHeight) {
+    var devices = navigator.mediaDevices;
+    if (devices && 'getUserMedia' in devices) {
+        var constraints = {
+            video: {
+                width: preferedWidth,
+                height: preferedHeight
+            }
+            // you can use microphone adding `audio: true` property here
+        };
+        var promise = devices.getUserMedia(constraints);
+        promise
+            .then(function(stream) {
+                playStream(canvas, stream);
+            })
+            .catch(function(error) {
+                console.error(error.name + ': ' + error.message);
+            });
+    } else {
+        console.error('Camera API is not supported.');
+    }
+}
+
+
+// Usage example:
+
+//var canvas = document.querySelector('#my-canvas');
+//playCamera(canvas, canvas.width, canvas.height);

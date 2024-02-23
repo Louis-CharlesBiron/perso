@@ -36,7 +36,8 @@ red = new Color([255,0,0],ctx,ctx2),//test
 green = new Color([0,255,0],ctx,ctx2),//test
 blue = new Color([0,0,255],ctx,ctx2)//test
 
-let a = new Color([30, 2, 2], ctx, ctx2)
+//let a = new Color([228, 228, 228], ctx, ctx2)
+let a = new Color([0, 125, 170], ctx, ctx2)
 function loop() {
     // ctx.clearRect(0, 0, cvs.width, cvs.height)
     // ctx2.clearRect(0, 0, cvs2.width, cvs2.height)
@@ -72,7 +73,7 @@ function loop() {
     //     green.draw()//test
     //     blue.draw()//test
     // }
-    a.draw(20)
+    a.draw(30)
     
     if (!stopLoop) window.requestAnimationFrame(loop)
 }
@@ -99,5 +100,6 @@ cvs.onmousemove=(e)=>{
 
 start.onclick=()=>{
     startLoop()
+    playCamera(ctx.canvas, 200, 300)
 }
 //start.click()

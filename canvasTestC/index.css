@@ -8,3 +8,10 @@ html, body {
 #cvs, #cvs2 {
     border: 2px solid aliceblue;
 }
+
+.abs {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1010;
+}

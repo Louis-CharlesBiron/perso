@@ -91,3 +91,52 @@ function playCamera(canvas, preferedWidth, preferedHeight) {
 
 //var canvas = document.querySelector('#my-canvas');
 //playCamera(canvas, canvas.width, canvas.height);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+    getPos(t=0) {//temperance
+        let w = this._ctxO.canvas.width, h = this._ctxO.canvas.height,
+            d = this._ctxO.getImageData(0, 0, w, h).data,
+            x, y, p, px,
+            br = this.r-t, bg = this.g-t, bb = this.b-t,
+            tr = this.r+t, tg = this.g+t, tb = this.b+t,
+            v = null, v2 = null
+
+            //top-left
+            for (y=0;y<h;y++) {
+                p = y*4*w
+                for (x=0;x<w;x++) {
+                    px = p+x*4
+                    if (d[px] >= br && d[px] <= tr) if (d[px+1] >= bg && d[px+1] <= tg && d[px+2] >= bb && d[px+2] <= tb) {
+                        v = [x, y]
+                        break;
+                    }
+                }
+                //bottom-right
+                if (v) for (x=v[0];x<w;x++) {
+                    px = p+x*4
+                    if ((d[px] <= br || d[px] >= tr) && (d[px+1] <= bg || d[px+1] >= tg) && (d[px] <= bb || d[px] >= tb)) {
+                        v2 = [x, y]
+                        break;
+                    }
+                    y++
+                }
+                if (v2) break;
+            }
+        
+        return v&&v2 ? {tl:{x:v[0], y:v[1]}, br:{x:v2[0], y:v2[1]},c:{x:(v[0]+(v2[0]-v[0])/2)>>0, y:(v[1]+(v2[1]-v[1])/2)>>0}} : null
+    }
+*/

@@ -36,12 +36,12 @@ red = new Color([255,0,0],ctx,ctx2),//test
 green = new Color([0,255,0],ctx,ctx2),//test
 blue = new Color([0,0,255],ctx,ctx2)//test
 
-//let a = new Color([228, 228, 228], ctx, ctx2)
-let a = new Color([0, 125, 170], ctx, ctx2)
-function loop() {
-    // ctx.clearRect(0, 0, cvs.width, cvs.height)
-    // ctx2.clearRect(0, 0, cvs2.width, cvs2.height)
+//let a = new Color([228, 228, 228], ctx, ctx2) / white
 
+let d1 = new Color([20, 90, 50], ctx, ctx2) // green
+//let d2 = new Color([160, 170, 108], ctx, ctx2) // yellow
+let d3 = new Color([0, 85, 125], ctx, ctx2) // blue
+function loop() {
     // ctx.fillStyle = ctx.strokeStyle = c1.toString()//test
     // ctx.fillRect(50, 50, 20, 20)//test
     // ctx.fillStyle = ctx.strokeStyle = c2.toString()//test
@@ -73,7 +73,13 @@ function loop() {
     //     green.draw()//test
     //     blue.draw()//test
     // }
-    a.draw(30)
+
+    ctx2.clearRect(0, 0, cvs2.width, cvs2.height)
+
+
+    d1.draw(20)
+    //d2.draw(10)
+    //d3.draw(10)
     
     if (!stopLoop) window.requestAnimationFrame(loop)
 }
@@ -100,6 +106,15 @@ cvs.onmousemove=(e)=>{
 
 start.onclick=()=>{
     startLoop()
-    playCamera(ctx.canvas, 200, 300)
+    playCamera(ctx.canvas, 800, 300)
 }
-//start.click()
+
+clear.onclick=()=>{
+    ctx2.clearRect(0, 0, cvs2.width, cvs2.height)
+}
+
+setAbs.onclick=()=>{
+    cvs2.className = cvs2.className == "abs" ? "" : "abs"
+}
+setAbs.onclick()
+start.click()

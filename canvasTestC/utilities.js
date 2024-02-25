@@ -11,6 +11,19 @@ function get_random_color(format) {
     return (format == "rgb") ? "rgb("+random(0,255)+" "+random(0,255)+" "+random(0,255)+")" : "#"+new Array(6).fill().map(x=>hex[random(0,15)]).join("")
 }
 
+function canvasCamera(ctx, fps=60, fw, fh) {
+    let cvs = ctx.canvas
+    navigator.mediaDevices.getUserMedia({video:{width:fw??cvs.width, height:fh??cvs.height}}).then((s)=>{
+        let v = document.createElement('video')
+        v.autoplay = Boolean(v.srcObject = s)
+        v.onloadedmetadata=()=>{
+            setInterval(()=>{
+                ctx.drawImage(v, 0, 0)
+            },1000/fps)
+        }
+    }).catch((err)=>{console.error(err)})
+}
+
 //let a = 0
 ////https://stackoverflow.com/questions/18726430/canvas-get-position-of-colour-if-available
 //function getPositionFromColor(ctx, color) {
@@ -49,62 +62,42 @@ function get_random_color(format) {
 //}
 
 //https://dirask.com/posts/JavaScript-play-web-camera-video-on-canvas-element-webcam-usage-example-1xJEWp
-function playStream(canvas, stream) {
-    var video = document.createElement('video');
-    video.addEventListener('loadedmetadata', function() {
-        const context = canvas.getContext('2d');
-        var drawFrame = function() {
-            context.drawImage(video, 0, 0);
-            window.requestAnimationFrame(drawFrame);
-        };
-        drawFrame();
-    });
-    video.autoplay = true;
-    video.srcObject = stream;
-}
-
-function playCamera(canvas, preferedWidth, preferedHeight) {
-    var devices = navigator.mediaDevices;
-    if (devices && 'getUserMedia' in devices) {
-        var constraints = {
-            video: {
-                width: preferedWidth,
-                height: preferedHeight
-            }
-            // you can use microphone adding `audio: true` property here
-        };
-        var promise = devices.getUserMedia(constraints);
-        promise
-            .then(function(stream) {
-                playStream(canvas, stream);
-            })
-            .catch(function(error) {
-                console.error(error.name + ': ' + error.message);
-            });
-    } else {
-        console.error('Camera API is not supported.');
-    }
-}
-
-
-// Usage example:
-
-//var canvas = document.querySelector('#my-canvas');
-//playCamera(canvas, canvas.width, canvas.height);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//function playStream(canvas, stream) {
+//    var video = document.createElement('video');
+//    video.addEventListener('loadedmetadata', function() {
+//        const context = canvas.getContext('2d');
+//        var drawFrame = function() {
+//            context.drawImage(video, 0, 0);
+//            window.requestAnimationFrame(drawFrame);
+//        };
+//        drawFrame();
+//    });
+//    video.autoplay = true;
+//    video.srcObject = stream;
+//}
+//
+//function playCamera(canvas, preferedWidth, preferedHeight) {
+//    var devices = navigator.mediaDevices;
+//    if (devices && 'getUserMedia' in devices) {
+//        var constraints = {
+//            video: {
+//                width: preferedWidth,
+//                height: preferedHeight
+//            }
+//            // you can use microphone adding `audio: true` property here
+//        };
+//        var promise = devices.getUserMedia(constraints);
+//        promise
+//            .then(function(stream) {
+//                playStream(canvas, stream);
+//            })
+//            .catch(function(error) {
+//                console.error(error.name + ': ' + error.message);
+//            });
+//    } else {
+//        console.error('Camera API is not supported.');
+//    }
+//}
 
 /*
     getPos(t=0) {//temperance

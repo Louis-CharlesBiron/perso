@@ -77,7 +77,7 @@ function loop() {
     ctx2.clearRect(0, 0, cvs2.width, cvs2.height)
 
 
-    d1.draw(20)
+    d1.draw(18)
     //d2.draw(10)
     //d3.draw(10)
     
@@ -106,7 +106,7 @@ cvs.onmousemove=(e)=>{
 
 start.onclick=()=>{
     startLoop()
-    playCamera(ctx.canvas, 800, 300)
+    canvasCamera(ctx, 60)
 }
 
 clear.onclick=()=>{
@@ -117,4 +117,4 @@ setAbs.onclick=()=>{
     cvs2.className = cvs2.className == "abs" ? "" : "abs"
 }
 setAbs.onclick()
-start.click()
+//start.click()

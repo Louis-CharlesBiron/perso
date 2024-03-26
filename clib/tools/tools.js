@@ -114,6 +114,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     }
 
+    gs_copy.onclick=()=>{copy_el(gs_preview, gs_copy.firstElementChild)}
+    gs_clear.onclick=()=>{gs_input.value=gs_preview.value=""}
+
 
 
 });

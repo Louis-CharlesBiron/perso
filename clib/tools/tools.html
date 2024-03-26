@@ -1,0 +1,116 @@
+<!-- 
+   HTML
+   Code Library by Louis-Charles Biron
+   Please don't use or credit this code as your own.
+ -->
+ <!doctype html>
+ <html>
+    <head>
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <meta charset="UTF-8">
+       <title>Tool Library</title>
+       <link rel="shortcut icon" type="image/x-icon" href="../img/favicon.png">
+       <link rel="stylesheet" href="../lib/index.css">
+       <link rel="stylesheet" href="tools.css">
+       <script src="tools.js"></script>
+    </head>
+    <body>
+        <div class="main">
+
+            <div class="mtop">
+                <div class="topHeaderDiv">
+                    <div class="topHeader">Tool Library</div>
+                    <p>
+                        Welcome to the Tool Library! Use the input below to search for a tool.
+                        <br>
+                        <div class="center">See also: <a href="../lib/index.html">Script Library</a> | <a href="../icon/icon.html">Icon Library</a> </div>
+                    </p>
+                </div>
+
+                <div class="searchArea">
+                    <input type="text" id="search" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="Search..." autofocus>
+                </div>
+            </div>
+
+            <div class="mbottom">
+                <div class="codeResult">
+
+                    <div class="content" keywords="getter setter generator cool">
+                        <div class="header">Getter / Setter Generator</div>
+                        <div class="codeBloc">
+
+                            <div class="ti_settings">
+                                <label>Language: <select id="gs_lang">
+                                    <option value="js">JavaScript</option>
+                                    <option value="c#">c#</option>
+                                </select></label>
+                                <label>Mode: <select id="gs_mode">
+                                    <option value="getSet">Getter/Setter</option>
+                                    <option value="get">Getter</option>
+                                    <option value="set">Setter</option>
+                                </select></label>
+                            </div>
+
+                            <div class="ti_pre">
+                                <div>
+                                    <textarea id="gs_input" placeholder="Paste class..." autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="Search..." ></textarea>
+                                    <button id="gs_clear">X</button>
+                                </div>
+                                <div>
+                                    <textarea id="gs_preview" placeholder="Preview..." autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="Search..." ></textarea>
+                                    <button id="gs_copy"><img src="../img/copy.png" alt="copy"></button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="content" keywords="number in text iterate iteration">
+                        <div class="header">Text iteration</div>
+                        <div class="codeBloc">
+
+                            <div class="ti_settings">
+                                <label>Iteration count: <input type="number" id="ti_icount" value="1" placeholder="1"></label>
+                                <label>Iteration jump: <input type="number" id="ti_jump" value="1" placeholder="1"></label>
+                            </div>
+
+                            <div class="ti_pre">
+                                <div>
+                                    <textarea id="ti_input" placeholder="Input..." autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="Search..." ></textarea>
+                                    <button id="ti_clear">X</button>
+                                </div>
+                                <div>
+                                    <textarea id="ti_preview" placeholder="Preview..." autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="Search..." ></textarea>
+                                    <button id="ti_copy"><img src="../img/copy.png" alt="copy"></button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="content" keywords="auto html element variable declaration id # javascript js">
+                        <div class="header">Auto HTML Element Var Declaration (#id)</div>
+                        <div class="codeBloc">
+
+                            <div class="ti_pre">
+                                <div>
+                                    <textarea id="aevd_input" placeholder="Input..." autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="Search..." ></textarea>
+                                    <button id="aevd_clear">X</button>
+                                </div>
+                                <div>
+                                    <textarea id="aevd_preview" placeholder="Preview..." autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="Search..." ></textarea>
+                                    <button id="aevd_copy"><img src="../img/copy.png" alt="copy"></button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                
+
+                </div>
+            </div>
+
+       </div>
+     <a class="version">Made by Louis-Charles Biron | V1.0</a>
+    </body>
+ </html>

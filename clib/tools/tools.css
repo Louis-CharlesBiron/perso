@@ -1,0 +1,92 @@
+/* 
+    CSS
+    Code Library by Louis-Charles Biron
+    Please don't use or credit this code as your own.
+*/
+
+.codeBloc {
+    width: 95%;
+    display: block !important;
+}
+
+.header {
+    cursor: default;
+}
+
+[contentEditable=true]:empty:before{
+    content:attr(placeholder);
+    color: rgba(128, 128, 128);
+}
+
+/* Text Iteration */
+.ti_settings {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-around;
+}
+.ti_pre {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 5%;
+    margin-top: -3%;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.ti_pre > div {
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: flex-start;
+    margin-top: 2%;
+}
+
+.ti_pre textarea, .ti_pre [contentEditable='true'] {
+    width: 90%;
+    height: 15vh;
+    background-color: #232d38;
+    border: 2px solid black;
+    border-radius: 3px;
+    outline: none;
+    color: #b3c1ce;
+    padding: 1%;
+    resize: vertical;
+}
+
+.ti_pre > div > button {
+    width: 5%;
+    background-color: rgb(92 124 162 / 20%);
+    color: aliceblue;
+    border: 1px solid rgb(173 216 230 / 20%);
+    border-radius: 2px;
+    font-size: 1.5em;
+    outline: none;
+}
+
+.ti_settings > label {
+    width: 35%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ti_settings > label > input, .ti_settings > label > select {
+    text-align: center;
+    width: 30%;
+    background-color: #232d38;
+    color: aliceblue;
+    border: none;
+    border-bottom: 2px solid rgb(173 216 230 / 50%);
+    border-radius: 1px;
+    outline: none;
+}
+
+/* Morse Code Translator */
+#mct_invalids > span {
+    color: rgb(246, 104, 104);
+    text-decoration: underline;
+}

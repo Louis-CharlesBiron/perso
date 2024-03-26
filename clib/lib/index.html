@@ -1,0 +1,697 @@
+<!-- 
+   HTML
+   Code Library by Louis-Charles Biron
+   Please don't use or credit this code as your own.
+ -->
+ <!doctype html>
+ <html>
+    <head>
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <meta charset="UTF-8">
+       <title>Script Library</title>
+       <link rel="shortcut icon" type="image/x-icon" href="../img/favicon.png">
+       <link rel="stylesheet" href="index.css">
+       <script src="index.js"></script>
+    </head>
+    <body>
+        <div class="main">
+
+            <div class="mtop">
+                <div class="topHeaderDiv">
+                    <div class="topHeader">Script Library</div>
+                    <p>
+                        Welcome to the Script Library! Use the input below to search for a script.
+                        <br>
+                        <div class="center">See also: <a href="../tools/tools.html">Tool Library</a> | <a href="../icon/icon.html">Icon Library</a> </div>
+                    </p>
+                </div>
+
+                <div class="searchArea">
+                    <input type="text" id="search" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="Search..." autofocus>
+                </div>
+            </div>
+
+            <div class="mbottom">
+                <div class="codeResult">
+
+                    <div class="content" keywords="forcefeed force feed" style="color: orange;">
+                         <div class="header" title="Copy">ForceFeed<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                            <textarea class="codeBloc">
+function forceFeed(el, message, deleteMode) {//deleteMode: 0(canDelete)|1(deleteAdds)|null(keep)
+    let m_ll = message.length, i=0, old = el.value, v = el.value = ""
+    el.ondragend=()=>el.value=old
+    el.onselect=()=>document.getSelection().empty()
+    el.oninput=(e)=>{
+        let type = e.inputType
+        v = el.value
+        if (deleteMode==0 && type !== 'insertText') {// delete
+            el.value = old.slice(0, old.length-1)
+            i--//
+        }
+        else if (type !== 'insertText') el.value = old// prevent delete      
+        if (type == 'insertText') el.value = v.slice(0, v.length-1)// prevent natural write
+        if (i &#60;= m_ll && ((deleteMode==1 && type.includes("deleteContent")) || type == 'insertText')) el.value += message.charAt(i++)// write
+        old = el.value
+    }
+} forceFeed(document.querySelector("#search"),"message", 1)
+                        </textarea>
+                    </div> 
+
+                   <div class="content" keywords="xhttprequest xhttp request xml">
+                    <div class="header" title="Copy">Xhttp Request<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                       <textarea class="codeBloc">
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+if (this.readyState == 4 && this.status == 200) {
+let html =  document.createElement('html')
+html.innerHTML = this.responseText.trim();
+console.log(html)
+}};
+xhttp.open("GET", "url", true);
+xhttp.send();
+                       </textarea>
+                    </div>
+
+                    <div class="content" keywords="appendstyle append style" style="color: red;">
+                        <div class="header">AppendStyle<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function appendStyle(el_selector, styles, activation) {
+    var css = (activation) ? el_selector+activation+"{"+styles+"}" : el_selector+"{"+styles+"}",
+    el = document.querySelector(el_selector),
+    style = document.createElement('style');
+    if (style.styleSheet) {style.styleSheet.cssText = css;}
+     else {style.appendChild(document.createTextNode(css));}
+    el.appendChild(style);
+}
+                           </textarea>
+                   </div>
+
+                    <div class="content" keywords="arraymove array move index" style="color: red;">
+                        <div class="header">Array Move<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function arrayMove(e,r,i){if (i>=e.length)for(var n=i-e.length+1;n--;)e.push(void 0);return e.splice(i,0,e.splice(r,1)[0]),e}
+//arrayMove(arr, old_index, new_index)
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="typewriter type writer">
+                        <div class="header">Type Writer<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                            <textarea class="codeBloc">
+function typeWriter(txt, speed, el) {
+    [...txt].reduce((s, b)=>{
+        setTimeout(()=>{el.textContent += b},s)
+        return s+speed
+    }, speed)
+}  
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="followcursor follow cursor el">
+                        <div class="header">Follow Cursor<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function follow(el, offset=0) {// top:90, right:0, bottom:270, left:180
+    let {x, y, width:w, height:h} = el.getBoundingClientRect(), fn = (e)=>el.style.transform=`rotate(${offset-Math.atan2(y+h/2-e.y, -(x+w/2-e.x))*180/Math.PI}deg)`
+    return window.addEventListener("mousemove",fn), fn
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="numberinputoptions number input options numinpopt num_inp_opt">
+                        <div class="header">Number Input Options<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+Element.prototype.num_input_opt = function num_input_opt(invalids, replaceElementValue, min, max) {// valids = "1234567890-+.Ee"
+    let v = this.value
+    min = (isNaN(min)) ? Number(this.min) : Number(min),
+    max = (isNaN(max)) ? Number(this.max) : Number(max)
+    v = v.replaceAll(new RegExp("(["+invalids+"])+","g"), "")
+    if (v !== "") v = (v < min) ? min : (v > max) ? max : v
+    if (replaceElementValue) {
+        this.onblur=()=>{
+            this.value = (v == "") ? min : v
+            this.oninput()
+        }
+    }
+    return v
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="onmessage on message">
+                        <div class="header">On Message<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+chrome.runtime.onMessage.addListener(function(message) {
+    if (message.type == "type") {
+        
+    }
+})  
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="getselection get selection" style="color: red;">
+                        <div class="header">Get Selection<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function getSelectedText() {
+    var text = "";
+    if (typeof window.getSelection != "undefined") {
+      text = window.getSelection().toString();
+    } else if (typeof document.selection != "undefined" && document.selection.type == "Text") {
+      text = document.selection.createRange().text;
+    }
+    return text;
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="randomint random int numbers oneliner">
+                        <div class="header">Random Int<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function random(min, max) {
+    return Math.floor(Math.random()*(max-min+1))+min
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="rainbow multicolor color colour multicolour">
+                        <div class="header">Rainbow<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function rainbow(speed=10, el=document.querySelector("body")) {
+    let deg = 0, iv = setInterval(()=>{
+        el.style.filter = "hue-rotate("+(++deg)+"deg)"
+    },speed)
+    return iv
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="morsetraduction morse traduction code onelineralmost">
+                        <div class="header">Morse Traduction<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+<!-- function convert_Morse(t,e){var l={".-":"a",a:".-","-...":"b",b:"-...","-.-.":"c",c:"-.-.","-..":"d",d:"-..",".":"e",e:".","..-.":"f",f:"..-.","--.":"g",g:"--.","....":"h",h:"....","..":"i",i:"..",".---":"j",j:".---","-.-":"k",k:"-.-",".-..":"l",l:".-..","--":"m",m:"--","-.":"n",n:"-.","---":"o",o:"---",".--.":"p",p:".--.","--.-":"q",q:"--.-",".-.":"r",r:".-.","...":"s",s:"...","-":"t",t:"-","..-":"u",u:"..-","...-":"v",v:"...-",".--":"w",w:".--","-..-":"x",x:"-..-","-.--":"y",y:"-.--","--..":"z",z:"--..",".----":"1",1:".----","..---":"2",2:"..---","...--":"3",3:"...--","....-":"4",4:"....-",".....":"5",5:".....","-....":"6",6:"-....","--...":"7",7:"--...","---..":"8",8:"---..","----.":"9",9:"----.","-----":"0",0:"-----","à":".--.-",".--.-":"à","é":"..-..","..-..":"é","è":".-..-",".-..-":"è","ö":"---.","---.":"ö","ç":"-.-..","-.-..":"ç",",":"--..--","--..--":",",":":"---...","---...":":","?":"..--..","..--..":"?","'":".----.",".----.":"'","-....-":"-",".-.-.-":".","/":"-..-.","-..-.":"/","(":"-.--.","-.--.":"(",")":"-.--.-","-.--.-":")","“":".-..-.","”":".-..-.","‘":".-..-.","’":".-..-.",'"':".-..-.",".-..-.":'"',"@":".--.-.",".--.-.":"@","=":"-...-","-...-":"=","&":".-...",".-...":"&","+":".-.-.",".-.-.":"+","!":"-.-.--","-.-.--":"!"};1!==e&&(l["."]=t.length>1?".-.-.-":"e",l["-"]=t.length>1?"-....-":"t");let o=t.length;for(let e=0;e&#60;o;e++){let o=t.split("")[e].toLowerCase();" "===o||l[o]||console.log("Invalid character(s) : "+o)}if (e==1&&t!==""&&(t.match(/([^.-])+/g))){console.log("Invalid character(s) : "+t.match(/([^.-])+/g).toString())}if (t!==""){return 0==e||null==e?t.toLowerCase().split(" ").map(t=>t.split("").map(t=>l[t]).join(" ")).join("   "):(t.match(/([.-])+/g))&&t.match(/([.-])+/g).join(" ").split("   ").map(t=>t.split(" ").map(t=>l[t]).join("")).join(" ")}else{return ""}}        -->
+                           <textarea class="codeBloc" title="Unsupported: /([^a-z\dàéèöç,.:?()!“&/=@'+”‘’" -])/gi">
+function convert_Morse(txt, toMorse, mSep=" ") {
+    const ttm={'0':'-----','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.','a':'.-','b':'-...','c':'-.-.','d':'-..','e':'.','f':'..-.','g':'--.','h':'....','i':'..','j':'.---','k':'-.-','l':'.-..','m':'--','n':'-.','o':'---','p':'.--.','q':'--.-','r':'.-.','s':'...','t':'-','u':'..-','v':'...-','w':'.--','x':'-..-','y':'-.--','z':'--..','à':'.--.-','é':'..-..','è':'.-..-','ö':'---.','ç':'-.-..',',':'--..--',':':'---...','?':'..--..',"'":'.----.','/':'-..-.','(':'-.--.',')':'-.--.-','“':'.-..-.','”':'.-..-.','‘':'.-..-.','’':'.-..-.','"':'.-..-.','@':'.--.-.','=':'-...-','&':'.-...','+':'.-.-.','!':'-.-.--',"-":"-....-",".":".-.-.-"," ":mSep},
+    mtt = Object.entries(ttm).reduce((a, b)=>{return a[b[1]]=b[0],a},{})
+    return txt.split(toMorse?"":" ").flatMap(x=>(toMorse?ttm:mtt)[x]||"?").join(toMorse?" ":"")
+}
+                            </textarea>
+                    </div>
+
+                    <div class="content" keywords="sendmessage send message"  style="color: red;">
+                        <div class="header">Send Message<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function sendMessage(content, type, toContent) {// str, str, boolean
+    if (toContent == true) {
+    chrome.tabs.query({currentWindow: true,active: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {content: content, type: type})
+    })} else {
+        chrome.runtime.sendMessage({content: content, type: type})  
+}}       
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="keepcheckbox keep checkbox storage">
+                        <div class="header">Keep Checkbox<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+<!--
+    function keep_checkbox(el, storageType, storageName, callbackOn, callbackOff, init_checked, cb_onclick) {//*arg filled
+    let isCbOn = (typeof callbackOn == "function"), isCbOff = (typeof callbackOff == "function")
+    chrome.storage[storageType].get((result)=>{
+        let rchecked = result[storageName]
+        if (rchecked == false) {
+            el.checked = false
+            if (isCbOff && !cb_onclick) {callbackOff()}
+        }
+        else if (rchecked == true) {
+            el.checked = true
+            if (isCbOn && !cb_onclick) {callbackOn()}
+        }
+        else {
+            chrome.storage[storageType].set({[storageName]: Boolean(init_checked)})
+            el.checked = init_checked
+        }
+    })
+    el.addEventListener("click",()=>{
+        let cc = el.checked
+        if (cc && isCbOn) {callbackOn()}
+        else if (!cc && isCbOff) {callbackOff()}
+        chrome.storage[storageType].set({[storageName]: cc})
+    })
+    return el
+}
+ -->
+                           <textarea class="codeBloc">
+function keepCheckbox(el, storageType, storageName, initChecked, cbOnclick, callbackOn, callbackOff) {//*arg filled
+    chrome.storage[storageType].get((r)=>(el.checked=r[storageName]??initChecked)?cbOnclick||callbackOn():cbOnclick||callbackOff())
+    return el.addEventListener("click",()=>chrome.storage[storageType].set({[storageName]:((el.checked?callbackOn():callbackOff()),el.checked)})),el
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="isjsonstring is json string oneliner">
+                        <div class="header">Is JSON String<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function isJsonString(str) {try {JSON.parse(str)}catch (e){return false}return true}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="isvalidbase64 is valid base 64 oneliner">
+                        <div class="header">Is Valid Base64<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function isValidBase64(str) {try {atob(str)}catch (e){return false}return true} 
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="padzero pad zero pad0 0 oneliner">
+                        <div class="header">Pad Zero<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function pad0(num) {return (num	&#60; 10) ? '0'+ num : num} 
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="rgbatohex rgba to hexadecimal">
+                        <div class="header">RGBA to HEX<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function rgba_to_hex(t){var i=t.replace(/\s/g,"").match(/^rgba?\((\d+),(\d+),(\d+),?([^,\s)]+)?/i),r=(i&&i[4]||"").trim(),e=i?(256|i[1]).toString(16).slice(1)+(256|i[2]).toString(16).slice(1)+(256|i[3]).toString(16).slice(1):t;return"#"+(e+=(255*(""!==r?r:1)|256).toString(16).slice(1))}      
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="ondomcontentloaded on dom content loaded"  style="color: red;">
+                        <div class="header">On DOM Content Loaded<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+document.addEventListener("DOMContentLoaded", function () {
+
+});          
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="holdclick hold click on">
+                        <div class="header">Hold Click<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function hold_click(el, requiredDelay, callback, isRepeating, repeatDelay) {
+    let o, n
+    el.onmousedown=()=>{
+        if (requiredDelay < 10) {
+            clearTimeout(o)
+            n = (isRepeating) ? setInterval(()=>{callback()},repeatDelay) : callback()
+        } else {
+            clearTimeout(o)
+            o = setTimeout(()=>{
+            n = (isRepeating) ? setInterval(()=>{callback()},repeatDelay) : callback()
+            },requiredDelay)
+        }}
+    el.onmouseup=()=>{
+        clearTimeout(o)
+        clearInterval(n)
+    }
+    el.onmouseleave = el.onmouseup
+}
+//hold_click(document.querySelector("#addbtn"), 0, ()=>{document.querySelector("#addbtn").click()}, 1, 1)
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="inputoptions input options inp_opts inp opts">
+                        <div class="header">Input Options<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+Element.prototype.input_opt = function(chars, charstate, replaceElementValue) {// chars(the characters to check), charstate(whether the characters are valid or invalid), replaceElementValue(if defined, will replace the element value and this arg value is the default value)
+    let new_v = this.value.replaceAll(new RegExp("(["+((charstate=="valid") ? "^" : "")+chars+"])+","g"), "")
+    if (replaceElementValue !== null && replaceElementValue !== false) {
+        this.onblur=()=>{
+            if (this.value == "") this.value = replaceElementValue
+            if (typeof this.oninput == "function") this.oninput()
+        }
+        this.value = new_v
+    }
+    return new_v
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="ms mili milisecondstotime formated time to miliseconds oneliner">
+                        <div class="header">Milisecond to Formated Time<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                        <!-- function ms_to_time(ms) { lol
+    let y = Math.floor(ms/1000/60/60/24/365.2422),
+        d = Math.floor((ms/1000/60/60/24/365.2422-y)*365.2422),
+        h = Math.floor((ms/1000/60/60/24-d-(y*365.2422))*24),
+        m = Math.floor((ms/1000/60/60-h-(d*24)-(y*365.2422*24))*60),
+        s = Math.floor((ms/1000/60-m-(h*60)-(d*24*60)-(y*365.2422*24*60))*60)
+        ms = Math.floor((ms/1000-s-(m*60)-(h*60*60)-(d*24*60*60)-(y*365.2422*24*60*60))*1000)
+    return {years:y,days:d,hours:h,min:m,sec:s,mili:ms}
+} 
+function msToTime(ms) {
+    return [{n:"d",x:365},{n:"h",x:24},{n:"m",x:60},{n:"s",x:60},{n:"ms",x:1000}].reduce((a, b, i)=>{return a.push({n:b.n, x:(a[i].x-Math.floor(a[i].x))*b.x}), a},[{n:"y",x:(ms||0)/1000/60/60/24/365}]).reduce((a, b)=>{return a[b.n]=Math.floor(b.x), a},{})
+}
+
+-->
+                           <textarea class="codeBloc">
+function msToTime(ms=0) {// y:0, d:1, h:2, m:3, s:4, ms:5
+    return [365.2422,24,60,60,1000].reduce((a, b, i)=>(a.push((a[i]%1)*b),a),[ms/1000/60/60/24/365.2422]).map(x=>x>>0)
+}
+
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="gettime get time oneliner">
+                        <div class="header">Get Time<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function getTime() {
+    let d = new Date()
+    return ["getHours","getMinutes","getSeconds"].reduce((a, b)=>{return a+":"+(d[b]()>9?d[b]():"0"+d[b]())},"").slice(1)
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="getdate get date oneliner"  style="color: yellow;jarputinutilityclass:yes;">
+                        <div class="header">Get Date<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+let month_bank = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"]
+function getDate() {// 2 juillet 2022
+    let d = new Date()
+    return d.getDate()+" "+month_bank[d.getMonth()]+" "+d.getFullYear()+", "+["getHours","getMinutes","getSeconds"].reduce((a, b)=>{return a+":"+(d[b]()>9?d[b]():"0"+d[b]())},"").slice(1)
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="isleapyear is leap year oneliner" style="color: red;">
+                        <div class="header">Is Leap Year<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function isLeapYear(y) {return (!(y%4) && year%100 || !(y%400))}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="copytoclipboard copy to clipboard clip board">
+                        <div class="header">Copy To Clipboard<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+navigator.clipboard.writeText("")
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="regexmatcher regex matcher"  style="color: red;">
+                        <div class="header">Regex Matcher<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+<!--function match(string, ...matchers) {
+    let res_list=[]
+    matchers.forEach((matcher)=>{
+        res_list = res_list.concat(string.match(matcher)||[])
+    })
+    return res_list
+}-->
+String.prototype.matches = function(...matchers) {
+    return matchers.reduce((a, b)=>a=a.concat(this.match(b)??[]), [])
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="checkbox switch fancy">
+                        <div class="header">Fancy Checkbox<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+&#x3C;label class="checkbox_parent">&#x3C;input type="checkbox" id="id">&#x3C;span class="check_core">&#x3C;/span>&#x3C;/label>
+
+/* Fancy Checkbox */
+.checkbox_parent {
+    width: 64px;
+    height: 34px;
+    position: relative;
+    display: inline-block;
+    box-shadow: 3px 6px 6px 0 rgb(0 0 0 / 5%);
+}
+.check_core {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #afb7cd;
+    transition: 0.4s;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    border-radius: 4px;
+}
+.check_core:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 2px;
+}
+.checkbox_parent > input {display: none;}
+.checkbox_parent > input:checked + .check_core:before {transform: translateX(28px);}
+.checkbox_parent > input:checked + .check_core {background-color: #5fadeb;}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="undo unduplicate array duplicate oneliner">
+                        <div class="header">Unduplicate Array<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function unduplicateArray(arr) {return [...new Set(arr)]}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="get all filed css get filed">
+                        <div class="header">Get Filed CSS<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function getFiledCSS(stylesheet_el) {
+    let list = [], cssRules = stylesheet_el.sheet.cssRules
+    Object.keys(cssRules).forEach((x)=>{
+        list.push(cssRules[x])
+    })
+    return list.flatMap(x=>x=(x&&x.selectorText)?{properties:x["cssText"].replace(x["selectorText"],"").replaceAll(/([{}]+)/g,"").split(";").flatMap(v=>v.trim()).filter(v=>v),selector:x["selectorText"]}:!1).filter(x=>x)
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="deselect clear selection">
+                        <div class="header">Clear Selection<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function deSelect() {
+    if (window.getSelection) {window.getSelection().removeAllRanges()}
+    else if (document.selection) {document.selection.empty()}
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="input regulate settimeout" style="color: red;">
+                        <div class="header">Regulate Input<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function regulateInput(el, on, callback, ms, noInitTO) {//idk
+    let tO
+    el[on.toLowerCase()]=(e)=>{
+        if (noInitTO) {noInitTO=0;callback(e)}
+        clearTimeout(tO)
+        tO = setTimeout(()=>{callback(e)},ms)
+    }   
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="no timeout interval time" style="color: red;">
+                        <div class="header">No TimeOut Interval<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function noTOinterval(ms, callback) {
+    callback()
+    return setInterval(callback, ms)
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="wday weekday month bank of">
+                        <div class="header">Weekday / Month Bank<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+let month_bank = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+wday_bank = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+
+let month_bank = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"],
+wday_bank = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"]
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="input number clean no arrow">
+                        <div class="header">Input Number Clean<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {-webkit-appearance: none; margin: 0;}input[type="number"] {-moz-appearance: textfield;}
+                           </textarea>
+                    </div>
+
+                    
+                    <div class="content" keywords="random color generator"  style="color: red;">
+                        <div class="header">Random Color<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+const hex = [0,1,2,3,4,5,6,7,8,9,"a","b","c","d","e","f"]
+function random(min, max) {return Math.floor(Math.random() * (max - min + 1) ) + min;}
+function get_random_color(format) {
+    return (format == "rgb") ? "rgb("+random(0,255)+" "+random(0,255)+" "+random(0,255)+")" : "#"+new Array(6).fill().flatMap(x=>hex[random(0,15)]).join("")
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="read file text"  style="color: red;">
+                        <div class="header">Read file text<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function readFile(file, callback) {// callback(file, content)
+    let fr = new FileReader()
+    fr.onload=(e)=>{callback(file, e.target.result)}
+    fr.readAsText(file)
+}
+readFile(file:File Object, (file, content)=>{})
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="css var js javascript root change modify">
+                        <div class="header">Change css var is js<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+let root = document.querySelector(":root")
+root.style.setProperty("--var", "")
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="numsep num sep number separation separator oneliner">
+                        <div class="header">Big Number Separator<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+String.prototype.numSep = function(){
+    return [...this].toReversed().reduce((x, y, i)=>{return y+(!!i&&i%3==0?",":"")+x},"")
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="capitalize string upper case oneliner">
+                        <div class="header">Capitalize String<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+String.prototype.capitalize = function() {
+    return this.replaceAll(/(?:\s|^)[a-z]/g,x=>x.toUpperCase())
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="inverse invert entry entries oneliner">
+                        <div class="header">Invert Entries<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function invertEntries(obj) {
+    return Object.entries(obj).reduce((a, b)=>{return a[b[1]] = b[0], a}, {})
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="get omnivox login info form steal stolen">
+                        <div class="header">Get Omnivox Login Info (prototype)<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+let f = document.querySelector("form"), id = document.getElementById("Identifiant"), pw = document.getElementById("Password")
+f.onsubmit=(e)=>{
+    e.preventDefault()
+    let w = open("","_blank","width=350,height=200"),
+    title = w.document.createElement("title")
+    title.textContent = "Stolen user infos :)"
+    let d = w.document.createElement("div")
+    d.innerHTML = "Identifiant : "+id.value+",<br><br> Mot de passe (base64) : "+btoa(pw.value)+"<br><br> :^)"
+    w.document.documentElement.style = "background-color:black;color:aliceblue;"
+    w.document.querySelector("head").appendChild(title)
+    w.document.querySelector("body").appendChild(d)
+    f.submit()
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="get difference between arrays arr1 arr2 oneliner">
+                        <div class="header">Get Difference Between Arrays<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function getDiff(arr1, arr2) {// arr1 => arr2 ? -1 si nouveau : 1 si perdu
+    return Object.entries(arr1.reduce((a,b)=>{return a[b]=(a[b]||0)+1,a},Object.fromEntries(arr2.map(x=>[x,-1])))).filter(x=>x[1])
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="increment string add to ">
+                        <div class="header">Increment String<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function incrementString(str) {
+  return str.replace(/(0$)|(0?9+|[1-9]+)$/g, (a)=>(a>>0)+1)+(!str.match(/(0$)|(0?9+|[1-9]+)$/g)>>0||"")
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="iterate duplicates iteration increment array">
+                        <div class="header">Iterate Duplicates in Array<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function iterateDuplicates(arr) {//works best with arr:string
+    return [...new Set(arr)].reduce((a, b)=>{
+        let i = 0, at = a.indexOf(b)+1, ind = arr.indexOf(b, at)
+        while (ind !== -1) {
+            a[ind]+=++i
+            ind = arr.indexOf(b, at+=ind)
+        }
+        return a
+    }, arr)
+}
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="move element">
+                        <div class="header">Move Element<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+function moveEl(el, speed=1) {
+    let keybinds = {
+        up:["w", "arrowup"],
+        right:["d", "arrowright"],
+        down:["s", "arrowdown"],
+        left:["a", "arrowleft"]
+    }, rect = el.getBoundingClientRect(), x = rect.x, y = rect.y, step = 1,
+        iu, ir, id, il
+    
+    document.querySelector("body").style.position = "relative"
+    el.style.position = "absolute"
+    el.style.left = x+"px"
+    el.style.top = y+"px"
+
+    let kd = (e) => {
+        let k = e.key.toLowerCase()
+            e.preventDefault()
+
+        if (keybinds.up.includes(k) && !iu) iu = setInterval(()=>{
+            el.style.top = (y=y-step)+"px"
+        },speed)
+        if (keybinds.right.includes(k) && !ir) ir = setInterval(()=>{
+            el.style.left = (x=x+step)+"px"
+        },speed)
+        if (keybinds.down.includes(k) && !id) id = setInterval(()=>{
+            el.style.top = (y=y+step)+"px"
+        },speed)
+        if (keybinds.left.includes(k) && !il) il = setInterval(()=>{
+            el.style.left = (x=x-step)+"px"
+        },speed)
+    },
+        ku = (e) => {
+        let k = e.key.toLowerCase()
+            e.preventDefault()
+
+        if (keybinds.up.includes(k) && iu) iu=clearInterval(iu)
+        if (keybinds.right.includes(k) && ir) ir=clearInterval(ir)
+        if (keybinds.down.includes(k) && id) id=clearInterval(id)
+        if (keybinds.left.includes(k) && il) il=clearInterval(il)
+    }
+    
+    document.addEventListener("keydown", kd)
+    document.addEventListener("keyup", ku)
+    document.querySelector("body").onblur=() => {
+        iu=clearInterval(iu)
+        ir=clearInterval(ir)
+        id=clearInterval(id)
+        il=clearInterval(il)
+    }
+
+    return ()=>{
+        document.removeEventListener("keydown", kd)
+        document.removeEventListener("keydown", ku)
+    }
+}
+                           </textarea>
+                    </div>
+
+
+                </div>
+            </div>
+
+       </div>
+     <a class="version">Made by Louis-Charles Biron | V1.0</a>
+    </body>
+ </html>

@@ -1,0 +1,204 @@
+/* 
+    CSS
+    Code Library by Louis-Charles Biron
+    Please don't use or credit this code as your own.
+*/
+html {
+    user-select: none;
+    width: 100%;
+    height: 100%;
+    font-family: monospace;
+}
+body {
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    margin: 0px !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-family: monospace;
+}
+button {cursor: pointer;}
+.totally_hidden {
+    display: none;
+    visibility: hidden;
+    user-select: none;
+    appearance: none;
+    cursor: none;
+    border: none;
+    outline: none;
+    opacity: 0;
+    background-color: #ffffff00;
+    color: #ffffff00;
+    width: 0px;
+    height: 0px;
+    position: absolute;
+}
+.version {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    color: teal;
+}
+* {
+    font-family: inherit;
+}
+::selection {background-color: rgb(0 128 128 / 45%);}
+*::-webkit-scrollbar {width: 8px;}
+*::-webkit-scrollbar-track {background: transparent;}
+*::-webkit-scrollbar-thumb {background: rgb(60 110 104 / 30%);border-radius: 10px;}
+*::-webkit-scrollbar-thumb:hover {background: rgb(60 110 104 / 40%);}
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {-webkit-appearance: none; margin: 0;}input[type="number"] {-moz-appearance: textfield;}
+:root {
+    --no_of: hidden !important;
+}
+/* BASICS ↑ */
+
+.codeBloc {
+    color: #bbc7d1;
+    user-select: text;
+    white-space: break-spaces;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: default;
+    resize: none;
+    width: 100%;
+    display: inline-table;
+    padding-top: 1%;
+}
+
+.main {
+    width: 95%;
+    height: 95%;
+    background-color: #161c23;
+    border-radius: 20px;
+    border: solid 2px #1f2832;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.mtop {
+    height: 38%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.mbottom {
+    width: 90%;
+    height: 58%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    border: solid 2px black;
+    border-radius: 4px;
+    padding: 1%;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.topHeaderDiv {
+    width: 80%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+.topHeaderDiv > p, .topHeaderDiv > div:not(.topHeader) {
+    color: #afbfce;
+    font-size: 1.1em;
+    letter-spacing: 1px;
+}
+
+a {
+    color: #adb9e6;
+}
+
+.topHeader {
+    font-size: 5em;
+    letter-spacing: 12px;
+    color: #a9b8c6;
+    white-space: nowrap;
+}
+
+.codeResult {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.header {
+    font-size: 1.5em;
+    color: #b1c0ce;
+    letter-spacing: 3px;
+    width: 94%;
+    border-bottom: solid 2px #b1c0ce33;
+    cursor: pointer;
+}
+
+.searchArea {
+    width: 70%;
+    height: 30%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#search {
+    width: 80%;
+    height: 20%;
+    padding: 2%;
+    background-color: #202933;
+    border: solid 2px black;
+    border-radius: 6px;
+    outline: none;
+    color: #b3c1ce;
+    font-size: 1.35em;
+    letter-spacing: 2px;
+}
+#search::placeholder {
+    color: #a4b2bf6b;
+}
+
+.content {
+    margin-left: 4%;
+    margin-top: 1%;
+    width: 100%;
+    padding: 1%;
+    background-color: #1d262f;
+    border-radius: 4px;
+}
+
+img {
+    width: 20px;
+    fill: aliceblue;
+    filter: brightness(0.85);
+    transition: 0.4s all;
+    margin-bottom: -6px;
+    padding-right: 1%;
+    padding-left: 1%;
+    padding-bottom: 3px;
+}
+img:hover {
+    filter: brightness(1);
+}
+
+.center {
+    text-align: center;
+}

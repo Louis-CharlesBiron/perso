@@ -1,0 +1,79 @@
+<!-- 
+   HTML
+   Code Library by Louis-Charles Biron
+   Please don't use or credit this code as your own.
+ -->
+ <!doctype html>
+ <html>
+    <head>
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <meta charset="UTF-8">
+       <title>Icon Library</title>
+       <link rel="shortcut icon" type="image/x-icon" href="../img/favicon.png">
+       <link rel="stylesheet" href="icon.css">
+       <script src="icon.js"></script>
+    </head>
+    <body>
+        <div class="main">
+
+            <textarea id="copyArea" style="display: none;" value=""></textarea>
+
+            <div class="mtop">
+                <div class="topHeaderDiv">
+                    <div class="topHeader">Icon Library</div>
+                    <p>
+                        Welcome to the Icon Library! Use the input below to search for an icon.
+                        <br>
+                        <div class="center">See also: <a href="../tools/tools.html">Tool Library</a> | <a href="../lib/index.html">Script Library</a> </div>
+                    </p>
+                </div>
+
+                <div class="searchArea">
+                    <input type="text" id="search" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="Search..." autofocus>
+                </div>
+            </div>
+
+            <div class="mbottom">
+                <div class="icon_list">
+
+                    <div class="content">
+                         <div class="header">
+                            <div id="copy" title="Copy" style="width: 12%;">
+                                Icons:
+                                <svg height="48" viewBox="0 -960 960 960" width="48" style="fill: #596b80;"><path d="M180-80q-24 0-42-18t-18-42h60v60Zm-60-144v-84h60v84h-60Zm0-168v-84h60v84h-60Zm0-168v-84h60v84h-60Zm0-168q0-24 18-42t42-18v60h-60ZM264-80v-60h84v60h-84Zm60-144q-24 0-42-18t-18-42v-536q0-24 18-42t42-18h416q24 0 42 18t18 42v536q0 24-18 42t-42 18H324Zm0-60h416v-536H324v536ZM432-80v-60h84v60h-84Zm168 0v-60h60q0 24-18 42t-42 18Z"/></svg>
+                            </div>
+                            
+                            <div style="width: 50%;">
+                                Size:
+                                <input type="range" id="sizeir" step="4" min="4" max="96" value="64" title="In px">
+                                <input type="number" id="sizei" placeholder="64" value="64" title="In px" min="0" max="999">
+                            </div>
+
+                            <div style="width: 12%;">
+                                Fill:
+                                <label class="checkbox_parent"><input type="checkbox" id="filli"><span class="check_core"></span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ail">
+                        <label class="icon" title="Name" isFilled="false" keywords="close x">
+                            <input type="radio" name="anyIcon" id="iconCheck">
+                            <svg viewBox="0 -960 960 960"><path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg>
+                        </label>
+
+                        <label class="icon" title="Name" isFilled="true" keywords="settings options gear">
+                            <input type="radio" name="anyIcon" id="iconCheck">
+                            <svg viewBox="0 -960 960 960"><path d="m388-80-20-126q-19-7-40-19t-37-25l-118 54-93-164 108-79q-2-9-2.5-20.5T185-480q0-9 .5-20.5T188-521L80-600l93-164 118 54q16-13 37-25t40-18l20-127h184l20 126q19 7 40.5 18.5T669-710l118-54 93 164-108 77q2 10 2.5 21.5t.5 21.5q0 10-.5 21t-2.5 21l108 78-93 164-118-54q-16 13-36.5 25.5T592-206L572-80H388Zm92-270q54 0 92-38t38-92q0-54-38-92t-92-38q-54 0-92 38t-38 92q0 54 38 92t92 38Zm0-60q-29 0-49.5-20.5T410-480q0-29 20.5-49.5T480-550q29 0 49.5 20.5T550-480q0 29-20.5 49.5T480-410Zm0-70Zm-44 340h88l14-112q33-8 62.5-25t53.5-41l106 46 40-72-94-69q4-17 6.5-33.5T715-480q0-17-2-33.5t-7-33.5l94-69-40-72-106 46q-23-26-52-43.5T538-708l-14-112h-88l-14 112q-34 7-63.5 24T306-642l-106-46-40 72 94 69q-4 17-6.5 33.5T245-480q0 17 2.5 33.5T254-413l-94 69 40 72 106-46q24 24 53.5 41t62.5 25l14 112Z"/></svg>
+                            <svg viewBox="0 -960 960 960" style="display: none;"><path d="m388-80-20-126q-19-7-40-19t-37-25l-118 54-93-164 108-79q-2-9-2.5-20.5T185-480q0-9 .5-20.5T188-521L80-600l93-164 118 54q16-13 37-25t40-18l20-127h184l20 126q19 7 40.5 18.5T669-710l118-54 93 164-108 77q2 10 2.5 21.5t.5 21.5q0 10-.5 21t-2.5 21l108 78-93 164-118-54q-16 13-36.5 25.5T592-206L572-80H388Zm92-270q54 0 92-38t38-92q0-54-38-92t-92-38q-54 0-92 38t-38 92q0 54 38 92t92 38Z"/></svg>
+                        </label>
+
+                    </div>
+                         
+                </div>
+            </div>
+
+       </div>
+     <a class="version">Made by Louis-Charles Biron | V1.0</a>
+    </body>
+ </html>

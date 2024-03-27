@@ -102,14 +102,16 @@ document.addEventListener("DOMContentLoaded", function() {
         let v = gs_input.value, lang = gs_lang.value, mode = gs_mode.value
 
         if (lang == "js") {
-            attrs = [...new Set(v.match(/this\.[a-z_$]{1}[a-z_$0-9]+[()]*/gi))].filter(x=>!x.match(/[()]/gi)).map(x=>x.replace("this.",""))
+            let attrs = [...new Set(v.match(/this\.[a-z_$]{1}[a-z_$0-9]+[()]*/gi))].filter(x=>!x.match(/[()]/gi)).map(x=>x.replace("this.",""))
             
-            gs_preview.value = mode=="get" ? attrs.reduce((a, b)=>a+=`\tget ${b.startsWith("_")?b.replace("_",""):b}() {\n\t\treturn this.${b}\n\t}\n\n`,"")
+            gs_preview.value = mode=="get" ? attrs.reduce((a, b)=>a+=`\tget ${b.replace("_","")  }() {\n\t\treturn this.${b}\n\t}\n\n`,"")
                 : mode=="set" ? attrs.reduce((a, b)=>a+=`\tset ${b.replace("_","")}(${b}) {\n\t\treturn this.${b} = ${b}\n\t}\n\n`,"")
-                : attrs.reduce((a, b)=>a+=`\tget ${b.startsWith("_")?b.replace("_",""):b}() {\n\t\treturn this.${b}\n\t}\n\n`,"")+"\n\n"+attrs.reduce((a, b)=>a+=`\tset ${b.replace("_","")}(${b}) {\n\t\treturn this.${b} = ${b}\n\t}\n\n`,"")
+                : attrs.reduce((a, b)=>a+=`\tget ${b.replace("_","")}() {\n\t\treturn this.${b}\n\t}\n\n`,"")+"\n\n"+attrs.reduce((a, b)=>a+=`\tset ${b.replace("_","")}(${b}) {\n\t\treturn this.${b} = ${b}\n\t}\n\n`,"")
 
         } else if (lang == "c#") {
-            
+            let attrs = [...new Set(v.match(/private [a-z_0-9]+ [a-z_$]{1}[a-z_$0-9]+([ ]*=[ ]*.*)?;/gi))].map(x=>x.replace(/(private |;)/gi,"").split(" "))
+
+            gs_preview.value = attrs.reduce((a, b)=>a+=`\tpublic ${b[0]} ${b[1].replace(/[$_]/g,"").replace(/(?:\s|^)[a-z]/g,x=>x.toUpperCase())} {\n\t\tget {return ${b[1]};}\n\t\tset {this.${b[1]} = value;}\n\t}\n\n`,"")
         }
 
     }

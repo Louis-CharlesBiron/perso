@@ -687,6 +687,40 @@ function moveEl(el, speed=1) {
                            </textarea>
                     </div>
 
+                    <div class="content" keywords="count iteration in a row incrementation series">
+                        <div class="header">Incrementation In A Row<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+/**
+ * Given an array of numbers, returns all series that match the increment
+ * ex increment=1 -> 1,2,3 is a serie of length 3
+ * @param {number[]} arr array of numbers with potential number series
+ * @param {number} increment gap between numbers to be considered 'in a row' / 'a serie'
+ * @returns {i:int,c:int} i: the start index of the serie, c: the length of the serie 
+ */
+function incrementationsInARow(arr, increment=1) {
+    let old, i=0
+    return arr.reduce((a, b, j)=>(a[i].c+=b==old+increment||!(a[++i]={i:j,c:1}),old=b,a),[{c:1}]).filter(x=>x.c>1)
+}
+incrementationsInARow([0, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3])//ex
+                           </textarea>
+                    </div>
+
+                    <div class="content" keywords="to stupid case">
+                        <div class="header">tO stUPiD CasE<img src="../img/copy.png" alt="Copy" id="copyBtn" title="Copy"></div>
+                           <textarea class="codeBloc">
+ /** 
+ * Formats a string to stupid case: "Hello World" -> "hEllO wOrld"
+ * @param {String} str string to put in stupid case
+ * @param {number} chance probability of case changing (1/{chance})
+ * @returns 
+ */
+function toStupidCase(str, chance=2) {
+    return [...str.toLowerCase()].map(x=>Math.floor(Math.random()*chance)?x:x.toUpperCase()).join("")
+}
+toStupidCase("Hi, I do love some good 'patates plain'", 3)
+                           </textarea>
+                    </div>
+
 
                 </div>
             </div>

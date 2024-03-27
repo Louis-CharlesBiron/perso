@@ -712,7 +712,7 @@ incrementationsInARow([0, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3])//ex
  * Formats a string to stupid case: "Hello World" -> "hEllO wOrld"
  * @param {String} str string to put in stupid case
  * @param {number} chance probability of case changing (1/{chance})
- * @returns 
+ * @returns the stupidly formated string
  */
 function toStupidCase(str, chance=2) {
     return [...str.toLowerCase()].map(x=>Math.floor(Math.random()*chance)?x:x.toUpperCase()).join("")

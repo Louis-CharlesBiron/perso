@@ -330,14 +330,20 @@ function update_profile() {
 
 
         // some stats
+        let all = [stats.classicDemonsCompleted, stats.classicLevelsCompleted, stats.platformerDemonsCompleted, stats.platformerLevelsCompleted].flatMap(x=>Object.entries(x)).reduce((a, b)=>(a[b[0].match(/weekly|gauntlet|daily/g)?"distinctTotal":"total"]+=b[1],a),{total:0, distinctTotal:0})
+        p_all.textContent = all.total
+        p_all.title = "Distinct: "+all.distinctTotal
+        p_daily.textContent = stats.classicLevelsCompleted.daily||""
+        p_weekly.textContent = stats.classicDemonsCompleted.weekly||""
+
         statsEls.forEach((el)=>{
             let s = stats[el.id.replace("p_","")]
-            el.textContent = s||"N.A"
-            el.title = s ? `${el.id.replace('p_','')} ${s}` : "Probably 0"
+            el.textContent ||= s||"N.A"
+            el.title ||= s ? `${el.id.replace('p_','')} ${s}` : "Probably 0"
         })
 
         // demons
-        displayProfileDemon(stats.demonTypes)
+        displayProfileDemon(stats.classicDemonsCompleted, stats.platformerDemonsCompleted)
 
     }).catch(e=>{
         displayProfileDemon()
@@ -348,9 +354,15 @@ function update_profile() {
         clearProfileStats()
     }
 
-    function displayProfileDemon(demonCounts='0,0,0,0,0') {
-        let dc = demonCounts.split(","), demonTypes = ["Easy", "Medium", "Hard", "Insane", "Extreme"]
-        for (let i=0;i<5;i++) demonsAll[i].innerHTML = `${demonTypes[i]} Demon: <span>${dc[i].numSep()}<img src='img/${demonTypes[i]}.png' class='small_icon'></img></span>`
+    function displayProfileDemon(cDemons, pDemons) {
+        let demonTypes = ["easy", "medium", "hard", "insane", "extreme"], distinctTotal={classic:0, plat:0}
+        for (let i=0;i<5;i++) {
+            distinctTotal["classic"]+=cDemons[demonTypes[i]]
+            distinctTotal["plat"]+=pDemons[demonTypes[i]]
+            demonsAll[i].innerHTML = `${demonTypes[i]}: <span class='pd_f'><span title='Classic demons'>${cDemons[demonTypes[i]].numSep()}</span><span title='Classic | Plat.'>|</span><span title='Plat. demons'>${pDemons[demonTypes[i]].numSep()}</span></span><img src='img/${demonTypes[i]}.png' class='small_icon'></img>`
+        }
+        p_demons.textContent += " / "+(distinctTotal["classic"]+distinctTotal["plat"])
+
     }
 
     function clearProfileStats() {

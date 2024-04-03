@@ -338,7 +338,7 @@ function update_profile() {
 
         statsEls.forEach((el)=>{
             let s = stats[el.id.replace("p_","")]
-            el.textContent ||= s||"N.A"
+            el.textContent ||= s||"0"
             el.title ||= s ? `${el.id.replace('p_','')} ${s}` : "Probably 0"
         })
 
@@ -354,12 +354,13 @@ function update_profile() {
         clearProfileStats()
     }
 
-    function displayProfileDemon(cDemons, pDemons) {
+    function displayProfileDemon(cDemons={}, pDemons={}) {
         let demonTypes = ["easy", "medium", "hard", "insane", "extreme"], distinctTotal={classic:0, plat:0}
         for (let i=0;i<5;i++) {
-            distinctTotal["classic"]+=cDemons[demonTypes[i]]
-            distinctTotal["plat"]+=pDemons[demonTypes[i]]
-            demonsAll[i].innerHTML = `${demonTypes[i]}: <span class='pd_f'><span title='Classic demons'>${cDemons[demonTypes[i]].numSep()}</span><span title='Classic | Plat.'>|</span><span title='Plat. demons'>${pDemons[demonTypes[i]].numSep()}</span></span><img src='img/${demonTypes[i]}.png' class='small_icon'></img>`
+            let t = demonTypes[i], cdc = cDemons[t]??0, pdc = pDemons[t]??0
+            distinctTotal["classic"]+=cdc
+            distinctTotal["plat"]+=pdc
+            demonsAll[i].innerHTML = `${t}: <span class='pd_f'><span title='Classic demons'>${cdc.numSep()}</span><span title='Classic | Plat.'>|</span><span title='Plat. demons'>${pdc.numSep()}</span></span><img src='img/${t}.png' class='small_icon'></img>`
         }
         p_demons.textContent += " / "+(distinctTotal["classic"]+distinctTotal["plat"])
 

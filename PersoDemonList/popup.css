@@ -919,3 +919,8 @@ img.lvl_img {
     stroke-linecap:round;
     stroke-linejoin:round;
 }
+
+.cube_p {
+    margin-left: 12%;
+    margin-bottom: -3.5%;
+}

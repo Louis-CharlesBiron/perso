@@ -513,7 +513,7 @@ svg:hover {
     display: flex;
     flex-direction: column;
     margin-top: 2%;
-    width: 91%;
+    width: 79%;
     align-items: flex-start;
     margin-right: 1%;
 }
@@ -594,16 +594,14 @@ svg:hover {
 
 .o_list > span {
     margin-top: 3%;
-    width: 9%;
-    /* display: list-item; */
-    /* list-style: decimal; */
+    width: 95%;
 }
 
 #o_demons > span, #p_demonsAll > span {
     margin-top: 3%;
-    width: 85%;
+    width: 75%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -623,12 +621,11 @@ img.lvl_img {
 }
 
 #o_demons > span > span, #p_demonsAll > span > span {
-    width: 52%;
+    width: 33%;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     flex-direction: row;
-    margin-right: 10%;
 }
 
 #p_info > div {
@@ -908,6 +905,10 @@ img.lvl_img {
     text-align: center;
 }
 
+.pd_f {
+    width: 45%;
+}
+
 .pd_f > span {
     width: 25%;
     text-align: center;
@@ -921,6 +922,39 @@ img.lvl_img {
 }
 
 .cube_p {
-    margin-left: 12%;
-    margin-bottom: -3.5%;
+    position: relative;
+    height: 71%;
+    transition: 0.4s;
+    opacity: 0.75;
+}
+.cube_p:hover {
+    opacity: 1;
+}
+.cube_p:active {
+    animation: spin 0.6s 1 backwards normal ease-in-out;
+}
+
+.cube_p > svg {
+    position: absolute;
+}
+
+.o_list22 {
+    width: 85%;
+}
+
+.o_list2_c {
+    width: 82% !important;
+}
+
+.pd_f_idk {
+    width: 33%;
+}
+
+@keyframes spin {
+    from {
+        transform: rotateZ(0deg);
+    }
+    to {
+        transform: rotateZ(360deg);
+    }
 }

@@ -318,7 +318,7 @@ function update_overview() {
 }
 
 // profile section update
-let statsEls = document.querySelectorAll("#p_info span, #p_demons"), demonsAll = document.querySelectorAll("#p_demonsAll > span")
+let statsEls = document.querySelectorAll("#p_info span"), demonsAll = document.querySelectorAll("#p_demonsAll > span")
 function update_profile() {
     let u = username.value.trim()
     
@@ -328,6 +328,9 @@ function update_profile() {
         username.value = userdisplay.textContent = stats.username
         chrome.storage.sync.set({$u:stats.username})//
 
+        // icon
+        cube_p1.style.fill = `rgb(${stats.col1RGB.r} ${stats.col1RGB.g} ${stats.col1RGB.b})`
+        cube_p2.style.fill = `rgb(${stats.col2RGB.r} ${stats.col2RGB.g} ${stats.col2RGB.b})`
 
         // some stats
         let all = [stats.classicDemonsCompleted, stats.classicLevelsCompleted, stats.platformerDemonsCompleted, stats.platformerLevelsCompleted].flatMap(x=>Object.entries(x)).reduce((a, b)=>(a[b[0].match(/weekly|gauntlet|daily/g)?"distinctTotal":"total"]+=b[1],a),{total:0, distinctTotal:0})
@@ -343,7 +346,7 @@ function update_profile() {
         })
 
         // demons
-        displayProfileDemon(stats.classicDemonsCompleted, stats.platformerDemonsCompleted)
+        displayProfileDemon(stats.classicDemonsCompleted, stats.platformerDemonsCompleted, stats.demons)
 
     }).catch(e=>{
         displayProfileDemon()
@@ -354,15 +357,16 @@ function update_profile() {
         clearProfileStats()
     }
 
-    function displayProfileDemon(cDemons={}, pDemons={}) {
+    function displayProfileDemon(cDemons={}, pDemons={}, total=0) {
         let demonTypes = ["easy", "medium", "hard", "insane", "extreme"], distinctTotal={classic:0, plat:0}
         for (let i=0;i<5;i++) {
             let t = demonTypes[i], cdc = cDemons[t]??0, pdc = pDemons[t]??0
             distinctTotal["classic"]+=cdc
             distinctTotal["plat"]+=pdc
-            demonsAll[i].innerHTML = `${t}: <span class='pd_f'><span title='Classic demons'>${cdc.numSep()}</span><span title='Classic | Plat.'>|</span><span title='Plat. demons'>${pdc.numSep()}</span></span><img src='img/${t}.png' class='small_icon'></img>`
+            demonsAll[i].innerHTML = `<span pd_f_idk>${t}:</span><span class='pd_f'><span title='Classic demons'>${cdc.numSep()}</span><span title='Classic | Plat.'>|</span><span title='Plat. demons'>${pdc.numSep()}</span></span><img src='img/${t}.png' class='small_icon'></img>`
         }
-        p_demons.textContent += " / "+(distinctTotal["classic"]+distinctTotal["plat"])
+        p_demons.textContent += total+" / "+(distinctTotal["classic"]+distinctTotal["plat"])
+        p_demons.title = `Classic: ${distinctTotal["classic"]} | Plat.: ${distinctTotal["plat"]} | Distinct Total: ${distinctTotal["classic"]+distinctTotal["plat"]}`
 
     }
 

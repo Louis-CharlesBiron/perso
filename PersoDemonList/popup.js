@@ -318,7 +318,7 @@ function update_overview() {
 }
 
 // profile section update
-let statsEls = document.querySelectorAll("#p_info span"), demonsAll = document.querySelectorAll("#p_demonsAll > span")
+let statsEls = document.querySelectorAll("#p_info span:not(#p_all, #p_daily, #p_weekly)"), demonsAll = document.querySelectorAll("#p_demonsAll > span")
 function update_profile() {
     let u = username.value.trim()
     
@@ -341,8 +341,8 @@ function update_profile() {
 
         statsEls.forEach((el)=>{
             let s = stats[el.id.replace("p_","")]
-            el.textContent ||= s||"0"
-            el.title ||= s ? `${el.id.replace('p_','')} ${s}` : "Probably 0"
+            el.textContent = s||"0"
+            el.title = s ? `${el.id.replace('p_','')} ${s}` : "Probably 0"
         })
 
         // demons
@@ -363,9 +363,9 @@ function update_profile() {
             let t = demonTypes[i], cdc = cDemons[t]??0, pdc = pDemons[t]??0
             distinctTotal["classic"]+=cdc
             distinctTotal["plat"]+=pdc
-            demonsAll[i].innerHTML = `<span pd_f_idk>${t}:</span><span class='pd_f'><span title='Classic demons'>${cdc.numSep()}</span><span title='Classic | Plat.'>|</span><span title='Plat. demons'>${pdc.numSep()}</span></span><img src='img/${t}.png' class='small_icon'></img>`
+            demonsAll[i].innerHTML = `<span class='pd_f_idk'>${t}:</span><span class='pd_f'><span title='Classic demons' class='thing1'>${cdc.numSep()}</span><span title='Classic | Plat.'>|</span><span title='Plat. demons' class='thing3'>${pdc.numSep()}</span></span><img src='img/${t}.png' class='small_icon'></img>`
         }
-        p_demons.textContent += total+" / "+(distinctTotal["classic"]+distinctTotal["plat"])
+        p_demons.textContent = total+" / "+(distinctTotal["classic"]+distinctTotal["plat"])
         p_demons.title = `Classic: ${distinctTotal["classic"]} | Plat.: ${distinctTotal["plat"]} | Distinct Total: ${distinctTotal["classic"]+distinctTotal["plat"]}`
 
     }
@@ -374,6 +374,7 @@ function update_profile() {
         statsEls.forEach((el)=>{
             el.textContent = "N.A"
         })
+        p_all.textContent = p_daily.textContent = p_weekly.textContent = "N.A"
     }
 }
 

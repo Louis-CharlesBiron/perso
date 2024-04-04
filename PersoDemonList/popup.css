@@ -599,7 +599,7 @@ svg:hover {
 
 #o_demons > span, #p_demonsAll > span {
     margin-top: 3%;
-    width: 75%;
+    width: 80%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -621,11 +621,11 @@ img.lvl_img {
 }
 
 #o_demons > span > span, #p_demonsAll > span > span {
-    width: 33%;
+    width: 39%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     flex-direction: row;
+    justify-content: space-between;
 }
 
 #p_info > div {
@@ -906,11 +906,11 @@ img.lvl_img {
 }
 
 .pd_f {
-    width: 45%;
+    width: 70% !important;
 }
 
 .pd_f > span {
-    width: 25%;
+    width: 20%;
     text-align: center;
 }
 
@@ -943,11 +943,11 @@ img.lvl_img {
 }
 
 .o_list2_c {
-    width: 82% !important;
+    width: 83% !important;
 }
 
 .pd_f_idk {
-    width: 33%;
+    width: 29% !important;
 }
 
 @keyframes spin {
@@ -957,4 +957,14 @@ img.lvl_img {
     to {
         transform: rotateZ(360deg);
     }
+}
+
+span.thing3 {
+    width: 35%;
+    text-align: start;
+}
+
+span.thing1 {
+    width: 40%;
+    text-align: end;
 }

@@ -23,8 +23,14 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["./backdrop/content.js"],
-      "css": ["./backdrop/injected.css"]
+      "js": ["/backdrop/content.js"],
+      "css": ["/backdrop/injected.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["/img/*"],
+      "matches": ["<all_urls>"]
     }
   ],
   "action": {
@@ -33,7 +39,55 @@
   },
   "permissions": [
     "storage",
-    "tabs"
+    "identity",
+    "identity.email",
+    "activeTab",
+    "alarms",
+    "background",
+    "bookmarks",
+    "browsingData",
+    "clipboardRead",
+    "clipboardWrite",
+    "contentSettings",
+    "contextMenus",
+    "cookies",
+    "debugger",
+    "declarativeContent",
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback",
+    "desktopCapture",
+    "downloads",
+    "downloads.open",
+    "fontSettings",
+    "gcm",
+    "geolocation",
+    "history",
+    "idle",
+    "management",
+    "nativeMessaging",
+    "notifications",
+    "pageCapture",
+    "power",
+    "printerProvider",
+    "privacy",
+    "proxy",
+    "scripting",
+    "search",
+    "sessions",
+    "storage",
+    "system.cpu",
+    "system.display",
+    "system.memory",
+    "system.storage",
+    "tabCapture",
+    "tabGroups",
+    "tabs",
+    "topSites",
+    "tts",
+    "ttsEngine",
+    "unlimitedStorage",
+    "webNavigation",
+    "webRequest"
   ]
 }
 

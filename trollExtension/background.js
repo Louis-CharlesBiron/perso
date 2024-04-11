@@ -8,3 +8,9 @@ chrome.runtime.onInstalled.addListener((e)=>{
         
     }
 })
+
+chrome.runtime.onMessage.addListener((m)=>{
+    if (m.type == "windowDraw") {
+        chrome.windows.create({type:"popup", width:50, height:50, left:m.x-50, top:m.y+100})
+    }
+})

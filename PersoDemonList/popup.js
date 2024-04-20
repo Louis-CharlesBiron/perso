@@ -289,7 +289,7 @@ function update_overview() {
         let deaths = filteredLevel_list.map((x)=>{return {p: x.progs, n:x.name}}).filter(x=>x.p!=="").map((x)=>{return {f:100-Number(x.p.replace("100","").trim().split(" ")[x.p.replace("100","").trim().split(" ").length-1]), n:x.n}}).sort((a, b)=>{return a.f-b.f})
         for (let i=0;i<death_ll;i++) {
             let d = deaths[i]
-            death_c[i].textContent = (d) ? "(#"+get_rank(d.n)+") "+d.n+", to "+(100-d.f)+"%" : "No Level Yet..."
+            death_c[i].textContent = (d) ? "(#"+get_rank(d.n)+") "+d.n+", at "+(100-d.f)+"%" : "No Level Yet..."
         }
 
         // biggest journeys
@@ -318,7 +318,7 @@ function update_overview() {
 }
 
 // profile section update
-let statsEls = document.querySelectorAll("#p_info span, #p_demons"), demonsAll = document.querySelectorAll("#p_demonsAll > span")
+let statsEls = document.querySelectorAll("#p_info span:not(#p_all, #p_daily, #p_weekly)"), demonsAll = document.querySelectorAll("#p_demonsAll > span")
 function update_profile() {
     let u = username.value.trim()
     
@@ -328,16 +328,25 @@ function update_profile() {
         username.value = userdisplay.textContent = stats.username
         chrome.storage.sync.set({$u:stats.username})//
 
+        // icon
+        cube_p1.style.fill = `rgb(${stats.col1RGB.r} ${stats.col1RGB.g} ${stats.col1RGB.b})`
+        cube_p2.style.fill = `rgb(${stats.col2RGB.r} ${stats.col2RGB.g} ${stats.col2RGB.b})`
 
         // some stats
+        let all = [stats.classicDemonsCompleted, stats.classicLevelsCompleted, stats.platformerDemonsCompleted, stats.platformerLevelsCompleted].flatMap(x=>Object.entries(x)).reduce((a, b)=>(a[b[0].match(/weekly|gauntlet|daily/g)?"distinctTotal":"total"]+=b[1],a),{total:0, distinctTotal:0})
+        p_all.textContent = all.total
+        p_all.title = "Distinct: "+all.distinctTotal
+        p_daily.textContent = stats.classicLevelsCompleted.daily||""
+        p_weekly.textContent = stats.classicDemonsCompleted.weekly||""
+
         statsEls.forEach((el)=>{
             let s = stats[el.id.replace("p_","")]
-            el.textContent = s||"N.A"
+            el.textContent = s||"0"
             el.title = s ? `${el.id.replace('p_','')} ${s}` : "Probably 0"
         })
 
         // demons
-        displayProfileDemon(stats.demonTypes)
+        displayProfileDemon(stats.classicDemonsCompleted, stats.platformerDemonsCompleted, stats.demons)
 
     }).catch(e=>{
         displayProfileDemon()
@@ -348,15 +357,24 @@ function update_profile() {
         clearProfileStats()
     }
 
-    function displayProfileDemon(demonCounts='0,0,0,0,0') {
-        let dc = demonCounts.split(","), demonTypes = ["Easy", "Medium", "Hard", "Insane", "Extreme"]
-        for (let i=0;i<5;i++) demonsAll[i].innerHTML = `${demonTypes[i]} Demon: <span>${dc[i].numSep()}<img src='img/${demonTypes[i]}.png' class='small_icon'></img></span>`
+    function displayProfileDemon(cDemons={}, pDemons={}, total=0) {
+        let demonTypes = ["easy", "medium", "hard", "insane", "extreme"], distinctTotal={classic:0, plat:0}
+        for (let i=0;i<5;i++) {
+            let t = demonTypes[i], cdc = cDemons[t]??0, pdc = pDemons[t]??0
+            distinctTotal["classic"]+=cdc
+            distinctTotal["plat"]+=pdc
+            demonsAll[i].innerHTML = `<span class='pd_f_idk'>${t}:</span><span class='pd_f'><span title='Classic demons' class='thing1'>${cdc.numSep()}</span><span title='Classic | Plat.'>|</span><span title='Plat. demons' class='thing3'>${pdc.numSep()}</span></span><img src='img/${t}.png' class='small_icon'></img>`
+        }
+        p_demons.textContent = total+" / "+(distinctTotal["classic"]+distinctTotal["plat"])
+        p_demons.title = `Classic: ${distinctTotal["classic"]} | Plat.: ${distinctTotal["plat"]} | Distinct Total: ${distinctTotal["classic"]+distinctTotal["plat"]}`
+
     }
 
     function clearProfileStats() {
         statsEls.forEach((el)=>{
             el.textContent = "N.A"
         })
+        p_all.textContent = p_daily.textContent = p_weekly.textContent = "N.A"
     }
 }
 

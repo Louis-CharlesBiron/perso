@@ -1,0 +1,93 @@
+{
+  "name": "Troll extension",
+  "description": "(dev)",
+  "version": "1",
+  "version_name": "hi :0",
+  "manifest_version": 3,
+  "icons": {
+      "128": "./img/icon-128x128.png"
+  },
+  "commands": {
+    "_execute_action": { 
+      "suggested_key": {
+        "default": "Ctrl+Shift+E",
+        "linux": "Ctrl+Shift+E",
+        "windows": "Ctrl+Shift+E",
+        "mac": "Alt+Shift+E"
+      }
+    }
+  },
+  "background": {
+      "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["/backdrop/content.js"],
+      "css": ["/backdrop/injected.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["/img/*"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "action": {
+    "default_title": "Browser_Action titlee",
+      "default_popup": "popup.html"
+  },
+  "permissions": [
+    "storage",
+    "identity",
+    "identity.email",
+    "activeTab",
+    "alarms",
+    "background",
+    "bookmarks",
+    "browsingData",
+    "clipboardRead",
+    "clipboardWrite",
+    "contentSettings",
+    "contextMenus",
+    "cookies",
+    "debugger",
+    "declarativeContent",
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback",
+    "desktopCapture",
+    "downloads",
+    "downloads.open",
+    "fontSettings",
+    "gcm",
+    "geolocation",
+    "history",
+    "idle",
+    "management",
+    "nativeMessaging",
+    "notifications",
+    "pageCapture",
+    "power",
+    "printerProvider",
+    "privacy",
+    "proxy",
+    "scripting",
+    "search",
+    "sessions",
+    "storage",
+    "system.cpu",
+    "system.display",
+    "system.memory",
+    "system.storage",
+    "tabCapture",
+    "tabGroups",
+    "tabs",
+    "topSites",
+    "tts",
+    "ttsEngine",
+    "unlimitedStorage",
+    "webNavigation",
+    "webRequest"
+  ]
+}
+

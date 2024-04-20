@@ -41,7 +41,7 @@ function init() {
         //kk})
 
         //video ads
-        if (document.querySelector(".ytp-ad-preview-container")) {
+        if (document.querySelector(".ytp-preview-ad")) {
             let vid = document.querySelector("#movie_player video")
             vid.currentTime = vid.duration
         }

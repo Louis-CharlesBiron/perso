@@ -157,7 +157,8 @@ chrome.storage.local.get((r)=>{
                 n.includes("phobos") ||
                 n.includes("ice carbon diablo x") ||
                 n.includes("aftermath") ||
-                n.includes("bloodbath")
+                n.includes("bloodbath") ||
+                n.includes("apollo 11")
             ) newBeaten(l.title)
         })
 

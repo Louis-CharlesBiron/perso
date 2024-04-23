@@ -138,7 +138,7 @@ function fillLevelEntries(id, force) {
         e_creator.value = stats.author||''
         e_gameVersion.value = stats.gameVersion||''
         e_lazyLength.value = stats.length||''
-        e_featureLevel.value = !!stats.stars+[stats.featured, stats.epic, stats.legendary, stats.mythic].reduce((a, b, i)=>a+(b&&++i),0)??''
+        e_featureLevel.value = !!stats.stars+[stats.featured, stats.epic, stats.legendary, stats.mythic].reduce((a, b)=>a+b,0)??''
 
     }).catch((e)=>{
         editPanelError("There is no existing level for this id")

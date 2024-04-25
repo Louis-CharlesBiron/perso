@@ -11,7 +11,7 @@ function setInstantInterval(callback, speed) {
     }
 }
 
-var isInterval = -1
+let isInterval = -1
 
 chrome.runtime.onMessage.addListener(function(message) {
     if(message.type == "tab_updated" && message.content.info.status == "complete") {//

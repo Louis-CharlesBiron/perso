@@ -1,8 +1,10 @@
 const DEFAULT_COLOR = "aliceblue",
-      DEFAULT_RADIUS = 5,
-      CIRC = 2*Math.PI
-      W_WIDTH = 10
-      W_LENGTH = 100
+      DEFAULT_RADIUS = 6,
+      CIRC = 2*Math.PI,
+      DEFAULT_WW = 2,
+      DEFAULT_WH = 44 
+      TOTAL = DEFAULT_WH+DEFAULT_RADIUS
+
 
 class Dot {
 
@@ -12,6 +14,8 @@ class Dot {
         this._r = DEFAULT_RADIUS
         this._c = DEFAULT_COLOR
         this._w = walls??[]
+
+        this.ww = [-DEFAULT_WW, -DEFAULT_WH-this._r, DEFAULT_WW, DEFAULT_WH+this._r]
     }
 
     get x() {return this._x}
@@ -30,9 +34,10 @@ class Dot {
         ctx.arc(this._x, this._y, this._r, 0, CIRC)
         ctx.fill();
         this._w.forEach((w, i)=>{
-            ctx.beginPath()
-            if (+w) ctx.fillRect(this._x, this._y, i%2?W_WIDTH:W_LENGTH, i%2?W_LENGTH:W_WIDTH)
-
+            if (+w) {
+                ctx.beginPath()
+                ctx.fillRect(this._x-(this.ww[i]/2), this._y-(this.ww[i+1]/2), this.ww[i], this.ww[(i+1)])
+            }
         })
     }
 

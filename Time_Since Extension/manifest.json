@@ -1,7 +1,7 @@
 {
   "name": "Time Since...",
   "description": "Lets you easily and precisely track how much time has pass since you started doing something or since something happened!",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "manifest_version": 3,
   "icons": {
       "48": "./img/icon.png"

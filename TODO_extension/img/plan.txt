@@ -1,0 +1,14 @@
+make it linkable with other next calendar extension
+
+What do i need?
+
+very easy to use, like as easy as the notepad extension
+jira like ~
+
+- calendar section
+
+- todo one day
+- todo repeating
+- todo current projects
+
+TODO: title, desc, sub tasks, start/end date, reminders

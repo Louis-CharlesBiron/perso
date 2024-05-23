@@ -1,0 +1,10 @@
+html, body {
+    background-color: black;
+    overflow: hidden;
+    color: aliceblue;
+    margin: 0;
+}
+
+#cvs {
+    border: 2px solid aliceblue;
+}

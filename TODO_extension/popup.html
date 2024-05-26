@@ -1,6 +1,6 @@
 <!-- 
    HTML
-   Template Extension by Louis-Charles Biron
+   Todo Extension by Louis-Charles Biron
    Please don't use or credit this code as your own.
  -->
  <!doctype html>
@@ -8,12 +8,70 @@
     <head>
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
        <meta charset="UTF-8">
-       <title>Template</title>
-       <link rel="stylesheet" href="popup.css">
-    </head>
+       <title>TODO manager</title>
+       <link rel="stylesheet" href="pStyles/popup.css">
+       <script src="model/Todo.js"></script>
+      </head>
     <body>
        <span id="version">V1.0</span>
  
-       <script src="popup.js" async></script>
+      <div class="main">
+         <div class="sidebar">
+            
+            <div class="menus">
+               <label id="overview">
+                  <span>Overview</span>
+                  <input type="radio" id="overview_keep" value="1" name="menu_selection" class="hidden">
+               </label>
+   
+               <label id="backlog">
+                  <span>Todos</span>
+                  <input type="radio" id="backlog_keep" value="0" name="menu_selection" class="hidden">
+               </label>
+   
+               <label id="calendar">
+                  <span>Calendar</span>
+                  <input type="radio" id="calendar_keep" value="0" name="menu_selection" class="hidden">
+               </label>
+            </div>
+
+         </div>
+         
+         <div class="header_content">
+            <div class="header">
+               <div id="settings">
+                  settings (cog)
+               </div>
+            </div>
+            <div class="content">
+
+               <div class="c_pre_backlog">
+
+                  <div class="c_pb_new_p">
+                     <input type="text" id="c_pb_new" placeholder="I want to do...">
+                  </div>
+
+                  <div class="c_pb" id="pre_backlog">
+
+                     <div class="todo">
+                        <img src="s" class="t_type">
+                        <input class="t_title" type="text" value="TODO title"></input>
+                     </div>
+
+                  </div>
+
+               </div>
+
+               <div class="c_pre_todo">
+
+               </div>
+
+
+            </div>
+         </div>
+
+      </div>
+
+       <script src="pActions/overview.js" async></script>
     </body>
  </html>

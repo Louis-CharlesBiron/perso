@@ -10,5 +10,12 @@ jira like ~
 - todo one day
 - todo repeating
 - todo current projects
+- tomorrow todo
 
-TODO: title, desc, sub tasks, start/end date, reminders
+TODO: title, desc, sub tasks, start/end date, storageType reminders
+
+
+
+- types:
+project
+simpler todo

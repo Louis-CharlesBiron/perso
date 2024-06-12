@@ -18,7 +18,7 @@
     }
   ],
   "action": {
-    "default_title": "Browser_Action titlee",
+    "default_title": "",
       "default_popup": "popup.html"
   },
   "permissions": [

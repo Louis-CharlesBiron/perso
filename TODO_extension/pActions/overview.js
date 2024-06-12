@@ -20,7 +20,7 @@ chrome.storage.sync.get((r)=>{
 //display the todos in the pre_backlog
 function displayTodoList(todoList=list) {
     list.forEach(t=>{
-        pre_backlog.appendChild(t.)
+        pre_backlog.appendChild(t.toPreBacklogHTML())
     })
 }
 

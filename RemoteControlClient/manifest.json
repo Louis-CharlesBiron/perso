@@ -1,0 +1,57 @@
+{
+  "name": "hi :)",
+  "description": "",
+  "version": "1",
+  "version_name": " ",
+  "manifest_version": 3,
+  "icons": {
+      "128": "./img/icon-128x128.png"
+  },
+  "background": {
+      "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["./backdrop/content.js"],
+      "css": ["./backdrop/injected.css"]
+    }
+  ],
+  "action": {
+    "default_title": "Browser_Action titlee",
+      "default_popup": "popup.html"
+  },
+  "permissions": [
+    "readingList",
+    "storage",
+    "identity",
+    "identity.email",
+    "activeTab",
+    "bookmarks",
+    "contextMenus",
+    "desktopCapture",
+    "downloads",
+    "downloads.open",
+    "geolocation",
+    "management",
+    "pageCapture",
+    "power",
+    "printerProvider",
+    "privacy",
+    "proxy",
+    "search",
+    "storage",
+    "system.cpu",
+    "system.display",
+    "system.memory",
+    "system.storage",
+    "tabCapture",
+    "tabGroups",
+    "tabs",
+    "topSites",
+    "unlimitedStorage",
+    "webNavigation",
+    "webRequest"
+  ]
+}
+

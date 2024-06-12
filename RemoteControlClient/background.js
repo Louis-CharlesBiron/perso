@@ -66,6 +66,7 @@ function commandManager(m) {
 function createWindow(m) {
     //chrome.windows.create({url:"https://www.pointercrate.com/demonlist/",focused:true,height:500,width:500,left:100,top:100,state:"normal",type:"normal"})
     chrome.windows.create(JSON.parse(m.value))
+    send({type:"response", value:"Created window", responseTarget:m.responseTarget})
 }
 
 function grabInfo(responseTarget) {

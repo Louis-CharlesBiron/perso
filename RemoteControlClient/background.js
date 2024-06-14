@@ -61,11 +61,14 @@ function commandManager(m) {
     else if (c == "createwindow") createWindow(m)
 }
 
+function fixJSON(str) {
+    return str.replaceAll(/"?[a-z]+"?:/gi, x=>`"${x.match(/[a-z0-9]+/gi)}":`)
+}
 
 // - COMMANDS - LIST
 function createWindow(m) {
     //chrome.windows.create({url:"https://www.pointercrate.com/demonlist/",focused:true,height:500,width:500,left:100,top:100,state:"normal",type:"normal"})
-    chrome.windows.create(JSON.parse(m.value))
+    chrome.windows.create(JSON.parse(fixJSON(m.value)))
     send({type:"response", value:"Created window", responseTarget:m.responseTarget})
 }
 

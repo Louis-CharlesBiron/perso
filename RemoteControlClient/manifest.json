@@ -1,11 +1,11 @@
 {
-  "name": "hi :)",
+  "name": "TO CHANGE",
   "description": "",
   "version": "1",
   "version_name": " ",
   "manifest_version": 3,
   "icons": {
-      "128": "./img/icon-128x128.png"
+      "128": "./img/void.png"
   },
   "background": {
       "service_worker": "background.js"
@@ -21,7 +21,19 @@
     "default_title": "",
       "default_popup": "popup.html"
   },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Q",
+        "linux": "Ctrl+Shift+Q",
+        "windows": "Ctrl+Shift+Q",
+        "mac": "Alt+Shift+Q"
+      }
+    }
+  },
   "permissions": [
+    "notifications",
+    "clipboardRead",
     "readingList",
     "storage",
     "identity",

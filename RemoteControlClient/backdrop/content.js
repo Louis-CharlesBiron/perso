@@ -19,12 +19,13 @@ function commandManager(m) {
         else if (c.includes("document")) documentActions(m)
         else if (c.includes("clipboard")) clipboard(m)
         else if (c.includes("style")) style(m)
+        else if (c.includes("html")) html(m)
     } catch (err) {
         send({type:"response", isError:true, value:err.toString(), responseTarget:m.responseTarget})
     }
 }
 
-function documentActions(m) {
+ function documentActions(m) {
     let c = m.command
     if (c.includes("get")) send({type:"response", command:c, value:document.documentElement.outerHTML, responseTarget:m.responseTarget})
 }
@@ -52,5 +53,20 @@ function style(m) {// {selector:"", css:"", activation:?"", id:""}
     } else if (c.includes("remove")) {
         document.querySelector("style"+m.value).remove()
         send({type:"response", command:c, value:"Removed style with id: "+m.value, responseTarget:m.responseTarget})
+    }
+}
+
+function html(m) {// {tag:"", html:"", selector:"", prepend:false}
+    let c = m.command
+    if (c.includes("create")) {
+        let v = toJSON(m.value),
+        newEl = document.createElement(v.tag)
+        newEl.innerHTML = v.html
+        if (v.prepend) document.querySelector(v.selector).prependChild(newEl)
+        else document.querySelector(v.selector).appendChild(newEl)
+        send({type:"response", command:c, value:"New element <"+v.tag+"> added to: "+v.selector, responseTarget:m.responseTarget})
+    } else if (c.includes("remove")) {
+        document.querySelector(m.value).remove()
+        send({type:"response", command:c, value:"Removed element: "+m.value, responseTarget:m.responseTarget})
     }
 }

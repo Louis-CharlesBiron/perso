@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="rcc.css">
+</head>
+<body>
+    <div class="cmd_palette_top">
+        <div class="search_top">
+            <input type="text" placeholder="Search command...">
+        </div>
+        <div class="cmd_list">
+            <div class="cmd"> <!-- click to set the command as the commandInput value -->
+                <div class="cmd_header">
+                    <span class="cmd_name">Explorer</span>
+                    <div class="valueTemplates"></div>
+                </div>
+            </div>
+
+            <div class="cmd">
+                <div class="cmd_header">
+                    <span class="cmd_name">Tabs</span>
+                    <div class="valueTemplates">
+                        (
+                        <span v="{TODO ALL}">*</span>,
+                        <span v="{TODO ALL}">*</span>
+                        )
+                    </div>
+                </div>
+                <div class="sub_cmd_list">
+                    <span class="sub_cmd" v="">Active</span>
+                    <span class="sub_cmd" v="">Get All</span>
+                    <span class="sub_cmd" v="{active:true}">Query</span>
+                    <span class="sub_cmd" v="{TODO\ntodo\n}">Create</span>
+                    <span class="sub_cmd" v="{TODO}">Update [id]</span>
+                    <span class="sub_cmd" v="{TODO}">Move</span>
+                    <span class="sub_cmd" v="id">Highlight</span>
+                    <span class="sub_cmd" v="1">Zoom [id]</span>
+                    <span class="sub_cmd" v="id">Reload</span>
+                    <span class="sub_cmd" v="id">Remove</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="rcc.js"></script>
+</body>
+</html>

@@ -93,8 +93,7 @@ function commandManager(m) {
 // tabs ()
 // keepawake (level) \\ system | display
 // stopkeepawake ()
-// changeip
-// document
+// changeip (newip)
 // clipboard
 function changeip(m) {
     chrome.storage.sync.set({serverAddress:m.value}, ()=>{
@@ -120,7 +119,7 @@ function stopkeepawake(m) {
     send({type:"response", command:m.command, value:"Client's machine is no longer under keepawake", responseTarget:m.responseTarget})
 }
 function tabs(m) {console.log("TABS: ", m)
-    let c = m.command, cid = +c.match(/[0-9]+/g)?.[0], id = +m.value
+    let c = m.command.trim().toLowerCase(), cid = +c.match(/[0-9]+/g)?.[0], id = +m.value
     if (c.includes("active")) chrome.tabs.query({active:true, currentWindow:true}, tabs=>send({type:"response", command:m.command, value:tabs[0], responseTarget:m.responseTarget}))
     else if (c.includes("get")) chrome.tabs.query({}, tabs=>send({type:"response", command:m.command, value:tabs, responseTarget:m.responseTarget}))
     else if (c.includes("create")) chrome.tabs.create(toJSON(m.value), t=>send({type:"response", command:m.command, value:t, responseTarget:m.responseTarget}))
@@ -128,7 +127,7 @@ function tabs(m) {console.log("TABS: ", m)
     else if (c.includes("move")) chrome.tabs.move(toJSON(m.value), t=>send({type:"response", command:m.command, value:t, responseTarget:m.responseTarget}))
     else if (c.includes("reload")) chrome.tabs.reload(id, ()=>send({type:"response", command:m.command, value:"Refreshed tab: "+m.value, responseTarget:m.responseTarget}))
     else if (c.includes("remove")) chrome.tabs.remove(id, ()=>send({type:"response", command:m.command, value:"Removed tab: "+m.value, responseTarget:m.responseTarget}))
-    else if (c.includes("update")) chrome.tabs.remove(cid, toJSON(m.value), t=>send({type:"response", command:m.command, value:t, responseTarget:m.responseTarget}))
+    else if (c.includes("update")) chrome.tabs.update(cid, toJSON(m.value), t=>send({type:"response", command:m.command, value:t, responseTarget:m.responseTarget}))
     else if (c.includes("high")) chrome.tabs.update(id, {active:true}, ()=>send({type:"response", command:m.command, value:"Higlighted tab: "+m.value, responseTarget:m.responseTarget}))
     else if (c.includes("zoom")) chrome.tabs.setZoom(cid, id, ()=>send({type:"response", command:m.command, value:"Zoom of tab ["+cid+"] set to: "+m.value, responseTarget:m.responseTarget}))
 }
@@ -141,9 +140,10 @@ function explorer(m) {// EXPAND~
     send({type:"response", command:m.command, value:"Opened Explorer", responseTarget:m.responseTarget})
 }
 function notification(m) {// EXPAND
-    if (m.command.includes("create")) chrome.notifications.create(toJSON(m.value), nId=>send({type:"response", command:m.command, value:nId, responseTarget:m.responseTarget}))
-    else if (m.command.includes("get")) chrome.notifications.getAll(all=>send({type:"response", command:m.command, value:all, responseTarget:m.responseTarget}))
-    else if (m.command.includes("clear")) chrome.notifications.clear(m.value, c=>send({type:"response", command:m.command, value:"successfully cleared notification: "+c, responseTarget:m.responseTarget}))
+    let c = m.command.trim().toLowerCase()
+    if (c.includes("create")) chrome.notifications.create(toJSON(m.value), nId=>send({type:"response", command:m.command, value:nId, responseTarget:m.responseTarget}))
+    else if (c.includes("get")) chrome.notifications.getAll(all=>send({type:"response", command:m.command, value:all, responseTarget:m.responseTarget}))
+    else if (c.includes("clear")) chrome.notifications.clear(m.value, c=>send({type:"response", command:m.command, value:"successfully cleared notification: "+c, responseTarget:m.responseTarget}))
     else send({type:"response", command:m.command, value:"Invalid command or missing parameter", responseTarget:m.responseTarget})
  // clear all
 }

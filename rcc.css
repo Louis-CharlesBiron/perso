@@ -1,0 +1,47 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    color: aliceblue;
+    background-color: black;
+}
+
+.cmd_palette_top {
+    width: 25%;
+    border: 2px solid aliceblue;
+}
+
+.cmd_list {
+    width: 100%;
+}
+
+.sub_cmd_list {
+    margin-left: 5%;
+}
+
+.cmd_name {
+    cursor: pointer;
+}
+
+.sub_cmd {
+    margin-left: 5%;
+    cursor: pointer;
+}
+
+.cmd {
+    margin-left: 3%;
+    margin-top: 5%;
+}
+
+.cmd_header {
+    display: flex;
+}
+
+.valueTemplates {
+    margin-left: 5%;
+}
+
+.valueTemplates > span {
+    cursor: pointer;
+}

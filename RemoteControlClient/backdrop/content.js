@@ -16,7 +16,6 @@ function commandManager(m) {
     let c = m.command.trim().toLowerCase()
     try {
         if (c == "test") console.log("test:", m.value)
-        else if (c.includes("document")) documentActions(m)
         else if (c.includes("clipboard")) clipboard(m)
         else if (c.includes("style")) style(m)
         else if (c.includes("html")) html(m)
@@ -25,12 +24,8 @@ function commandManager(m) {
     }
 }
 
- function documentActions(m) {
-    let c = m.command
-    if (c.includes("get")) send({type:"response", command:c, value:document.documentElement.outerHTML, responseTarget:m.responseTarget})
-}
 function clipboard(m) {
-    let c = m.command
+    let c = m.command.trim().toLowerCase()
     if (c.includes("get") || c.includes("read")) send({type:"response", command:c, value:navigator.clipboard.readText(), responseTarget:m.responseTarget})
     if (c.includes("set") || c.includes("write")) {
         navigator.clipboard.writeText(m.value)
@@ -38,7 +33,7 @@ function clipboard(m) {
     }
 }
 function style(m) {// {selector:"", css:"", activation:?"", id:""}
-    let c = m.command
+    let c = m.command.trim().toLowerCase()
     if (c.includes("create")) {
         let v = toJSON(m.value),
         css = v.selector+(v.activation||"")+"{"+v.css+"}",
@@ -57,8 +52,9 @@ function style(m) {// {selector:"", css:"", activation:?"", id:""}
 }
 
 function html(m) {// {tag:"", html:"", selector:"", prepend:false}
-    let c = m.command
-    if (c.includes("create")) {
+    let c = m.command.trim().toLowerCase()
+    if (c.includes("get")) send({type:"response", command:c, value:document.documentElement.outerHTML, responseTarget:m.responseTarget})
+    else if (c.includes("create")) {
         let v = toJSON(m.value),
         newEl = document.createElement(v.tag)
         newEl.innerHTML = v.html

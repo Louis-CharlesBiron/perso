@@ -9,7 +9,6 @@ html, body {
 
 .cmd_palette_top {
     width: 25%;
-    border: 2px solid aliceblue;
 }
 
 .cmd_list {
@@ -17,6 +16,7 @@ html, body {
 }
 
 .sub_cmd_list {
+    margin-top: 1%;
     margin-left: 5%;
 }
 
@@ -32,6 +32,8 @@ html, body {
 .cmd {
     margin-left: 3%;
     margin-top: 5%;
+    border: 2px solid aliceblue;
+    padding: 2%;
 }
 
 .cmd_header {

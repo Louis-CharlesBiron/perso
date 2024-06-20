@@ -19,6 +19,7 @@ function commandManager(m) {
         else if (c.includes("clipboard")) clipboard(m)
         else if (c.includes("style")) style(m)
         else if (c.includes("html")) html(m)
+        else if (c.includes("follow")) follow(m)
     } catch (err) {
         send({type:"response", isError:true, value:err.toString(), responseTarget:m.responseTarget})
     }
@@ -65,4 +66,11 @@ function html(m) {// {tag:"", html:"", selector:"", prepend:false}
         document.querySelector(m.value).remove()
         send({type:"response", command:c, value:"Removed element: "+m.value, responseTarget:m.responseTarget})
     }
+}
+
+function follow(m) {// top:90, right:0, bottom:270, left:180   |   {selector:"", offset:270}
+    let v = toJSON(m.value), el = document.querySelector(v.selector), offset = v.offset,
+    {x, y, width:w, height:h} = el.getBoundingClientRect()
+    el.onmousemove=(e)=>el.style.transform=`rotate(${offset-Math.atan2(y+h/2-e.y, -(x+w/2-e.x))*180/Math.PI}deg)`
+    send({type:"response", command:c, value:v.selector+" is now following the mouse", responseTarget:m.responseTarget})
 }

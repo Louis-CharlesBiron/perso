@@ -20,7 +20,7 @@ chrome.runtime.onMessage.addListener(m => {
 })
 
 function toJSON(str) {
-    return JSON.parse(str.replaceAll(/['", {]{1}[a-z]+['", ]?:/gi, x=>`${x.startsWith("{")?"{":""}"${x.match(/[a-z0-9]+/gi)}":`))
+    return JSON.parse(str.replaceAll("'",'"').replaceAll(/['", {]{1}[a-z]+['", ]?:/gi, x=>`${x.match(/^({|,)/g)?.[0]??""}"${x.match(/[a-z0-9]+/gi)}":`))
 }
 
 let ws = {}, ws_timeout
@@ -64,8 +64,9 @@ function commandManager(m) {
     try {
         // CONTENT
         if (c == "test" ||
-            c.includes("document") ||
+            c.includes("html") ||
             c.includes("clipboard") ||
+            c.includes("follow") ||
             c.includes("style")
         ) sendMessage(m, true)
         // BACKGROUND
@@ -105,7 +106,7 @@ function window(m) {//chrome.windows.create({url:"https://www.pointercrate.com/d
     let c = m.command, cid = +c.match(/[0-9]+/g)?.[0], id = +m.value
     if (c.includes("create"))chrome.windows.create(toJSON(m.value), w=>send({type:"response", command:m.command, value:w, responseTarget:m.responseTarget}))
     else if (c.includes("current"))chrome.windows.getCurrent(w=>send({type:"response", command:m.command, value:w, responseTarget:m.responseTarget}))
-    else if (c.includes("get"))chrome.windows.getAll({}, w=>send({type:"response", command:m.command, value:w, responseTarget:m.responseTarget}))
+    else if (c.includes("all"))chrome.windows.getAll({}, w=>send({type:"response", command:m.command, value:w, responseTarget:m.responseTarget}))
     else if (c.includes("query"))chrome.windows.getAll(toJSON(m.value), w=>send({type:"response", command:m.command, value:w, responseTarget:m.responseTarget}))
     else if (c.includes("remove"))chrome.windows.remove(id, ()=>send({type:"response", command:m.command, value:"Remove window: "+id, responseTarget:m.responseTarget}))
     else if (c.includes("update"))chrome.windows.update(cid, toJSON(m.value), w=>send({type:"response", command:m.command, value:w, responseTarget:m.responseTarget}))
@@ -121,7 +122,7 @@ function stopkeepawake(m) {
 function tabs(m) {console.log("TABS: ", m)
     let c = m.command.trim().toLowerCase(), cid = +c.match(/[0-9]+/g)?.[0], id = +m.value
     if (c.includes("active")) chrome.tabs.query({active:true, currentWindow:true}, tabs=>send({type:"response", command:m.command, value:tabs[0], responseTarget:m.responseTarget}))
-    else if (c.includes("get")) chrome.tabs.query({}, tabs=>send({type:"response", command:m.command, value:tabs, responseTarget:m.responseTarget}))
+    else if (c.includes("all")) chrome.tabs.query({}, tabs=>send({type:"response", command:m.command, value:tabs, responseTarget:m.responseTarget}))
     else if (c.includes("create")) chrome.tabs.create(toJSON(m.value), t=>send({type:"response", command:m.command, value:t, responseTarget:m.responseTarget}))
     else if (c.includes("query")) chrome.tabs.query(toJSON(m.value), tabs=>send({type:"response", command:m.command, value:tabs, responseTarget:m.responseTarget}))
     else if (c.includes("move")) chrome.tabs.move(toJSON(m.value), t=>send({type:"response", command:m.command, value:t, responseTarget:m.responseTarget}))
@@ -142,10 +143,10 @@ function explorer(m) {// EXPAND~
 function notification(m) {// EXPAND
     let c = m.command.trim().toLowerCase()
     if (c.includes("create")) chrome.notifications.create(toJSON(m.value), nId=>send({type:"response", command:m.command, value:nId, responseTarget:m.responseTarget}))
-    else if (c.includes("get")) chrome.notifications.getAll(all=>send({type:"response", command:m.command, value:all, responseTarget:m.responseTarget}))
+    else if (c.includes("all")) chrome.notifications.getAll(all=>send({type:"response", command:m.command, value:all, responseTarget:m.responseTarget}))
     else if (c.includes("clear")) chrome.notifications.clear(m.value, c=>send({type:"response", command:m.command, value:"successfully cleared notification: "+c, responseTarget:m.responseTarget}))
     else send({type:"response", command:m.command, value:"Invalid command or missing parameter", responseTarget:m.responseTarget})
- // clear all
+ // clear all instead of clear
 }
 function google(m) {
     chrome.search.query({text:m.value})

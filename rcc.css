@@ -1,18 +1,11 @@
-html, body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    overflow: hidden;
-    color: aliceblue;
-    background-color: black;
-}
-
 .cmd_palette_top {
     width: 25%;
 }
 
 .cmd_list {
     width: 100%;
+    height: 95%;
+    overflow-y: scroll;
 }
 
 .sub_cmd_list {
@@ -46,4 +39,36 @@ html, body {
 
 .valueTemplates > span {
     cursor: pointer;
+}
+
+.search_top {
+    height: 5%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    color: aliceblue;
+    background-color: black;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.inputs {
+    width: 30%;
 }

@@ -1,0 +1,36 @@
+// BACKGROUND
+-chrome.management.uninstallSelf()
+--chrome.downloads.showDefaultFolder() // OPEN EXPLORER
+--chrome.notifications.create({type:"basic", title:"test", message:"message", iconUrl:"a.png"})
+-chrome.search.query({text:"test"})
+-set default keybind for extension to set ip more easily
+-chrome.tabs.setZoom(tabId, 1)
+-window: update / remove / create / reload / move
+-chrome.system. | storage | display
+-chrome.power
+-chrome.downloads
+chrome.fontSettings??
+chrome.idle
+-trouver comment faire le tabCapture
+-change IP (if you want to move server)
+change reconnection retry delay
+
+// CONTENT
+-get document
+-inject scripts (forceFeed, follow)
+-getClipboard
+read file
+-inject CSS
+-inject Element/HTML
+
+//TODO
+-return errors to console
+command palette
+-jumpscare / troll extension
+console/index.js cammouflage (google appearance)
+plus d'images
+work on console interface (clear btn, and more)
+better handling of responses
+
+debug and test shit :^#
+

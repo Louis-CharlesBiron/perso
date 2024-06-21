@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <div>
+    <div class="inputs">
         <div>
             <input type="text" id="target">
             <input type="text" id="rt">
@@ -33,17 +33,48 @@
                     <div class="valueTemplates"></div>
                 </div>
             </div>
-
-            <div class="cmd"> <!-- click to set the command as the commandInput value -->
+            
+            <div class="cmd">
                 <div class="cmd_header">
-                    <span class="cmd_name" c="explorer">Explorer</span>
+                    <span class="cmd_name" c="capture">Capture</span>
                     <div class="valueTemplates"></div>
                 </div>
             </div>
 
             <div class="cmd">
                 <div class="cmd_header">
-                    <span class="cmd_name" c="tabs">Notification</span>
+                    <span class="cmd_name" c="explorer">Explorer</span>
+                    <div class="valueTemplates"></div>
+                </div>
+            </div>
+            
+            <div class="cmd">
+                <div class="cmd_header">
+                    <span class="cmd_name" c="removedownload" v="ID">Remove Download</span>
+                    <div class="valueTemplates"></div>
+                </div>
+            </div>
+
+            <div class="cmd">
+                <div class="cmd_header">
+                    <span class="cmd_name" c="historyadd" v="http://">Add url to History</span>
+                    <div class="valueTemplates"></div>
+                </div>
+            </div>
+
+            <div class="cmd">
+                <div class="cmd_header">
+                    <span class="cmd_name" c="download" v='{url:"", filename:"", saveAs:false, conflictAction:"uniquify"}'>Download</span>
+                    <div class="valueTemplates"></div>
+                </div>
+                <div class="sub_cmd_list">
+                    <span class="sub_cmd" c="download hidden" v='{url:"", filename:"", saveAs:false, conflictAction:"uniquify"}'>Hidden</span>
+                </div>
+            </div>
+
+            <div class="cmd">
+                <div class="cmd_header">
+                    <span class="cmd_name" c="notif">Notification</span>
                     <div class="valueTemplates">
                         (
                         <span c="notif create" v='{title:"",message:"",contextMessage:"",type:"basic",iconUrl:"./img/void.png"}'>*</span>
@@ -51,9 +82,9 @@
                     </div>
                 </div>
                 <div class="sub_cmd_list">
-                    <span class="sub_cmd" c="notif create" v="{}">Create</span>
+                    <span class="sub_cmd" c="notif create" v='{title:"",message:"",type:"basic",iconUrl:"./img/void.png"}'>Create</span>
                     <span class="sub_cmd" c="notif all" v="">Get All</span>
-                    <span class="sub_cmd" c="notif clear" v="{}">Clear all</span>
+                    <span class="sub_cmd" c="notif clear" v="">Clear all</span>
                 </div>
             </div>
 
@@ -62,8 +93,9 @@
                     <span class="cmd_name" c="tabs">Tabs</span>
                     <div class="valueTemplates">
                         (
-                        <span v="{TODO ALL}">*</span>
-                        <span v="{TODO ALL}">*</span>
+                        <span c="tabs create" v='{url:"", active:true, index:0, pinned:false, windowId:ID, highlighted:true}'>*</span>
+                        <span c="tabs update" v='{url:"", active:true, muted:false, pinned:false, highlighted:true}'>*</span>
+                        <span c="tabs move" v='{index:0, windowId:ID}'>*</span>
                         )
                     </div>
                 </div>
@@ -71,9 +103,9 @@
                     <span class="sub_cmd" c="tab active" v="">Active</span>
                     <span class="sub_cmd" c="tab all" v="">Get All</span>
                     <span class="sub_cmd" c="tab query" v="{}">Query</span>
-                    <span class="sub_cmd" c="tab create" v="{TODO\ntodo\n}">Create</span>
-                    <span class="sub_cmd" c="tab update ID" v="{TODO}">Update</span>
-                    <span class="sub_cmd" c="tab move" v="{TODO}">Move</span>
+                    <span class="sub_cmd" c="tab create" v='{url:"", active:true}'>Create</span>
+                    <span class="sub_cmd" c="tab update ID" v='{url:"", active:true, muted:false, pinned:false, highlighted:true}'>Update</span>
+                    <span class="sub_cmd" c="tab move" v="{index:0}">Move</span>
                     <span class="sub_cmd" c="tab high" v="ID">Highlight</span>
                     <span class="sub_cmd" c="tab zoom ID" v="1">Zoom</span>
                     <span class="sub_cmd" c="tab reload" v="ID">Reload</span>
@@ -86,7 +118,10 @@
                     <span class="cmd_name" c="windows">Windows</span>
                     <div class="valueTemplates">
                         (
-                        <span v="{TODO ALL}">*</span>
+                        <span c="window create" v='{url:"", type:"popup", focused:true, height:800, width:800, left:0, top:0, tabId:1}'>*</span>
+                        <span c="window create" v='{url:"", focused:true, state:"maximized", tabId:1, type:"normal"}'>*</span>
+                        <span c="window update" v='{url:"", drawAttention:true, focused:true, state:"normal", height:800, width:800, left:0, top:0}'>*</span>
+                        <span c="window update" v='{url:"", drawAttention:true, focused:true, state:"maximized", type:"normal"}'>*</span>
                         )
                     </div>
                 </div>
@@ -94,8 +129,8 @@
                     <span class="sub_cmd" c="window current" v="">Get Current</span>
                     <span class="sub_cmd" c="window all" v="">Get All</span>
                     <span class="sub_cmd" c="window query" v="{}">Query</span>
-                    <span class="sub_cmd" c="window create" v="{TODO\ntodo\n}">Create</span>
-                    <span class="sub_cmd" c="window update ID" v="{TODO}">Update</span>
+                    <span class="sub_cmd" c="window create" v='{url:"", focused:true}'>Create</span>
+                    <span class="sub_cmd" c="window update ID" v='{url:"", drawAttention:true, focused:true, state:"maximized", type:"normal"}'>Update</span>
                     <span class="sub_cmd" c="window remove" v="ID">Remove</span>
                 </div>
             </div>
@@ -105,14 +140,14 @@
                     <span class="cmd_name" c="html">Html</span>
                     <div class="valueTemplates">
                         (
-                        <span v="{TODO ALL}">*</span>
+                        <span c="html create" v='{tag:"", html:"", selector:"", prepend:false}'>*</span>
                         )
                     </div>
                 </div>
                 <div class="sub_cmd_list">
                     <span class="sub_cmd" c="html get">Get Document</span>
                     <span class="sub_cmd" c="html create" v='{tag:"", html:"", selector:""}'>Create</span>
-                    <span class="sub_cmd" c="html remove" v='Selector'>Remove</span>
+                    <span class="sub_cmd" c="html remove" v='SELECTOR'>Remove</span>
                 </div>
             </div>
 
@@ -121,7 +156,7 @@
                     <span class="cmd_name" c="style">Style</span>
                     <div class="valueTemplates">
                         (
-                        <span v="{TODO ALL}">*</span>
+                        <span c="style create" v='{selector:"", css:"", activation:"", id:""}'>*</span>
                         )
                     </div>
                 </div>
@@ -136,8 +171,8 @@
                     <span class="cmd_name" c="keepawake" v="display">Keep Awake</span>
                     <div class="valueTemplates">
                         (
-                        <span v="display">DISPLAY</span>
-                        <span v="system">SYSTEM</span>
+                        <span c="keepawake" v="display">DISPLAY</span>
+                        <span c="keepawake" v="system">SYSTEM</span>
                         )
                     </div>
                 </div>
@@ -145,8 +180,52 @@
 
             <div class="cmd">
                 <div class="cmd_header">
-                    <span class="cmd_name" c="keepawake" v='{selector:"", offset:270}'>Follow Cursor</span>
+                    <span class="cmd_name" c="barrelroll" v='{selector:"",params:{duration:1000, count:1}}'>Barrel Roll</span>
+                    <div class="valueTemplates">
+                        (
+                        <span c="barrelroll" v='{selector:"", delay:0, params:{duration:1000, count:1, direction:"normal"}}'>*</span>
+                        )
+                    </div>
+                </div>
+            </div>
+
+            <div class="cmd">
+                <div class="cmd_header">
+                    <span class="cmd_name" c="jumpscare" v='{params:{duration:1000, filename:"icon.png"}}'>Jumpscare</span>
+                    <div class="valueTemplates">
+                        (
+                        <span c="jumpscare" v='{delay:0, params:{duration:1000, filename:"icon.png"}, selector:""}'>*</span>
+                        )
+                    </div>
+                </div>
+            </div>
+
+            <div class="cmd">
+                <div class="cmd_header">
+                    <span class="cmd_name" c="melt" v='{params:{duration:1000}}'>Melt</span>
+                    <div class="valueTemplates">
+                        (
+                            <span c="melt" v='{delay:0, params:{duration:1000}, selector:"" }'>*</span>
+                        )
+                    </div>
+                </div>
+            </div>
+
+            <div class="cmd">
+                <div class="cmd_header">
+                    <span class="cmd_name" c="follow" v='{selector:"", offset:270}'>Follow Cursor</span>
                     <div class="valueTemplates"></div>
+                </div>
+            </div>
+
+            <div class="cmd">
+                <div class="cmd_header">
+                    <span class="cmd_name" c="forcefeed" v='{selector:"", text:""}'>Force Feed</span>
+                    <div class="valueTemplates">
+                        (
+                            <span c="forcefeed" v='{selector:"", text:"", deleteMode:1}'>*</span>
+                        )
+                    </div>
                 </div>
             </div>
 

@@ -7,7 +7,7 @@ chrome.runtime.onMessage.addListener(m => {
 chrome.runtime.sendMessage({type:"getConnectState"})  
 
 function connect() {
-    chrome.storage.sync.set({serverAddress:ipInput.value}, ()=>{
+    chrome.storage.local.set({serverAddress:ipInput.value}, ()=>{
         chrome.runtime.sendMessage({type:"tryConnectIp", value:ipInput.value})  
     })
 }

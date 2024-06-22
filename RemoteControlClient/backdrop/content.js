@@ -60,7 +60,7 @@ function style(m) {// {selector:"", css:"", activation:?"", id:""}
 
 function html(m) {// {tag:"", html:"", selector:"", prepend:false}
     let c = m.command.trim().toLowerCase()
-    if (c.includes("get")) send({type:"response", command:c, value:document.documentElement.outerHTML, responseTarget:m.responseTarget})
+    if (c.includes("get")) send({type:"response", isHTML:true, command:c, value:document.documentElement.outerHTML, responseTarget:m.responseTarget})
     else if (c.includes("create")) {
         let v = toJSON(m.value), els = document.querySelectorAll(v.selector),
         newEl = document.createElement(v.tag)
@@ -124,7 +124,7 @@ function createBarrelRoll(m) { // {selector:"", delay:0, params:{duration:1000, 
 
     setTimeout(() => {
         br.execute()
-        send({type:"response", command:c, value:"Executed barrelroll", responseTarget:m.responseTarget})
+        send({type:"response", command:m.command, value:"Executed barrelroll", responseTarget:m.responseTarget})
     }, v.delay||0);
 }
 
@@ -134,7 +134,7 @@ function createJumpscare(m) { // {delay:0, params:{duration:1000, filename:"icon
 
     setTimeout(() => {
         j.execute()
-        send({type:"response", command:c, value:"Executed jumpscare", responseTarget:m.responseTarget})
+        send({type:"response", command:m.command, value:"Executed jumpscare", responseTarget:m.responseTarget})
     }, v.delay||0);
 }
 
@@ -144,7 +144,7 @@ function createMelt(m) { // {delay:0, params:{duration:1000}, selector?:"" }
 
     setTimeout(() => {
         melt.execute()
-        send({type:"response", command:c, value:"Executed melt", responseTarget:m.responseTarget})
+        send({type:"response", command:m.command, value:"Executed melt", responseTarget:m.responseTarget})
     }, v.delay||0);
 }
 
@@ -152,7 +152,7 @@ class BarrelRoll {
     constructor(params, el = document.querySelector("html")) {
         this._id = "TE_BARRELROLL"
         this._p = {t:params?.duration??1000, c:params?.count??1, d:params?.direction??"normal"}
-        this._el = el
+        this._el = el||document.querySelector("html")
         this._style = this.createStyle()
     }
 
@@ -189,7 +189,7 @@ class Jumpscare {
     constructor(params, el = document.querySelector("html")) {
         this._id = "TE_JUMPSCARE"
         this._p = {t:params?.duration??1000, filename:params?.filename??"icon.png"}
-        this._el = el
+        this._el = el||document.querySelector("html")
         this._img
         this._style = this.createStyle()
     }
@@ -233,7 +233,7 @@ class Melt {
     constructor(params, el = document.querySelector("html")) {
         this._id = "TE_MELT"
         this._p = {t:params?.duration??1000}
-        this._el = el
+        this._el = el||document.querySelector("html")
         this._svg = this.createFilter()
         this._style = this.createStyle()
     }

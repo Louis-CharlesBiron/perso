@@ -43,7 +43,7 @@
         /* transform: skew(1deg, 0deg); */
     }
     10% {
-        filter: saturate(32131231231) blur(10px) hue-rotate(66deg) invert(0.15) contrast(3) url(#TE_MELT_SVG);
+        filter: saturate(3231) blur(10px) hue-rotate(66deg) invert(0.15) contrast(3) url(#TE_MELT_SVG);
         /* transform: skew(1deg, 180deg); */
     }
     20% {
@@ -52,7 +52,7 @@
     }
     30% {
         filter: saturate(3) blur(3px) hue-rotate(150deg) invert(0.3) contrast(3) url(#TE_MELT_SVG);
-        transform: skew(4deg, 45deg);
+        transform: skew(3deg, 5deg);
     }
     40% {
         filter: saturate(31) blur(5px) hue-rotate(200deg) invert(0.1) contrast(91) url(#TE_MELT_SVG);
@@ -60,14 +60,14 @@
     }
     50% {
         filter: saturate(31) blur(0.5px) hue-rotate(231deg) invert(0.1) contrast(2) url(#TE_MELT_SVG);
-        transform: skew(3deg, 60deg);
+        transform: skew(2deg, 10deg);
     }
     60% {
-        filter: saturate(31281) blur(10px) hue-rotate(300deg) invert(0.3) contrast(99293192391) url(#TE_MELT_SVG);
+        filter: saturate(311) blur(10px) hue-rotate(300deg) invert(0.3) contrast(2391) url(#TE_MELT_SVG);
         /* transform: skew(1deg, 30deg); */
     }
     70% {
-        filter: saturate(3127861) blur(2px) hue-rotate(350deg) invert(1) contrast(1) url(#TE_MELT_SVG);
+        filter: saturate(3161) blur(2px) hue-rotate(350deg) invert(1) contrast(1) url(#TE_MELT_SVG);
         /* transform: skew(-2deg, 100deg); */
     }
     80% {
@@ -75,12 +75,12 @@
         /* transform: skew(-3deg, -90deg); */
     }
     90% {
-        filter: saturate(3124453391) blur(6px) hue-rotate(-123deg) invert(0.3) contrast(2) url(#TE_MELT_SVG);
+        filter: saturate(3124391) blur(6px) hue-rotate(-123deg) invert(0.3) contrast(2) url(#TE_MELT_SVG);
         /* transform: skew(-4deg, -15deg); */
     }
     100% {
-        filter: saturate(31283) blur(1.5px) hue-rotate(231deg) invert(0.1) contrast(99293192391) url(#TE_MELT_SVG);
-        transform: skew(0deg, 75deg);
+        filter: saturate(383) blur(1.5px) hue-rotate(231deg) invert(0.1) contrast(9391) url(#TE_MELT_SVG);
+        transform: skew(1deg, 15deg);
     }
 }
 

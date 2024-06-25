@@ -1,9 +1,10 @@
 //WINDOWS: {"url":"https://www.pointercrate.com/demonlist/","focused":true,"height":500,"width":500,"left":100,"top":100,"state":"normal","type":"normal"}
 
 'use strict'
-let ws = new WebSocket("ws://" + location.host),
+let ws = new WebSocket("ws://" + (location.host||"10.0.0.67:3000")),
     clients = [],
     messageFilter = ["activeUsers"]
+
 function send(obj) {
     ws.send(JSON.stringify(obj))
 }
@@ -89,7 +90,7 @@ sendCommandBtn.onclick = e => {
 }
 
 function toJSON(str) {
-    return str ? JSON.parse(str.replaceAll("'", '"').replaceAll(/['", {]{1}[a-z]+['", ]?:/gi, x => `${x.match(/^({|,)/g)?.[0] ?? ""}"${x.match(/[a-z0-9]+/gi)}":`)) : ""
+    return str ? JSON.parse(str.replaceAll("'", '"').replaceAll(/['", {]{1}[a-z]+['", ]?:(?=["']{1})/gi, x =>`${x.match(/^({|,)/g)?.[0]??""}"${x.match(/[a-z0-9]+/gi)}":`)) : ""
 }
 
 function setValueInput(v) {
@@ -125,5 +126,14 @@ clearInputs.onclick = e => {
     commandInput.value = valueInput.value = ""
 }
 
+cmd_search.oninput=()=>{
+    let s = cmd_search.value.toLowerCase()
+    document.querySelectorAll(".cmd_list .cmd_name").forEach(el=>el.parentElement.parentElement.style.display=[el.textContent.toLowerCase(), el.getAttribute("c")?.toLowerCase()].some(x=>x.includes(s))?"":"none")
+}
 
+cmd_search.oncontextmenu=(e)=>{
+    e.preventDefault()
+    cmd_search.value = ""
+    document.querySelectorAll(".cmd_list .cmd").forEach(el=>el.style.display="")
+}
 

@@ -28,5 +28,3 @@ ipInput.onkeydown=(e)=>{
     }
 }
 
-
-//chrome.tabs.captureVisibleTab(data=>console.log(data))

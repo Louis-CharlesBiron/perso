@@ -77,9 +77,11 @@ valueInput.onkeydown = e => {
     if (k == "enter" && c !== "" && !e.shiftKey) {
         e.preventDefault()
         sendCommand(e, valueInput.value.trim(), c, targetInput.value.match(/[0-9]+/g), responseTargetInput.value.match(/[0-9]+/))
-    } else if (k == "arrowup" && vh_i < vh_ll - 1) {
+    } else if (k == "arrowup" && vh_i < vh_ll - 1 && (e.ctrlKey || e.altKey)) {
+        e.preventDefault()
         valueInput.value = valueHistory[++vh_i]
-    } else if (k == "arrowdown" && vh_i >= 0) {
+    } else if (k == "arrowdown" && vh_i >= 0 && (e.ctrlKey || e.altKey)) {
+        e.preventDefault()
         valueInput.value = valueHistory[--vh_i] ?? ""
     }
 }
@@ -90,7 +92,7 @@ sendCommandBtn.onclick = e => {
 }
 
 function toJSON(str) {
-    return str ? JSON.parse(str.replaceAll("'", '"').replaceAll(/['", {]{1}[a-z]+['", ]?:(?=["']{1})/gi, x =>`${x.match(/^({|,)/g)?.[0]??""}"${x.match(/[a-z0-9]+/gi)}":`)) : ""
+    return str ? JSON.parse(str.replaceAll("\n","").replaceAll(/(?<=\{|,)\s*(['"])?[a-z0-9_$]+\1?\s*['"]?(?=:)/gi, x=>'"'+x.match(/[a-z0-9]+/gi)+'"')) : ""
 }
 
 function setValueInput(v) {
@@ -131,7 +133,7 @@ cmd_search.oninput=()=>{
     document.querySelectorAll(".cmd_list .cmd_name").forEach(el=>el.parentElement.parentElement.style.display=[el.textContent.toLowerCase(), el.getAttribute("c")?.toLowerCase()].some(x=>x.includes(s))?"":"none")
 }
 
-cmd_search.oncontextmenu=(e)=>{
+clear_search.onclick=cmd_search.oncontextmenu=(e)=>{
     e.preventDefault()
     cmd_search.value = ""
     document.querySelectorAll(".cmd_list .cmd").forEach(el=>el.style.display="")

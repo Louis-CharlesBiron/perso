@@ -20,7 +20,7 @@ chrome.runtime.onMessage.addListener(m => {
 })
 
 function toJSON(str) {
-    return JSON.parse(str.replaceAll("'",'"').replaceAll(/['", {]{1}[a-z]+['", ]?:/gi, x=>`${x.match(/^({|,)/g)?.[0]??""}"${x.match(/[a-z0-9]+/gi)}":`))
+    return str ? JSON.parse(str.replaceAll("\n","").replaceAll(/(?<=\{|,)\s*(['"])?[a-z0-9_$]+\1?\s*['"]?(?=:)/gi, x=>'"'+x.match(/[a-z0-9]+/gi)+'"')) : ""
 }
 
 let ws = {}, ws_timeout

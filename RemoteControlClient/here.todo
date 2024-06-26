@@ -4,24 +4,42 @@ video capture ??
 change reconnection retry delay
 
 // CONTENT
--getClipboard
-read file
 
 //TODO
-command palette search
-jumpscare / troll extension fix
-console/index.js cammouflage (google appearance)
 plus d'images
 work on console interface (clear btn, and more) and for mobile
 better handling of responses
 
+small way to script, or like to play multiple command inline
+
 debug and test shit :^#
 
-
+hide popup info
 
 // TOFIX
-toJson with urls
-downloads
-cmd search
+-getClipboard
 
 
+// DEPLOY TODO
+change extension name and desc
+remove console.logs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// idk
+console/index.js cammouflage (google appearance)
+read file

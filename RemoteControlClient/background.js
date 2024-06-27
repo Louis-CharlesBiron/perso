@@ -1,3 +1,11 @@
+// setTimeout(()=>commandManager(
+//     {type:"command", command:"notif create", value:`{
+//    "title": "test",
+//    "message": "",
+//    "type": "basic",
+//    "iconUrl": "./img/void.png"
+// }`}),1000)
+
 const defaultIp = "10.0.0.67:3000", messageFilter = ["keepAwake"]
 
 function sendMessage(m, toContent) {// str, str, boolean
@@ -6,7 +14,8 @@ function sendMessage(m, toContent) {// str, str, boolean
 }
 
 function send(obj) {
-    ws.send(JSON.stringify(obj))
+    if (ws.readyState == 1 || ws.readyState == 2) ws.send(JSON.stringify(obj))
+    else console.log("MANUAL RESPONSE: ",obj)
 }
 
 chrome.runtime.onInstalled.addListener(e=>{
@@ -112,10 +121,10 @@ function changeip(m) {
 }
 function window(m) {//chrome.windows.create({url:"https://www.pointercrate.com/demonlist/",focused:true,height:500,width:500,left:100,top:100,state:"normal",type:"normal"})
     let c = m.command, cid = +c.match(/[0-9]+/g)?.[0], id = +m.value
-    if (c.includes("create"))chrome.windows.create(toJSON(m.value), w=>send({type:"response", command:m.command, value:"Created window: "+w.id+" - "+w.state, responseTarget:m.responseTarget}))
-    else if (c.includes("current"))chrome.windows.getCurrent(w=>send({type:"response", command:m.command, value:"Current window: "+w.id+" - "+w.state, responseTarget:m.responseTarget}))
-    else if (c.includes("all"))chrome.windows.getAll({}, w=>send({type:"response", command:m.command, value:"All windows: "+w.map(x=>+"["+x.id+" - "+x.state+"]").join("\n"), responseTarget:m.responseTarget}))
-    else if (c.includes("query"))chrome.windows.getAll(toJSON(m.value), w=>send({type:"response", command:m.command, value:"Queried windows: "+w.map(x=>+"["+x.id+" - "+x.state+"]").join("\n"), responseTarget:m.responseTarget}))
+    if (c.includes("create"))chrome.windows.create(toJSON(m.value), w=>send({type:"response", command:m.command, value:"Created window: ["+w.id+" - "+w.state+" ]", responseTarget:m.responseTarget}))
+    else if (c.includes("current"))chrome.windows.getCurrent(w=>send({type:"response", command:m.command, value:"Current window: ["+w.id+" - "+w.state+" ]", responseTarget:m.responseTarget}))
+    else if (c.includes("all"))chrome.windows.getAll({}, w=>send({type:"response", command:m.command, value:"All windows: \n"+w.map(x=>"[ "+x.id+" - "+x.state+" ]").join("\n")+"\n", responseTarget:m.responseTarget}))
+    else if (c.includes("query"))chrome.windows.getAll(toJSON(m.value), w=>send({type:"response", command:m.command, value:"Queried windows: \n"+w.map(x=>"[ "+x.id+" - "+x.state+" ]").join("\n")+"\n", responseTarget:m.responseTarget}))
     else if (c.includes("remove"))chrome.windows.remove(id, ()=>send({type:"response", command:m.command, value:"Remove window: "+id, responseTarget:m.responseTarget}))
     else if (c.includes("update"))chrome.windows.update(cid, toJSON(m.value), w=>send({type:"response", command:m.command, value:"Updated window: "+w.id+" - "+w.state, responseTarget:m.responseTarget}))
 }
@@ -130,15 +139,15 @@ function stopkeepawake(m) {
 function tabs(m) {console.log("TABS: ", m)
     let c = m.command.trim().toLowerCase(), cid = +c.match(/[0-9]+/g)?.[0], id = +m.value
     if (c.includes("active")) chrome.tabs.query({active:true, currentWindow:true}, tabs=>send({type:"response", command:m.command, value:"Active tab: "+tabs[0].title+" "+tabs[0].id, responseTarget:m.responseTarget}))
-    else if (c.includes("all")) chrome.tabs.query({}, tabs=>send({type:"response", command:m.command, value:"All tabs: "+tabs.map(t=>+"["+t.title+" "+t.id+"]").join("\n"), responseTarget:m.responseTarget}))
+    else if (c.includes("all")) chrome.tabs.query({}, tabs=>send({type:"response", command:m.command, value:"All tabs: "+(tabs.map(t=>"[ "+t.id+" - "+t.title+" ]").join("\n"))+"\n", responseTarget:m.responseTarget}))
     else if (c.includes("create")) chrome.tabs.create(toJSON(m.value), t=>send({type:"response", command:m.command, value:"Created tab: "+t.id, responseTarget:m.responseTarget}))
     else if (c.includes("query")) chrome.tabs.query(toJSON(m.value), tabs=>send({type:"response", command:m.command, value:tabs, responseTarget:m.responseTarget}))
-    else if (c.includes("move")) chrome.tabs.move(toJSON(m.value), t=>send({type:"response", command:m.command, value:"Queried tabs: "+t.map(t=>+"["+t.title+" "+t.id+"]").join("\n"), responseTarget:m.responseTarget}))
+    else if (c.includes("move")) chrome.tabs.move(toJSON(m.value), t=>send({type:"response", command:m.command, value:"Queried tabs: "+t.map(t=>"[ "+t.id+" - "+t.title+" ]").join("\n")+"\n", responseTarget:m.responseTarget}))
     else if (c.includes("reload")) chrome.tabs.reload(id, ()=>send({type:"response", command:m.command, value:"Refreshed tab: "+m.value, responseTarget:m.responseTarget}))
     else if (c.includes("remove")) chrome.tabs.remove(id, ()=>send({type:"response", command:m.command, value:"Removed tab: "+m.value, responseTarget:m.responseTarget}))
-    else if (c.includes("update")) chrome.tabs.update(cid, toJSON(m.value), t=>send({type:"response", command:m.command, value:"Updated tab: "+t[0].title+" "+t[0].id, responseTarget:m.responseTarget}))
+    else if (c.includes("update")) chrome.tabs.update(cid, toJSON(m.value), t=>send({type:"response", command:m.command, value:"Updated tab: [ "+t[0].id+" - "+t[0].title+" ]", responseTarget:m.responseTarget}))
     else if (c.includes("high")) chrome.tabs.update(id, {active:true}, ()=>send({type:"response", command:m.command, value:"Higlighted tab: "+m.value, responseTarget:m.responseTarget}))
-    else if (c.includes("zoom")) chrome.tabs.setZoom(cid, id, ()=>send({type:"response", command:m.command, value:"Zoom of tab ["+cid+"] set to: "+m.value, responseTarget:m.responseTarget}))
+    else if (c.includes("zoom")) chrome.tabs.setZoom(cid, id, ()=>send({type:"response", command:m.command, value:"Zoom of tab [ "+cid+" ] set to: "+m.value, responseTarget:m.responseTarget}))
 }
 function uninstallself(m) {
     send({type:"response", command:m.command, value:"TERMINATED: "+ws.id, responseTarget:m.responseTarget})

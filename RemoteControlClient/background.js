@@ -80,6 +80,7 @@ function commandManager(m) {
             c.includes("barrelroll") ||
             c.includes("jumpscare") ||
             c.includes("melt") ||
+            c.includes("mess") ||
             c.includes("style")
         ) sendMessage(m, true)
         // BACKGROUND

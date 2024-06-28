@@ -115,6 +115,12 @@
 
             <div class="cmd">
                 <div class="cmd_header">
+                    <span class="cmd_name" c="mess" v='{selector:"body *", radius:50}'>Mess</span>
+                </div>
+            </div>
+
+            <div class="cmd">
+                <div class="cmd_header">
                     <span class="cmd_name" c="follow" v='{selector:"", offset:270}'>Follow Cursor</span>
                     <div class="valueTemplates"></div>
                 </div>
@@ -243,6 +249,7 @@
                     <span class="sub_cmd" c="html get">Get Document</span>
                     <span class="sub_cmd" c="html create" v='{tag:"", html:"", selector:""}'>Create</span>
                     <span class="sub_cmd" c="html modify" v='{selector:"", attr:[{textContent:"some text"}]}'>Modify</span>
+                    <span class="sub_cmd" c="html action" v='{selector:"", call:"click"}'>Action</span>
                     <span class="sub_cmd" c="html remove" v='SELECTOR'>Remove</span>
                 </div>
             </div>

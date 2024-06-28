@@ -11,6 +11,10 @@ function toJSON(str) {
     return str ? JSON.parse(str.replaceAll("\n","").replaceAll(/(?<=\{|,)\s*(['"])?[a-z0-9_$]+\1?\s*['"]?(?=:)/gi, x=>'"'+x.match(/[a-z0-9]+/gi)+'"')) : ""
 }
 
+function random(min, max) {
+    return Math.floor(Math.random()*(max-min+1))+min
+}
+
 // COMMANDS
 function commandManager(m) {
     let c = m.command.trim().toLowerCase()
@@ -24,6 +28,7 @@ function commandManager(m) {
         else if (c.includes("barrelroll")) createBarrelRoll(m)
         else if (c.includes("jumpscare")) createJumpscare(m)
         else if (c.includes("melt")) createMelt(m)
+        else if (c.includes("mess")) mess(m)
     } catch (err) {
         send({type:"response", isError:true, value:err.toString(), responseTarget:m.responseTarget})
     }
@@ -80,13 +85,22 @@ function html(m) {// {tag:"", html:"", selector:"", prepend:false}
             })
         })
         send({type:"response", command:c, value:"Modified element: "+v.selector+" ["+els.length+"]", responseTarget:m.responseTarget})
-    } else if (c.includes("action")) {// {selector:"", callback:"click"]}
+    } else if (c.includes("action")) {// {selector:"", call:"click"]}
         let v = toJSON(m.value), els = document.querySelectorAll(v.selector)
         els.forEach(el=>{
-            el[v.callback]?.()
+            el[v.call]?.()
         })
-        send({type:"response", command:c, value:"Executed '"+v.callback+"' on: "+v.selector+" ["+els.length+"]", responseTarget:m.responseTarget})
+        send({type:"response", command:c, value:"Executed '"+v.call+"()' on: "+v.selector+" ["+els.length+"]", responseTarget:m.responseTarget})
     }
+}
+
+function mess(m) {//{selector:"body *", radius:50}
+    let v = toJSON(m.value), r = v.radius??50, els = document.querySelectorAll(v.selector)
+    els.forEach(el=>{
+        el.style.marginLeft = random(-r, r)+"px"
+        el.style.marginTop = random(-r, r)+"px"
+    })
+    send({type:"response", command:m.command, value:"Messed :"+v.selector+" by "+r+"px ~"+" ["+els.length+"]", responseTarget:m.responseTarget})
 }
 
 function follow(m) {// top:90, right:0, bottom:270, left:180   |   {selector:"", offset:270}

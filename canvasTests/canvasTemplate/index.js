@@ -1,7 +1,3 @@
-// JS
-// Convenient Extension by Louis-Charles Biron
-// Please don't use or credit this code as your own.
-//
 window.requestAnimationFrame = window.requestAnimationFrame ||
                                window.mozRequestAnimationFrame ||
                                window.webkitRequestAnimationFrame ||             
@@ -11,7 +7,7 @@ window.requestAnimationFrame = window.requestAnimationFrame ||
 let ctx = cvs.getContext("2d", {})
 ctx.imageSmoothingEnabled = false
 ctx.lineWidth = 3
-ctx.fillStyle = ctx.stokeStule = "aliceblue"
+ctx.fillStyle = ctx.stokeStyle = "aliceblue"
 
 
 function updateCvsSize(fw, fh) {

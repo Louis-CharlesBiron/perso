@@ -57,7 +57,7 @@ function loop() {
     document.querySelector("title").textContent = ball.toString()
 
     //not my script
-    let n=performance.now();while(t.length>0&&t[0]<=n-1000){t.shift()};t.push(n);fpsd.textContent=(fps=t.length)+" fps"
+    let n=performance.now();while(t.length>0&&t[0]<=n-1000){t.shift()};t.push(n);fpsDisplay.textContent=(fps=t.length)+" fps"
     if (!avgFps) {
         avgFps=60
         setTimeout(()=>{avgFps=fps-1},1000)

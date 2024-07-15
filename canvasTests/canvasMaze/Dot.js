@@ -32,7 +32,7 @@ class Dot {
         ctx.fillStyle = this._c
         ctx.beginPath()
         ctx.arc(this._x, this._y, this._r, 0, CIRC)
-        ctx.fill();
+        ctx.fill()
         this._w.forEach((w, i)=>{
             if (+w) {
                 ctx.beginPath()

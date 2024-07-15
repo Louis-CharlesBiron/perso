@@ -8,7 +8,7 @@ window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequest
 let ctx = cvs.getContext("2d", {})
 ctx.imageSmoothingEnabled = false
 ctx.lineWidth = 3
-ctx.fillStyle = ctx.stokeStule = "aliceblue"
+ctx.fillStyle = ctx.stokeStyle = "aliceblue"
 
 
 function updateCvsSize(fw, fh) {
@@ -17,10 +17,11 @@ function updateCvsSize(fw, fh) {
 }updateCvsSize(500, 500)
 
 // init
-let dots = []
-for (let i=0,x=50,y=50;i<75;i++) {
-    x = x+TOTAL>cvs.width ? (y+=TOTAL,x=0) : x+TOTAL
-    dots.push(new Dot(x, y, [1, 0, 0, 1]))
+let dots = [], rowWidth = 10, startX = TOTAL/2, startY = TOTAL/2
+for (let i=0,x=startX,y=startY;i<100;i++) {
+    if (i) x = !(i%rowWidth) ? (y+=TOTAL,x=startX) : x+TOTAL
+    let asdasd = [random(0,1),random(0,1),random(0,1),random(0,1)]
+    dots.push(new Dot(x, y, asdasd))
 } 
 
 let isLoop, stopLoop

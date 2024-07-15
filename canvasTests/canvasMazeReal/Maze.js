@@ -20,16 +20,15 @@ class Maze {
             let posY = this.startY+radius*y*2
             for (let x=0;x<this.width;x++) {
                 let posX = this.startX+radius*x*2,
-                pos = x%2-y%2 ? new Between(posX, posY, x, y) : new Threshold(posX, posY, x, y, radius, [1,1,1,1])
-                //console.log(pos, y, x)
+                pos = x%2-y%2 ? new Between(posX, posY, x, y, radius) : new Threshold(posX, posY, x, y, radius, [1,1,1,1])
                 this.postitions[y][x] = pos
                 if (!(x%2-y%2)) pos.draw()
             }
         }
 
         // create start
-        this.start = [random(0, this.height), 0]// always starts at top for now
-        this.postitions.filter(v => equals([v.x, v.y], this.start)).drawCenter()////////////////////// TODO (locate start Position in this.positions and drawCenter it)
+        this.start = [random(0, this.width-1), 0]
+        this.getPosition(this.start).drawCenter()
 
         // Create path
         let path = new Path(this.start[0], this.start[1], this.width, this.height)
@@ -37,6 +36,10 @@ class Maze {
         console.log(path)
         path.show(path.lastPositions, this.startX, this.startY, this.radius)
 
+    }
+
+    getPosition(x, y) {
+        return typeof x == "object" ? this.postitions[x[1]][x[0]] : this.postitions[y][x]
     }
 
     reset() {// rebuild

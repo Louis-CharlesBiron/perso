@@ -16,11 +16,13 @@ function updateCvsSize(fw, fh) {
 
 // init
 
-let maze = new Maze(5, 6, 100, 100, 25)
+let maze = new Maze(5, 6, 50, 50, 25)
 maze.build()
 
 
 
+// mouse
+cvs.onmousemove=e=>mouseInfo.textContent = "("+e.x+", "+e.y+")"
 
 
 
@@ -44,26 +46,4 @@ maze.build()
 
 
 
-
-// let dots = []
-// for (let i=0,x=50,y=50;i<75;i++) {
-//     x = x+TOTAL>cvs.width ? (y+=TOTAL,x=0) : x+TOTAL
-//     dots.push(new Dot(x, y, [1, 0, 0, 1]))
-// } 
-
-// let isLoop, stopLoop
-// function loop() {
-//     ctx.clearRect(0, 0, cvs.width, cvs.height)
-//     dots.forEach(d=>d.draw())
-
-//     if (!stopLoop) window.requestAnimationFrame(loop)
-// }
-
-// function startLoop() {
-//     if (!isLoop || stopLoop) {
-//         isLoop = true
-//         stopLoop = false
-//         window.requestAnimationFrame(loop)
-//     }
-// }startLoop()
 

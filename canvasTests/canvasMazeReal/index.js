@@ -19,6 +19,15 @@ function updateCvsSize(fw, fh) {
 let maze = new Maze(5, 6, 50, 50, 25)
 maze.build()
 
+function loop() {
+    ctx.clearRect(0, 0, cvs.width, cvs.height)
+
+    maze.draw(ctx)
+
+    window.requestAnimationFrame(loop)
+}
+
+window.requestAnimationFrame(loop)
 
 
 // mouse

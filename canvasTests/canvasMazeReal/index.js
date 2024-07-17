@@ -17,7 +17,7 @@ function updateCvsSize(fw, fh) {
 // init
 
 let maze = new Maze(5, 6, 50, 50, 25)
-maze.build()
+maze.build(0, 3, [3, 2])
 
 function loop() {
     ctx.clearRect(0, 0, cvs.width, cvs.height)

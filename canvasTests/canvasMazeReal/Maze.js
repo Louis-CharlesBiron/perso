@@ -44,21 +44,25 @@ class Maze {
         positions.forEach((p, i) => {
             let p2 = positions[i-1]
 
-            //p.walls = [1,1,1,1]
+            console.log("P1: ", p)
+            if(!p2)console.log("P2: ", p2)
+            p.walls = [1,1,1,1]
 
-            //if (p2) {
-            //    let x = p[0]-p[2], y = p[1]-p[1]
-            //    
-            //    if (x == 1) {// right
-            //        p2.walls = [1,0,1,1]
-            //    } else if (x == -1) {// left 
-            //        p2.walls = [1,1,1,0]
-            //    } else if (y == 1) {// top
-            //        p2.walls = [0,1,1,1]
-            //    } else if (y == -1) {// bottom
-            //        p2.walls = [1,1,0,1]
-            //    } 
-            //}
+            if (p2) {
+                let x = p.x-p2.x, y = p.y-p2.y
+                console.log("P2: ", p2, x, y)
+                if (x == 1) {// right
+                    console.log(p2.walls)
+                    p2.walls = [1,1,1,0]
+                    console.log(p2.walls)
+                } else if (x == -1) {// left 
+                    p2.walls = [1,0,1,1]
+                } else if (y == 1) {// top
+                    p2.walls = [1,1,0,1]
+                } else if (y == -1) {// bottom
+                    p2.walls = [0,1,1,1]
+                } 
+            }
         })
     }
 

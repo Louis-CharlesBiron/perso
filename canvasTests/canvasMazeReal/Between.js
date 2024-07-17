@@ -16,16 +16,16 @@ class Between {
     }
 
     set walls(walls) {
-        if (!this.#thresholds) this.#thresholds = [this.mazePos?.[this.y-1]?.[this.x], this.mazePos?.[this.y]?.[this.x-1], this.mazePos?.[this.y+1]?.[this.x], this.mazePos?.[this.y]?.[this.x+1]]
+        if (!this.#thresholds) this.#thresholds = [this.mazePos?.[this.y-1]?.[this.x], this.mazePos?.[this.y]?.[this.x+1], this.mazePos?.[this.y+1]?.[this.x], this.mazePos?.[this.y]?.[this.x-1]]
         walls.forEach((w,i)=>{
             let t = this.#thresholds[i]
-            if (t) t.walls[(i+2)%4] = w
+            if (t && w !== null) t.walls[(i+2)%4] = w
         }) 
     }
 
     get walls() {
-        if (!this.#thresholds) this.#thresholds = [this.mazePos?.[this.y-1]?.[this.x], this.mazePos?.[this.y]?.[this.x-1], this.mazePos?.[this.y+1]?.[this.x], this.mazePos?.[this.y]?.[this.x+1]]
-        return this.#thresholds.map((w, i)=>w?w.walls[i]??0:null)
+        if (!this.#thresholds) this.#thresholds = [this.mazePos?.[this.y-1]?.[this.x], this.mazePos?.[this.y]?.[this.x+1], this.mazePos?.[this.y+1]?.[this.x], this.mazePos?.[this.y]?.[this.x-1]]
+        return this.#thresholds.map((w, i)=>w?w.walls[(i+2)%4]:null)
     }
 
     draw(ctx) {

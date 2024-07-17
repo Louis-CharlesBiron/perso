@@ -8,3 +8,13 @@ html, body {
 #cvs {
     border: 2px solid aliceblue;
 }
+
+.c {
+    position: absolute;
+    z-index: 123123123;
+    top: 0;
+}
+
+* {
+    user-select: none;
+}

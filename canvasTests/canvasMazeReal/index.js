@@ -16,7 +16,8 @@ function updateCvsSize(fw, fh) {
 
 // init
 
-let maze = new Maze(36, 70, 10, 40, 5)
+//let maze = new Maze(36, 70, 10, 40, 5)
+let maze = new Maze(6, 6, 10, 40, 25)
 maze.build()
 
 function loop() {

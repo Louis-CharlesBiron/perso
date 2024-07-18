@@ -12,14 +12,36 @@ ctx.fillStyle = ctx.strokeStyle = "aliceblue"
 function updateCvsSize(fw, fh) {
     cvs.width = fw??window.innerWidth-20
     cvs.height = fh??cvs.width/2
-}updateCvsSize(1500, 1000)
+}updateCvsSize(window.innerWidth-5, window.innerHeight-5)
 
 // init
 
-//let maze = new Maze(36, 70, 10, 40, 5)
-let maze = new Maze(6, 6, 10, 40, 25)
-maze.build()
+//MAZE CREATION PROPS
+let maze_width = 134,//134
+    maze_height = 86,//86
+    maze_startPXx = 10,
+    maze_startPYx = 20,
+    // 5=small | 10=big small | 25=comfort | 50=big | 100=big comfort
+    // -1      | -0           | -0         | -0     | -0
+    // -2      | -1           | -1         | -0     | -0
+    maze_radius = 100
 
+// (AUTO FILL)
+    maze_width =  (cvs.width /maze_radius/2-   0   )|0
+    maze_height = (cvs.height/maze_radius/2-   0   )|0
+
+// MAZE CREATION
+let maze = new Maze(maze_width, maze_height, maze_startPXx, maze_startPYx, maze_radius)
+
+// MAZE BUILD PROPS
+let maze_startPos = null,
+    maze_minLength = 0,
+    maze_maxLength = Infinity,
+    maze_guidanceForce = 50
+// MAZE BUILD
+maze.build(maze_startPos, maze_minLength, maze_maxLength, maze_guidanceForce)
+
+// DRAW LOOP
 function loop() {
     ctx.clearRect(0, 0, cvs.width, cvs.height)
 
@@ -39,9 +61,13 @@ cvs.onmousemove=e=>{
     mazeInfo.textContent = at ? `AT: ${at?.type} [${at?.x}, ${at?.y}], walls:[${at?.walls[0]},${at?.walls[1]},${at?.walls[2]},${at?.walls[3]}]` : ""
 }
 
-cvs.onclick=()=>{
-    if (at) maze.reset([at.x, at.y])
+// Create on click
+cvs.onclick=(e)=>{
+    if (at && e.ctrlKey) maze.reset([at.x, at.y])
 }
+
+// maze info (props)
+mazeProps.textContent = `MAZE: START[${maze.path.startPos[0]},${maze.path.startPos[1]}], - END[${maze.path.endPos[0]},${maze.path.endPos[1]}], - LENGTH:${maze.path.lastPositions.length}, - SIZE: ${maze.width} x ${maze.height}`
 
 
 

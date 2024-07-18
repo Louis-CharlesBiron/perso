@@ -1,6 +1,6 @@
 html, body {
     background-color: black;
-    overflow: hidden;
+    /* overflow: hidden; */
     color: aliceblue;
     margin: 0;
 }
@@ -13,8 +13,17 @@ html, body {
     position: absolute;
     z-index: 123123123;
     top: 0;
+    width: 100%;
 }
 
 * {
     user-select: none;
+}
+
+*::-webkit-scrollbar {
+    width: 0px;
+}
+
+.c > span {
+    margin-right: 2%;
 }

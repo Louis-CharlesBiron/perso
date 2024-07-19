@@ -54,9 +54,18 @@ class Path {
         cpositions.forEach((p, i) => {
             let pos = maze.getPosition(p), pos2 = maze.getPosition(cpositions[i+1])
             let drgb = rgbIterator(rgb, colorIndex, 205/cpositions.length, 50, 255, true)
-            pos.info.drawCenter.push({color:drgb, cr:3})
-            if (pos2) this.info.show.pos.push({c1:[pos.cx, pos.cy], c2:[pos2.cx, pos2.cy], color:drgb})
+            pos.info.drawCenter.push({color:drgb, cr:3, type:"show"})
+            if (pos2) this.info.show.pos.push({c1:[pos.cx, pos.cy], c2:[pos2.cx, pos2.cy], color:drgb, pos:p})
         })
+    }
+
+    hide() {
+        this.info.show.pos.forEach(p=>{
+            let pp = maze.getPosition(p.pos)
+            pp.info.drawCenter = pp.info.drawCenter.filter(x=>x.type!=="show")
+        })
+        maze.getAdjacentPositions(this.info.show.pos[this.info.show.pos.length-1].pos).forEach(p=>p.info.drawCenter = p.info.drawCenter.filter(x=>x.type!=="show"))
+        this.info.show = null
     }
 
     draw() {

@@ -3,7 +3,7 @@ window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequest
 let ctx = cvs.getContext("2d", {})
 ctx.clearRect(0, 0, cvs.width, cvs.height)
 ctx.imageSmoothingEnabled = false
-ctx.globalCompositeOperation = 'source-over'
+ctx.globalCompositeOperation = "source-over"
 ctx.lineWidth = 3
 ctx.globalAlpha = 1
 ctx.fillStyle = ctx.strokeStyle = "aliceblue"
@@ -15,20 +15,19 @@ function updateCvsSize(fw, fh) {
 }updateCvsSize(window.innerWidth-5, window.innerHeight-5)
 
 // init
-
 //MAZE CREATION PROPS
 let maze_width = 134,//134
     maze_height = 86,//86
     maze_startPXx = 10,
     maze_startPYx = 20,
-    // 5=small | 10=big small | 25=comfort | 50=big | 100=big comfort
+    // 5=small | 10=big small | 25=complex | 50=big | 100=big comfort
     // -1      | -0           | -0         | -0     | -0
     // -2      | -1           | -1         | -0     | -0
-    maze_radius = 100
+    maze_radius = 25
 
-// (AUTO FILL)
+// ("AUTO" FILL)
     maze_width =  (cvs.width /maze_radius/2-   0   )|0
-    maze_height = (cvs.height/maze_radius/2-   0   )|0
+    maze_height = (cvs.height/maze_radius/2-   1   )|0
 
 // MAZE CREATION
 let maze = new Maze(maze_width, maze_height, maze_startPXx, maze_startPYx, maze_radius)
@@ -37,19 +36,30 @@ let maze = new Maze(maze_width, maze_height, maze_startPXx, maze_startPYx, maze_
 let maze_startPos = null,
     maze_minLength = 0,
     maze_maxLength = Infinity,
-    maze_guidanceForce = 50
+    maze_guidanceForce = 2
 // MAZE BUILD
 maze.build(maze_startPos, maze_minLength, maze_maxLength, maze_guidanceForce)
 
+// PLAYER
+let player_speed = 125,
+    player_size = 1+(maze_radius/2)|0
+
+let player = new Player(player_speed, player_size)
+
+
+// SET PLAYER POS
+player.position = maze.path.startPos
+
 // DRAW LOOP
-function loop() {
+function loop(timestamp) {
     ctx.clearRect(0, 0, cvs.width, cvs.height)
 
     maze.draw(ctx)
 
+    player.draw(ctx, timestamp)
+
     window.requestAnimationFrame(loop)
 }
-
 window.requestAnimationFrame(loop)
 
 
@@ -92,3 +102,4 @@ mazeProps.textContent = `MAZE: START[${maze.path.startPos[0]},${maze.path.startP
 
 
 
+//Cliquez Oui à la question admin

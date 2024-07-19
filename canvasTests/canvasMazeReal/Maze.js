@@ -32,9 +32,9 @@ class Maze {
         maze.getPosition(this.path.startPos).info.drawCenter.push({color:"red", cr:5}) // show start
         maze.getPosition(this.path.endPos).info.drawCenter.push({color:"lime", cr:5})  // show end
 
-        //this.path.show()
+        this.path.show()
 
-        this.shape() //
+        this.shape(true) //
     }
 
     // createPositions() {}
@@ -48,15 +48,17 @@ class Maze {
         this.path = null
         console.log(this.width, this.height)
 
-        for (let y=0,i=0;y<this.height;y++) {
+        for (let y=0,i=-1;y<this.height;y++) {
             this.postitions[y] = []
             let posY = this.startY+this.radius*y*2
             for (let x=0;x<this.width;x++) {
-                if (!(x%2-y%2)) i++
-                let posX = this.startX+this.radius*x*2, walls = [...parseInt(v[i],16).toString(2)].toReversed().map(x=>+x), w_ll = walls.length
-                walls.length = 4
-                walls.fill(0, w_ll, 4)
-                console.log(i, v[i], walls, (x%2-y%2)?"between":"threshold")
+                let posX = this.startX+this.radius*x*2, walls, w_ll
+                if (!(x%2-y%2)) {
+                    walls = [...parseInt(v[++i],16).toString(2)].toReversed().map(x=>+x), w_ll = walls.length
+                    walls.length = 4
+                    walls.fill(0, w_ll, 4)
+                }
+                
                 this.postitions[y][x] = x%2-y%2 ? new Between(posX, posY, x, y, this.radius, this.postitions) : new Threshold(posX, posY, x, y, this.radius, walls)
             }
         }
@@ -64,6 +66,12 @@ class Maze {
 
     getPosition(x, y) {
         return typeof x == "object" ? this.postitions?.[x[1]]?.[x[0]] : this.postitions?.[y]?.[x]
+    }
+
+    getAdjacentPositions(x, y) {
+        return typeof x == "object" ? 
+        [this.postitions?.[x[1]]?.[x[0]-1], this.postitions?.[x[1]+1]?.[x[0]], this.postitions?.[x[1]]?.[x[0]+1], this.postitions?.[x[1]-1]?.[x[0]]] : 
+        [this.postitions?.[y-1]?.[x], this.postitions?.[y]?.[x+1], this.postitions?.[y+1]?.[x], this.postitions?.[y]?.[x-1]]
     }
 
     shape(randomUnused) {
@@ -79,10 +87,14 @@ class Maze {
             })
         })
 
-        if (randomUnused) this.unusedPositions.forEach((p,i)=>{
-            let rw = [random(0,(i+1)%5),random(0,(i+1)%5),random(0,(i+1)%5),random(0,(i+1)%5)]
+        if (randomUnused) this.unusedPositions.filter(x=>x.type=="threshold").forEach((p,i)=>{// TO RECHECK JAR
+            let rw = [random(0,(i+1)%4),random(0,(i+1)%4),random(0,(i+1)%4),random(0,(i+1)%4)]
             p.walls = rw
         })
+    }
+
+    getPositionHiboxes(position) {
+        return position.walls.map((w,i)=>w ? {w:[position.dx, position.dy], d:i, r:this.radius} : null)
     }
 
     solve() {// pathfind
@@ -108,6 +120,10 @@ class Maze {
         ctx.stroke()
     }
 
+    getRandomSeed(width=5, height=5) {
+        return randomHexString(width*height)+"x"+width
+    }
+
     get seed() {//this.startPos[0]+"o"+this.startPos[1]+"x"+ FOR THE STARTPOS
         return this.postitions.flatMap(x=>x).filter(x=>x.type=="threshold").map(x=>x.walls.reduce((a,b,i)=>a+(b*2**i),0)).map(x=>x.toString(16)).join("")+"x"+this.width
     }
@@ -117,4 +133,11 @@ class Maze {
         return this.postitions.flatMap(x=>x).filter(x=>!this.path.lastPositions.some(a=>equals([x.x,x.y], a)))
     }
     
+    get endX() {
+        return maze.width*maze.radius*2+maze.startX
+    }
+
+    get endY() {
+        return maze.height*maze.radius*2+maze.startY
+    }
 }

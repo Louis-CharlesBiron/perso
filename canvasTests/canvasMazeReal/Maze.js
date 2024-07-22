@@ -88,13 +88,34 @@ class Maze {
         })
 
         if (randomUnused) this.unusedPositions.filter(x=>x.type=="threshold").forEach((p,i)=>{// TO RECHECK JAR
-            let rw = [random(0,(i+1)%4),random(0,(i+1)%4),random(0,(i+1)%4),random(0,(i+1)%4)]
+            let rw = [random(0,1),random(0,1),random(0,1),random(0,1)]//[random(0,(i+1)%4),random(0,(i+1)%4),random(0,(i+1)%4),random(0,(i+1)%4)]
             p.walls = rw
         })
     }
 
-    getPositionHiboxes(position) {
-        return position.walls.map((w,i)=>w ? {w:[position.dx, position.dy], d:i, r:this.radius} : null)
+    getPositionHitboxes(position) {
+        let {x, y} = position, box = [this.postitions?.[y-1]?.[x-1], this.postitions?.[y-1]?.[x], this.postitions?.[y-1]?.[x+1], this.postitions?.[y]?.[x-1], position, this.postitions?.[y]?.[x+1], this.postitions?.[y+1]?.[x-1], this.postitions?.[y+1]?.[x], this.postitions?.[y+1]?.[x+1]],
+        res = box.map(p=>p?.walls.map((w,i)=>{
+            let r = this.radius*2, lw = ctx.lineWidth*2, hbs
+            if (i==0) hbs=[[p.dx, p.dy], [p.dx+r, p.dy+lw]]
+            else if (i==1) hbs=[[p.dx+r, p.dy], [p.dx+r+lw, p.dy+r]]
+            else if (i==2) hbs=[[p.dx, p.dy+r], [p.dx+r, p.dy+r+lw]]
+            else if (i==3) hbs=[[p.dx, p.dy], [p.dx+lw, p.dy+r]]
+            return w&&hbs
+        })).flatMap(x=>x)
+        /////////////////res.filter(x=>x && ) REMOVE DUPLICATE ARRS
+        // return box.map(p=>{
+        //     console.log(p)
+        //     return p?.walls.map((w,i)=>{
+        //         let r = this.radius*2, lw = ctx.lineWidth*2, hbs=[]
+        //         if (i==0) hbs=[[p.dx, p.dy], [p.dx+r, p.dy+lw]]
+        //         else if (i==1) hbs=[[p.dx+r, p.dy], [p.dx+r+lw, p.dy+r]]
+        //         else if (i==2) hbs=[[p.dx, p.dy+r], [p.dx+r, p.dy+r+lw]]
+        //         else if (i==3) hbs=[[p.dx, p.dy], [p.dx+lw, p.dy+r]]
+        //         return w&&hbs
+        //     }).filter(x=>x==1)
+        // })
+        //return position.walls.map((w,i)=>w ? {w:[position.dx, position.dy], d:i, r:this.radius} : null)
     }
 
     solve() {// pathfind

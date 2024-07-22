@@ -15,7 +15,7 @@ class Player {
             right:["d", "arrowright"],
             left:["a", "arrowleft"],
             walk:["shift"],
-            run:["space", "control"]
+            run:[" ", "control"]
         }
         this.activeKeys = {}
         
@@ -28,8 +28,6 @@ class Player {
         this.y = mp.y
         return mp
     }
-
-
 
     draw(ctx, timestamp) {
         if (!this.#lastFrameTime) this.#lastFrameTime = timestamp//
@@ -47,7 +45,7 @@ class Player {
 
     actionControls(v) {
         //check hitboxes
-        let hb = maze.getPositionHiboxes(this.getMazePosition())
+        //let hb = maze.getPositionHitboxes(this.getMazePosition())
         //console.log(hb)
         //if (hb[0]) console.log(this.dx, hb[0].w[0], " | ", this.dx, hb[0].w[0]+hb[0].r*2, "|", this.dy, hb[0].w[1], "|", this.dy, hb[0].w[1]+hb[0].r*2)
         //if (hb[0]   &&   this.dx < hb[0].w[0] && this.dx > hb[0].w[0]+hb[0].r*2   &&   this.dy < hb[0].w[1] && this.dy > hb[0].w[1]+hb[0].r*2) {
@@ -57,11 +55,11 @@ class Player {
         if (this.activeKeys.run) v *= 1.75
         if (this.activeKeys.walk) v /= 2
 
-        let next = [this.dy-v, this.dx+v, this.dy+v, this.dx-v]// up right down left
-        if (this.activeKeys.up) this.dy = next[0] > maze.startY+this.size/2 ? next[0] : maze.startY+this.size/2
-        if (this.activeKeys.right) this.dx = next[1] < maze.endX-this.size/2 ? next[1] : maze.endX-this.size/2
-        if (this.activeKeys.down) this.dy = next[2] < maze.endY-this.size/2 ? next[2] : maze.endY-this.size/2
-        if (this.activeKeys.left) this.dx = next[3] > maze.startX+this.size/2 ? next[3] : maze.startX+this.size/2
+        let next = [this.dy-v, this.dx+v, this.dy+v, this.dx-v], s = this.size/2// up right down left
+        if (this.activeKeys.up) this.dy = next[0] > maze.startY+s ? next[0] : maze.startY+s
+        if (this.activeKeys.right) this.dx = next[1] < maze.endX-s ? next[1] : maze.endX-s
+        if (this.activeKeys.down) this.dy = next[2] < maze.endY-s ? next[2] : maze.endY-s
+        if (this.activeKeys.left) this.dx = next[3] > maze.startX+s ? next[3] : maze.startX+s
 
         return Object.values(this.activeKeys).some(x=>x)
     }

@@ -43,6 +43,15 @@ class Player {
         ctx.fill()
     }
 
+    checkHitboxes(step, debug) {
+        let hb = maze.getPositionHitboxes(this.getMazePosition())
+        return hb.some(p=>{
+            if (debug) console.log(hb.length, this.dx+step, p, "LEFT:",this.dx+step>=p[0][0], "RIGHT:",this.dx-step<=p[1][0], "BOTTOM:",this.dy+step>=p[0][1], "TOP:",this.dy-step<=p[1][1])
+            return (this.dx+step<p[0][0] && this.dx-step>p[1][0]) ||
+            (this.dy+step>=p[0][1] && this.dy-step<=p[1][1])
+        })
+    }
+
     actionControls(v) {
         //check hitboxes
         //let hb = maze.getPositionHitboxes(this.getMazePosition())
@@ -55,11 +64,11 @@ class Player {
         if (this.activeKeys.run) v *= 1.75
         if (this.activeKeys.walk) v /= 2
 
-        let next = [this.dy-v, this.dx+v, this.dy+v, this.dx-v], s = this.size/2// up right down left
-        if (this.activeKeys.up) this.dy = next[0] > maze.startY+s ? next[0] : maze.startY+s
-        if (this.activeKeys.right) this.dx = next[1] < maze.endX-s ? next[1] : maze.endX-s
-        if (this.activeKeys.down) this.dy = next[2] < maze.endY-s ? next[2] : maze.endY-s
-        if (this.activeKeys.left) this.dx = next[3] > maze.startX+s ? next[3] : maze.startX+s
+        let next = [this.dy-v, this.dx+v, this.dy+v, this.dx-v], s = this.size/2, check = this.checkHitboxes(v)
+        if (!check && this.activeKeys.up) this.dy = next[0] > maze.startY+s ? next[0] : maze.startY+s
+        if (!check && this.activeKeys.right) this.dx = next[1] < maze.endX-s ? next[1] : maze.endX-s
+        if (!check && this.activeKeys.down) this.dy = next[2] < maze.endY-s ? next[2] : maze.endY-s
+        if (!check && this.activeKeys.left) this.dx = next[3] > maze.startX+s ? next[3] : maze.startX+s
 
         return Object.values(this.activeKeys).some(x=>x)
     }

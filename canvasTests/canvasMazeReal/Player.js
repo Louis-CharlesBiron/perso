@@ -44,12 +44,33 @@ class Player {
     }
 
     checkHitboxes(step, debug) {
-        let hb = maze.getPositionHitboxes(this.getMazePosition())
-        return hb.some(p=>{
-            if (debug) console.log(hb.length, this.dx+step, p, "LEFT:",this.dx+step>=p[0][0], "RIGHT:",this.dx-step<=p[1][0], "BOTTOM:",this.dy+step>=p[0][1], "TOP:",this.dy-step<=p[1][1])
-            return (this.dx+step<p[0][0] && this.dx-step>p[1][0]) ||
-            (this.dy+step>=p[0][1] && this.dy-step<=p[1][1])
-        })
+        let hb = maze.getPositionHitboxes(this.getMazePosition()), r = this.size/2
+        let h = hb[3]
+        console.log(h)
+        console.log(this.dx, this.dy, r, step)
+        console.log(this.dy-r-step >= h[1][0], this.dy-r-step <= h[1][1], this.dy+r-step >= h[1][0], this.dy+r-step <= h[1][1], this.dx-r >= h[0][0], this.dx+r <= h[1][0])
+        //hb.forEach(h=>{
+        //    if (this.dy-r-step >= h[1][0] && this.dy-r-step <= h[1][1] && this.dx-r >= h[0][0] && this.dx+r >= h[1][0]) console.log("idk")
+        //})
+
+        // return hb.some(p=>{
+        //     let dx = this.dx+this.size, dy = this.dy+this.size
+        //     if (debug) {console.log(dx, dy, p)
+        //         console.log("going right:", dx+step>=p[0][0], dx+step<=p[1][0], " -> ", (dx+step>=p[0][0] && dx+step<=p[1][0]))
+        //         console.log("going left:", dx-step>=p[0][0], dx-step<=p[1][0], " -> ", (dx-step>=p[0][0] && dx-step<=p[1][0]))
+        //         console.log("going top:", dy-step>=p[0][1], dy-step<=p[1][1], " -> ", (dy-step>=p[0][1] && dy-step<=p[1][1]))
+        //         console.log("going bottom:", dy+step>=p[0][1], dy+step<=p[1][1], " -> ", (dy+step>=p[0][1] && dy+step<=p[1][1]))
+        //         console.log("RES:", (dx+step>=p[0][0] && dx+step<=p[1][0])&& (dx-step>=p[0][0] && dx-step<=p[1][0])&& (dy-step>=p[0][1] && dy-step<=p[1][1])&& (dy+step>=p[0][1] && dy+step<=p[1][1]))
+        //         console.log("")
+        //     }
+        //     return ((dx+step>=p[0][0] && dx+step<=p[1][0])//going right
+        //     || (dx-step>=p[0][0] && dx-step<=p[1][0]))//going left
+        //     &&
+        //     ((dy-step>=p[0][1] && dy-step<=p[1][1])//going top
+        //     || (dy+step>=p[0][1] && dy+step<=p[1][1]))//going bottom
+        
+            //(this.dx+step<p[0][0] && this.dx-step>p[1][0]) || (this.dy+step<p[0][1] && this.dy-step>p[1][1])
+       // })
     }
 
     actionControls(v) {
@@ -64,11 +85,12 @@ class Player {
         if (this.activeKeys.run) v *= 1.75
         if (this.activeKeys.walk) v /= 2
 
-        let next = [this.dy-v, this.dx+v, this.dy+v, this.dx-v], s = this.size/2, check = this.checkHitboxes(v)
-        if (!check && this.activeKeys.up) this.dy = next[0] > maze.startY+s ? next[0] : maze.startY+s
-        if (!check && this.activeKeys.right) this.dx = next[1] < maze.endX-s ? next[1] : maze.endX-s
-        if (!check && this.activeKeys.down) this.dy = next[2] < maze.endY-s ? next[2] : maze.endY-s
-        if (!check && this.activeKeys.left) this.dx = next[3] > maze.startX+s ? next[3] : maze.startX+s
+        let next = [this.dy-v, this.dx+v, this.dy+v, this.dx-v], s = this.size/2//, check = this.checkHitboxes(v)
+        //if (check) console.log(check)
+        if (!0 && this.activeKeys.up) this.dy = next[0] > maze.startY+s ? next[0] : maze.startY+s
+        if (!0 && this.activeKeys.right) this.dx = next[1] < maze.endX-s ? next[1] : maze.endX-s
+        if (!0 && this.activeKeys.down) this.dy = next[2] < maze.endY-s ? next[2] : maze.endY-s
+        if (!0 && this.activeKeys.left) this.dx = next[3] > maze.startX+s ? next[3] : maze.startX+s
 
         return Object.values(this.activeKeys).some(x=>x)
     }

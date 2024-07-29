@@ -44,11 +44,39 @@ class Player {
     }
 
     checkHitboxes(step, debug) {
-        let hb = maze.getPositionHitboxes(this.getMazePosition()), r = this.size/2
-        let h = hb[3]
-        console.log(h)
-        console.log(this.dx, this.dy, r, step)
-        console.log(this.dy-r-step >= h[1][0], this.dy-r-step <= h[1][1], this.dy+r-step >= h[1][0], this.dy+r-step <= h[1][1], this.dx-r >= h[0][0], this.dx+r <= h[1][0])
+        let hb = maze.getPositionHitboxes(this.getMazePosition()), r = this.size/2, 
+        
+        tl_x = this.dx-r|0, tl_y = this.dy-r|0,
+        tr_x = this.dx+r|0, tr_y = this.dy-r|0,
+        bl_x = this.dx-r|0, bl_y = this.dy+r|0,
+        br_x = this.dx+r|0, br_y = this.dy+r|0
+        
+        //let h = hb[4]
+        //console.log(h)
+        //console.log(this.dx, this.dy, r)
+        //console.log("TOP:", tl_y <= h[1][1] && (tl_x <= h[1][0] || tr_x >= h[0][0]))    // TOP
+        //console.log("BOTTOM:", bl_y >= h[0][1] && (tl_x <= h[1][0] || tr_x >= h[0][0])) // BOTTOM
+        //console.log("RIGHT:", tr_x >= h[0][0] && (tr_y <= h[1][1] || br_y >= h[0][1]))  // RIGHT
+        //console.log("LEFT:", tl_x <= h[1][0] && (tr_y <= h[1][1] || br_y >= h[0][1]))   // LEFT
+
+        return [
+            hb.some(h=>{
+                //console.log(h)
+                //console.log(tl_y, tl_x, tr_x)
+                //console.log(tl_y <= h[1][1] && bl_y >= h[0][1] && ((tl_x >= h[0][0] && tl_x <= h[1][0]) || (tr_x <= h[1][0] && tr_x >= h[0][0])),                tl_y <= h[1][1], bl_y >= h[0][1], [(tl_x <= h[1][0] && tr_x >= h[1][0]), (tr_x >= h[0][0] && tl_x <= h[0][0])])
+                return tl_y <= h[1][1] && bl_y >= h[0][1] && ((tl_x >= h[0][0] && tl_x <= h[1][0]) || (tr_x <= h[1][0] && tr_x >= h[0][0]))
+            }), // TOP
+            hb.some(h=>{
+                //console.log(h)
+                //console.log(tr_x, tr_y, br_y)
+                //console.log(tr_x >= h[0][0] && tr_x <= h[1][0] && (tr_y <= h[1][1] || br_y >= h[0][1]), tr_x >= h[0][0], tr_x <= h[1][0], [tr_y <= h[1][1] br_y >= h[0][1]])
+                return tr_x >= h[0][0] && tr_x <= h[1][0] && (tr_y <= h[1][1] || br_y >= h[0][1])
+            }), // RIGHT
+            hb.some(h=>tl_y >= h[1][1] && bl_y >= h[0][1] && ((tl_x >= h[0][0] && tl_x <= h[1][0]) || (tr_x <= h[1][0] && tr_x >= h[0][0]))), // BOTTOM
+            hb.some(h=>tl_x <= h[1][0] && tl_x >= h[0][0] && (tr_y <= h[1][1] || br_y >= h[0][1]))  // LEFT
+        ]
+
+        //console.log(this.dy-r-step >= h[1][0], this.dy-r-step <= h[1][1], this.dy+r-step >= h[1][0], this.dy+r-step <= h[1][1], this.dx-r >= h[0][0], this.dx+r <= h[1][0])
         //hb.forEach(h=>{
         //    if (this.dy-r-step >= h[1][0] && this.dy-r-step <= h[1][1] && this.dx-r >= h[0][0] && this.dx+r >= h[1][0]) console.log("idk")
         //})

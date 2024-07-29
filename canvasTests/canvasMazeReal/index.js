@@ -23,7 +23,7 @@ let maze_width = 134,//134
     // 5=small | 10=big small | 25=complex | 50=big | 100=big comfort
     // -1      | -0           | -0         | -0     | -0
     // -2      | -1           | -1         | -0     | -0
-    maze_radius = 25 //HERE!!!
+    maze_radius = 100 //HERE!!!
 
 // ("AUTO" FILL)
     maze_width =  (cvs.width /maze_radius/2-   0   )|0

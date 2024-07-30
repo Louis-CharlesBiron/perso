@@ -60,20 +60,21 @@ class Player {
         //console.log("LEFT:", tl_x <= h[1][0] && (tr_y <= h[1][1] || br_y >= h[0][1]))   // LEFT
 
         return [
-            hb.some(h=>{
+            !hb.some(h=>{
                 //console.log(h)
                 //console.log(tl_y, tl_x, tr_x)
-                //console.log(tl_y <= h[1][1] && bl_y >= h[0][1] && ((tl_x >= h[0][0] && tl_x <= h[1][0]) || (tr_x <= h[1][0] && tr_x >= h[0][0])),                tl_y <= h[1][1], bl_y >= h[0][1], [(tl_x <= h[1][0] && tr_x >= h[1][0]), (tr_x >= h[0][0] && tl_x <= h[0][0])])
-                return tl_y <= h[1][1] && bl_y >= h[0][1] && ((tl_x >= h[0][0] && tl_x <= h[1][0]) || (tr_x <= h[1][0] && tr_x >= h[0][0]))
+                //console.log(tl_y <= h[1][1] && bl_y >= h[0][1] && ((tl_x >= h[0][0] && tl_x <= h[1][0]) || (tr_x <= h[1][0] && tr_x >= h[0][0]) || (tl_x <= h[0][0] && tr_x >= h[1][0])),                tl_y <= h[1][1], bl_y >= h[0][1], [(tl_x <= h[1][0] && tr_x >= h[1][0]), (tr_x >= h[0][0] && tl_x <= h[0][0])])
+                return tl_y <= h[1][1] && this.dy >= h[0][1] && ((tl_x >= h[0][0] && tl_x <= h[1][0]) || (tr_x <= h[1][0] && tr_x >= h[0][0]) || (tl_x <= h[0][0] && tr_x >= h[1][0]))
             }), // TOP
-            hb.some(h=>{
+            !hb.some(h=>{
                 //console.log(h)
                 //console.log(tr_x, tr_y, br_y)
-                //console.log(tr_x >= h[0][0] && tr_x <= h[1][0] && (tr_y <= h[1][1] || br_y >= h[0][1]), tr_x >= h[0][0], tr_x <= h[1][0], [tr_y <= h[1][1] br_y >= h[0][1]])
-                return tr_x >= h[0][0] && tr_x <= h[1][0] && (tr_y <= h[1][1] || br_y >= h[0][1])
+                //console.log(tr_x >= h[0][0] && this.dx <= h[1][0] && ((tl_y >= h[0][1] && tl_y <= h[1][1]) || (tr_y <= h[1][1] && tr_y >= h[0][1]) || (tl_y <= h[0][1] && tr_y >= h[1][1])),        tr_x >= h[0][0], this.dx <= h[1][0], " | ", (tl_y >= h[0][1] && tl_y <= h[1][1]), (tr_y <= h[1][1] && tr_y >= h[0][1]), (tl_y <= h[0][1] && tr_y >= h[1][1]))
+                //return tr_x >= h[0][0] && tr_x <= h[1][0] && (tr_y <= h[1][1] || br_y >= h[0][1])
+                return tr_x >= h[0][0] && this.dx <= h[1][0] && ((tl_y >= h[0][1] && tl_y <= h[1][1]) || (tr_y <= h[1][1] && tr_y >= h[0][1]) || (tr_y <= h[0][1] && br_y >= h[1][1]))
             }), // RIGHT
-            hb.some(h=>tl_y >= h[1][1] && bl_y >= h[0][1] && ((tl_x >= h[0][0] && tl_x <= h[1][0]) || (tr_x <= h[1][0] && tr_x >= h[0][0]))), // BOTTOM
-            hb.some(h=>tl_x <= h[1][0] && tl_x >= h[0][0] && (tr_y <= h[1][1] || br_y >= h[0][1]))  // LEFT
+            !hb.some(h=>bl_y >= h[0][1] && this.dy <= h[1][1] && ((tl_x >= h[0][0] && tl_x <= h[1][0]) || (tr_x <= h[1][0] && tr_x >= h[0][0]) || (tl_x <= h[0][0] && tr_x >= h[1][0]))), // BOTTOM
+            !hb.some(h=>tl_x <= h[0][0] && this.dx >= h[1][0] && ((tl_y >= h[0][1] && tl_y <= h[1][1]) || (tr_y <= h[1][1] && tr_y >= h[0][1]) || (tr_y <= h[0][1] && br_y >= h[1][1])))  // LEFT
         ]
 
         //console.log(this.dy-r-step >= h[1][0], this.dy-r-step <= h[1][1], this.dy+r-step >= h[1][0], this.dy+r-step <= h[1][1], this.dx-r >= h[0][0], this.dx+r <= h[1][0])
@@ -113,12 +114,11 @@ class Player {
         if (this.activeKeys.run) v *= 1.75
         if (this.activeKeys.walk) v /= 2
 
-        let next = [this.dy-v, this.dx+v, this.dy+v, this.dx-v], s = this.size/2//, check = this.checkHitboxes(v)
-        //if (check) console.log(check)
-        if (!0 && this.activeKeys.up) this.dy = next[0] > maze.startY+s ? next[0] : maze.startY+s
-        if (!0 && this.activeKeys.right) this.dx = next[1] < maze.endX-s ? next[1] : maze.endX-s
-        if (!0 && this.activeKeys.down) this.dy = next[2] < maze.endY-s ? next[2] : maze.endY-s
-        if (!0 && this.activeKeys.left) this.dx = next[3] > maze.startX+s ? next[3] : maze.startX+s
+        let next = [this.dy-v, this.dx+v, this.dy+v, this.dx-v], s = this.size/2, check = this.checkHitboxes(v)
+        if (check[0] && this.activeKeys.up) this.dy = next[0] > maze.startY+s ? next[0] : maze.startY+s
+        if (check[1] && this.activeKeys.right) this.dx = next[1] < maze.endX-s ? next[1] : maze.endX-s
+        if (check[2] && this.activeKeys.down) this.dy = next[2] < maze.endY-s ? next[2] : maze.endY-s
+        if (check[3] && this.activeKeys.left) this.dx = next[3] > maze.startX+s ? next[3] : maze.startX+s
 
         return Object.values(this.activeKeys).some(x=>x)
     }

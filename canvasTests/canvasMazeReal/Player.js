@@ -43,82 +43,32 @@ class Player {
         ctx.fill()
     }
 
-    checkHitboxes(step, debug) {
-        let hb = maze.getPositionHitboxes(this.getMazePosition()), r = this.size/2, 
-        
-        tl_x = this.dx-r|0, tl_y = this.dy-r|0,
-        tr_x = this.dx+r|0, tr_y = this.dy-r|0,
-        bl_x = this.dx-r|0, bl_y = this.dy+r|0,
-        br_x = this.dx+r|0, br_y = this.dy+r|0
-        
-        //let h = hb[4]
-        //console.log(h)
-        //console.log(this.dx, this.dy, r)
-        //console.log("TOP:", tl_y <= h[1][1] && (tl_x <= h[1][0] || tr_x >= h[0][0]))    // TOP
-        //console.log("BOTTOM:", bl_y >= h[0][1] && (tl_x <= h[1][0] || tr_x >= h[0][0])) // BOTTOM
-        //console.log("RIGHT:", tr_x >= h[0][0] && (tr_y <= h[1][1] || br_y >= h[0][1]))  // RIGHT
-        //console.log("LEFT:", tl_x <= h[1][0] && (tr_y <= h[1][1] || br_y >= h[0][1]))   // LEFT
+    checkHitboxes(nexts) {
+        let hb = maze.getPositionHitboxes(this.getMazePosition()), lw = ctx.lineWidth, r = this.size/2 + lw,
+        xl = nexts[3]-r, xr = nexts[1]+r,
+        yt = nexts[0]-r, yb = nexts[2]+r
+        //xl = this.dx-r, xr = this.dx+r,
+        //yt = this.dy-r, yb = this.dy+r
 
         return [
-            !hb.some(h=>{
-                //console.log(h)
-                //console.log(tl_y, tl_x, tr_x)
-                //console.log(tl_y <= h[1][1] && bl_y >= h[0][1] && ((tl_x >= h[0][0] && tl_x <= h[1][0]) || (tr_x <= h[1][0] && tr_x >= h[0][0]) || (tl_x <= h[0][0] && tr_x >= h[1][0])),                tl_y <= h[1][1], bl_y >= h[0][1], [(tl_x <= h[1][0] && tr_x >= h[1][0]), (tr_x >= h[0][0] && tl_x <= h[0][0])])
-                return tl_y <= h[1][1] && this.dy >= h[0][1] && ((tl_x >= h[0][0] && tl_x <= h[1][0]) || (tr_x <= h[1][0] && tr_x >= h[0][0]) || (tl_x <= h[0][0] && tr_x >= h[1][0]))
-            }), // TOP
-            !hb.some(h=>{
-                //console.log(h)
-                //console.log(tr_x, tr_y, br_y)
-                //console.log(tr_x >= h[0][0] && this.dx <= h[1][0] && ((tl_y >= h[0][1] && tl_y <= h[1][1]) || (tr_y <= h[1][1] && tr_y >= h[0][1]) || (tl_y <= h[0][1] && tr_y >= h[1][1])),        tr_x >= h[0][0], this.dx <= h[1][0], " | ", (tl_y >= h[0][1] && tl_y <= h[1][1]), (tr_y <= h[1][1] && tr_y >= h[0][1]), (tl_y <= h[0][1] && tr_y >= h[1][1]))
-                //return tr_x >= h[0][0] && tr_x <= h[1][0] && (tr_y <= h[1][1] || br_y >= h[0][1])
-                return tr_x >= h[0][0] && this.dx <= h[1][0] && ((tl_y >= h[0][1] && tl_y <= h[1][1]) || (tr_y <= h[1][1] && tr_y >= h[0][1]) || (tr_y <= h[0][1] && br_y >= h[1][1]))
-            }), // RIGHT
-            !hb.some(h=>bl_y >= h[0][1] && this.dy <= h[1][1] && ((tl_x >= h[0][0] && tl_x <= h[1][0]) || (tr_x <= h[1][0] && tr_x >= h[0][0]) || (tl_x <= h[0][0] && tr_x >= h[1][0]))), // BOTTOM
-            !hb.some(h=>tl_x <= h[0][0] && this.dx >= h[1][0] && ((tl_y >= h[0][1] && tl_y <= h[1][1]) || (tr_y <= h[1][1] && tr_y >= h[0][1]) || (tr_y <= h[0][1] && br_y >= h[1][1])))  // LEFT
+            hb?.[hb.findIndex(h=>yt < h[1][1] && nexts[0] > h[0][1] && ((xl > h[0][0] && xl < h[1][0]) || (xr < h[1][0] && xr > h[0][0]) || (xl < h[0][0] && xr > h[1][0])))]?.[0][1]+r, // TOP
+            hb?.[hb.findIndex(h=>xr > h[0][0] && nexts[1] < h[1][0] && ((yt > h[0][1] && yt < h[1][1]) || (yt < h[1][1] && yt > h[0][1]) || (yt < h[0][1] && yb > h[1][1])))]?.[0][0]-r, // RIGHT
+            hb?.[hb.findIndex(h=>yb > h[0][1] && nexts[2] < h[1][1] && ((xl > h[0][0] && xl < h[1][0]) || (xr < h[1][0] && xr > h[0][0]) || (xl < h[0][0] && xr > h[1][0])))]?.[1][1]-r-lw, // BOTTOM
+            hb?.[hb.findIndex(h=>xl < h[1][0] && nexts[3] > h[0][0] && ((yt > h[0][1] && yt < h[1][1]) || (yt < h[1][1] && yt > h[0][1]) || (yt < h[0][1] && yb > h[1][1])))]?.[1][0]+r-lw*2  // LEFT
         ]
-
-        //console.log(this.dy-r-step >= h[1][0], this.dy-r-step <= h[1][1], this.dy+r-step >= h[1][0], this.dy+r-step <= h[1][1], this.dx-r >= h[0][0], this.dx+r <= h[1][0])
-        //hb.forEach(h=>{
-        //    if (this.dy-r-step >= h[1][0] && this.dy-r-step <= h[1][1] && this.dx-r >= h[0][0] && this.dx+r >= h[1][0]) console.log("idk")
-        //})
-
-        // return hb.some(p=>{
-        //     let dx = this.dx+this.size, dy = this.dy+this.size
-        //     if (debug) {console.log(dx, dy, p)
-        //         console.log("going right:", dx+step>=p[0][0], dx+step<=p[1][0], " -> ", (dx+step>=p[0][0] && dx+step<=p[1][0]))
-        //         console.log("going left:", dx-step>=p[0][0], dx-step<=p[1][0], " -> ", (dx-step>=p[0][0] && dx-step<=p[1][0]))
-        //         console.log("going top:", dy-step>=p[0][1], dy-step<=p[1][1], " -> ", (dy-step>=p[0][1] && dy-step<=p[1][1]))
-        //         console.log("going bottom:", dy+step>=p[0][1], dy+step<=p[1][1], " -> ", (dy+step>=p[0][1] && dy+step<=p[1][1]))
-        //         console.log("RES:", (dx+step>=p[0][0] && dx+step<=p[1][0])&& (dx-step>=p[0][0] && dx-step<=p[1][0])&& (dy-step>=p[0][1] && dy-step<=p[1][1])&& (dy+step>=p[0][1] && dy+step<=p[1][1]))
-        //         console.log("")
-        //     }
-        //     return ((dx+step>=p[0][0] && dx+step<=p[1][0])//going right
-        //     || (dx-step>=p[0][0] && dx-step<=p[1][0]))//going left
-        //     &&
-        //     ((dy-step>=p[0][1] && dy-step<=p[1][1])//going top
-        //     || (dy+step>=p[0][1] && dy+step<=p[1][1]))//going bottom
-        
-            //(this.dx+step<p[0][0] && this.dx-step>p[1][0]) || (this.dy+step<p[0][1] && this.dy-step>p[1][1])
-       // })
     }
 
     actionControls(v) {
-        //check hitboxes
-        //let hb = maze.getPositionHitboxes(this.getMazePosition())
-        //console.log(hb)
-        //if (hb[0]) console.log(this.dx, hb[0].w[0], " | ", this.dx, hb[0].w[0]+hb[0].r*2, "|", this.dy, hb[0].w[1], "|", this.dy, hb[0].w[1]+hb[0].r*2)
-        //if (hb[0]   &&   this.dx < hb[0].w[0] && this.dx > hb[0].w[0]+hb[0].r*2   &&   this.dy < hb[0].w[1] && this.dy > hb[0].w[1]+hb[0].r*2) {
-        //    console.log("STOP")
-        //}
 
         if (this.activeKeys.run) v *= 1.75
         if (this.activeKeys.walk) v /= 2
 
-        let next = [this.dy-v, this.dx+v, this.dy+v, this.dx-v], s = this.size/2, check = this.checkHitboxes(v)
-        if (check[0] && this.activeKeys.up) this.dy = next[0] > maze.startY+s ? next[0] : maze.startY+s
-        if (check[1] && this.activeKeys.right) this.dx = next[1] < maze.endX-s ? next[1] : maze.endX-s
-        if (check[2] && this.activeKeys.down) this.dy = next[2] < maze.endY-s ? next[2] : maze.endY-s
-        if (check[3] && this.activeKeys.left) this.dx = next[3] > maze.startX+s ? next[3] : maze.startX+s
+        let next = [this.dy-v, this.dx+v, this.dy+v, this.dx-v], s = this.size/2, check = this.checkHitboxes(next)
+        if (check.some(x=>x)) console.log(check)
+        if (this.activeKeys.up) this.dy =    next[0]>maze.startY+s ? check[0]||next[0] : maze.startY+s
+        if (this.activeKeys.right) this.dx = next[1]<maze.endX-s   ? check[1]||next[1] : maze.endX-s
+        if (this.activeKeys.down) this.dy =  next[2]<maze.endY-s   ? check[2]||next[2] : maze.endY-s
+        if (this.activeKeys.left) this.dx =  next[3]>maze.startX+s ? check[3]||next[3] : maze.startX+s
 
         return Object.values(this.activeKeys).some(x=>x)
     }
@@ -133,7 +83,7 @@ class Player {
             })
         }
 
-        this.controlsEl.onblur=()=>{
+        this.controlsEl.onblur=this.controlsEl.oncontextmenu=()=>{
             Object.keys(this.activeKeys).forEach(k=>this.activeKeys[k]=false)
         }
     }

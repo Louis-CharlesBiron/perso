@@ -43,18 +43,16 @@ class Player {
         ctx.fill()
     }
 
-    checkHitboxes(nexts) {
+    checkHitboxes(nexts=[this.dy, this.dx, this.dy, this.dx], v) {
         let hb = maze.getPositionHitboxes(this.getMazePosition()), lw = ctx.lineWidth, r = this.size/2 + lw,
         xl = nexts[3]-r, xr = nexts[1]+r,
         yt = nexts[0]-r, yb = nexts[2]+r
-        //xl = this.dx-r, xr = this.dx+r,
-        //yt = this.dy-r, yb = this.dy+r
 
         return [
-            hb?.[hb.findIndex(h=>yt < h[1][1] && nexts[0] > h[0][1] && ((xl > h[0][0] && xl < h[1][0]) || (xr < h[1][0] && xr > h[0][0]) || (xl < h[0][0] && xr > h[1][0])))]?.[0][1]+r, // TOP
-            hb?.[hb.findIndex(h=>xr > h[0][0] && nexts[1] < h[1][0] && ((yt > h[0][1] && yt < h[1][1]) || (yt < h[1][1] && yt > h[0][1]) || (yt < h[0][1] && yb > h[1][1])))]?.[0][0]-r, // RIGHT
-            hb?.[hb.findIndex(h=>yb > h[0][1] && nexts[2] < h[1][1] && ((xl > h[0][0] && xl < h[1][0]) || (xr < h[1][0] && xr > h[0][0]) || (xl < h[0][0] && xr > h[1][0])))]?.[1][1]-r-lw, // BOTTOM
-            hb?.[hb.findIndex(h=>xl < h[1][0] && nexts[3] > h[0][0] && ((yt > h[0][1] && yt < h[1][1]) || (yt < h[1][1] && yt > h[0][1]) || (yt < h[0][1] && yb > h[1][1])))]?.[1][0]+r-lw*2  // LEFT
+            hb?.[hb.findIndex(h=>yt < h[1][1] && yt-v > h[0][1] && ((xl > h[0][0]+v && xl < h[1][0]-v) || (xr < h[1][0]-v && xr > h[0][0]+v) || (xl < h[0][0]-v && xr > h[1][0]+v)))]?.[1][1]+r, // TOP
+            hb?.[hb.findIndex(h=>xr > h[0][0] && xr-v < h[1][0] && ((yt > h[0][1]+v && yt < h[1][1]-v) || (yt < h[1][1]-v && yt > h[0][1]+v) || (yt < h[0][1]-v && yb > h[1][1]+v)))]?.[0][0]-r, // RIGHT
+            hb?.[hb.findIndex(h=>yb > h[0][1] && yb-v < h[1][1] && ((xl > h[0][0]+v && xl < h[1][0]-v) || (xr < h[1][0]-v && xr > h[0][0]+v) || (xl < h[0][0]-v && xr > h[1][0]+v)))]?.[0][1]-r,//-lw, // BOTTOM
+            hb?.[hb.findIndex(h=>xl < h[1][0] && xr+v > h[0][0] && ((yt > h[0][1]+v && yt < h[1][1]-v) || (yt < h[1][1]-v && yt > h[0][1]+v) || (yt < h[0][1]-v && yb > h[1][1]+v)))]?.[1][0]+r//-lw*2  // LEFT
         ]
     }
 
@@ -63,13 +61,12 @@ class Player {
         if (this.activeKeys.run) v *= 1.75
         if (this.activeKeys.walk) v /= 2
 
-        let next = [this.dy-v, this.dx+v, this.dy+v, this.dx-v], s = this.size/2, check = this.checkHitboxes(next)
+        let next = [this.dy-v, this.dx+v, this.dy+v, this.dx-v], s = this.size/2, check = this.checkHitboxes(next, v)
         if (check.some(x=>x)) console.log(check)
-        if (this.activeKeys.up) this.dy =    next[0]>maze.startY+s ? check[0]||next[0] : maze.startY+s
+        if (this.activeKeys.up)    this.dy = next[0]>maze.startY+s ? check[0]||next[0] : maze.startY+s
         if (this.activeKeys.right) this.dx = next[1]<maze.endX-s   ? check[1]||next[1] : maze.endX-s
-        if (this.activeKeys.down) this.dy =  next[2]<maze.endY-s   ? check[2]||next[2] : maze.endY-s
-        if (this.activeKeys.left) this.dx =  next[3]>maze.startX+s ? check[3]||next[3] : maze.startX+s
-
+        if (this.activeKeys.down)  this.dy = next[2]<maze.endY-s   ? check[2]||next[2] : maze.endY-s
+        if (this.activeKeys.left)  this.dx = next[3]>maze.startX+s ? check[3]||next[3] : maze.startX+s
         return Object.values(this.activeKeys).some(x=>x)
     }
 

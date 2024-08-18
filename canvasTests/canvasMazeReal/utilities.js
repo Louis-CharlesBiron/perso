@@ -23,6 +23,10 @@ function rgbIterator(rgb, index=0, increment=20, min=100, max=255, formated) {
     return formated ? `rgb(${rgb[0]} ${rgb[1]} ${rgb[2]})` : rgb
 }
 
+function randomHexString(length) {
+    return Array(length).fill(random).reduce((a,b)=>(a.push([0,1,2,3,4,5,6,7,8,9,"a","b","c","d","e","f"][b(0,15)]),a),[]).join("")
+}
+
 function test(x, y) {
     for (let i=0;i<4;i++) {
         let pos = maze.getPosition(x, y)

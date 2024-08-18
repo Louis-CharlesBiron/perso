@@ -12,7 +12,6 @@ class Between {
         this.info = {
             drawCenter:[] //drawCenter: {color:"red", cr:5}
         }
-
     }
 
     set walls(walls) {

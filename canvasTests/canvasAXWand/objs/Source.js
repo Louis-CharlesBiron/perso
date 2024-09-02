@@ -27,25 +27,30 @@ class Source {
         
     }
 
-    getReflectPos(degrees) {
-        let degDir = (degrees??this._initDeg)%360, deg = 360-degDir, dir = [!(degDir>=270||degDir<90)*2-1, Math.sign(180-degDir)||-1],
-        a = Math.tan(toRad(deg)), b = -(a*this._x-this._y)
-        
-        return obstacles.map(o=>{
-            let [oa, ob, oFnY] = o.abfn, x, y
+getReflectPos(degrees) {
+    let degDir = (degrees??this._initDeg)%360, deg = 360-degDir, dir = [!(degDir>=270||degDir<90)*2-1, (degDir>=0&&degDir<180)*2-1], a = Math.tan(toRad(deg)), b = -(a*this._x-this._y)
+        console.log("DIR", degDir, dir)
+    let v = obstacles.map(o=>{
+        let [oa, ob, oFnY] = o.abfn, x, y
 
-            if (!oa) x = (ob-this._y)/a + this._x // horizontal obs
-            else if (!isFinite(oa)) y = a*(x=o.p1[0])+b
-            else x = (((this._y-ob) - a*this._x)/oa) / (1 - a/oa) // inclined obs
+        if (!oa) x = (ob-this._y)/a + this._x // horizontal obs
+        else if (!isFinite(oa)) y = a*(x=o.p1[0])+b
+        else x = (((this._y-ob) - a*this._x)/oa) / (1 - a/oa) // inclined obs
+        y ??= oFnY(x)
+        let difX = this._x-x, difY = this._y-y, dif = Math.sqrt(difX**2+difY**2), ds = Math.sign(difX+difY)||1
 
-            return [x, y??oFnY(x), Math.sign(this._x-x)||-1, Math.sign(this._y-(y??oFnY(x)))]
-        }).find(r=>
-            dir[0] == r[2] && // single dir horizontal
-            dir[1] == r[3] && // single dir vertical
-            r[0] >= 0 && r[0] <= cvs.width && // inside cavas width
-            r[1] >= 0 && r[1] <= cvs.height   // inside cavas width
-        )
-    }
+        console.log(x, y, difX, difY, "DIF", difX+difY, " |OR :", Math.sqrt(difX**2 + difY**2), "cadX",Math.sign(difX)||ds, "cadY",Math.sign(difY)||ds, ds)
+        return {x, y, cadX:Math.sign(difX)||ds, cadY:Math.sign(difY)||ds, dif:dif, o:o, degDir}
+    }).filter(r=>
+        r.o.isPartOf([r.x,r.y]) &&
+        (dir[0] == r.cadX) && // single dir horizontal
+        (dir[1] == r.cadY) && // single dir vertical
+        r.x >= 0 && r.x <= cvs.width && // inside cavas width
+        r.y >= 0 && r.y <= cvs.height   // inside cavas width
+    ).toSorted((a,b)=>Math.abs(a.dif)-Math.abs(b.dif))
+    console.log(v)
+    return v[0]
+}
 
     get x() {return this._x}
     get y() {return this._y}

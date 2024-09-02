@@ -18,6 +18,10 @@ class Obs {
         this._ctx.stroke()
     }
     
+    isPartOf(p) {//mmm
+        return (p[0]>=this._p1[0]||p[0]>=this._p2[0]) && (p[0]<=this._p2[0]||p[0]<=this._p1[0]) &&
+               (p[1]>=this._p1[1]||p[1]>=this._p2[1]) && (p[1]<=this._p2[1]||p[1]<=this._p1[1])
+    }
 
 
     get p1() {return this._p1}

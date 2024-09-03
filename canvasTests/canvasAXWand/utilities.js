@@ -30,6 +30,8 @@ function toDeg(rad) {
     return rad/(Math.PI/180)
 }
 
+Array.prototype.last=function(){return this[this.length-1]}
+
 // (++) | (-+)
 // ==== + ====
 // (+-) | (--)

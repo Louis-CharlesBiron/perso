@@ -24,7 +24,7 @@ class Obs {
     }
 
     getDim() {
-        let dx = Math.abs(this._p1[0]-this._p2[0]), dy = Math.abs(this._p1[1]-this._p2[1])
+        let dx = this._p1[0]-this._p2[0], dy = this._p1[1]-this._p2[1]
         return {dx, dy, hyp:Math.sqrt(dx**2+dy**2)}
     }
 

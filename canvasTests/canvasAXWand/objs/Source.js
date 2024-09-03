@@ -23,23 +23,14 @@
 
     }
 
-    reflect() {
-        // relection orientation:
-        // deg<180 -> (180-deg)+()
-        // deg>180 -> 360-deg
-        let {x, y, degDir, obsDir} = this.getReflectPos(50)
-        let reflect = new Reflect(cvs.ctx, x, y, this.getPos(), degDir, obsDir, 3, "red")
-        cvs.els.push(reflect)
-        console.log(reflect, reflect.getOutDeg())
-
-
-        // deg == 0 
-        // deg == 90 
-        // deg == 180 
-        // deg == 270 
-        
-
-
+    reflect(max=this._max) {
+        for (let i=0;i<max;i++) {
+            let lastRef = this._reflects.last(), rInfo = this.getReflectPos(lastRef?.getOutDeg()??this._initDeg, lastRef?.x??this._x, lastRef?.y??this._y), 
+            reflect = new Reflect(cvs.ctx, rInfo.x, rInfo.y, lastRef?.getPos()??this.getPos(), rInfo.degDir, rInfo.obsDir, 3, "red")
+            this._reflects.push(reflect)
+            cvs.els.push(reflect)
+            //console.log(lastRef, reflect)
+        }
     }
 
     getReflectPos(degrees=this._initDeg, atX=this._x, atY=this._y) {
@@ -76,6 +67,7 @@
     get color() {return this._c}
     get initDeg() {return this._initDeg}
     get maxReflects() {return this._max}
+    get reflects() {return this._reflects}
 
     set x(x) {this._x = x}
     set y(y) {this._y = y}

@@ -27,17 +27,41 @@ class Reflect {
 
     getOutDeg(inDeg=this._inDeg, atDeg=this._atDeg) {
         let outDeg=null
+        // deg<180 -> (180-deg)+
+        // relection orientation: (DONE: vertical obs, oblique obs, ||||| TODO: cadran angles, horizontal obs,)
+        // deg>180 -> 360-(inDeg-180)
+        // deg == 0 
+        // deg == 90 
+        // deg == 180 
+        // deg == 270 
         if (inDeg<180) {
-            
-            //if (atDeg)
+            let defOut = 180-inDeg
+            if (atDeg<90) {
+                outDeg = defOut-atDeg
+            } else if (atDeg==90) {
+                outDeg = defOut
+            } else if (atDeg>90) {
+                outDeg = defOut+atDeg-90
+            } else console.log("WTF ----")
+            //console.log(inDeg, atDeg, "->",outDeg," | ",defOut)
 
-        } else {
-
+        } else {// inDeg>180
+            let defOut = 540-inDeg
+            if (atDeg<90) {
+                outDeg = defOut+atDeg
+            } else if (atDeg==90) {
+                outDeg = defOut
+            } else if (atDeg>90) {
+                outDeg = defOut+atDeg-90
+            } else console.log("WTF ----")
+            console.log(inDeg, atDeg, "->",outDeg," | ",defOut)
         }
         return outDeg
     }
     
-
+    getPos() {
+        return [this._x, this._y]
+    }
 
     get x() {return this._x}
     get y() {return this._y}

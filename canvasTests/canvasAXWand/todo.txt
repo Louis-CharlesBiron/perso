@@ -1,3 +1,7 @@
+//redo this cvs.els (dynamically give ctx AND good type/id support)
+
+
+
 let at=0
 for (let i=0;i<360;i++) {
     setTimeout(()=>{

@@ -71,6 +71,8 @@ class Canvas {
     }
 
     
+
+    
 	get cvs() {return this._cvs}
 	get ctx() {return this._ctx}
 	get width() {return this._cvs.width}

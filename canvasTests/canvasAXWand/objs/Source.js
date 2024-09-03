@@ -1,4 +1,4 @@
-class Source {
+    class Source {
 
     constructor(ctx, x, y, initDeg, maxReflects, radius, color) {
         this._ctx = ctx
@@ -29,6 +29,7 @@ class Source {
         // deg == 0
         
 
+
     }
 
     getReflectPos(degrees=this._initDeg, atX=this._x, atY=this._y) {
@@ -49,8 +50,8 @@ class Source {
             y >= 0 && y <= cvs.height   // inside cavas height
 
             //console.log(x, y, difX, difY, "DIF", difX+difY, " |OR :", Math.sqrt(difX**2 + difY**2), "cadX",Math.sign(difX), "cadY",Math.sign(difY))
-            return {x, y, dif:Math.sqrt(difX**2+difY**2), degDir, isValid}
-        }).filter(r=>r.isValid).toSorted((a,b)=>Math.abs(a.dif)-Math.abs(b.dif))[0]
+            return isValid&&{x, y, dif:Math.sqrt(difX**2+difY**2), degDir, obsDir:o.getOrientation()}
+        }).filter(r=>r).toSorted((a,b)=>Math.abs(a.dif)-Math.abs(b.dif))[0]
         console.log(v)
         return v
     }

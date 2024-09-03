@@ -18,11 +18,20 @@ class Obs {
         this._ctx.stroke()
     }
     
-    isPartOf(p) {//mmm
+    isPartOf(p) {//mmmh ok ig
         return (p[0]>=this._p1[0]||p[0]>=this._p2[0]) && (p[0]<=this._p2[0]||p[0]<=this._p1[0]) &&
                (p[1]>=this._p1[1]||p[1]>=this._p2[1]) && (p[1]<=this._p2[1]||p[1]<=this._p1[1])
     }
 
+    getDim() {
+        let dx = Math.abs(this._p1[0]-this._p2[0]), dy = Math.abs(this._p1[1]-this._p2[1])
+        return {dx, dy, hyp:Math.sqrt(dx**2+dy**2)}
+    }
+
+    getOrientation() {
+        let {dx, hyp} = this.getDim()
+        return Math.acos(dx/hyp)
+    }
 
     get p1() {return this._p1}
     get p2() {return this._p2}

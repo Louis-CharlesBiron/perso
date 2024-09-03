@@ -30,7 +30,7 @@ class Obs {
 
     getOrientation() {
         let {dx, hyp} = this.getDim()
-        return Math.acos(dx/hyp)
+        return toDeg(Math.acos(dx/hyp))
     }
 
     get p1() {return this._p1}

@@ -24,9 +24,19 @@
     }
 
     reflect() {
-        // deg<180 180-deg
-        // deg>180 360-deg
-        // deg == 0
+        // relection orientation:
+        // deg<180 -> (180-deg)+()
+        // deg>180 -> 360-deg
+        let {x, y, degDir, obsDir} = this.getReflectPos(50)
+        let reflect = new Reflect(cvs.ctx, x, y, this.getPos(), degDir, obsDir, 3, "red")
+        cvs.els.push(reflect)
+        console.log(reflect, reflect.getOutDeg())
+
+
+        // deg == 0 
+        // deg == 90 
+        // deg == 180 
+        // deg == 270 
         
 
 
@@ -54,6 +64,10 @@
         }).filter(r=>r).toSorted((a,b)=>Math.abs(a.dif)-Math.abs(b.dif))[0]
         console.log(v)
         return v
+    }
+
+    getPos() {
+        return [this._x, this._y]
     }
 
     get x() {return this._x}

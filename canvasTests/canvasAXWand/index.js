@@ -14,7 +14,7 @@ obstacles = [
     new Obs(cvs.ctx, [50,450], [290, 150], DEFAULT_COLOR),
     new Obs(cvs.ctx, [450,50], [150, 290], DEFAULT_COLOR),
     new Obs(cvs.ctx, [500,500], [500, 250], DEFAULT_COLOR),
-    new Obs(cvs.ctx, [200,500], [300, 335], DEFAULT_COLOR),
+    new Obs(cvs.ctx, [200, 335], [300,500], DEFAULT_COLOR),
 ]
 
 cvs.els.push(source)
@@ -38,3 +38,4 @@ canvas.onclick=()=>{
     if (c) cvs.els.push(new Reflect(cvs.ctx, source, c.x, c.y, 3, "red"))
 }
 
+source.reflect()

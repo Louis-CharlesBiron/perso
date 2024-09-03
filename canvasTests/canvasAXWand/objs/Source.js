@@ -24,32 +24,35 @@ class Source {
     }
 
     reflect() {
+        // deg<180 180-deg
+        // deg>180 360-deg
+        // deg == 0
         
+
     }
 
-    getReflectPos(degrees) {
-        let degDir = (degrees??this._initDeg)%360, deg = 360-degDir, dir = [!(degDir>270||degDir<90)*2-1, (degDir>=0&&degDir<180)*2-1], a = Math.tan(toRad(deg)), b = -(a*this._x-this._y)
+    getReflectPos(degrees=this._initDeg, atX=this._x, atY=this._y) {
+        let degDir = degrees%360, deg = 360-degDir, dir = [!(degDir>270||degDir<90)*2-1, (degDir>=0&&degDir<180)*2-1], a = Math.tan(toRad(deg)), b = -(a*atX-atY)
             //console.log("DIR", degDir, dir)
         let v = obstacles.map(o=>{
             let [oa, ob, oFnY] = o.abfn, x, y
 
-            if (!oa) x = (ob-this._y)/a + this._x // horizontal obs
+            if (!oa) x = (ob-atY)/a + atX // horizontal obs
             else if (!isFinite(oa)) y = a*(x=o.p1[0])+b // vertical obs
-            else x = (((this._y-ob) - a*this._x)/oa) / (1 - a/oa) // inclined obs
+            else x = (((atY-ob) - a*atX)/oa) / (1 - a/oa) // inclined obs
             y ??= oFnY(x)
-            let difX = this._x-x, difY = this._y-y, dif = Math.sqrt(difX**2+difY**2)
+            let difX = atX-x, difY = atY-y, cadX = Math.sign(difX), cadY = Math.sign(difY),
+            isValid = o.isPartOf([x,y]) && // is part of line 
+            (dir[0]==cadX || (!cadX && !(degDir%90))) && // single dir horizontal
+            (dir[1]==cadY || (!cadY && !(degDir%90))) && // single dir vertical
+            x >= 0 && x <= cvs.width && // inside cavas width
+            y >= 0 && y <= cvs.height   // inside cavas height
 
             //console.log(x, y, difX, difY, "DIF", difX+difY, " |OR :", Math.sqrt(difX**2 + difY**2), "cadX",Math.sign(difX), "cadY",Math.sign(difY))
-            return {x, y, cadX:Math.sign(difX), cadY:Math.sign(difY), dif, o, degDir}
-        }).filter(r=>
-            r.o.isPartOf([r.x,r.y]) && // is part of line 
-            (dir[0] == r.cadX || (!r.cadX && !(r.degDir%90))) && // single dir horizontal
-            (dir[1] == r.cadY || (!r.cadY && !(r.degDir%90))) && // single dir vertical
-            r.x >= 0 && r.x <= cvs.width && // inside cavas width
-            r.y >= 0 && r.y <= cvs.height   // inside cavas height
-        ).toSorted((a,b)=>Math.abs(a.dif)-Math.abs(b.dif))
+            return {x, y, dif:Math.sqrt(difX**2+difY**2), degDir, isValid}
+        }).filter(r=>r.isValid).toSorted((a,b)=>Math.abs(a.dif)-Math.abs(b.dif))[0]
         console.log(v)
-        return v[0]
+        return v
     }
 
     get x() {return this._x}

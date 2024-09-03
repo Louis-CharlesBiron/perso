@@ -10,11 +10,11 @@ obstacles = [
     new Obs(cvs.ctx, [0,0], [0,cvs.height], DEFAULT_COLOR),// border left
     new Obs(cvs.ctx, [cvs.width,0], [cvs.width,cvs.height], DEFAULT_COLOR),// border right
 
-    new Obs(cvs.ctx, [100,100], [350, 100], DEFAULT_COLOR),
-    new Obs(cvs.ctx, [50,450], [290, 150], DEFAULT_COLOR),
-    new Obs(cvs.ctx, [450,50], [150, 290], DEFAULT_COLOR),
-    new Obs(cvs.ctx, [500,500], [500, 350], DEFAULT_COLOR),
-    new Obs(cvs.ctx, [50,500], [50, 35], DEFAULT_COLOR),
+    //new Obs(cvs.ctx, [100,100], [350, 100], DEFAULT_COLOR),
+    //new Obs(cvs.ctx, [50,450], [290, 150], DEFAULT_COLOR),
+    //new Obs(cvs.ctx, [450,50], [150, 290], DEFAULT_COLOR),
+    //new Obs(cvs.ctx, [500,500], [500, 350], DEFAULT_COLOR),
+    //new Obs(cvs.ctx, [50,500], [50, 35], DEFAULT_COLOR),
 ]
 
 cvs.els.push(source)
@@ -30,7 +30,7 @@ canvas.onmousemove=e=>{
     let deg = (-Math.atan2(source.y+source.radius/2-e.y, (source.x+source.radius/2-e.x))*180/Math.PI)+180
     mouseDeg.textContent = deg.toFixed(1)+" deg"
 
-    mouse = {x:e.x, y:e.y, deg:deg}
+    mouse = {x:e.x, y:e.y, deg}
 }
 
 canvas.onclick=()=>{

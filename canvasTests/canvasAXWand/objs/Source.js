@@ -41,22 +41,12 @@ getReflectPos(degrees) {
 
         console.log(x, y, difX, difY, "DIF", difX+difY, " |OR :", Math.sqrt(difX**2 + difY**2), "cadX",Math.sign(difX)||ds, "cadY",Math.sign(difY)||ds, ds)
         return {x, y, cadX:Math.sign(difX), cadY:Math.sign(difY), dif:dif, o:o, degDir}
-    }).filter(r=>{
-        let idk
-        if (r.degDir%90)
-            idk = r.o.isPartOf([r.x,r.y]) &&
-            (dir[0] == r.cadX) && // single dir horizontal
-            (dir[1] == r.cadY) && // single dir vertical
-            r.x >= 0 && r.x <= cvs.width && // inside cavas width
-            r.y >= 0 && r.y <= cvs.height   // inside cavas width
-        else 
-            idk = r.o.isPartOf([r.x,r.y]) &&
-            (dir[0] == r.cadX || !r.cadX) && // single dir horizontal
-            (dir[1] == r.cadY || !r.cadY) && // single dir vertical
-            r.x >= 0 && r.x <= cvs.width && // inside cavas width
-            r.y >= 0 && r.y <= cvs.height   // inside cavas width
-        return idk
-    }
+    }).filter(r=>
+        r.o.isPartOf([r.x,r.y]) &&
+        (dir[0] == r.cadX || (!r.cadX && !(r.degDir%90))) && // single dir horizontal
+        (dir[1] == r.cadY || (!r.cadY && !(r.degDir%90))) && // single dir vertical
+        r.x >= 0 && r.x <= cvs.width && // inside cavas width
+        r.y >= 0 && r.y <= cvs.height   // inside cavas width
     ).toSorted((a,b)=>Math.abs(a.dif)-Math.abs(b.dif))
     console.log(v)
     return v[0]
@@ -75,7 +65,3 @@ getReflectPos(degrees) {
     set initDeg(deg) {this._initDeg = deg}
     set maxReflects(max) {this._max = max}
 }
-
-
-// let c=source.getReflectPos(180)
-// if (c) cvs.els.push(new Reflect(cvs.ctx, source, c.x, c.y, 5, "red"))

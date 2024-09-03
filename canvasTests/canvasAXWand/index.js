@@ -3,7 +3,7 @@ const fpsCounter = new FPSCounter(), cvs = new Canvas(canvas, DEFAULT_CTX_SETTIN
 })
 
 //let source = new Source(cvs.ctx, cvs.width-100, cvs.height-100, 120, 1, DEFAULT_RADIUS, "cyan"),
-let source = new Source(cvs.ctx, 285, 170, 120, 1, DEFAULT_RADIUS, "cyan"),
+let source = new Source(cvs.ctx, 400, 400, 120, 1, DEFAULT_RADIUS, "cyan"),
 obstacles = [
     new Obs(cvs.ctx, [0,0], [cvs.width,0], DEFAULT_COLOR),// border top
     new Obs(cvs.ctx, [0,cvs.height], [cvs.width,cvs.height], DEFAULT_COLOR),// border bottom
@@ -13,7 +13,7 @@ obstacles = [
     new Obs(cvs.ctx, [100,100], [350, 100], DEFAULT_COLOR),
     new Obs(cvs.ctx, [50,450], [290, 150], DEFAULT_COLOR),
     new Obs(cvs.ctx, [450,50], [150, 290], DEFAULT_COLOR),
-    new Obs(cvs.ctx, [400,500], [400, 350], DEFAULT_COLOR),
+    new Obs(cvs.ctx, [500,500], [500, 350], DEFAULT_COLOR),
     new Obs(cvs.ctx, [50,500], [50, 35], DEFAULT_COLOR),
 ]
 

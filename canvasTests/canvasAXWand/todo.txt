@@ -6,6 +6,8 @@ for (let i=0;i<360;i++) {
     },at+=10)
 }
 
+let c=source.getReflectPos(180)
+if (c) cvs.els.push(new Reflect(cvs.ctx, source, c.x, c.y, 5, "red"))
 
 
 // (++) | (-+)

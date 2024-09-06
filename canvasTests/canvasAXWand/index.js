@@ -1,10 +1,10 @@
-const fpsCounter = new FPSCounter(), cvs = new Canvas(canvas, DEFAULT_CTX_SETTINGS, 600, 600, ()=>{
+const fpsCounter = new FPSCounter(), cvs = new Canvas(canvas, DEFAULT_CTX_SETTINGS, 1000, 800, ()=>{
     //looping
     fpsDisplay.textContent = fpsCounter.getFps()
 })
 
 //let source = new Source(cvs.ctx, cvs.width-100, cvs.height-100, 120, 1, DEFAULT_RADIUS, "cyan"),
-let source = new Source(cvs.ctx, 400, 150, 30, 1, DEFAULT_RADIUS, "cyan"),
+let source = new Source(cvs.ctx, 500, 350, 30, 1, DEFAULT_RADIUS, "cyan"),
 obstacles = [
     new Obs(cvs.ctx, [0,0], [cvs.width,0], DEFAULT_COLOR),// border top
     new Obs(cvs.ctx, [0,cvs.height], [cvs.width,cvs.height], DEFAULT_COLOR),// border bottom
@@ -14,12 +14,15 @@ obstacles = [
     //new Obs(cvs.ctx, [100,100], [350, 100], DEFAULT_COLOR),
     //new Obs(cvs.ctx, [50,450], [290, 150], DEFAULT_COLOR),
     //new Obs(cvs.ctx, [450,50], [150, 290], DEFAULT_COLOR),
-    //new Obs(cvs.ctx, [500,500], [500, 250], DEFAULT_COLOR),
+    //new Obs(cvs.ctx, [200,500], [500, 250], DEFAULT_COLOR),
     //new Obs(cvs.ctx, [200, 335], [300,500], DEFAULT_COLOR),
     //new Obs(cvs.ctx, [300, 335], [200,500], DEFAULT_COLOR),
 
-    new Obs(cvs.ctx, [500,500], [500, 250], DEFAULT_COLOR),
-    new Obs(cvs.ctx, [300,400], [300, 150], DEFAULT_COLOR),
+    //new Obs(cvs.ctx, [400,500], [500, 250], DEFAULT_COLOR),
+    //new Obs(cvs.ctx, [300,400], [200, 150], DEFAULT_COLOR),
+    new Obs(cvs.ctx, [100,400], [900, 400], DEFAULT_COLOR),
+    new Obs(cvs.ctx, [900,200], [900, 700], DEFAULT_COLOR),
+    new Obs(cvs.ctx, [100,200], [100, 700], DEFAULT_COLOR),
 ]
 
 cvs.els.push(source)
@@ -39,8 +42,16 @@ canvas.onmousemove=e=>{
 }
 
 canvas.onclick=()=>{
-    let c=source.getReflectPos(mouse.deg)
-    if (c) cvs.els.push(new Reflect(cvs.ctx, c.x, c.y, source.getPos(), c.degDir, c.obsDir, 3, "red"))
+    source.initDeg = mouse.deg
+    source.reflect()
+}
+
+document.oncontextmenu=document.onkeydown=e=>{
+    let k = e?.key?.toLowerCase()
+    if (!k || k == "a") {
+        e.preventDefault()
+        source.reflect(1, ()=>{console.log("colllison")})
+    }
 }
 
 //source.reflect()

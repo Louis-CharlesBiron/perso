@@ -28,7 +28,7 @@ class Reflect {
     getOutDeg(inDeg=this._inDeg, atDeg=this._atDeg) {
         let outDeg=null
         // deg<180 -> (180-deg)+
-        // relection orientation: (DONE: vertical obs, oblique obs, ||||| TODO: cadran angles, horizontal obs,)
+        // relection orientation: (DONE: vertical obs, horizontal obs, ||||| TODO: cadran angles, oblique obs)
         // deg>180 -> 360-(inDeg-180)
         // deg == 0 
         // deg == 90 
@@ -36,10 +36,12 @@ class Reflect {
         // deg == 270 
         if (inDeg<180) {
             let defOut = 180-inDeg
-            if (atDeg<90) {
-                outDeg = defOut-atDeg
-            } else if (atDeg==90) {
+            if (atDeg==90) {
                 outDeg = defOut
+            } else if (atDeg==180) {
+                outDeg = 360-inDeg
+            } else if (atDeg<90) {
+                outDeg = defOut-atDeg
             } else if (atDeg>90) {
                 outDeg = defOut+atDeg-90
             } else console.log("WTF ----")
@@ -47,10 +49,12 @@ class Reflect {
 
         } else {// inDeg>180
             let defOut = 540-inDeg
-            if (atDeg<90) {
-                outDeg = defOut+atDeg
-            } else if (atDeg==90) {
+            if (atDeg==90) {
                 outDeg = defOut
+            } else if (atDeg==180) {
+                outDeg = 360-inDeg
+            } else if (atDeg<90) {
+                outDeg = defOut+atDeg
             } else if (atDeg>90) {
                 outDeg = defOut+atDeg-90
             } else console.log("WTF ----")

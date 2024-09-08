@@ -1,28 +1,21 @@
-const fpsCounter = new FPSCounter(), cvs = new Canvas(canvas, DEFAULT_CTX_SETTINGS, 1000, 800, ()=>{
+const fpsCounter = new FPSCounter(), cvs = new Canvas(canvas, DEFAULT_CTX_SETTINGS, 650, 800, ()=>{
     //looping
     fpsDisplay.textContent = fpsCounter.getFps()
 })
 
 //let source = new Source(cvs.ctx, cvs.width-100, cvs.height-100, 120, 1, DEFAULT_RADIUS, "cyan"),
-let source = new Source(cvs.ctx, 500, 350, 30, 1, DEFAULT_RADIUS, "cyan"),
+let source = new Source(cvs.ctx, 45, 150, 30, 1, DEFAULT_RADIUS, "cyan"),
 obstacles = [
     new Obs(cvs.ctx, [0,0], [cvs.width,0], DEFAULT_COLOR),// border top
     new Obs(cvs.ctx, [0,cvs.height], [cvs.width,cvs.height], DEFAULT_COLOR),// border bottom
     new Obs(cvs.ctx, [0,0], [0,cvs.height], DEFAULT_COLOR),// border left
     new Obs(cvs.ctx, [cvs.width,0], [cvs.width,cvs.height], DEFAULT_COLOR),// border right
 
-    //new Obs(cvs.ctx, [100,100], [350, 100], DEFAULT_COLOR),
-    //new Obs(cvs.ctx, [50,450], [290, 150], DEFAULT_COLOR),
-    //new Obs(cvs.ctx, [450,50], [150, 290], DEFAULT_COLOR),
-    //new Obs(cvs.ctx, [200,500], [500, 250], DEFAULT_COLOR),
-    //new Obs(cvs.ctx, [200, 335], [300,500], DEFAULT_COLOR),
-    //new Obs(cvs.ctx, [300, 335], [200,500], DEFAULT_COLOR),
+    new Obs(cvs.ctx, [100,150], [10, 350], DEFAULT_COLOR),
+    new Obs(cvs.ctx, [10,355], [10, 600], DEFAULT_COLOR),
+    new Obs(cvs.ctx, [300,355], [300, 600], DEFAULT_COLOR),
+    new Obs(cvs.ctx, [300,150], [400, 350], DEFAULT_COLOR),
 
-    //new Obs(cvs.ctx, [400,500], [500, 250], DEFAULT_COLOR),
-    //new Obs(cvs.ctx, [300,400], [200, 150], DEFAULT_COLOR),
-    new Obs(cvs.ctx, [100,400], [900, 400], DEFAULT_COLOR),
-    new Obs(cvs.ctx, [900,200], [900, 700], DEFAULT_COLOR),
-    new Obs(cvs.ctx, [100,200], [100, 700], DEFAULT_COLOR),
 ]
 
 cvs.els.push(source)

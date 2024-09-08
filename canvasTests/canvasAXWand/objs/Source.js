@@ -23,16 +23,16 @@
 
     }
 
-    reflect(max=this._max, onCollision) {
+    reflect(max=this._max, reset) {
+        if (reset) this._reflects = []
         for (let i=0;i<max;i++) {
-            let lastRef = this._reflects.last(), rInfo = this.getReflectPos(lastRef?.getOutDeg()??this._initDeg, lastRef?.x??this._x, lastRef?.y??this._y), 
-            reflect = new Reflect(cvs.ctx, rInfo.x, rInfo.y, lastRef?.getPos()??this.getPos(), rInfo.degDir, rInfo.obsDir, 3, "red")
-            if (reflect) {
+            let lastRef = this._reflects.last(), rInfo = this.getReflectPos(lastRef?.getOutDeg()??this._initDeg, lastRef?.x??this._x, lastRef?.y??this._y) 
+            if (rInfo) {
+                let reflect = new Reflect(cvs.ctx, rInfo.x, rInfo.y, lastRef?.getPos()??this.getPos(), rInfo.degDir, rInfo.obsDir, 3, "red")
                 this._reflects.push(reflect)
                 cvs.els.push(reflect)
-                onCollision?.() 
             } else {
-                console.log("No obstacle found")
+                console.log("No obstacle found", lastRef?.getOutDeg()??this._initDeg, lastRef?.x??this._x, lastRef?.y??this._y)
             }
 
             //console.log(lastRef, reflect)

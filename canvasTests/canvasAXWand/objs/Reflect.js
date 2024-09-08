@@ -36,30 +36,39 @@ class Reflect {
         // deg == 270 
         if (inDeg<180) {
             let defOut = 180-inDeg
-            if (atDeg==90) {
+            if (atDeg==90) {// horizontal obs
                 outDeg = defOut
-            } else if (atDeg==180) {
+            } else if (atDeg==180) {// vertical obs
                 outDeg = 360-inDeg
-            } else if (atDeg<90) {
-                outDeg = defOut-atDeg
-            } else if (atDeg>90) {
-                outDeg = defOut+atDeg-90
-            } else console.log("WTF ----")
-            //console.log(inDeg, atDeg, "->",outDeg," | ",defOut)
+            } else if (atDeg<90 && inDeg>90) {//  ( /-)
+                outDeg = defOut-((90-atDeg)*2)
+            } else if (atDeg<90 && inDeg<90) {//  (-/ )
+                outDeg = defOut-((90-atDeg)*2)
+            } else if (atDeg>90 && inDeg>90) {//  ( \-)
+                outDeg = defOut-((90-atDeg)*2)
+            } else if (atDeg>90 && inDeg<90) {//  (-\)
+                outDeg = defOut-((90-atDeg)*2)
+            }
+            console.log("top", "in: "+inDeg, "at: "+atDeg, "defOut: "+defOut, "outDeg:",outDeg)
 
         } else {// inDeg>180
             let defOut = 540-inDeg
-            if (atDeg==90) {
+            if (atDeg==90) {// horizontal obs
                 outDeg = defOut
-            } else if (atDeg==180) {
+            } else if (atDeg==180) {// vertical obs
                 outDeg = 360-inDeg
-            } else if (atDeg<90) {
-                outDeg = defOut+atDeg
-            } else if (atDeg>90) {
-                outDeg = defOut+atDeg-90
-            } else console.log("WTF ----")
-            console.log(inDeg, atDeg, "->",outDeg," | ",defOut)
+            } else if (atDeg<90 && inDeg>90) {//  ( /-)
+                outDeg = defOut-((90-atDeg)*2)
+            } else if (atDeg<90 && inDeg<90) {//  (-/ )
+                outDeg = defOut-((90-atDeg)*2)
+            } else if (atDeg>90 && inDeg>90) {//  ( \-)
+                outDeg = defOut-((90-atDeg)*2)
+            } else if (atDeg>90 && inDeg<90) {//  (-\)
+                outDeg = defOut-((90-atDeg)*2)
+            }
+            console.log("bot", "in: "+inDeg, "at: "+atDeg, "defOut: "+defOut, "outDeg:",outDeg)
         }
+        if (outDeg >= 360)console.log("BIG, HUH:", outDeg)
         return outDeg
     }
     

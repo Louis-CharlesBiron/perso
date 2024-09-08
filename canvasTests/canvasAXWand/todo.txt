@@ -3,12 +3,13 @@
 
 
 let at=0
-for (let i=0;i<360;i++) {
+for (let i=91;i<180;i++) {
     setTimeout(()=>{
-    let c=source.getReflectPos(i)
-    if (c) cvs.els.push(new Reflect(cvs.ctx, source, c.x, c.y, 5, "red"))
-    },at+=10)
+        source.initDeg = i
+        source.reflect(2, true)
+    },at+=50)
 }
+
 
 let c=source.getReflectPos(180)
 if (c) cvs.els.push(new Reflect(cvs.ctx, source, c.x, c.y, 5, "red"))

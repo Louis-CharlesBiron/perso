@@ -56,6 +56,9 @@
             x >= 0 && x <= cvs.width && // inside cavas width
             y >= 0 && y <= cvs.height   // inside cavas height
 
+            //source.getReflectPos(344, 331, 213)
+            //obstacles.last().isPartOf([331, 213])
+
             //console.log(x, y, difX, difY, "DIF", difX+difY, " |OR :", Math.sqrt(difX**2 + difY**2), "cadX",Math.sign(difX), "cadY",Math.sign(difY))
             return isValid&&{x, y, dif:Math.sqrt(difX**2+difY**2), degDir, obsDir:o.getOrientation()}
         }).filter(r=>r).toSorted((a,b)=>Math.abs(a.dif)-Math.abs(b.dif))[0]
@@ -65,6 +68,15 @@
 
     getPos() {
         return [this._x, this._y]
+    }
+
+    sweep(start=0, end=360, reflectNum=2, delay=10) {
+        for (let i=start,at=0;i<=end;i++) {
+            setTimeout(()=>{
+                source.initDeg = i
+                source.reflect(reflectNum, true)
+            },at+=delay)
+        }
     }
 
     get x() {return this._x}

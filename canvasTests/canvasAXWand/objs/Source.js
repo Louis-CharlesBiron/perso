@@ -1,17 +1,20 @@
-    class Source {
+let SOURCE_DEFAULT_COLOR = "cyan", SOURCE_DEFAULT_RADIUS = 5
 
-    constructor(x, y, initDeg, maxReflects, radius, color) {
+class Source {
+
+    constructor(onReflect, x, y, initDeg, maxReflects, radius, color) {
         this._ctx = null
         this._id = idGiver++
         this._x = x
         this._y = y
-        this._r = radius??DEFAULT_RADIUS
-        this._c = color??DEFAULT_COLOR
+        this._r = radius??SOURCE_DEFAULT_RADIUS
+        this._c = color??SOURCE_DEFAULT_COLOR
 
         this._initDeg = initDeg //0→ 90↑ 180← 270↓
 
         this._reflects = []
         this._max = maxReflects
+        this._onReflect = onReflect // (reflectIndex, reflect)
     }
 
     draw() {
@@ -28,9 +31,11 @@
         for (let i=0;i<max;i++) {
             let lastRef = this._reflects.last(), rInfo = this.getReflectPos(lastRef?.getOutDeg()??this._initDeg, lastRef?.x??this._x, lastRef?.y??this._y) 
             if (rInfo) {
-                let reflect = new Reflect(rInfo.x, rInfo.y, lastRef?.getPos()??this.getPos(), rInfo.degDir, rInfo.obsDir, 3, "red")
+                let reflect = new Reflect(rInfo.x, rInfo.y, lastRef?.getPos()??this.getPos(), rInfo.degDir, rInfo.obsDir)
                 this._reflects.push(reflect)
                 cvs.add(reflect)
+
+                if (typeof this._onReflect=="function") this._onReflect(this._reflects.length-1, reflect)
             } else console.log("No obstacle found", lastRef?.getOutDeg()??this._initDeg, lastRef?.x??this._x, lastRef?.y??this._y)
         }
     }
@@ -50,7 +55,7 @@
             (dir[1]==cadY || (!cadY && !(degDir%90))) && // single dir vertical
             x >= 0 && x <= cvs.width && // inside cavas width
             y >= 0 && y <= cvs.height &&   // inside cavas height
-            dif >= MINIMALDIF // prevent transpersion (maybe instead of ruling out, place at end of array)
+            dif >= MINDIF // prevent transpersion (maybe instead of ruling out, place at end of array)
 
             return isValid&&{x, y, dif, degDir, obsDir:o.getOrientation()}
         }).filter(r=>r).toSorted((a,b)=>Math.abs(a.dif)-Math.abs(b.dif))[0]

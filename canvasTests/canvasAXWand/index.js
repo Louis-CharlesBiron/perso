@@ -1,20 +1,22 @@
-const fpsCounter = new FPSCounter(), cvs = new Canvas(canvas, DEFAULT_CTX_SETTINGS, 650, 800, ()=>{
-    //looping
+const fpsCounter = new FPSCounter(), cvs = new Canvas(canvas, DEFAULT_CTX_SETTINGS, 650, 800, ()=>{//looping
     fpsDisplay.textContent = fpsCounter.getFps()
 })
 
-//let source = new Source(cvs.ctx, cvs.width-100, cvs.height-100, 120, 1, DEFAULT_RADIUS, "cyan"),
-let source = new Source(200, 250, 30, 1, DEFAULT_RADIUS, "cyan"),
-obstacles = [
-    new Obs([0,0], [cvs.width,0], DEFAULT_COLOR),// border top
-    new Obs([0,cvs.height], [cvs.width,cvs.height], DEFAULT_COLOR),// border bottom
-    new Obs([0,0], [0,cvs.height], DEFAULT_COLOR),// border left
-    new Obs([cvs.width,0], [cvs.width,cvs.height], DEFAULT_COLOR),// border right
+function onCollision(i, r, s) {
+    r.color = getRandomColor()
+}
 
-    new Obs([100,150], [10, 450], DEFAULT_COLOR),
-    new Obs([100,655], [600, 700], DEFAULT_COLOR),
-    new Obs([210,355], [500, 400], DEFAULT_COLOR),
-    new Obs([300,150], [400, 350], DEFAULT_COLOR),
+let source = new Source(onCollision, 200, 250, 30, 1, SOURCE_DEFAULT_RADIUS, "cyan"),
+obstacles = [
+    new Obs([0,0], [cvs.width,0]),// border top
+    new Obs([0,cvs.height], [cvs.width,cvs.height]),// border bottom
+    new Obs([0,0], [0,cvs.height]),// border left
+    new Obs([cvs.width,0], [cvs.width,cvs.height]),// border right
+
+    new Obs([100,150], [10, 450]),
+    new Obs([100,655], [600, 700]),
+    new Obs([210,355], [500, 400]),
+    new Obs([300,150], [400, 350]),
 
 ]
 

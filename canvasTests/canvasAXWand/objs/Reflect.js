@@ -1,3 +1,5 @@
+let REFLECT_DEFAULT_COLOR = "red", REFLECT_DEFAULT_RADIUS = 3
+
 class Reflect {
 
     constructor(x, y, srcPos, inDeg, atDeg, radius, color) {
@@ -8,8 +10,8 @@ class Reflect {
         this._atDeg = atDeg
         this._x = x
         this._y = y
-        this._r = radius??DEFAULT_RADIUS
-        this._c = color??DEFAULT_COLOR
+        this._r = radius??REFLECT_DEFAULT_RADIUS
+        this._c = color??REFLECT_DEFAULT_COLOR
     }
 
     draw() {

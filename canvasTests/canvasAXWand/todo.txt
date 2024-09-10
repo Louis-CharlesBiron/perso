@@ -1,7 +1,8 @@
-add good onCollision support
+- make it dynamic (like move source and relfects move too)
 
-make it more dynamic (like move source and relfects move too)
 
+MAYBE:
+- animated reflection (instead of instant (like the DVD logo))
 
 
 // (++) | (-+)

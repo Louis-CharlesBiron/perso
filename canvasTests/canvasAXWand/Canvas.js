@@ -10,7 +10,7 @@ class Canvas {
         this._cvs.height = height||DEFAULT_CANVAS_LENGTH //height
         this._settings = this.updateSettings(settings)   //ctx settings
 
-        this.els=[]                                      //direct arr of objects to .draw()
+        this._els=[]                                      //direct arr of objects to .draw()
 
         this._looping = false                            //loop state
         this._cb=loopingCallback                         //callback called along with the loop() fn
@@ -48,7 +48,7 @@ class Canvas {
 
 
     draw() {
-        this.els.forEach(el=>{
+        this._els.forEach(el=>{
             if (el.draw) el.draw()
         })
     }
@@ -70,6 +70,22 @@ class Canvas {
         return this._settings=st
     }
 
+    add(objs) {
+        let l = objs.length??1
+        for (let i=0;i<l;i++) {
+            let obj = objs[i]??objs
+            obj._ctx = this._ctx
+            this._els.push(obj)
+        }
+    }
+
+    remove() {
+
+    }
+
+    getObjs(instance) {
+        return this._els.filter(x=>x instanceof instance)
+    }
     
 
     

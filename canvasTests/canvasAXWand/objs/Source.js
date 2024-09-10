@@ -1,7 +1,7 @@
     class Source {
 
-    constructor(ctx, x, y, initDeg, maxReflects, radius, color) {
-        this._ctx = ctx
+    constructor(x, y, initDeg, maxReflects, radius, color) {
+        this._ctx = null
         this._id = idGiver++
         this._x = x
         this._y = y
@@ -28,9 +28,9 @@
         for (let i=0;i<max;i++) {
             let lastRef = this._reflects.last(), rInfo = this.getReflectPos(lastRef?.getOutDeg()??this._initDeg, lastRef?.x??this._x, lastRef?.y??this._y) 
             if (rInfo) {
-                let reflect = new Reflect(cvs.ctx, rInfo.x, rInfo.y, lastRef?.getPos()??this.getPos(), rInfo.degDir, rInfo.obsDir, 3, "red")
+                let reflect = new Reflect(rInfo.x, rInfo.y, lastRef?.getPos()??this.getPos(), rInfo.degDir, rInfo.obsDir, 3, "red")
                 this._reflects.push(reflect)
-                cvs.els.push(reflect)
+                cvs.add(reflect)
             } else console.log("No obstacle found", lastRef?.getOutDeg()??this._initDeg, lastRef?.x??this._x, lastRef?.y??this._y)
         }
     }

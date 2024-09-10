@@ -1,7 +1,7 @@
 class Obs {
 
-    constructor(ctx, p1, p2, color) {
-        this._ctx = ctx
+    constructor(p1, p2, color) {
+        this._ctx = null
         this._id = idGiver++
         this._p1 = p1
         this._p2 = p2

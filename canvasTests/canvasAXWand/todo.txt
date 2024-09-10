@@ -1,5 +1,3 @@
-redo this cvs.els (dynamically give ctx AND good type/id support)
-
 add good onCollision support
 
 make it more dynamic (like move source and relfects move too)

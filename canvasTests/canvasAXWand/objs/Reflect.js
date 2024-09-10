@@ -1,7 +1,7 @@
 class Reflect {
 
-    constructor(ctx, x, y, srcPos, inDeg, atDeg, radius, color) {
-        this._ctx = ctx
+    constructor(x, y, srcPos, inDeg, atDeg, radius, color) {
+        this._ctx = null
         this._id = idGiver++
         this._src = srcPos
         this._inDeg = inDeg

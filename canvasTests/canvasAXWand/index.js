@@ -4,22 +4,22 @@ const fpsCounter = new FPSCounter(), cvs = new Canvas(canvas, DEFAULT_CTX_SETTIN
 })
 
 //let source = new Source(cvs.ctx, cvs.width-100, cvs.height-100, 120, 1, DEFAULT_RADIUS, "cyan"),
-let source = new Source(cvs.ctx, 200, 250, 30, 1, DEFAULT_RADIUS, "cyan"),
+let source = new Source(200, 250, 30, 1, DEFAULT_RADIUS, "cyan"),
 obstacles = [
-    new Obs(cvs.ctx, [0,0], [cvs.width,0], DEFAULT_COLOR),// border top
-    new Obs(cvs.ctx, [0,cvs.height], [cvs.width,cvs.height], DEFAULT_COLOR),// border bottom
-    new Obs(cvs.ctx, [0,0], [0,cvs.height], DEFAULT_COLOR),// border left
-    new Obs(cvs.ctx, [cvs.width,0], [cvs.width,cvs.height], DEFAULT_COLOR),// border right
+    new Obs([0,0], [cvs.width,0], DEFAULT_COLOR),// border top
+    new Obs([0,cvs.height], [cvs.width,cvs.height], DEFAULT_COLOR),// border bottom
+    new Obs([0,0], [0,cvs.height], DEFAULT_COLOR),// border left
+    new Obs([cvs.width,0], [cvs.width,cvs.height], DEFAULT_COLOR),// border right
 
-    new Obs(cvs.ctx, [100,150], [10, 450], DEFAULT_COLOR),
-    new Obs(cvs.ctx, [100,655], [600, 700], DEFAULT_COLOR),
-    new Obs(cvs.ctx, [210,355], [500, 400], DEFAULT_COLOR),
-    new Obs(cvs.ctx, [300,150], [400, 350], DEFAULT_COLOR),
+    new Obs([100,150], [10, 450], DEFAULT_COLOR),
+    new Obs([100,655], [600, 700], DEFAULT_COLOR),
+    new Obs([210,355], [500, 400], DEFAULT_COLOR),
+    new Obs([300,150], [400, 350], DEFAULT_COLOR),
 
 ]
 
-cvs.els.push(source)
-cvs.els.push(...obstacles)
+cvs.add(source)
+cvs.add(obstacles)
 
 // START
 cvs.startLoop()

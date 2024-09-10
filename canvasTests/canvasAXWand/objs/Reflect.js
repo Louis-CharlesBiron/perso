@@ -26,49 +26,11 @@ class Reflect {
     }
 
     getOutDeg(inDeg=this._inDeg, atDeg=this._atDeg) {
-        let outDeg=null
-        // deg<180 -> (180-deg)+
-        // relection orientation: (DONE: vertical obs, horizontal obs, ||||| TODO: cadran angles, oblique obs)
-        // deg>180 -> 360-(inDeg-180)
-        // deg == 0 
-        // deg == 90 
-        // deg == 180 
-        // deg == 270 
-        if (inDeg<180) {
-            let defOut = 180-inDeg
-            if (atDeg==90) {// horizontal obs
-                outDeg = defOut
-            } else if (atDeg==180) {// vertical obs
-                outDeg = 360-inDeg
-            } else if (atDeg<90 && inDeg>90) {//  ( /-)
-                outDeg = defOut-((90-atDeg)*2)
-            } else if (atDeg<90 && inDeg<90) {//  (-/ )
-                outDeg = defOut-((90-atDeg)*2)
-            } else if (atDeg>90 && inDeg>90) {//  ( \-)
-                outDeg = defOut-((90-atDeg)*2)
-            } else if (atDeg>90 && inDeg<90) {//  (-\)
-                outDeg = defOut-((90-atDeg)*2)
-            }
-            console.log("top", "in: "+inDeg, "at: "+atDeg, "defOut: "+defOut, "outDeg:",outDeg)
+        let defOut = inDeg<180 ? 180-inDeg : 540-inDeg, outDeg = defOut
+    
+        if (atDeg==180) outDeg = 360-inDeg
+        else outDeg = defOut-((90-atDeg)*2)
 
-        } else {// inDeg>180
-            let defOut = 540-inDeg
-            if (atDeg==90) {// horizontal obs
-                outDeg = defOut
-            } else if (atDeg==180) {// vertical obs
-                outDeg = 360-inDeg
-            } else if (atDeg<90 && inDeg>90) {//  ( /-)
-                outDeg = defOut-((90-atDeg)*2)
-            } else if (atDeg<90 && inDeg<90) {//  (-/ )
-                outDeg = defOut-((90-atDeg)*2)
-            } else if (atDeg>90 && inDeg>90) {//  ( \-)
-                outDeg = defOut-((90-atDeg)*2)
-            } else if (atDeg>90 && inDeg<90) {//  (-\)
-                outDeg = defOut-((90-atDeg)*2)
-            }
-            console.log("bot", "in: "+inDeg, "at: "+atDeg, "defOut: "+defOut, "outDeg:",outDeg)
-        }
-        if (outDeg >= 360)console.log("BIG, HUH:", outDeg)
         return outDeg
     }
     

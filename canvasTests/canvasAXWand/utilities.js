@@ -1,4 +1,4 @@
-const CIRC = 2*Math.PI, DEFAULT_COLOR = "aliceblue", DEFAULT_RADIUS = 5
+const CIRC = 2*Math.PI, DEFAULT_COLOR = "aliceblue", DEFAULT_RADIUS = 5, ACCEPTABLEDIF = 0.0000001
 
 function random(min, max) {
     return Math.floor(Math.random()*(max-min+1))+min
@@ -36,6 +36,6 @@ Array.prototype.last=function(){return this[this.length-1]}
 // ==== + ====
 // (+-) | (--)
 
-
-
-
+function getAcceptableDif(num, okDif) {
+    return Math.round(num)-num <= okDif ? Math.round(num) : num
+}

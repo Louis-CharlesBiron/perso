@@ -49,16 +49,13 @@
             else if (!isFinite(oa)) y = a*(x=o.p1[0])+b // vertical obs
             else x = (((atY-ob) - a*atX)/oa) / (1 - a/oa) // inclined obs
             y ??= oFnY(x)
-            let difX = atX-x, difY = atY-y, cadX = Math.sign(difX), cadY = Math.sign(difY), dif = Math.sqrt(difX**2+difY**2),
+            let difX = getAcceptableDif(atX-x, ACCEPTABLEDIF), difY = getAcceptableDif(atY-y, ACCEPTABLEDIF), cadX = Math.sign(difX), cadY = Math.sign(difY), dif = Math.sqrt(difX**2+difY**2),
             isValid = o.isPartOf([x,y]) && // is part of line 
             (dir[0]==cadX || (!cadX && !(degDir%90))) && // single dir horizontal
             (dir[1]==cadY || (!cadY && !(degDir%90))) && // single dir vertical
             x >= 0 && x <= cvs.width && // inside cavas width
             y >= 0 && y <= cvs.height &&   // inside cavas height
             dif >= 1 // prevent transpersion (maybe instead of ruling out, place at end of array)
-
-            //source.getReflectPos(344, 331, 213)
-            //obstacles.last().isPartOf([331, 213])
 
             //console.log(x, y, difX, difY, "DIF", difX+difY, " |OR :", Math.sqrt(difX**2 + difY**2), "cadX",Math.sign(difX), "cadY",Math.sign(difY))
             return isValid&&{x, y, dif, degDir, obsDir:o.getOrientation()}
@@ -77,6 +74,13 @@
                 source.initDeg = i
                 source.reflect(reflectNum, true)
             },at+=delay)
+        }
+    }
+
+    cadrans() {
+        for (let i=0;i<=360;i+=90) {
+            source.initDeg = i
+            source.reflect(2, true)
         }
     }
 

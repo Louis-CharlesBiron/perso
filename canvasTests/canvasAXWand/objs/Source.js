@@ -74,6 +74,12 @@ class Source {
         }
     }
 
+    moveBy(x, y) {
+        this._x += x
+        this._y += y
+        this._reflects
+    }
+
     get x() {return this._x}
     get y() {return this._y}
     get radius() {return this._r}
@@ -81,10 +87,12 @@ class Source {
     get initDeg() {return this._initDeg}
     get maxReflects() {return this._max}
     get reflects() {return this._reflects}
+    get onReflect() {return this._onReflect}
 
     set x(x) {this._x = x}
     set y(y) {this._y = y}
     set color(c) {this._c = c}
     set initDeg(deg) {this._initDeg = deg}
     set maxReflects(max) {this._max = max}
+    set onReflect(fn) {this._onReflect = fn}
 }

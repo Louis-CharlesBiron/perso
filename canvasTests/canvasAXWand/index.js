@@ -3,7 +3,7 @@ const fpsCounter = new FPSCounter(), cvs = new Canvas(canvas, DEFAULT_CTX_SETTIN
 })
 
 function onCollision(i, r, s) {
-    r.color = getRandomColor()
+    //r.color = getRandomColor()
 }
 
 let source = new Source(onCollision, 200, 250, 30, 1, SOURCE_DEFAULT_RADIUS, "cyan"),
@@ -48,5 +48,3 @@ document.oncontextmenu=document.onkeydown=e=>{
         source.reflect(1)
     }
 }
-
-//source.reflect()

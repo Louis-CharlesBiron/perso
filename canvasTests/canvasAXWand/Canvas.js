@@ -79,8 +79,8 @@ class Canvas {
         }
     }
 
-    remove() {
-
+    remove(ids) {// i don't even know if this works idk
+        this._els = this._els.filter(x=>!ids.includes(x))
     }
 
     getObjs(instance) {
@@ -97,6 +97,7 @@ class Canvas {
 	get cb() {return this._cb}
 	get looping() {return this._looping}
 	get deltaTime() {return this._deltaTime}
+	get els() {return this._els}
 
 	set cb(_cb) {return this._cb = _cb}
 	set width(w) {this.setSize(w, null)}

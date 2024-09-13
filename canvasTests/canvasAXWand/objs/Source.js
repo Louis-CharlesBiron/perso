@@ -2,7 +2,7 @@ let SOURCE_DEFAULT_COLOR = "cyan", SOURCE_DEFAULT_RADIUS = 5
 
 class Source {
 
-    constructor(onReflect, x, y, initDeg, maxReflects, radius, color) {
+    constructor(onReflect, x, y, initDeg, radius, color) {
         this._ctx = null
         this._id = idGiver++
         this._x = x
@@ -13,7 +13,6 @@ class Source {
         this._initDeg = initDeg //0→ 90↑ 180← 270↓
 
         this._reflects = []
-        this._max = maxReflects
         this._onReflect = onReflect // (reflectIndex, reflect)
     }
 
@@ -26,23 +25,22 @@ class Source {
 
     }
 
-    reflect(max=this._max, reset) {
+    reflect(max=1, reset) {
         if (reset) this._reflects = []
         for (let i=0;i<max;i++) {
             let lastRef = this._reflects.last(), rInfo = this.getReflectPos(lastRef?.getOutDeg()??this._initDeg, lastRef?.x??this._x, lastRef?.y??this._y) 
             if (rInfo) {
                 let reflect = new Reflect(rInfo.x, rInfo.y, lastRef?.getPos()??this.getPos(), rInfo.degDir, rInfo.obsDir)
                 this._reflects.push(reflect)
-                cvs.add(reflect)
-
                 if (typeof this._onReflect=="function") this._onReflect(this._reflects.length-1, reflect)
-            } else console.log("No obstacle found", lastRef?.getOutDeg()??this._initDeg, lastRef?.x??this._x, lastRef?.y??this._y)
+            }
+            else console.log("No obstacle found", lastRef?.getOutDeg()??this._initDeg, lastRef?.x??this._x, lastRef?.y??this._y)
         }
     }
 
     getReflectPos(degrees=this._initDeg, atX=this._x, atY=this._y) {
         let degDir = degrees%360, deg = 360-degDir, dir = [!(degDir>270||degDir<90)*2-1, (degDir>=0&&degDir<180)*2-1], a = Math.tan(toRad(deg)), b = -(a*atX-atY)
-        return obstacles.map(o=>{
+        let v = obstacles.map(o=>{
             let [oa, ob, oFnY] = o.abfn, x, y
 
             if (!oa) x = (ob-atY)/a + atX // horizontal obs
@@ -58,7 +56,9 @@ class Source {
             dif >= MINDIF // prevent transpersion (maybe instead of ruling out, place at end of array)
 
             return isValid&&{x, y, dif, degDir, obsDir:o.getOrientation()}
-        }).filter(r=>r).toSorted((a,b)=>Math.abs(a.dif)-Math.abs(b.dif))[0]
+        }).filter(r=>r).toSorted((a,b)=>Math.abs(a.dif)-Math.abs(b.dif))
+        console.log(v)
+        return v[0]
     }
 
     getPos() {
@@ -74,10 +74,16 @@ class Source {
         }
     }
 
+    move(x, y) {
+        this._x = x
+        this._y = y
+        this.reflect(this._reflects.length, true)
+    }
+
     moveBy(x, y) {
         this._x += x
         this._y += y
-        this._reflects
+        this.reflect(this._reflects.length, true)
     }
 
     get x() {return this._x}
@@ -85,7 +91,6 @@ class Source {
     get radius() {return this._r}
     get color() {return this._c}
     get initDeg() {return this._initDeg}
-    get maxReflects() {return this._max}
     get reflects() {return this._reflects}
     get onReflect() {return this._onReflect}
 
@@ -93,6 +98,5 @@ class Source {
     set y(y) {this._y = y}
     set color(c) {this._c = c}
     set initDeg(deg) {this._initDeg = deg}
-    set maxReflects(max) {this._max = max}
     set onReflect(fn) {this._onReflect = fn}
 }

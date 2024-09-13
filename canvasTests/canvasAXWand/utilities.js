@@ -32,8 +32,8 @@ function toDeg(rad) {
 
 Array.prototype.last=function(){return this[this.length-1]}
 
-function getAcceptableDif(num, okDif) {
-    return Math.round(num)-num <= okDif ? Math.round(num) : num
+function getAcceptableDif(n, okDif) {
+    return Math.round(n)-n <= okDif ? Math.round(n) : n
 }
 
 const hex = [0,1,2,3,4,5,6,7,8,9,"a","b","c","d","e","f"]

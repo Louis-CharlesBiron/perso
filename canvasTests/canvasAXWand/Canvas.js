@@ -2,6 +2,8 @@ const DEFAULT_CANVAS_LENGTH = 500, DEFAULT_CTX_SETTINGS = {"imageSmoothingEnable
 let idGiver = 0
 
 class Canvas {
+    //privates
+    #lastFrame = 0  // for delta time
 
     constructor(cvs, settings, width, height, loopingCallback) {
         this._cvs = cvs                                  //html canvas el
@@ -10,12 +12,11 @@ class Canvas {
         this._cvs.height = height||DEFAULT_CANVAS_LENGTH //height
         this._settings = this.updateSettings(settings)   //ctx settings
 
-        this._els=[]                                      //direct arr of objects to .draw()
+        this._els={refs:[], def:[]}                      //arrs of objects to .draw() | refs: [{Object._arrName:Object}], def: [regular drawable objects]
 
         this._looping = false                            //loop state
         this._cb=loopingCallback                         //callback called along with the loop() fn
 
-        this._lastFrame = 0                              // for delta time
         this._deltaTime = null                           // useable delta time
     }
 
@@ -42,14 +43,20 @@ class Canvas {
     }
 
     calcDeltaTime(time) {
-        this._deltaTime = (time-this._lastFrame)/1000
-        this._lastFrame = time
+        this._deltaTime = (time-this.#lastFrame)/1000
+        this.#lastFrame = time
     }
 
 
     draw() {
-        this._els.forEach(el=>{
-            if (el.draw) el.draw()
+        [...this._els.def, ...this._els.refs.flatMap(x=>{
+            let o=Object.entries(x)
+            return o[0][1][o[0][0]]
+        })].forEach(el=>{
+            if (el.draw) {
+                if (!el._ctx) el._ctx = this._ctx
+                el.draw()
+            }
         })
     }
 
@@ -70,24 +77,18 @@ class Canvas {
         return this._settings=st
     }
 
-    add(objs) {
+    add(objs, isRef) {
         let l = objs.length??1
-        for (let i=0;i<l;i++) {
-            let obj = objs[i]??objs
-            obj._ctx = this._ctx
-            this._els.push(obj)
-        }
+        for (let i=0;i<l;i++) this._els[isRef?"refs":"def"].push(objs[i]??objs)
     }
 
-    remove(ids) {// i don't even know if this works idk
-        this._els = this._els.filter(x=>!ids.includes(x))
-    }
+    //remove(ids) {// i don't even know if this works idk
+    //    this._els = this._els.filter(x=>!ids.includes(x))
+    //}
 
     getObjs(instance) {
-        return this._els.filter(x=>x instanceof instance)
+        return this._els.def.filter(x=>x instanceof instance)
     }
-    
-
     
 	get cvs() {return this._cvs}
 	get ctx() {return this._ctx}

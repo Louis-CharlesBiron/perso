@@ -1,11 +1,13 @@
+let OBS_DEFAULT_COLOR = "aliceblue"
+
 class Obs {
 
-    constructor(ctx, p1, p2, color) {
-        this._ctx = ctx
+    constructor(p1, p2, color) {
+        this._ctx = null
         this._id = idGiver++
         this._p1 = p1
         this._p2 = p2
-        this._c = color??DEFAULT_COLOR
+        this._c = color??OBS_DEFAULT_COLOR
         this._abfn = getLinearABFn([this._p1, this._p2])
     }
 

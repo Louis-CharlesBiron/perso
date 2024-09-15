@@ -1,15 +1,17 @@
+let REFLECT_DEFAULT_COLOR = "red", REFLECT_DEFAULT_RADIUS = 3
+
 class Reflect {
 
-    constructor(ctx, x, y, srcPos, inDeg, atDeg, radius, color) {
-        this._ctx = ctx
+    constructor(x, y, srcPos, inDeg, atDeg, radius, color) {
+        this._ctx = null
         this._id = idGiver++
         this._src = srcPos
         this._inDeg = inDeg
         this._atDeg = atDeg
         this._x = x
         this._y = y
-        this._r = radius??DEFAULT_RADIUS
-        this._c = color??DEFAULT_COLOR
+        this._r = radius??REFLECT_DEFAULT_RADIUS
+        this._c = color??REFLECT_DEFAULT_COLOR
     }
 
     draw() {
@@ -26,49 +28,11 @@ class Reflect {
     }
 
     getOutDeg(inDeg=this._inDeg, atDeg=this._atDeg) {
-        let outDeg=null
-        // deg<180 -> (180-deg)+
-        // relection orientation: (DONE: vertical obs, horizontal obs, ||||| TODO: cadran angles, oblique obs)
-        // deg>180 -> 360-(inDeg-180)
-        // deg == 0 
-        // deg == 90 
-        // deg == 180 
-        // deg == 270 
-        if (inDeg<180) {
-            let defOut = 180-inDeg
-            if (atDeg==90) {// horizontal obs
-                outDeg = defOut
-            } else if (atDeg==180) {// vertical obs
-                outDeg = 360-inDeg
-            } else if (atDeg<90 && inDeg>90) {//  ( /-)
-                outDeg = defOut-((90-atDeg)*2)
-            } else if (atDeg<90 && inDeg<90) {//  (-/ )
-                outDeg = defOut-((90-atDeg)*2)
-            } else if (atDeg>90 && inDeg>90) {//  ( \-)
-                outDeg = defOut-((90-atDeg)*2)
-            } else if (atDeg>90 && inDeg<90) {//  (-\)
-                outDeg = defOut-((90-atDeg)*2)
-            }
-            console.log("top", "in: "+inDeg, "at: "+atDeg, "defOut: "+defOut, "outDeg:",outDeg)
+        let defOut = inDeg<180 ? 180-inDeg : 540-inDeg, outDeg = defOut
+    
+        if (atDeg==180) outDeg = 360-inDeg
+        else outDeg = defOut-((90-atDeg)*2)
 
-        } else {// inDeg>180
-            let defOut = 540-inDeg
-            if (atDeg==90) {// horizontal obs
-                outDeg = defOut
-            } else if (atDeg==180) {// vertical obs
-                outDeg = 360-inDeg
-            } else if (atDeg<90 && inDeg>90) {//  ( /-)
-                outDeg = defOut-((90-atDeg)*2)
-            } else if (atDeg<90 && inDeg<90) {//  (-/ )
-                outDeg = defOut-((90-atDeg)*2)
-            } else if (atDeg>90 && inDeg>90) {//  ( \-)
-                outDeg = defOut-((90-atDeg)*2)
-            } else if (atDeg>90 && inDeg<90) {//  (-\)
-                outDeg = defOut-((90-atDeg)*2)
-            }
-            console.log("bot", "in: "+inDeg, "at: "+atDeg, "defOut: "+defOut, "outDeg:",outDeg)
-        }
-        if (outDeg >= 360)console.log("BIG, HUH:", outDeg)
         return outDeg
     }
     

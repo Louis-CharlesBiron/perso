@@ -1,4 +1,4 @@
-const CIRC = 2*Math.PI, DEFAULT_COLOR = "aliceblue", DEFAULT_RADIUS = 5
+let CIRC = 2*Math.PI, DEFAULT_COLOR = "aliceblue", DEFAULT_RADIUS = 5, ACCEPTABLEDIF = 0.0000001, MINDIF = 1
 
 function random(min, max) {
     return Math.floor(Math.random()*(max-min+1))+min
@@ -32,10 +32,15 @@ function toDeg(rad) {
 
 Array.prototype.last=function(){return this[this.length-1]}
 
+function getAcceptableDif(n, okDif) {
+    return Math.round(n)-n <= okDif ? Math.round(n) : n
+}
+
+const hex = [0,1,2,3,4,5,6,7,8,9,"a","b","c","d","e","f"]
+function getRandomColor(format) {
+    return (format == "rgb") ? "rgb("+random(0,255)+" "+random(0,255)+" "+random(0,255)+")" : "#"+new Array(6).fill().map(()=>hex[random(0,15)]).join("")
+}
+
 // (++) | (-+)
 // ==== + ====
 // (+-) | (--)
-
-
-
-

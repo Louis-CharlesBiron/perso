@@ -54,10 +54,15 @@ canvas.onclick=()=>{
     source.reflect()
 }
 
-document.oncontextmenu=document.onkeydown=e=>{
+document.onkeydown=e=>{
     let k = e?.key?.toLowerCase()
     if (!k || k == "a") {
         e.preventDefault()
         source.reflect(1)
     }
+}
+
+document.oncontextmenu=e=>{
+    e.preventDefault()
+    source.move(mouse.x, mouse.y)
 }

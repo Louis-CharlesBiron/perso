@@ -55,6 +55,18 @@ class Source {
             y >= 0 && y <= cvs.height &&   // inside cavas height
             dif >= MINDIF // prevent transpersion (maybe instead of ruling out, place at end of array)
 
+
+            // (++) | (-+)
+            // ==== + ====
+            // (+-) | (--)
+            console.log(o.isPartOf([x,y]), // is part of line 
+            dir[0], cadX, // single dir horizontal
+            dir[1], cadY, // single dir vertical
+            x >= 0 && x <= cvs.width, // inside cavas width
+            y >= 0 && y <= cvs.height,   // inside cavas height
+            dif >= MINDIF, "|", isValid)
+
+
             return isValid&&{x, y, dif, degDir, obsDir:o.getOrientation()}
         }).filter(r=>r).toSorted((a,b)=>Math.abs(a.dif)-Math.abs(b.dif))
         console.log(v)

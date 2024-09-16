@@ -104,9 +104,13 @@ document.addEventListener("DOMContentLoaded", function() {
         if (lang == "js") {
             let attrs = [...new Set(v.match(/this\.[a-z_$]{1}[a-z_$0-9]+[()]*/gi))].filter(x=>!x.match(/[()]/gi)).map(x=>x.replace("this.",""))
             
-            gs_preview.value = mode=="get" ? attrs.reduce((a, b)=>a+=`\tget ${b.replace("_","")  }() {\n\t\treturn this.${b}\n\t}\n\n`,"")
+            gs_preview.value = mode=="get" ? attrs.reduce((a, b)=>a+=`\tget ${b.replace("_","")  }() {return this.${b}}\n`,"")
+                : mode=="set" ? attrs.reduce((a, b)=>a+=`\tset ${b.replace("_","")}(${b}) {return this.${b} = ${b}}\n`,"")
+                : attrs.reduce((a, b)=>a+=`\tget ${b.replace("_","")}() {return this.${b}}\n`,"")+"\n"+attrs.reduce((a, b)=>a+=`\tset ${b.replace("_","")}(${b}) {return this.${b} = ${b}}\n`,"")
+
+                console.log(mode=="get" ? attrs.reduce((a, b)=>a+=`\tget ${b.replace("_","")  }() {\n\t\treturn this.${b}\n\t}\n\n`,"")
                 : mode=="set" ? attrs.reduce((a, b)=>a+=`\tset ${b.replace("_","")}(${b}) {\n\t\treturn this.${b} = ${b}\n\t}\n\n`,"")
-                : attrs.reduce((a, b)=>a+=`\tget ${b.replace("_","")}() {\n\t\treturn this.${b}\n\t}\n\n`,"")+"\n\n"+attrs.reduce((a, b)=>a+=`\tset ${b.replace("_","")}(${b}) {\n\t\treturn this.${b} = ${b}\n\t}\n\n`,"")
+                : attrs.reduce((a, b)=>a+=`\tget ${b.replace("_","")}() {\n\t\treturn this.${b}\n\t}\n\n`,"")+"\n\n"+attrs.reduce((a, b)=>a+=`\tset ${b.replace("_","")}(${b}) {\n\t\treturn this.${b} = ${b}\n\t}\n\n`,""))
 
         } else if (lang == "c#") {
             let attrs = [...new Set(v.match(/private [a-z_0-9]+ [a-z_$]{1}[a-z_$0-9]+([ ]*=[ ]*.*)?;/gi))].map(x=>x.replace(/(private |;)/gi,"").split(" "))

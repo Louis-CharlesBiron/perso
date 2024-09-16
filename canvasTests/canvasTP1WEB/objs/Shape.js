@@ -1,24 +1,29 @@
 class Shape {
 
-    constructor(name, x, y, dots, radius, color) {
+    constructor(name, dots, radius, rgba, limit, effectCB) {
         this._ctx
         this._id = idGiver++
         this._name = name
-        this._x = x
-        this._y = y
         this._radius = radius
-        this._color = color
-        this._dots = dots??[]
+        this._rgba = rgba
+        this._limit = limit
+        this._dots = []
+        this._effectCB = effectCB // (dot, ratio, rawRatio)
+        this.add(dots)
+        //this.updateEffect(0)
     }
 
     add(dot) {
-        this._dots.push(...[dot].flat())
+        this._dots.push(...[dot].flat().map(x=>{
+            x.rgba = [...this._rgba]
+            x.radius = this._radius
+            x.limit = this._limit
+            return x
+        }))
     }
 
-    updateOpacity(sx, sy) {
-        this._dots.forEach(d=>{
-            d.setOpacity(d.getDistance(sx, sy))
-        })
+    updateEffect(sPos) {// sPos[] or ratio
+        if (typeof this._effectCB == "function") this._dots.forEach(d=>d.effect(this._effectCB, typeof sPos=="object"?d.getRatio(sPos):sPos))
     }
 
     setRadius() {
@@ -29,12 +34,15 @@ class Shape {
 
     }
 
+    setLimit() {
 
-    get x() {return this._x}
-    get y() {return this._y}
+    }
+
+
     get id() {return this._id}
     get dots() {return this._dots}
 
     set x(x) {this._x = x}
     set y(y) {this._y = y}
+    set rgba(rgba) {this._rgba = rgba}
 }

@@ -2,9 +2,9 @@ const fpsCounter = new FPSCounter(), cvs = new Canvas(canvas, DEFAULT_CTX_SETTIN
     fpsDisplay.textContent = fpsCounter.getFps()
 })
 
-let obj = new Obj(cvs.ctx, "dot", 50, 50, 35, "red")
+let obj = new Obj(50, 50, DEFAULT_RADIUS, DEFAULT_COLOR)
 
-cvs.els.push(obj)
+cvs.add(obj)
 
 // START
 cvs.startLoop()

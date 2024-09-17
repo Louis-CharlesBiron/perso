@@ -26,7 +26,10 @@ let test = new Shape("test", dotsList, DEFAULT_RADIUS, DEFAULT_RGBA, 100, (dot, 
     }
 })
 
-let drawTestThing = new Shape("test2", null, 5, DEFAULT_RGBA, 50, (dot, ratio)=>{dot.a = mod(1, ratio, 0.8)})
+let drawTestThing = new Shape("test2", null, 5, DEFAULT_RGBA, 150, (dot, ratio)=>{
+    dot.a = mod(1, ratio, 0.9)
+    dot.radius = mod(DEFAULT_RADIUS, ratio, DEFAULT_RADIUS*0.5)
+})
 drawTestThing.create(`
    o     o     o   
   o o   o o   o o  

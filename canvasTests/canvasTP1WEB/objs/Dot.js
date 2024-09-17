@@ -16,6 +16,8 @@ class Dot {
         this._ctx.beginPath()
         this._ctx.arc(this._x, this._y, this._radius, 0, CIRC)
         this._ctx.fill()
+
+        if (typeof cb == "function") cb(this._ctx)
     }
 
     getRatio(sPos) {

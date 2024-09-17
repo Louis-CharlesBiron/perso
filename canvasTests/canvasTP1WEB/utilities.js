@@ -23,7 +23,8 @@ function getDist(x1, y1, x2, y2) {
     return Math.sqrt((x1-x2)**2 + (y1-y2)**2)
 }
 
-function mod(max, ratio, range=1) {
+function mod(max, ratio, range) {
+    range??=max
     return max-ratio*range+max*((range>=0)-1)
 }
 

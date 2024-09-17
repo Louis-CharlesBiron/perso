@@ -25,6 +25,9 @@ let test = new Shape("test", dotsList, DEFAULT_RADIUS, DEFAULT_RGBA, 100, (dot, 
         dot.radius = mod(DEFAULT_RADIUS*2, ratio, DEFAULT_RADIUS*2*0.8)
     }
 }, (ctx, dot)=>{
+    ctx.strokeStyle = formatColor([255,255,255,0.8])
+
+
     ctx.strokeStyle = formatColor([255,255,255,0.2])
     ctx.beginPath()
     ctx.arc(dot.x, dot.y, dot.radius*5, 0, CIRC)
@@ -43,14 +46,27 @@ let test = new Shape("test", dotsList, DEFAULT_RADIUS, DEFAULT_RGBA, 100, (dot, 
 })
 
 let drawTestThing = new Shape("test2", null, 5, DEFAULT_RGBA, 150, (dot, ratio)=>{
-    dot.a = mod(1, ratio, 0.9)
-    dot.radius = mod(DEFAULT_RADIUS, ratio, DEFAULT_RADIUS*0.5)
+    dot.a = mod(1, ratio, 0.8)
+    //dot.radius = mod(DEFAULT_RADIUS, ratio, DEFAULT_RADIUS*0.5)
+
+    let randColor = mod(125, ratio), {r,g,b,a}=drawTestThing
+    dot.rgba = [r+random(-randColor, randColor),g+random(-randColor, randColor),b+random(-randColor, randColor),a]
+
 }, (ctx, dot)=>{
+
     ctx.strokeStyle = formatColor([dot.r, dot.g, dot.b, mod(0.2, dot.ratio, 0.2)])
     ctx.beginPath()
     ctx.moveTo(dot.x, dot.y)
     ctx.lineTo(mouse.x, mouse.y)
     ctx.stroke()
+
+    ctx.strokeStyle = formatColor([dot.r, dot.g, dot.b, mod(0.1, dot.ratio, 0.1)])
+    drawTestThing.dots.filter(x=>x.id!==dot.id).toSorted((a,b)=>getDist(dot.x, dot.y, a.x, a.y)-getDist(dot.x, dot.y, b.x, b.y)).slice(0,2).forEach(x=>{
+        ctx.beginPath()
+        ctx.moveTo(dot.x, dot.y)
+        ctx.lineTo(x.x, x.y)
+        ctx.stroke()
+    })
 
 
 })

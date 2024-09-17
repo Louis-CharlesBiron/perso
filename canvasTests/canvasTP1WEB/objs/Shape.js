@@ -42,21 +42,29 @@ class Shape {
         if (typeof this._effectCB == "function") this._dots.forEach(d=>d.effect(this._effectCB, typeof sPos=="object"?d.getRatio(sPos):sPos))
     }
 
-    setRadius() {
-
+    setRadius(radius) {
+        this._radius = radius
+        this._dots.forEach(x=>x.radius=radius)
     }
 
-    setColor() {
-
+    setRGBA(rgba) {
+        this._rgba = rgba
+        this._dots.forEach(x=>x.rgba=rgba)
     }
 
-    setLimit() {
-
+    setLimit(limit) {
+        this._limit = limit
+        this._dots.forEach(x=>x.limit=limit)
     }
 
 
     get id() {return this._id}
     get dots() {return this._dots}
+    get rgba() {return this._rgba}
+    get r() {return this._rgba[0]}
+    get g() {return this._rgba[1]}
+    get b() {return this._rgba[2]}
+    get a() {return this._rgba[3]}
 
     set x(x) {this._x = x}
     set y(y) {this._y = y}

@@ -9,8 +9,8 @@ class Shape {
         this._limit = limit
         this._dots = []
         this._effectCB = effectCB // (dot, ratio, rawRatio)
-        this.add(dots)
-        //this.updateEffect(0)
+        if (dots?.length) this.add(dots)
+        this.updateEffect(1)
     }
 
     add(dot) {
@@ -20,6 +20,20 @@ class Shape {
             x.limit = this._limit
             return x
         }))
+    }
+
+    create(str, topLeftPos=[0,0], gaps=[25, 25], dotChar="o") {
+        let endPoint = []
+        str.split("\n").filter(x=>x).forEach((x,i)=>{
+            let [atX, atY] = topLeftPos
+            atY+=i*gaps[1];
+            [...x].forEach(c=>{
+                atX+=gaps[0]
+                if (c==dotChar) this.add(new Dot(atX+gaps[0]/2, atY+gaps[1]/2))
+            })
+            endPoint.push([atX+gaps[0]/2, atY+gaps[1]/2])
+        })
+        return endPoint.last()
     }
 
     updateEffect(sPos) {// sPos[] or ratio

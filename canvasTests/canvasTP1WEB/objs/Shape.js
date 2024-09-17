@@ -1,6 +1,6 @@
 class Shape {
 
-    constructor(name, dots, radius, rgba, limit, effectCB) {
+    constructor(name, dots, radius, rgba, limit, effectCB, drawEffectCB) {
         this._ctx
         this._id = idGiver++
         this._name = name
@@ -9,6 +9,7 @@ class Shape {
         this._limit = limit
         this._dots = []
         this._effectCB = effectCB // (dot, ratio, rawRatio)
+        this._drawEffectCB = drawEffectCB // (
         if (dots?.length) this.add(dots)
         this.updateEffect(1)
     }
@@ -18,6 +19,7 @@ class Shape {
             x.rgba = [...this._rgba]
             x.radius = this._radius
             x.limit = this._limit
+            x.drawEffectCB = this._drawEffectCB
             return x
         }))
     }

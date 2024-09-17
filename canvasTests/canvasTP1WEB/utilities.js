@@ -26,3 +26,7 @@ function getDist(x1, y1, x2, y2) {
 function mod(max, ratio, range=1) {
     return max-ratio*range+max*((range>=0)-1)
 }
+
+function formatColor(rgba) {
+    return `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, ${rgba[3]})`
+}

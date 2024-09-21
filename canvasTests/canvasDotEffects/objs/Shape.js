@@ -1,25 +1,27 @@
+// JS
+// Canvas Dot Effects by Louis-Charles Biron
+// Please don't use or credit this code as your own.
+//
+
 class Shape {
 
-    constructor(name, dots, radius, rgba, limit, effectCB, drawEffectCB) {
+    constructor(dots, radius, rgba, limit, drawEffectCB) {
         this._ctx
         this._id = idGiver++
-        this._name = name
         this._radius = radius
         this._rgba = rgba
         this._limit = limit
         this._dots = []
-        this._effectCB = effectCB // (dot, ratio, rawRatio)
-        this._drawEffectCB = drawEffectCB // (
+        this._ratioPos = [Infinity,Infinity]
+        this._drawEffectCB = drawEffectCB // (ctx, Dot, ratio)
         if (dots?.length) this.add(dots)
-        this.updateEffect(1)
     }
 
     add(dot) {
         this._dots.push(...[dot].flat().map(x=>{
             x.rgba = [...this._rgba]
             x.radius = this._radius
-            x.limit = this._limit
-            x.drawEffectCB = this._drawEffectCB
+            x.parent = this
             return x
         }))
     }
@@ -38,10 +40,6 @@ class Shape {
         return endPoint.last()
     }
 
-    updateEffect(sPos) {// sPos[] or ratio
-        if (typeof this._effectCB == "function") this._dots.forEach(d=>d.effect(this._effectCB, typeof sPos=="object"?d.getRatio(sPos):sPos))
-    }
-
     setRadius(radius) {
         this._radius = radius
         this._dots.forEach(x=>x.radius=radius)
@@ -58,15 +56,18 @@ class Shape {
     }
 
 
+    get ctx() {return this._ctx}
     get id() {return this._id}
     get dots() {return this._dots}
     get rgba() {return this._rgba}
+    get limit() {return this._limit}
     get r() {return this._rgba[0]}
     get g() {return this._rgba[1]}
     get b() {return this._rgba[2]}
     get a() {return this._rgba[3]}
+    get drawEffectCB() {return this._drawEffectCB}
+    get ratioPos() {return this._ratioPos}
 
-    set x(x) {this._x = x}
-    set y(y) {this._y = y}
-    set rgba(rgba) {this._rgba = rgba}
+    set ratioPos(ratioPos) {this._ratioPos = ratioPos}
+    set drawEffectCB(cb) {return this._drawEffectCB = cb}
 }

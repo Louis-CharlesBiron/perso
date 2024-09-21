@@ -1,3 +1,8 @@
+// JS
+// Canvas Dot Effects by Louis-Charles Biron
+// Please don't use or credit this code as your own.
+//
+
 const DEFAULT_CANVAS_LENGTH = 500, DEFAULT_CTX_SETTINGS = {"imageSmoothingEnabled":false, "lineWidth":2, "fillStyle":"aliceblue", "stokeStyle":"aliceblue"}, TIMEOUT_FN = window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame||window.msRequestAnimationFrame
 let idGiver = 0
 
@@ -81,10 +86,6 @@ class Canvas {
         let l = objs.length??1
         for (let i=0;i<l;i++) this._els[isRef?"refs":"def"].push(objs[i]??objs)
     }
-
-    //remove(ids) {// i don't even know if this works idk
-    //    this._els = this._els.filter(x=>!ids.includes(x))
-    //}
 
     getObjs(instance) {
         return this._els.def.filter(x=>x instanceof instance)

@@ -1,15 +1,18 @@
+// JS
+// Canvas Dot Effects by Louis-Charles Biron
+// Please don't use or credit this code as your own.
+//
+
 class Dot {
 
-    constructor(x, y, radius, rgba, limit) {
+    constructor(x, y, radius, rgba) {
         this._ctx
         this._id = idGiver++
         this._x = x
         this._y = y
         this._radius = radius??DEFAULT_RADIUS
         this._rgba = rgba||DEFAULT_RGBA
-        this._limit = limit??100
-        this._ratio = 0
-        this._drawEffectCB = null
+        this._parent = null
     }
 
     draw() {
@@ -19,15 +22,18 @@ class Dot {
         this._ctx.arc(this._x, this._y, this._radius, 0, CIRC)
         this._ctx.fill()
 
-        if (typeof this._drawEffectCB == "function") this._drawEffectCB(this._ctx, this)
+        if (typeof this.drawEffectCB == "function") {
+            let dist = this.getDistance(), rawRatio = this.getRatio(dist)
+            this.drawEffectCB(this._ctx, this, Math.min(1, rawRatio), dist, rawRatio)
+        }
     }
 
-    getRatio(sPos) {
-        return this._ratio = getDist(sPos[0], sPos[1], this._x, this._y) / this._limit
+    getDistance(fx,fy) {
+        return getDist(fx??this.ratioPos[0], fy??this.ratioPos[1], this._x, this._y)
     }
 
-    effect(effectCB, ratio=this._ratio) {
-        effectCB(this, Math.min(1, ratio), ratio)
+    getRatio(dist) {
+        return dist / this.limit
     }
 
     get x() {return this._x}
@@ -35,13 +41,15 @@ class Dot {
     get radius() {return this._radius}
     get rgba() {return this._rgba}
     get id() {return this._id}
-    get ratio() {return Math.min(1, this._ratio)}
     get rgba() {return this._rgba}
     get r() {return this._rgba[0]}
     get g() {return this._rgba[1]}
     get b() {return this._rgba[2]}
     get a() {return this._rgba[3]}
-    get ratioRaw() {return this._ratio}
+    get parent() {return this._parent}
+    get drawEffectCB() {return this._parent.drawEffectCB}
+    get limit() {return this._parent.limit}
+    get ratioPos() {return this._parent.ratioPos}
 
     set x(x) {this._x = x}
     set y(y) {this._y = y}
@@ -53,4 +61,5 @@ class Dot {
     set a(a) {this._rgba[3] = a}
     set rgba(rgba) {this._rgba = rgba}
     set drawEffectCB(d) {this._drawEffectCB = d}
+    set parent(p) {this._parent = p}
 }

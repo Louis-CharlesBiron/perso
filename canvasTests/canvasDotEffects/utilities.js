@@ -1,3 +1,8 @@
+// JS
+// Canvas Dot Effects by Louis-Charles Biron
+// Please don't use or credit this code as your own.
+//
+
 const CIRC = 2*Math.PI, DEFAULT_COLOR = "aliceblue", DEFAULT_RGBA=[255,255,255,1], DEFAULT_RADIUS = 5
 
 function random(min, max) {

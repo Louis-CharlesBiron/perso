@@ -43,7 +43,7 @@ let drawTestThing = new Shape(null, 5, DEFAULT_RGBA, 150, (ctx, dot, ratio)=>{
     ctx.strokeStyle = formatColor([r+random(-randColor, randColor),g+random(-randColor, randColor),b+random(-randColor, randColor), mod(0.5, ratio, 0.5)])
     ctx.beginPath()
     ctx.moveTo(dot.x, dot.y)
-    ctx.lineTo(mouse.x, mouse.y)
+    ctx.lineTo(cvs.mouse.x, cvs.mouse.y)
     ctx.stroke()
 
     ctx.strokeStyle = formatColor([r+random(-randColor, randColor),g+random(-randColor, randColor),b+random(-randColor, randColor), mod(0.1, ratio, 0.1)])
@@ -69,23 +69,17 @@ cvs.add({"dots":test}, true)
 cvs.add({"dots":drawTestThing}, true)
 
 // USER ACTIONS
-let mouse = {} 
-document.onmousemove=e=>{
-    mouseInfo.textContent = "("+e.x+", "+e.y+")"
-    mouse = {x:e.x, y:e.y}
+cvs.setmousemove(m=>{
+    mouseInfo.textContent = "("+m.x+", "+m.y+")"
+    test.ratioPos = [m.x, m.y]
+    drawTestThing.ratioPos = [m.x, m.y]
+})
 
-
-    test.ratioPos = [mouse.x, mouse.y]
-    drawTestThing.ratioPos = [mouse.x, mouse.y]
-}
-
-document.onmouseleave=()=>{
-    mouse = {x:Infinity, y:Infinity}
-    mouseInfo.textContent = "("+mouse.x+", "+mouse.y+")"
-    
-    test.ratioPos = [mouse.x, mouse.y]
-    drawTestThing.ratioPos = [mouse.x, mouse.y]
-}
+cvs.setmouseleave(m=>{
+    mouseInfo.textContent = "("+m.x+", "+m.y+")"
+    test.ratioPos = [m.x, m.y]
+    drawTestThing.ratioPos = [m.x, m.y]
+})
 
 // START
 cvs.startLoop()

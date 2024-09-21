@@ -23,8 +23,15 @@ class Canvas {
         this._cb=loopingCallback                         //callback called along with the loop() fn
 
         this._deltaTime = null                           // useable delta time
+
+        this._mouse = {}                                 // mouse info
+        this._offset = this.updateOffset()               // cvs page offset
     }
 
+    updateOffset() {
+        let {width, height, x, y} = this._cvs.getBoundingClientRect()
+        return this._offset = {x:(x+width)-this.width, y:(y+height)-this.height}
+    }
 
     startLoop() {
         if (!this._looping) {
@@ -74,6 +81,7 @@ class Canvas {
         if(width) this._cvs.width = width??window.innerWidth-20
         if(height) this._cvs.height = height??this._width/2
         this.updateSettings()
+        this.updateOffset()
     }
 
     updateSettings(settings) {
@@ -90,6 +98,20 @@ class Canvas {
     getObjs(instance) {
         return this._els.def.filter(x=>x instanceof instance)
     }
+
+    setmousemove(cb) {
+        this._cvs.onmousemove=e=>{
+            this._mouse = {x:e.x-this._offset.x, y:e.y-this._offset.y}
+            if (typeof cb == "function") cb(this._mouse)
+        }
+    }
+
+    setmouseleave(cb) {
+        this._cvs.onmouseleave=()=>{
+            this._mouse = {x:Infinity, y:Infinity}
+            if (typeof cb == "function") cb(this._mouse)
+        }
+    }
     
 	get cvs() {return this._cvs}
 	get ctx() {return this._ctx}
@@ -100,8 +122,11 @@ class Canvas {
 	get looping() {return this._looping}
 	get deltaTime() {return this._deltaTime}
 	get els() {return this._els}
+	get mouse() {return this._mouse}
+	get offset() {return this._offset}
 
 	set cb(_cb) {return this._cb = _cb}
 	set width(w) {this.setSize(w, null)}
 	set height(h) {this.setSize(null, h)}
+	set mouse(m) {this._mouse = m}
 }

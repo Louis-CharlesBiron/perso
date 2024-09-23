@@ -54,7 +54,7 @@ class Canvas {
         this._looping = false
     }
 
-    calcDeltaTime(time) {
+    calcDeltaTime(time=0) {
         this._deltaTime = (time-this.#lastFrame)/1000
         this.#lastFrame = time
     }
@@ -93,6 +93,11 @@ class Canvas {
     add(objs, isRef) {
         let l = objs.length??1
         for (let i=0;i<l;i++) this._els[isRef?"refs":"def"].push(objs[i]??objs)
+    }
+
+    remove(id) {
+        this._els.def = this._els.def.filter(x=>x.id!==id)
+        this._els.refs = this._els.refs.filter(x=>Object.values(x)[0].id!==id)
     }
 
     getObjs(instance) {

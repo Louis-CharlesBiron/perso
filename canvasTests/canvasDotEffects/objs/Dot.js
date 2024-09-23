@@ -47,9 +47,9 @@ class Dot {
     get b() {return this._rgba[2]}
     get a() {return this._rgba[3]}
     get parent() {return this._parent}
-    get drawEffectCB() {return this._parent.drawEffectCB}
-    get limit() {return this._parent.limit}
-    get ratioPos() {return this._parent.ratioPos}
+    get drawEffectCB() {return this._parent?.drawEffectCB}
+    get limit() {return this._parent?.limit}
+    get ratioPos() {return this._parent?.ratioPos}
 
     set x(x) {this._x = x}
     set y(y) {this._y = y}
@@ -60,6 +60,5 @@ class Dot {
     set b(b) {this._rgba[2] = b}
     set a(a) {this._rgba[3] = a}
     set rgba(rgba) {this._rgba = rgba}
-    set drawEffectCB(d) {this._drawEffectCB = d}
     set parent(p) {this._parent = p}
 }

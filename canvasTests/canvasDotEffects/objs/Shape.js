@@ -64,6 +64,7 @@ class Shape {
     get id() {return this._id}
     get dots() {return this._dots}
     get rgba() {return this._rgba}
+    get radius() {return this._radius}
     get limit() {return this._limit}
     get r() {return this._rgba[0]}
     get g() {return this._rgba[1]}

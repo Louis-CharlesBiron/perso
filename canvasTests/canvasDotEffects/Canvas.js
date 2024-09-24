@@ -106,7 +106,8 @@ class Canvas {
 
     setmousemove(cb) {
         this._cvs.onmousemove=e=>{
-            this._mouse = {x:e.x-this._offset.x, y:e.y-this._offset.y}
+            this._mouse.x = e.x-this._offset.x
+            this._mouse.y = e.y-this._offset.y
             if (typeof cb == "function") cb(this._mouse)
         }
     }

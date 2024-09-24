@@ -14,7 +14,8 @@ class Shape {
         this._dots = []
         this._ratioPos = [Infinity,Infinity]
         this._drawEffectCB = drawEffectCB // (ctx, Dot, ratio)
-        if (dots?.length) this.add(dots)
+        if (typeof dots == "string") this.create(dots)
+        else if (dots?.length) this.add(dots)
     }
 
     add(dot) {
@@ -55,6 +56,9 @@ class Shape {
         this._dots.forEach(x=>x.limit=limit)
     }
 
+    clear() {
+        this._dots = []
+    }
 
     get ctx() {return this._ctx}
     get id() {return this._id}

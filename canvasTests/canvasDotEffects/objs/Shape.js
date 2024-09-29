@@ -4,18 +4,22 @@
 //
 
 class Shape {
-
     constructor(dots, radius, rgba, limit, drawEffectCB) {
-        this._ctx
+        this._cvs
         this._id = idGiver++
         this._radius = radius
         this._rgba = rgba
         this._limit = limit
+        this._initDots = dots
         this._dots = []
         this._ratioPos = [Infinity,Infinity]
         this._drawEffectCB = drawEffectCB // (ctx, Dot, ratio)
-        if (typeof dots == "string") this.create(dots)
-        else if (dots?.length) this.add(dots)
+    }
+
+    initialize() {
+        if (typeof this._initDots == "string") this.createFromString(this._initDots)
+        else if (typeof this._initDots == "function") this._initDots(this, this._cvs)
+        else if (this._initDots?.length) this.add(this._initDots)
     }
 
     add(dot) {
@@ -27,7 +31,7 @@ class Shape {
         }))
     }
 
-    create(str, topLeftPos=[0,0], gaps=[25, 25], dotChar="o") {
+    createFromString(str, topLeftPos=[0,0], gaps=[25, 25], dotChar="o") {//prob unnecessary idk
         let endPoint = []
         str.split("\n").filter(x=>x).forEach((x,i)=>{
             let [atX, atY] = topLeftPos
@@ -56,20 +60,42 @@ class Shape {
         this._dots.forEach(x=>x.limit=limit)
     }
 
+    move(x, y) {
+        this._dots.forEach(d=>{
+            if (x) d.x += x
+            if (y) d.y += y
+        })
+    }
+
+    scale(scale, dotRelative) {
+        this._dots.forEach(d=>{
+            if (dotRelative) {
+                d.x = d.x * (scale[0]??scale)
+                d.y = d.y * (scale[1]??scale)
+            } else {
+                d.x = d.initPos[0]*(scale[0]??scale)
+                d.y = d.initPos[1]*(scale[1]??scale)
+            }
+
+        })
+    }
+
     clear() {
         this._dots = []
     }
 
     reset() {
-
+        this.clear()
+        this.initialize()
     }
 
-    get ctx() {return this._ctx}
+    get cvs() {return this._cvs}
     get id() {return this._id}
     get dots() {return this._dots}
     get rgba() {return this._rgba}
     get radius() {return this._radius}
     get limit() {return this._limit}
+	get initDots() {return this._initDots}
     get r() {return this._rgba[0]}
     get g() {return this._rgba[1]}
     get b() {return this._rgba[2]}
@@ -78,6 +104,7 @@ class Shape {
     get ratioPos() {return this._ratioPos}
     static get childrenPath() {return "dots"}
 
+    set cvs(cvs) {this._cvs = cvs}
     set ratioPos(ratioPos) {this._ratioPos = ratioPos}
-    set drawEffectCB(cb) {return this._drawEffectCB = cb}
+    set drawEffectCB(cb) {this._drawEffectCB = cb}
 }

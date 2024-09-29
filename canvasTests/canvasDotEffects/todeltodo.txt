@@ -2,10 +2,9 @@
 // YES TODO
 - directional force
 - shapes / meshes
-- scaling
+- follow functions
+- easings
 - responsive shape initilization
-- element / window onresize / onvisibility change
-- shape and canvas reset()
 
 - make another dedicated repos for this project
 

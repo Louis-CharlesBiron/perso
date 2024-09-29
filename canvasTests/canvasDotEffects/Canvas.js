@@ -3,7 +3,7 @@
 // Please don't use or credit this code as your own.
 //
 
-const DEFAULT_CVSDE_ATTR = "_CVSDE", DEFAULT_CVSFRAMEDE_ATTR = "_CVSDE_F", DEFAULT_CTX_SETTINGS = {"imageSmoothingEnabled":false, "lineWidth":2, "fillStyle":"aliceblue", "stokeStyle":"aliceblue"}, TIMEOUT_FN = window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame||window.msRequestAnimationFrame, CIRC = 2*Math.PI, DEFAULT_COLOR = "aliceblue", DEFAULT_RGBA=[255,255,255,1], DEFAULT_RADIUS = 5, DEFAULT_CANVAS_WIDTH = 800, DEFAULT_CANVAS_HEIGHT = 800, DEFAULT_CANVAS_STYLES = {position:"absolute",width:"100%",height:"100%","background-color":"transparent",border:"none",outline:"none","pointer-events":"none !important","z-index":0,padding:"0 !important",margin:"0"}, DEFAULT_MOUSE_DECELERATION = 0.9, DEFAULT_MOUSE_MOVE_TRESHOLD = 0.1, DEFAULT_MOUSE_ANGULAR_DECELERATION = 0.1
+const DEFAULT_CVSDE_ATTR = "_CVSDE", DEFAULT_CVSFRAMEDE_ATTR = "_CVSDE_F", DEFAULT_CTX_SETTINGS = {"imageSmoothingEnabled":false, "lineWidth":2, "fillStyle":"aliceblue", "stokeStyle":"aliceblue"}, TIMEOUT_FN = window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame||window.msRequestAnimationFrame, CIRC = 2*Math.PI, DEFAULT_COLOR = "aliceblue", DEFAULT_RGBA=[255,255,255,1], DEFAULT_RADIUS = 5, DEFAULT_CANVAS_WIDTH = 800, DEFAULT_CANVAS_HEIGHT = 800, DEFAULT_CANVAS_STYLES = {position:"absolute",width:"100%",height:"100%","background-color":"transparent",border:"none",outline:"none","pointer-events":"none !important","z-index":0,padding:"0 !important",margin:"0"}, DEFAULT_MOUSE_DECELERATION = 0.8, DEFAULT_MOUSE_MOVE_TRESHOLD = 0.1, DEFAULT_MOUSE_ANGULAR_DECELERATION = 0.1
 let idGiver = 0
 
 class Canvas {
@@ -13,32 +13,43 @@ class Canvas {
     constructor(cvs, frame, settings, loopingCallback) {
         let frameCBR = frame?.getBoundingClientRect()??{width:DEFAULT_CANVAS_WIDTH, height:DEFAULT_CANVAS_HEIGHT}
 
-        this._cvs = cvs                                  //html canvas el
-        this._frame = frame||cvs                         //html parent el
+        this._cvs = cvs                                         //html canvas el
+        this._frame = frame||cvs                                //html parent el
         this._cvs.setAttribute(DEFAULT_CVSDE_ATTR, true)        //styles selector
         this._frame.setAttribute(DEFAULT_CVSFRAMEDE_ATTR, true) //styles selector
-        this._ctx = this._cvs.getContext("2d", {})       //ctx
-        this._settings = this.updateSettings(settings)   //ctx settings
+        this._ctx = this._cvs.getContext("2d", {})              //ctx
+        this._settings = this.updateSettings(settings)          //ctx settings
 
-        this._els={refs:[], defs:[]}                     //arrs of objects to .draw() | refs: [{Object._arrName:Object}], defs: [regular drawable objects]
+        this._els={refs:[], defs:[]}                            //arrs of objects to .draw() | refs: [{Object._arrName:Object}], defs: [regular drawable objects]
 
-        this._looping = false                            //loop state
-        this._cb=loopingCallback                         //callback called along with the loop() fn
+        this._looping = false                                   //loop state
+        this._cb=loopingCallback                                //callback called along with the loop() fn
 
-        this._maxDeltaTime = 0.1                         //max delta time in seconds
-        this._deltaTime = null                           //useable delta time in seconds
+        this._maxDeltaTime = 0.1                                //max delta time in seconds
+        this._deltaTime = null                                  //useable delta time in seconds
 
-        this._mouse = {}                                 //mouse info
-        this._offset = this.updateOffset()               //cvs page offset
+        this._mouse = {}                                        //mouse info
+        this._offset = this.updateOffset()                      //cvs page offset
+
+        this._windowListeners = this.initWindowListeners()      //[onresize, onvisibilitychange]
         
-        this.setSize(frameCBR.width, frameCBR.height)    //init size
-        if (frame) this.initStyles()                     //init styles
+        this.setSize(frameCBR.width, frameCBR.height)           //init size
+        if (frame) this.initStyles()                            //init styles
     }
 
     initStyles() {
         let style = document.createElement("style")
         style.appendChild(document.createTextNode(`[${DEFAULT_CVSFRAMEDE_ATTR}]{position:relative !important;}canvas[${DEFAULT_CVSDE_ATTR}]{${Object.entries(DEFAULT_CANVAS_STYLES).reduce((a,b)=>a+=`${b[0]}:${b[1]};`,"")}}`))
         this._cvs.appendChild(style)
+    }
+
+    initWindowListeners() {
+        const onresize=()=>{this.setSize()},
+        onvisibilitychange=()=>{if (!document.hidden) this.reset()}
+
+        window.addEventListener("resize", onresize)
+        window.addEventListener("visibilitychange", onvisibilitychange)
+        return [()=>window.removeEventListener("resize", onresize), ()=>window.removeEventListener("visibilitychange", onvisibilitychange)]
     }
 
     updateOffset() {
@@ -78,10 +89,7 @@ class Canvas {
             let o=Object.entries(x)
             return o[0][1][o[0][0]]
         })].forEach(el=>{
-            if (el.draw) {
-                if (!el._ctx) el._ctx = this._ctx
-                el.draw()
-            }
+            if (el.draw) el.draw(this._ctx)
         })
     }
 
@@ -93,9 +101,10 @@ class Canvas {
         this.refs.forEach(r=>r.reset())
     }
 
-    setSize(width, height) {
-        if (width) this._cvs.width = width??window.innerWidth-20
-        if (height) this._cvs.height = height??this._width/2
+    setSize(w, h) {
+        let {width, height} = this._frame.getBoundingClientRect()
+        if (w!==null) this._cvs.width = w??width
+        if (h!==null) this._cvs.height = h??height
         this.updateSettings()
         this.updateOffset()
     }
@@ -108,7 +117,15 @@ class Canvas {
 
     add(objs, isDef) {
         let l = objs.length??1
-        for (let i=0;i<l;i++) this._els[isDef?"defs":"refs"].push(objs[i]??objs)
+        for (let i=0;i<l;i++) {
+            let o = objs[i]??objs
+            if (!isDef) {
+                let ref = Object.values(o)[0]
+                ref.cvs = this
+                ref.initialize()
+            }
+            this._els[isDef?"defs":"refs"].push(o)
+        }
     }
 
     remove(id) {
@@ -191,6 +208,7 @@ class Canvas {
     }
     
 	get cvs() {return this._cvs}
+	get frame() {return this._frame}
 	get ctx() {return this._ctx}
 	get width() {return this._cvs.width}
 	get height() {return this._cvs.height}
@@ -198,6 +216,8 @@ class Canvas {
 	get cb() {return this._cb}
 	get looping() {return this._looping}
 	get deltaTime() {return this._deltaTime}
+	get maxDeltaTime() {return this._maxDeltaTime}
+	get windowListeners() {return this._windowListeners}
 	get els() {return this._els}
 	get mouse() {return this._mouse}
 	get offset() {return this._offset}

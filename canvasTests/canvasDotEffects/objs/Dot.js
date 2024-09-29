@@ -4,10 +4,9 @@
 //
 
 class Dot {
-
     constructor(x, y, radius, rgba) {
-        this._ctx
         this._id = idGiver++
+        this._initPos = [x, y]
         this._x = x
         this._y = y
         this._radius = radius??DEFAULT_RADIUS
@@ -15,16 +14,16 @@ class Dot {
         this._parent = null
     }
 
-    draw() {
-        this._ctx.fillStyle = formatColor(this._rgba)
+    draw(ctx) {
+        ctx.fillStyle = formatColor(this._rgba)
 
-        this._ctx.beginPath()
-        this._ctx.arc(this._x, this._y, this._radius, 0, CIRC)
-        this._ctx.fill()
+        ctx.beginPath()
+        ctx.arc(this._x, this._y, this._radius, 0, CIRC)
+        ctx.fill()
 
         if (typeof this.drawEffectCB == "function") {
             let dist = this.getDistance(), rawRatio = this.getRatio(dist)
-            this.drawEffectCB(this._ctx, this, Math.min(1, rawRatio), dist, rawRatio)
+            this.drawEffectCB(ctx, this, Math.min(1, rawRatio), dist, rawRatio)
         }
     }
 
@@ -36,11 +35,11 @@ class Dot {
         return dist / this.limit
     }
 
+    get id() {return this._id}
     get x() {return this._x}
     get y() {return this._y}
     get radius() {return this._radius}
-    get rgba() {return this._rgba}
-    get id() {return this._id}
+	get initPos() {return this._initPos}
     get rgba() {return this._rgba}
     get r() {return this._rgba[0]}
     get g() {return this._rgba[1]}
@@ -50,6 +49,7 @@ class Dot {
     get drawEffectCB() {return this._parent?.drawEffectCB}
     get limit() {return this._parent?.limit}
     get ratioPos() {return this._parent?.ratioPos}
+    get cvs() {return this._parent?.cvs}
 
     set x(x) {this._x = x}
     set y(y) {this._y = y}

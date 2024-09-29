@@ -9,10 +9,10 @@ function random(min, max) {
 }
 
 class FPSCounter {
-    constructor() {
+    constructor(avgSampleSize) {
         this._t = []
         this._maxFps=0
-        this._avgSampleSize = 10
+        this._avgSampleSize = avgSampleSize||10
         this._avg = []
     }
 
@@ -83,4 +83,4 @@ function addForce(el, force, dir, time, easing) {
 function ease(x) {
     return 1 - Math.pow(1 - x, 5);
 }
-addForce(adot, 100, 90, 1000, ease)
+//addForce(adot, 100, 90, 1000, ease)

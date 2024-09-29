@@ -3,7 +3,6 @@
 // Please don't use or credit this code as your own.
 //
 
-const CIRC = 2*Math.PI, DEFAULT_COLOR = "aliceblue", DEFAULT_RGBA=[255,255,255,1], DEFAULT_RADIUS = 5
 
 function random(min, max) {
     return Math.floor(Math.random()*(max-min+1))+min
@@ -35,4 +34,12 @@ function mod(max, ratio, range) {
 
 function formatColor(rgba) {
     return `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, ${rgba[3]})`
+}
+
+function toRad(deg) {
+    return deg*(Math.PI/180)
+}
+
+function toDeg(rad) {
+    return rad/(Math.PI/180)
 }

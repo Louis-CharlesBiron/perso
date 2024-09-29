@@ -1,0 +1,33 @@
+
+// YES TODO
+- directional force
+- shapes / meshes
+- scaling
+- responsive shape initilization
+
+
+- make another dedicated repos for this project
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// MAYBE
+- some sort of shape editor ~
+- something like gd frame animation for ratioPos
+- keyboard implementations
+- text?

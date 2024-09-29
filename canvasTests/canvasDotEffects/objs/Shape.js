@@ -60,6 +60,10 @@ class Shape {
         this._dots = []
     }
 
+    reset() {
+
+    }
+
     get ctx() {return this._ctx}
     get id() {return this._id}
     get dots() {return this._dots}
@@ -72,6 +76,7 @@ class Shape {
     get a() {return this._rgba[3]}
     get drawEffectCB() {return this._drawEffectCB}
     get ratioPos() {return this._ratioPos}
+    static get childrenPath() {return "dots"}
 
     set ratioPos(ratioPos) {this._ratioPos = ratioPos}
     set drawEffectCB(cb) {return this._drawEffectCB = cb}

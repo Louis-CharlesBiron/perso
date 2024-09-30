@@ -1,10 +1,10 @@
 
 // YES TODO
-- directional force
 - shapes / meshes
 - follow functions
-- easings
-- responsive shape initilization
+- good responsive shape initilization
+- simple collision / reflections
+- on dot hover
 
 - make another dedicated repos for this project
 

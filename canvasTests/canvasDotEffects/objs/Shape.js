@@ -7,9 +7,9 @@ class Shape {
     constructor(dots, radius, rgba, limit, drawEffectCB) {
         this._cvs
         this._id = idGiver++
-        this._radius = radius
-        this._rgba = rgba
-        this._limit = limit
+        this._radius = radius??DEFAULT_RADIUS
+        this._rgba = rgba||DEFAULT_RGBA
+        this._limit = limit||100
         this._initDots = dots
         this._dots = []
         this._ratioPos = [Infinity,Infinity]

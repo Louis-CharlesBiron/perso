@@ -3,7 +3,7 @@
 // Please don't use or credit this code as your own.
 //
 
-const DEFAULT_CVSDE_ATTR = "_CVSDE", DEFAULT_CVSFRAMEDE_ATTR = "_CVSDE_F", DEFAULT_CTX_SETTINGS = {"imageSmoothingEnabled":false, "lineWidth":2, "fillStyle":"aliceblue", "stokeStyle":"aliceblue"}, TIMEOUT_FN = window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame||window.msRequestAnimationFrame, CIRC = 2*Math.PI, DEFAULT_COLOR = "aliceblue", DEFAULT_RGBA=[255,255,255,1], DEFAULT_RADIUS = 5, DEFAULT_CANVAS_WIDTH = 800, DEFAULT_CANVAS_HEIGHT = 800, DEFAULT_CANVAS_STYLES = {position:"absolute",width:"100%",height:"100%","background-color":"transparent",border:"none",outline:"none","pointer-events":"none !important","z-index":0,padding:"0 !important",margin:"0"}, DEFAULT_MOUSE_DECELERATION = 0.8, DEFAULT_MOUSE_MOVE_TRESHOLD = 0.1, DEFAULT_MOUSE_ANGULAR_DECELERATION = 0.1
+const DEFAULT_CVSDE_ATTR = "_CVSDE", DEFAULT_CVSFRAMEDE_ATTR = "_CVSDE_F", DEFAULT_CTX_SETTINGS = {"imageSmoothingEnabled":false, "lineWidth":2, "fillStyle":"aliceblue", "stokeStyle":"aliceblue"}, TIMEOUT_FN = window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame||window.msRequestAnimationFrame, CIRC = 2*Math.PI, DEFAULT_COLOR = "aliceblue", DEFAULT_RGBA=[255,255,255,1], DEFAULT_RADIUS = 5, DEFAULT_CANVAS_WIDTH = 800, DEFAULT_CANVAS_HEIGHT = 800, DEFAULT_CANVAS_STYLES = {position:"absolute",width:"100%",height:"100%","background-color":"transparent",border:"none",outline:"none","pointer-events":"none !important","z-index":0,padding:"0 !important",margin:"0"}, DEFAULT_MOUSE_DECELERATION = 0.8, DEFAULT_MOUSE_MOVE_TRESHOLD = 0.1, DEFAULT_MOUSE_ANGULAR_DECELERATION = 0.2
 let idGiver = 0
 
 class Canvas {
@@ -27,6 +27,7 @@ class Canvas {
 
         this._maxDeltaTime = 0.1                                //max delta time in seconds
         this._deltaTime = null                                  //useable delta time in seconds
+        this._timeStamp = null                                  //requestanimationframe timestamp in ms
 
         this._mouse = {}                                        //mouse info
         this._offset = this.updateOffset()                      //cvs page offset
@@ -65,6 +66,7 @@ class Canvas {
     }
 
     loop(time) {
+        this._timeStamp = time
         this.calcDeltaTime(time)
         this.calcMouseSpeed()
         this.clear()
@@ -89,7 +91,7 @@ class Canvas {
             let o=Object.entries(x)
             return o[0][1][o[0][0]]
         })].forEach(el=>{
-            if (el.draw) el.draw(this._ctx)
+            if (el.draw) el.draw(this._ctx, this._timeStamp)
         })
     }
 
@@ -140,9 +142,9 @@ class Canvas {
     calcMouseSpeed() {
         // MOUSE SPEED
         if (isFinite(this._mouse.lastX) && isFinite(this._mouse.lastY) && this._deltaTime) {
-            this._mouse.currentSpeed = this._mouse.currentSpeed*DEFAULT_MOUSE_DECELERATION+(getDist(this._mouse.x, this._mouse.y, this._mouse.lastX, this._mouse.lastY)/this._deltaTime)*(1-DEFAULT_MOUSE_DECELERATION)
-            if (this._mouse.currentSpeed < DEFAULT_MOUSE_MOVE_TRESHOLD) this._mouse.currentSpeed = 0
-        } else this._mouse.currentSpeed = 0
+            this._mouse.speed = this._mouse.speed*DEFAULT_MOUSE_DECELERATION+(getDist(this._mouse.x, this._mouse.y, this._mouse.lastX, this._mouse.lastY)/this._deltaTime)*(1-DEFAULT_MOUSE_DECELERATION)
+            if (this._mouse.speed < DEFAULT_MOUSE_MOVE_TRESHOLD) this._mouse.speed = 0
+        } else this._mouse.speed = 0
 
         this._mouse.lastX = this._mouse.x
         this._mouse.lastY = this._mouse.y
@@ -156,12 +158,12 @@ class Canvas {
 
             // MOUSE ANGLE
             let dx = this._mouse.x-this._mouse.lastX, dy = this._mouse.y-this._mouse.lastY
-            if (isFinite(dx) && isFinite(dy)) {
-                if (dx || dy) {
-                    let angle = -toDeg(Math.atan2(dy, dx))
-                    if (angle<0) angle += 360
-                    this._mouse.dir = this._mouse.dir*(1-DEFAULT_MOUSE_ANGULAR_DECELERATION)+angle*DEFAULT_MOUSE_ANGULAR_DECELERATION
-                }
+            if (isFinite(dx) && isFinite(dy) && (dx || dy)) {
+                    let angle = (-toDeg(Math.atan2(dy, dx))+360)%360
+                    let diff = angle-this._mouse.dir
+                    diff += (360*(diff<-180))-(360*(diff>180))
+
+                    this._mouse.dir = (this._mouse.dir+diff*DEFAULT_MOUSE_ANGULAR_DECELERATION+360)%360
             } else this._mouse.dir = 0
 
             if (typeof cb == "function") cb(this._mouse, e)
@@ -172,7 +174,7 @@ class Canvas {
 
     setmousedown(cb) {
         const onmousedown=e=>{
-            if (e.button==0) this._mouse.mainClicked = true
+            if (e.button==0) this._mouse.clicked = true
             else if (e.button==1) this._mouse.scrollClicked = true
             else if (e.button==2) this._mouse.rightClicked = true
             else if (e.button==3) this._mouse.extraBackClicked = true
@@ -186,7 +188,7 @@ class Canvas {
 
     setmouseup(cb) {
         const onmouseup=e=>{
-            if (e.button==0) this._mouse.mainClicked = false
+            if (e.button==0) this._mouse.clicked = false
             else if (e.button==1) this._mouse.scrollClicked = false
             else if (e.button==2) this._mouse.rightClicked = false
             else if (e.button==3) this._mouse.extraBackClicked = false
@@ -218,6 +220,7 @@ class Canvas {
 	get deltaTime() {return this._deltaTime}
 	get maxDeltaTime() {return this._maxDeltaTime}
 	get windowListeners() {return this._windowListeners}
+	get timestamp() {return this._timeStamp}
 	get els() {return this._els}
 	get mouse() {return this._mouse}
 	get offset() {return this._offset}

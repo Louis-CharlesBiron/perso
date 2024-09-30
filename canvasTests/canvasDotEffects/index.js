@@ -1,6 +1,6 @@
 const fpsCounter = new FPSCounter(), cvsINDEX = new Canvas(canvas, document.querySelector("#holder"), DEFAULT_CTX_SETTINGS, ()=>{//looping
     fpsDisplay.textContent = fpsCounter.getFps()
-    mouseSpeed.textContent = cvsINDEX?.mouse?.currentSpeed?.toFixed(2)+" px/sec"
+    mouseSpeed.textContent = cvsINDEX?.mouse?.speed?.toFixed(2)+" px/sec"
     mouseAngle.textContent = cvsINDEX?.mouse?.dir?.toFixed(2)+" deg"
 })
 
@@ -30,9 +30,29 @@ const fpsCounter = new FPSCounter(), cvsINDEX = new Canvas(canvas, document.quer
 
 })
 
-let adot = new Dot(300, 300)
-cvsINDEX.add(adot, true)
+let mouseup = false, adotShapeAnim
+let adotShape = new Shape([new Dot(300, 300)], null, null, null, (ctx, dot, ratio, m, dist)=>{
 
+    dot.radius = mod(DEFAULT_RADIUS*2, ratio, DEFAULT_RADIUS*2*0.5)
+
+    ctx.strokeStyle = formatColor([255,255,255,mod(0.3, ratio)])
+    ctx.beginPath()
+    ctx.arc(dot.x, dot.y, dot.radius*3, 0, CIRC)
+    ctx.stroke()
+
+    // drag
+    if (m.clicked && dist < 30) {
+        mouseup = true
+        if (dot?.currentAnim?.id == adotShapeAnim?.id && adotShapeAnim) adotShapeAnim.end()
+        dot.x = m.x
+        dot.y = m.y
+    } else if (mouseup) {
+        mouseup = false
+        adotShapeAnim = dot.addForce(Math.min(mod(m.speed, ratio)/4, 300), m.dir, 750+ratio*1000, Anim.easeOutQuad)
+    }
+})
+
+cvsINDEX.add({[Shape.childrenPath]:adotShape})
 cvsINDEX.add({[Shape.childrenPath]:test})
 
 

@@ -65,22 +65,22 @@ function getAcceptableDif(n, okDif) {
 
 
 
-function addForce(el, force, dir, time, easing) {
-    let rDir = toRad(dir), steps = 165, calcSteps = time/steps, {x, y} = el,
-        dx = getAcceptableDif(force*Math.cos(rDir), ACCEPTABLE_DIF),
-        dy = getAcceptableDif(force*Math.sin(rDir), ACCEPTABLE_DIF)
-
-        for (let i=0;i<=steps;i++) {
-            let prog = easing(i/steps)
-            
-            setTimeout(()=>{
-                el.x = x+dx*prog
-                el.y = y-dy*prog
-            }, calcSteps*i)
-        }
-    
-}
-function ease(x) {
-    return 1 - Math.pow(1 - x, 5);
-}
+//function addForce(el, force, dir, time, easing) {
+//    let rDir = toRad(dir), steps = 165, calcSteps = time/steps, {x, y} = el,
+//        dx = getAcceptableDif(force*Math.cos(rDir), ACCEPTABLE_DIF),
+//        dy = getAcceptableDif(force*Math.sin(rDir), ACCEPTABLE_DIF)
+//
+//        for (let i=0;i<=steps;i++) {
+//            let prog = easing(i/steps)
+//            
+//            setTimeout(()=>{
+//                el.x = x+dx*prog
+//                el.y = y-dy*prog
+//            }, calcSteps*i)
+//        }
+//    
+//}
+//function ease(x) {
+//    return 1 - Math.pow(1 - x, 5);
+//}
 //addForce(adot, 100, 90, 1000, ease)

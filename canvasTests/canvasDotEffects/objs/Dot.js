@@ -12,9 +12,10 @@ class Dot {
         this._radius = radius??DEFAULT_RADIUS
         this._rgba = rgba||DEFAULT_RGBA
         this._parent = null
+        this._anims = []
     }
 
-    draw(ctx) {
+    draw(ctx, time) {
         ctx.fillStyle = formatColor(this._rgba)
 
         ctx.beginPath()
@@ -23,8 +24,10 @@ class Dot {
 
         if (typeof this.drawEffectCB == "function") {
             let dist = this.getDistance(), rawRatio = this.getRatio(dist)
-            this.drawEffectCB(ctx, this, Math.min(1, rawRatio), dist, rawRatio)
+            this.drawEffectCB(ctx, this, Math.min(1, rawRatio), this.cvs.mouse, dist, rawRatio)
         }
+
+        if (this._anims[0]) this._anims[0].getFrame(time)
     }
 
     getDistance(fx,fy) {
@@ -33,6 +36,25 @@ class Dot {
 
     getRatio(dist) {
         return dist / this.limit
+    }
+
+    queueAnim(anim) {
+        if (this.currentAnim) this.currentAnim.end()
+        this._anims.push(anim)
+        return anim
+    }
+
+    addForce(force, dir, time=1000, easing=Anim.easeInOutQuad) {
+        let rDir = toRad(dir), ix = this._x, iy = this._y,
+            dx = getAcceptableDif(force*Math.cos(rDir), ACCEPTABLE_DIF),
+            dy = getAcceptableDif(force*Math.sin(rDir), ACCEPTABLE_DIF)
+    
+        return this.queueAnim(
+            new Anim((prog)=>{
+                this._x = ix+dx*prog
+                this._y = iy-dy*prog
+            }, time, easing, ()=>this._anims.shift())
+        )
     }
 
     get id() {return this._id}
@@ -50,6 +72,8 @@ class Dot {
     get limit() {return this._parent?.limit}
     get ratioPos() {return this._parent?.ratioPos}
     get cvs() {return this._parent?.cvs}
+    get anims() {return this._anims}
+    get currentAnim() {return this._anims[0]}
 
     set x(x) {this._x = x}
     set y(y) {this._y = y}

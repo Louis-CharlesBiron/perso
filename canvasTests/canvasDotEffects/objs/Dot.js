@@ -13,10 +13,19 @@ class Dot {
         this._rgba = rgba||DEFAULT_RGBA
         this._parent = null
         this._anims = []
+        this._connections = []
     }
 
     draw(ctx, time) {
         ctx.fillStyle = formatColor(this._rgba)
+
+        if (this._connections.length) this._connections.forEach(c=>{
+            ctx.strokeStyle = formatColor([255,0,0,1])
+            ctx.beginPath()
+            ctx.moveTo(this._x, this._y)
+            ctx.lineTo(c.x, c.y)
+            ctx.stroke()
+        })
 
         ctx.beginPath()
         ctx.arc(this._x, this._y, this._radius, 0, CIRC)
@@ -38,10 +47,18 @@ class Dot {
         return dist / this.limit
     }
 
-    queueAnim(anim) {
-        if (this.currentAnim) this.currentAnim.end()
+    queueAnim(anim, force) {
+        if (this.currentAnim && force) this.currentAnim.end()
         this._anims.push(anim)
         return anim
+    }
+
+    addConnection(dot) {
+        if (typeof dot == "object") this._connections.push(dot)
+    }
+
+    removeConnection(dotId) {
+        this._connections = this._connections.filter(d=>typeof dotId=="number"?d.id!==dotId:d.id!==dotId.id)
     }
 
     addForce(force, dir, time=1000, easing=Anim.easeInOutQuad) {
@@ -49,12 +66,10 @@ class Dot {
             dx = getAcceptableDif(force*Math.cos(rDir), ACCEPTABLE_DIF),
             dy = getAcceptableDif(force*Math.sin(rDir), ACCEPTABLE_DIF)
     
-        return this.queueAnim(
-            new Anim((prog)=>{
-                this._x = ix+dx*prog
-                this._y = iy-dy*prog
-            }, time, easing, ()=>this._anims.shift())
-        )
+        return this.queueAnim(new Anim((prog)=>{
+            this._x = ix+dx*prog
+            this._y = iy-dy*prog
+        }, time, easing, ()=>this._anims.shift()), true)
     }
 
     get id() {return this._id}
@@ -74,6 +89,7 @@ class Dot {
     get cvs() {return this._parent?.cvs}
     get anims() {return this._anims}
     get currentAnim() {return this._anims[0]}
+    get connections() {return this._connections}
 
     set x(x) {this._x = x}
     set y(y) {this._y = y}
@@ -85,4 +101,5 @@ class Dot {
     set a(a) {this._rgba[3] = a}
     set rgba(rgba) {this._rgba = rgba}
     set parent(p) {this._parent = p}
+    set connections(c) {return this._connections = c}
 }

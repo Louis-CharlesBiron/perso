@@ -1,4 +1,4 @@
-const fpsCounter = new FPSCounter(), cvsINDEX = new Canvas(canvas, document.querySelector("#holder"), DEFAULT_CTX_SETTINGS, ()=>{//looping
+const fpsCounter = new FPSCounter(), cvsINDEX = new Canvas(canvas, ()=>{//looping
     fpsDisplay.textContent = fpsCounter.getFps()
     mouseSpeed.textContent = cvsINDEX?.mouse?.speed?.toFixed(2)+" px/sec"
     mouseAngle.textContent = cvsINDEX?.mouse?.dir?.toFixed(2)+" deg"
@@ -52,9 +52,23 @@ let adotShape = new Shape([new Dot(300, 300)], null, null, null, (ctx, dot, rati
     }
 })
 
+// let l = new Shape(null, 2, null, null, (ctx, dot, ratio, m, dist)=>{
+//     if (dist < 200) {
+//         ctx.strokeStyle = formatColor([dot.r,dot.g,dot.b,mod(0.1, ratio)])
+//             ctx.beginPath()
+//             ctx.moveTo(m.x, m.y)
+//             ctx.lineTo(dot.x, dot.y)
+//             ctx.stroke()
+//     }
+// })
+// l.add(s.createText("abcdefg\nhijklm\nnopqrs\ntuvwxyz", [-75,0], [15, 15]))
+let le = new Letters("abcdefg\nhijklm\nnopqrs\ntuvwxyz", [200,100], [50, 50])
+le.setRadius(3)
+le.createLetter()
+
 cvsINDEX.add({[Shape.childrenPath]:adotShape})
 cvsINDEX.add({[Shape.childrenPath]:test})
-
+cvsINDEX.add(le.asSource())
 
 // USER ACTIONS
 function mousemovements(m) {

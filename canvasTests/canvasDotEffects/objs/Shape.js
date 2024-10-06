@@ -31,18 +31,17 @@ class Shape {
         }))
     }
 
-    createFromString(str, topLeftPos=[0,0], gaps=[25, 25], dotChar="o") {//prob unnecessary idk
-        let endPoint = []
+    createFromString(str, topLeftPos=[0,0], gaps=[25, 25], dotChar="o") {//
+        let dots = []
         str.split("\n").filter(x=>x).forEach((x,i)=>{
             let [atX, atY] = topLeftPos
             atY+=i*gaps[1];
             [...x].forEach(c=>{
+                if (c==dotChar) dots.push(new Dot(atX+gaps[0]/2, atY+gaps[1]/2))
                 atX+=gaps[0]
-                if (c==dotChar) this.add(new Dot(atX+gaps[0]/2, atY+gaps[1]/2))
             })
-            endPoint.push([atX+gaps[0]/2, atY+gaps[1]/2])
         })
-        return endPoint.last()
+        return dots
     }
 
     setRadius(radius) {
@@ -60,7 +59,7 @@ class Shape {
         this._dots.forEach(x=>x.limit=limit)
     }
 
-    move(x, y) {
+    moveBy(x, y) {
         this._dots.forEach(d=>{
             if (x) d.x += x
             if (y) d.y += y
@@ -87,6 +86,14 @@ class Shape {
     reset() {
         this.clear()
         this.initialize()
+    }
+
+    asSource() {
+        return {[Shape.childrenPath]:this}
+    }
+
+    static asSource(shape) {
+        return {[Shape.childrenPath]:shape}
     }
 
     get cvs() {return this._cvs}

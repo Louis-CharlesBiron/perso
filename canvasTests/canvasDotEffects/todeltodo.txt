@@ -1,17 +1,19 @@
 
 // YES TODO
-- shapes / meshes
+- shapes
 - follow functions
-- good responsive shape initilization
 - simple collision / reflections
 - on dot hover
+- text connections
+- rotate shape
 
 - make another dedicated repos for this project
 
 
 
-
-
+// ADJUSTMENTS / PERFORMANCE ?
+- shape setup() function    -> avoid shape related global vars outside of the new Shape() call
+- shape onSetup()           -> ex: setStaticConnections for dots
 
 
 

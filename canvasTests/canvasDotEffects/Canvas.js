@@ -10,11 +10,9 @@ class Canvas {
     //privates
     #lastFrame = 0  // for delta time
 
-    constructor(cvs, frame, settings, loopingCallback) {
-        let frameCBR = frame?.getBoundingClientRect()??{width:DEFAULT_CANVAS_WIDTH, height:DEFAULT_CANVAS_HEIGHT}
-
+    constructor(cvs, loopingCallback, frame, settings=DEFAULT_CTX_SETTINGS) {
         this._cvs = cvs                                         //html canvas el
-        this._frame = frame||cvs                                //html parent el
+        this._frame = frame??cvs?.parentElement                 //html parent el
         this._cvs.setAttribute(DEFAULT_CVSDE_ATTR, true)        //styles selector
         this._frame.setAttribute(DEFAULT_CVSFRAMEDE_ATTR, true) //styles selector
         this._ctx = this._cvs.getContext("2d", {})              //ctx
@@ -29,13 +27,14 @@ class Canvas {
         this._deltaTime = null                                  //useable delta time in seconds
         this._timeStamp = null                                  //requestanimationframe timestamp in ms
 
-        this._mouse = {}                                        //mouse info
-        this._offset = this.updateOffset()                      //cvs page offset
-
         this._windowListeners = this.initWindowListeners()      //[onresize, onvisibilitychange]
         
+        let frameCBR = this._frame?.getBoundingClientRect()??{width:DEFAULT_CANVAS_WIDTH, height:DEFAULT_CANVAS_HEIGHT}
         this.setSize(frameCBR.width, frameCBR.height)           //init size
-        if (frame) this.initStyles()                            //init styles
+        this.initStyles()                                       //init styles
+
+        this._mouse = {}                                        //mouse info
+        this._offset = this.updateOffset()                      //cvs page offset
     }
 
     initStyles() {
@@ -55,7 +54,7 @@ class Canvas {
 
     updateOffset() {
         let {width, height, x, y} = this._cvs.getBoundingClientRect()
-        return this._offset = {x:(x+width)-this.width, y:(y+height)-this.height}
+        return this._offset = {x:(x+width)-this.width+window.scrollX, y:(y+height)-this.height+window.scrollY}
     }
 
     startLoop() {

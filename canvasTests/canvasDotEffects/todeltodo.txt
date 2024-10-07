@@ -19,9 +19,10 @@
 small todo
 - shape center pos
 - "fix"/adjust scaling
+
 - don't auto draw dot connections
-- finish new alphabet
 - finish up the Letter class / functions
+- fix the: if the letter's first dot isn't at 0 then spawns higher
 
 
 

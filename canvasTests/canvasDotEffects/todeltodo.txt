@@ -4,7 +4,7 @@
 - follow functions
 - simple collision / reflections
 - on dot hover
-- text connections
+- text connections~
 - rotate shape
 
 - make another dedicated repos for this project
@@ -15,6 +15,13 @@
 - shape setup() function    -> avoid shape related global vars outside of the new Shape() call
 - shape onSetup()           -> ex: setStaticConnections for dots
 
+
+small todo
+- shape center pos
+- "fix"/adjust scaling
+- don't auto draw dot connections
+- finish new alphabet
+- finish up the Letter class / functions
 
 
 

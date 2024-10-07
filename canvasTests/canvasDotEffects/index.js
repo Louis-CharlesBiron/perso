@@ -65,6 +65,16 @@ let adotShape = new Shape([new Dot(300, 300)], null, null, null, (ctx, dot, rati
 let le = new Letters("abcdefg\nhijklm\nnopqrs\ntuvwxyz", [200,100], [50, 50])
 le.setRadius(3)
 le.createLetter()
+le.drawEffectCB = (ctx, dot, ratio, m, dist)=>{
+    dot.radius = mod(DEFAULT_RADIUS*2, ratio, DEFAULT_RADIUS*2*0.5)
+     if (dist < 200) {
+         ctx.strokeStyle = formatColor([dot.r,dot.g,dot.b,mod(1, ratio)])
+             ctx.beginPath()
+             ctx.moveTo(m.x, m.y)
+             ctx.lineTo(dot.x, dot.y)
+             ctx.stroke()
+     }
+}
 
 cvsINDEX.add({[Shape.childrenPath]:adotShape})
 cvsINDEX.add({[Shape.childrenPath]:test})

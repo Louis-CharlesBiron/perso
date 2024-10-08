@@ -179,12 +179,12 @@ class Letters extends Shape {
         //console.log(this.createText(this._text, [-75,0], [15, 15]))
     }
 
-    createText(text=this._text, pos=[0,0], gaps=this._gaps, letterSpacing=this._letterSpacing, fontAlphabet=this._alphabet) {
+    createText(text=this._text, pos=this._pos, gaps=this._gaps, letterSpacing=this._letterSpacing, fontAlphabet=this._alphabet) {
         let [x, y] = pos, letters=[]
         letterSpacing ??= fontAlphabet.width*gaps[0]+gaps[0]-fontAlphabet.width+this._radius
         ;[...text].forEach(l=>{
             let letter //this.createFromString(fontAlphabet[l.toUpperCase()]||" ", [x=l=="\n"?pos[0]:x+letterSpacing, y+=l=="\n"&&fontAlphabet.width*gaps[1]+this.radius], gaps)
-            console.log(fontAlphabet.width*gaps[1]+this.radius)
+            
             this.createLetter(l, [x=l=="\n"?pos[0]:x+letterSpacing, y+=l=="\n"&&fontAlphabet.width*gaps[1]+this.radius])
             letters.push(letter)
         })
@@ -196,7 +196,7 @@ class Letters extends Shape {
         xi=[0,0], yi=0, // y index
         ar = Math.sqrt(this._alphabet.width*this._alphabet.height), // alphabetRadius
         l = this._alphabet[letter.toUpperCase()]
-        if (l) l.map(d=>[new Dot(pos[0]+(xi[0]=d[0]??xi[0]+1,isNaN(Math.abs(d[0]))?xi[0]:Math.abs(d[0]))*gx, pos[1]+(yi+=xi[0]<=xi[1]||Math.sign(1/xi[0])==-1)*gy), d[1], yi*ar+(xi[1]=Math.abs(xi[0]))]).forEach(([dot, c, p],_,a)=>{
+        if (l) l.map((d,i)=>[new Dot(pos[0]+(xi[0]=d[0]??xi[0]+1,isNaN(Math.abs(d[0]))?xi[0]:Math.abs(d[0]))*gx, pos[1]+(yi+=(xi[0]<=xi[1]||!i)||Math.sign(1/xi[0])==-1)*gy), d[1], yi*ar+(xi[1]=Math.abs(xi[0]))]).forEach(([dot, c, p],_,a)=>{
             D.places.forEach(x=>{//dotGroup
                 if (c&x[0]) dot.addConnection(a.find(n=>n[2]==p+x[1](ar))?.[0])
             }) 
@@ -204,4 +204,44 @@ class Letters extends Shape {
             super.add(dot)
         })
     }
+
+    updateText(text) {
+        super.clear()
+        this._text = text
+        this.createText()
+    }
+
+    updatePos() {
+        // will need Shape.center to work
+    }
+
+    updateGaps(gaps) {
+        super.clear()
+        this._gaps = gaps
+        this.createText()
+    }
+
+    updateLetterSpacing(ls) {
+        super.clear()
+        this._letterSpacing = ls
+        this.createText()
+    }
+
+    updateAlphabet(alphabet) {
+        super.clear()
+        this._alphabet = alphabet
+        this.createText()
+    }
+
+    get text() {return this._text}
+	get pos() {return this._pos}
+	get gaps() {return this._gaps}
+	get letterSpacing() {return this._letterSpacing}
+	get alphabet() {return this._alphabet}
+
+	set text(_text) {return this._text = _text}
+	set pos(_pos) {return this._pos = _pos}
+	set gaps(_gaps) {return this._gaps = _gaps}
+	set letterSpacing(_letterSpacing) {return this._letterSpacing = _letterSpacing}
+	set alphabet(_alphabet) {return this._alphabet = _alphabet}
 }

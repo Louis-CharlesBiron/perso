@@ -41,7 +41,7 @@ let adotShape = new Shape([new Dot(10,10)], null, null, null, (ctx, dot, ratio, 
     ctx.stroke()
 
     // drag
-    if (m.clicked && dist < 30) {
+    if (m.clicked && dist < 50) {
         mouseup = true
         if (dot?.currentAnim?.id == adotShapeAnim?.id && adotShapeAnim) adotShapeAnim.end()
         dot.x = m.x
@@ -52,8 +52,8 @@ let adotShape = new Shape([new Dot(10,10)], null, null, null, (ctx, dot, ratio, 
     }
 })
 
-let le = new Letters("abcdefg\nhijklm\nnopqrs\ntuvwxyz", [200,100], [5, 5], 50, null, 2)
-le.createText(void 1, [10,200])
+let le = new Letters("abcdefg\nhijklm\nnopqrs\ntuvwxyz", [10,200], [5, 5], 50, null, 2)
+le.createText(void 1)
 le.drawEffectCB = (ctx, dot, ratio, m, dist)=>{
     dot.radius = mod(DEFAULT_RADIUS, ratio, DEFAULT_RADIUS)
     if (dist < 200) {

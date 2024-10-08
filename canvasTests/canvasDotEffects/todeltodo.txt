@@ -6,6 +6,7 @@
 - on dot hover
 - text connections~
 - rotate shape
+- good support for custom ratioPos source (ball)
 
 - make another dedicated repos for this project
 
@@ -22,10 +23,8 @@ small todo
 
 - don't auto draw dot connections
 - finish up the Letter class / functions
-- fix the: if the letter's first dot isn't at 0 then spawns higher
 
-
-
+fix letter pos
 
 
 

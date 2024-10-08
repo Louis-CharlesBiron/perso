@@ -84,8 +84,10 @@ class Shape {
     }
 
     reset() {
-        this.clear()
-        this.initialize()
+        if (this._initDots) {
+            this.clear()
+            this.initialize()
+        }
     }
 
     asSource() {

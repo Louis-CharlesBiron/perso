@@ -19,14 +19,6 @@ class Dot {
     draw(ctx, time) {
         ctx.fillStyle = formatColor(this._rgba)
 
-        if (this._connections.length) this._connections.forEach(c=>{
-            ctx.strokeStyle = formatColor([255,0,0,1])
-            ctx.beginPath()
-            ctx.moveTo(this._x, this._y)
-            ctx.lineTo(c.x, c.y)
-            ctx.stroke()
-        })
-
         ctx.beginPath()
         ctx.arc(this._x, this._y, this._radius, 0, CIRC)
         ctx.fill()

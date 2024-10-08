@@ -1,32 +1,23 @@
 
 // YES TODO
-- shapes
 - follow functions
-- simple collision / reflections
-- on dot hover
-- text connections~
+- on dot hover / click
 - rotate shape
 - good support for custom ratioPos source (ball)
+- shape show center
 
 - make another dedicated repos for this project
 
-
-
-// ADJUSTMENTS / PERFORMANCE ?
-- shape setup() function    -> avoid shape related global vars outside of the new Shape() call
-- shape onSetup()           -> ex: setStaticConnections for dots
-
-
-small todo
 - shape center pos
 - "fix"/adjust scaling
 
-- don't auto draw dot connections
 - finish up the Letter class / functions
 
 fix letter pos
 
-
+// ADJUSTMENTS / PERFORMANCE ?
+- shape setup() function    -> avoid shape related global vars outside of the new Shape() call
+- shape onSetup()           -> ex: setStaticConnections for dots
 
 
 
@@ -36,7 +27,7 @@ fix letter pos
 
 
 // MAYBE
+- simple collision / reflections
 - some sort of shape editor ~
 - something like gd frame animation for ratioPos
 - keyboard implementations
-- text?

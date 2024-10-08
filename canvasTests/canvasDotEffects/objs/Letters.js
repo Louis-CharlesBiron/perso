@@ -1,6 +1,6 @@
 const D = [["t","-ar"],["r",1],["b","ar"],["l",-1],["tr","1-ar"],["br","ar+1"],["bl","ar-1"],["tl","-ar-1"]].reduce((a,[b,d],i)=>(a.places.push([a[b]=1<<i,(ar)=>new Function("ar",`return ${d}`)(ar)]),a),{places:[]})
 
-const alphabetSource = {
+const fontSource = {
     width:5,
     height:5,
     A: [
@@ -166,82 +166,71 @@ const alphabetSource = {
 }
 
 class Letters extends Shape {
-    constructor(text, pos=[0,0], gaps=[25, 25], letterSpacing, alphabet, radius, rgba, limit, drawEffectCB) {
-        super(null, radius, rgba, limit, drawEffectCB)
+    constructor(text, gaps=[25, 25], letterSpacing, font, pos, radius, rgba, limit, drawEffectCB) {
+        super(pos, null, radius, rgba, limit, drawEffectCB)
 
         this._text = text // text
-        this._pos = pos ?? [0,0]// position of the text
         this._gaps = gaps ?? [25, 25]// [x, y] gap length within the dots
-        this._letterSpacing = letterSpacing ?? 20 // gap length within letters 
-        this._alphabet = alphabet ?? alphabetSource// source alphabet
+        this._font = font ?? fontSource// source font
+        this._letterSpacing = letterSpacing ?? this._font.width*this._gaps[0]+this._gaps[0]-this.font.width+this._radius // gap length within letters 
 
-        //if (this._text) super.add(this.createText(this._text, [-75,0], [15, 15]))
-        //console.log(this.createText(this._text, [-75,0], [15, 15]))
+        if (this._text) super.add(this.createText())
     }
 
-    createText(text=this._text, pos=this._pos, gaps=this._gaps, letterSpacing=this._letterSpacing, fontAlphabet=this._alphabet) {
-        let [x, y] = pos, letters=[]
-        letterSpacing ??= fontAlphabet.width*gaps[0]+gaps[0]-fontAlphabet.width+this._radius
+    createText(text=this._text, pos=super.pos, gaps=this._gaps, letterSpacing=this._letterSpacing, font=this._font) {
+        let [cx, cy] = pos, isNewLine=true, letters=[]
         ;[...text].forEach(l=>{
-            let letter //this.createFromString(fontAlphabet[l.toUpperCase()]||" ", [x=l=="\n"?pos[0]:x+letterSpacing, y+=l=="\n"&&fontAlphabet.width*gaps[1]+this.radius], gaps)
-            
-            this.createLetter(l, [x=l=="\n"?pos[0]:x+letterSpacing, y+=l=="\n"&&fontAlphabet.width*gaps[1]+this.radius])
+            let letter = this.createLetter(l, [cx=(l=="\n")?pos[0]:(cx+letterSpacing*(!isNewLine)), cy+=(l=="\n")&&font.width*gaps[1]+this.radius])
+            isNewLine = (l=="\n")
             letters.push(letter)
         })
         return letters.flat()
     }
 
-    createLetter(letter, pos=this._pos) {
+    createLetter(letter, pos=super.pos) {
         let dotGroup = [], [gx, gy] = this._gaps,
         xi=[0,0], yi=0, // y index
-        ar = Math.sqrt(this._alphabet.width*this._alphabet.height), // alphabetRadius
-        l = this._alphabet[letter.toUpperCase()]
+        ar = Math.sqrt(this._font.width*this._font.height), // fontRadius
+        l = this._font[letter.toUpperCase()]
         if (l) l.map((d,i)=>[new Dot(pos[0]+(xi[0]=d[0]??xi[0]+1,isNaN(Math.abs(d[0]))?xi[0]:Math.abs(d[0]))*gx, pos[1]+(yi+=(xi[0]<=xi[1]||!i)||Math.sign(1/xi[0])==-1)*gy), d[1], yi*ar+(xi[1]=Math.abs(xi[0]))]).forEach(([dot, c, p],_,a)=>{
-            D.places.forEach(x=>{//dotGroup
-                if (c&x[0]) dot.addConnection(a.find(n=>n[2]==p+x[1](ar))?.[0])
-            }) 
-            
-            super.add(dot)
+            D.places.forEach(x=>{c&x[0]&&dot.addConnection(a.find(n=>n[2]==p+x[1](ar))?.[0])}) 
+            dotGroup.push(dot)
         })
+        return dotGroup
     }
 
     updateText(text) {
+        // can be optimised
         super.clear()
         this._text = text
-        this.createText()
-    }
-
-    updatePos() {
-        // will need Shape.center to work
+        super.add(this.createText())
     }
 
     updateGaps(gaps) {
         super.clear()
         this._gaps = gaps
-        this.createText()
+        super.add(this.createText())
     }
 
     updateLetterSpacing(ls) {
         super.clear()
         this._letterSpacing = ls
-        this.createText()
+        super.add(this.createText())
     }
 
-    updateAlphabet(alphabet) {
+    updatefont(font) {
         super.clear()
-        this._alphabet = alphabet
-        this.createText()
+        this._font = font
+        super.add(this.createText())
     }
 
     get text() {return this._text}
-	get pos() {return this._pos}
 	get gaps() {return this._gaps}
 	get letterSpacing() {return this._letterSpacing}
-	get alphabet() {return this._alphabet}
+	get font() {return this._font}
 
 	set text(_text) {return this._text = _text}
-	set pos(_pos) {return this._pos = _pos}
 	set gaps(_gaps) {return this._gaps = _gaps}
 	set letterSpacing(_letterSpacing) {return this._letterSpacing = _letterSpacing}
-	set alphabet(_alphabet) {return this._alphabet = _alphabet}
+	set font(_font) {return this._font = _font}
 }

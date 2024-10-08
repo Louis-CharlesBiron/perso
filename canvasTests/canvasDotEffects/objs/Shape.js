@@ -4,9 +4,10 @@
 //
 
 class Shape {
-    constructor(dots, radius, rgba, limit, drawEffectCB) {
+    constructor(pos, dots, radius, rgba, limit, drawEffectCB) {
         this._cvs
         this._id = idGiver++
+        this._pos = pos||[0,0]
         this._radius = radius??DEFAULT_RADIUS
         this._rgba = rgba||DEFAULT_RGBA
         this._limit = limit||100
@@ -18,7 +19,7 @@ class Shape {
 
     initialize() {
         if (typeof this._initDots == "string") this.createFromString(this._initDots)
-        else if (typeof this._initDots == "function") this._initDots(this, this._cvs)
+        else if (typeof this._initDots == "function") this._initDots(this, this._cvs, this._pos)
         else if (this._initDots?.length) this.add(this._initDots)
     }
 
@@ -66,6 +67,16 @@ class Shape {
         })
     }
 
+    move(x, y) {
+        // will need Shape.center to work DOESN'T WORK
+        this._pos = [x, y]
+        this._dots.forEach(d=>{
+            console.log(d.x, d.y)
+            if (x) d.x = x+(x-d.x)
+            if (y) d.y = y+(y-d.y)
+        })
+    }
+
     scale(scale, dotRelative) {
         this._dots.forEach(d=>{
             if (dotRelative) {
@@ -100,6 +111,7 @@ class Shape {
 
     get cvs() {return this._cvs}
     get id() {return this._id}
+	get pos() {return this._pos}
     get dots() {return this._dots}
     get rgba() {return this._rgba}
     get radius() {return this._radius}
@@ -114,6 +126,7 @@ class Shape {
     static get childrenPath() {return "dots"}
 
     set cvs(cvs) {this._cvs = cvs}
+	set pos(_pos) {return this._pos = _pos}
     set ratioPos(ratioPos) {this._ratioPos = ratioPos}
     set drawEffectCB(cb) {this._drawEffectCB = cb}
 }

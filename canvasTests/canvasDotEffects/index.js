@@ -5,7 +5,7 @@ const fpsCounter = new FPSCounter(), cvsINDEX = new Canvas(canvas, ()=>{//loopin
 })
 
 // DECLARE OBJS
- let test = new Shape([
+ let test = new Shape([100,100],[
      new Dot(100, 100),
      new Dot(120, 100),
      new Dot(140, 100),
@@ -31,7 +31,7 @@ const fpsCounter = new FPSCounter(), cvsINDEX = new Canvas(canvas, ()=>{//loopin
 })
 
 let mouseup = false, adotShapeAnim
-let adotShape = new Shape([new Dot(10,10)], null, null, null, (ctx, dot, ratio, m, dist)=>{
+let adotShape = new Shape([10,10],[new Dot(10,10)], null, null, null, (ctx, dot, ratio, m, dist)=>{
 
     dot.radius = mod(DEFAULT_RADIUS*2, ratio, DEFAULT_RADIUS*2*0.5)
 
@@ -52,9 +52,7 @@ let adotShape = new Shape([new Dot(10,10)], null, null, null, (ctx, dot, ratio, 
     }
 })
 
-let le = new Letters("abcdefg\nhijklm\nnopqrs\ntuvwxyz", [10,200], [5, 5], 50, null, 2)
-le.createText(void 1)
-le.drawEffectCB = (ctx, dot, ratio, m, dist)=>{
+let le = new Letters("abcdefg\nhijklm\nnopqrs\ntuvwxyz", [5, 5], 50, null, [10,200], 2, null, null, (ctx, dot, ratio, m, dist)=>{
     dot.radius = mod(DEFAULT_RADIUS, ratio, DEFAULT_RADIUS)
     if (dist < 200) {
         ctx.strokeStyle = formatColor([dot.r,dot.g,dot.b,mod(0.1, ratio)])
@@ -62,8 +60,19 @@ le.drawEffectCB = (ctx, dot, ratio, m, dist)=>{
             ctx.moveTo(m.x, m.y)
             ctx.lineTo(dot.x, dot.y)
             ctx.stroke()
-    }
-}
+   }
+
+   ctx.globalCompositeOperation = "destination-over"
+   if (dot.connections.length) dot.connections.forEach(c=>{
+        ctx.strokeStyle = formatColor([255,0,0,1])
+        ctx.beginPath()
+        ctx.moveTo(dot._x, dot._y)
+        ctx.lineTo(c.x, c.y)
+        ctx.stroke()
+    })
+    ctx.globalCompositeOperation = "source-over"
+})
+
 
 cvsINDEX.add({[Shape.childrenPath]:adotShape})
 cvsINDEX.add({[Shape.childrenPath]:test})

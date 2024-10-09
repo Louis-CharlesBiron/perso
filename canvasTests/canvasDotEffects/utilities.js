@@ -63,34 +63,14 @@ function getAcceptableDif(n, okDif) {
     return Math.round(n)-n <= okDif ? Math.round(n) : n
 }
 
-const alphabet5 = {
-    width:5,
-    height:5,
-    A: "  o  \n o o \nooooo\no   o\no   o",
-    B: "oooo \no   o\noooo \no   o\noooo ",
-    C: " oooo\no    \no    \no    \n oooo",
-    D: "oooo \no   o\no   o\no   o\noooo ",
-    E: "ooooo\no    \noooo \no    \nooooo",
-    F: "ooooo\no    \noooo \no    \no    ",
-    G: " oooo\no    \no  oo\no   o\n oooo",
-    H: "o   o\no   o\nooooo\no   o\no   o",
-    I: " ooo \n  o  \n  o  \n  o  \n ooo ",
-    J: "  ooo\n   o \n   o \no  o \n oo  ",
-    K: "o   o\no  o \nooo  \no  o \no   o",
-    L: "o    \no    \no    \no    \nooooo",
-    M: "o   o\noo oo\no o o\no   o\no   o",
-    N: "o   o\noo  o\no o o\no  oo\no   o",
-    O: " ooo \no   o\no   o\no   o\n ooo ",
-    P: "oooo \no   o\noooo \no    \no    ",
-    Q: " ooo \no   o\no   o\no  oo\n oooo",
-    R: "oooo \no   o\noooo \no  o \no   o",
-    S: " oooo\no    \n ooo \n    o\noooo ",
-    T: "ooooo\n  o  \n  o  \n  o  \n  o  ",
-    U: "o   o\no   o\no   o\no   o\n ooo ",
-    V: "o   o\no   o\no   o\n o o \n  o  ",
-    W: "o   o\no   o\no o o\noo oo\no   o",
-    X: "o   o\n o o \n  o  \n o o \no   o",
-    Y: "o   o\n o o \n  o  \n  o  \n  o  ",
-    Z: "ooooo\n   o \n  o  \n o   \nooooo"
-  }
-  
+const SHOW_CENTERS_DOT_ID = {}
+function toggleCenter(shape, radius=5, color=[255,0,0,1]) {
+    if (!SHOW_CENTERS_DOT_ID[shape.id]) {
+        let dot = new Dot(shape.x, shape.y, radius, color)
+        SHOW_CENTERS_DOT_ID[shape.id] = dot.id
+        cvsINDEX.add(dot, true)
+    } else {
+        cvsINDEX.remove(SHOW_CENTERS_DOT_ID[shape.id])
+        SHOW_CENTERS_DOT_ID[shape.id] = void 1
+    }
+}

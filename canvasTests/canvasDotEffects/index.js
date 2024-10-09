@@ -5,21 +5,23 @@ const fpsCounter = new FPSCounter(), cvsINDEX = new Canvas(canvas, ()=>{//loopin
 })
 
 // DECLARE OBJS
- let test = new Shape([100,100],[
-     new Dot(100, 100),
-     new Dot(120, 100),
-     new Dot(140, 100),
-     new Dot(160, 100),
-     new Dot(180, 100),
-     new Dot(200, 100),
+ let test = new Shape([500,500],[
+     new Dot(450, 450),
+     new Dot(450, 500),
+     new Dot(450, 550),
+     new Dot(500, 450),
+     new Dot(550, 450),
+     new Dot(550, 500),
+     new Dot(550, 550),
+     new Dot(500, 550),
  ], DEFAULT_RADIUS, DEFAULT_RGBA, 100, (ctx, dot, ratio)=>{
      dot.a = mod(1, ratio, 0.8)
      //dot.r = mod(255, ratio, -255)
      //dot.g = mod(255, ratio, -255)
     
-     let idk = mod(5, ratio, 5)
-     dot.x += random(-idk, idk)
-     dot.y += random(-idk, idk)
+     //let idk = mod(5, ratio, 5)
+     //dot.x += random(-idk, idk)
+     //dot.y += random(-idk, idk)
      dot.radius = mod(DEFAULT_RADIUS*2, ratio, DEFAULT_RADIUS*2*0.8)
 
      ctx.strokeStyle = formatColor([255,255,255,0.2])
@@ -29,6 +31,7 @@ const fpsCounter = new FPSCounter(), cvsINDEX = new Canvas(canvas, ()=>{//loopin
      ctx.closePath()
 
 })
+toggleCenter(test)
 
 let mouseup = false, adotShapeAnim
 let adotShape = new Shape([10,10],[new Dot(10,10)], null, null, null, (ctx, dot, ratio, m, dist)=>{

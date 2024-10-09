@@ -68,20 +68,19 @@ class Shape {
     }
 
     move(x, y) {
-        // will need Shape.center to work DOESN'T WORK
-        this._pos = [x, y]
         this._dots.forEach(d=>{
-            console.log(d.x, d.y)
-            if (x) d.x = x+(x-d.x)
-            if (y) d.y = y+(y-d.y)
+            if (x && x!==this._pos[0]) d.x += x-this._pos[0]
+            if (y && y!==this._pos[1]) d.y += y-this._pos[1]
         })
+        this._pos = [x??this._pos[0], y??this._pos[1]]
     }
 
     scale(scale, dotRelative) {
+        let distX = (this._pos[0]-this._dots[0].x)*(scale[0]??scale), distY = (this._pos[1]-this._dots[0].y)*(scale[1]??scale)
         this._dots.forEach(d=>{
             if (dotRelative) {
-                d.x = d.x * (scale[0]??scale)
-                d.y = d.y * (scale[1]??scale)
+                d.x = d.x * (scale[0]??scale)-(d.x-this._pos[0])
+                d.y = d.y * (scale[1]??scale)-(d.y-this._pos[1])
             } else {
                 d.x = d.initPos[0]*(scale[0]??scale)
                 d.y = d.initPos[1]*(scale[1]??scale)
@@ -112,6 +111,8 @@ class Shape {
     get cvs() {return this._cvs}
     get id() {return this._id}
 	get pos() {return this._pos}
+    get x() {return this._pos[0]}
+    get y() {return this._pos[1]}
     get dots() {return this._dots}
     get rgba() {return this._rgba}
     get radius() {return this._radius}

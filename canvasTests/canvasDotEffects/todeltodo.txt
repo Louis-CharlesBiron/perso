@@ -4,16 +4,14 @@
 - on dot hover / click
 - rotate shape
 - good support for custom ratioPos source (ball)
-- shape show center
+- shape show center adaptative
 
 - make another dedicated repos for this project
 
-- shape center pos
-- "fix"/adjust scaling
+- fix scaling
 
 - finish up the Letter class / functions
 
-fix letter pos
 
 // ADJUSTMENTS / PERFORMANCE ?
 - shape setup() function    -> avoid shape related global vars outside of the new Shape() call

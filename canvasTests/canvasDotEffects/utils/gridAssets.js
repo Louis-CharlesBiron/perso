@@ -1,6 +1,7 @@
 const D = [["t","-ar"],["r",1],["b","ar"],["l",-1],["tr","1-ar"],["br","ar+1"],["bl","ar-1"],["tl","-ar-1"]].reduce((a,[b,d],i)=>(a.places.push([a[b]=1<<i,(ar)=>new Function("ar",`return ${d}`)(ar)]),a),{places:[]})
 
-const fontSource = {
+
+const fontSource5x5 = {
     width:5,
     height:5,
     A: [
@@ -163,74 +164,4 @@ const fontSource = {
         [1,D.bl],
         [0,D.r],[,D.r],[,D.r],[,D.r],[]
     ]
-}
-
-class Letters extends Shape {
-    constructor(text, gaps=[25, 25], letterSpacing, font, pos, radius, rgba, limit, drawEffectCB) {
-        super(pos, null, radius, rgba, limit, drawEffectCB)
-
-        this._text = text // text
-        this._gaps = gaps ?? [25, 25]// [x, y] gap length within the dots
-        this._font = font ?? fontSource// source font
-        this._letterSpacing = letterSpacing ?? this._font.width*this._gaps[0]+this._gaps[0]-this.font.width+this._radius // gap length within letters 
-
-        if (this._text) super.add(this.createText())
-    }
-
-    createText(text=this._text, pos=super.pos, gaps=this._gaps, letterSpacing=this._letterSpacing, font=this._font) {
-        let [cx, cy] = pos, isNewLine=true, letters=[]
-        ;[...text].forEach(l=>{
-            let letter = this.createLetter(l, [cx=(l=="\n")?pos[0]:(cx+letterSpacing*(!isNewLine)), cy+=(l=="\n")&&font.width*gaps[1]+this.radius])
-            isNewLine = (l=="\n")
-            letters.push(letter)
-        })
-        return letters.flat()
-    }
-
-    createLetter(letter, pos=super.pos) {
-        let dotGroup = [], [gx, gy] = this._gaps,
-        xi=[0,0], yi=0, // y index
-        ar = Math.sqrt(this._font.width*this._font.height), // fontRadius
-        l = this._font[letter.toUpperCase()]
-        if (l) l.map((d,i)=>[new Dot(pos[0]+(xi[0]=d[0]??xi[0]+1,isNaN(Math.abs(d[0]))?xi[0]:Math.abs(d[0]))*gx, pos[1]+(yi+=(xi[0]<=xi[1]||!i)||Math.sign(1/xi[0])==-1)*gy), d[1], yi*ar+(xi[1]=Math.abs(xi[0]))]).forEach(([dot, c, p],_,a)=>{
-            D.places.forEach(x=>{c&x[0]&&dot.addConnection(a.find(n=>n[2]==p+x[1](ar))?.[0])}) 
-            dotGroup.push(dot)
-        })
-        return dotGroup
-    }
-
-    updateText(text) {
-        // can be optimised
-        super.clear()
-        this._text = text
-        super.add(this.createText())
-    }
-
-    updateGaps(gaps) {
-        super.clear()
-        this._gaps = gaps
-        super.add(this.createText())
-    }
-
-    updateLetterSpacing(ls) {
-        super.clear()
-        this._letterSpacing = ls
-        super.add(this.createText())
-    }
-
-    updatefont(font) {
-        super.clear()
-        this._font = font
-        super.add(this.createText())
-    }
-
-    get text() {return this._text}
-	get gaps() {return this._gaps}
-	get letterSpacing() {return this._letterSpacing}
-	get font() {return this._font}
-
-	set text(_text) {return this._text = _text}
-	set gaps(_gaps) {return this._gaps = _gaps}
-	set letterSpacing(_letterSpacing) {return this._letterSpacing = _letterSpacing}
-	set font(_font) {return this._font = _font}
 }

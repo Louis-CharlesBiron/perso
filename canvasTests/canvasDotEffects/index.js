@@ -55,7 +55,7 @@ let adotShape = new Shape([10,10],[new Dot(10,10)], null, null, null, (ctx, dot,
     }
 })
 
-let le = new Letters("abcdefg\nhijklm\nnopqrs\ntuvwxyz", [5, 5], 50, null, [10,200], 2, null, null, (ctx, dot, ratio, m, dist)=>{
+let le = new Grid("abcdefg\nhijklm\nnopqrs\ntuvwxyz", [5, 5], 50, null, [10,200], 2, null, null, (ctx, dot, ratio, m, dist)=>{
     dot.radius = mod(DEFAULT_RADIUS, ratio, DEFAULT_RADIUS)
     if (dist < 200) {
         ctx.strokeStyle = formatColor([dot.r,dot.g,dot.b,mod(0.1, ratio)])

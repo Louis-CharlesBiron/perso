@@ -54,7 +54,7 @@ class Canvas {
 
     updateOffset() {
         let {width, height, x, y} = this._cvs.getBoundingClientRect()
-        return this._offset = {x:(x+width)-this.width+window.scrollX, y:(y+height)-this.height+window.scrollY}
+        return this._offset = {x:Math.round((x+width)-this.width+window.scrollX), y:Math.round((y+height)-this.height+window.scrollY)}
     }
 
     startLoop() {
@@ -149,6 +149,13 @@ class Canvas {
         this._mouse.lastY = this._mouse.y
     }
 
+    #mouseMovements(cb, e) {
+        this.refs.forEach(r=>{
+            if (r.ratioPosCB===undefined) r.ratioPos=[this._mouse.x,this._mouse.y]
+        })
+        if (typeof cb == "function") cb(this._mouse, e)
+    }
+
     setmousemove(cb) {
         const onmousemove=e=>{
             // MOUSE POS
@@ -157,7 +164,7 @@ class Canvas {
 
             // MOUSE ANGLE
             let dx = this._mouse.x-this._mouse.lastX, dy = this._mouse.y-this._mouse.lastY
-            if (isFinite(dx) && isFinite(dy) && (dx || dy)) {
+            if (isFinite(dx) && isFinite(dy) && (dx||dy)) {
                     let angle = (-toDeg(Math.atan2(dy, dx))+360)%360
                     let diff = angle-this._mouse.dir
                     diff += (360*(diff<-180))-(360*(diff>180))
@@ -165,47 +172,44 @@ class Canvas {
                     this._mouse.dir = (this._mouse.dir+diff*DEFAULT_MOUSE_ANGULAR_DECELERATION+360)%360
             } else this._mouse.dir = 0
 
-            if (typeof cb == "function") cb(this._mouse, e)
+            this.#mouseMovements(cb, e)
         }
         this._frame.addEventListener("mousemove", onmousemove)
         return ()=>this._frame.removeEventListener("mousemove", onmousemove)
     }
 
-    setmousedown(cb) {
-        const onmousedown=e=>{
-            if (e.button==0) this._mouse.clicked = true
-            else if (e.button==1) this._mouse.scrollClicked = true
-            else if (e.button==2) this._mouse.rightClicked = true
-            else if (e.button==3) this._mouse.extraBackClicked = true
-            else if (e.button==4) this._mouse.extraForwardClicked = true
-
-            if (typeof cb == "function") cb(this._mouse, e)
+    setmouseleave(cb) {
+        const onmouseleave=e=>{
+            this._mouse = {x:Infinity, y:Infinity}
+            this.#mouseMovements(cb, e)
         }
+        this._frame.addEventListener("mouseleave", onmouseleave)
+        return ()=>this._frame.removeEventListener("mouseleave", onmouseleave)
+    }
+
+    #mouseClicks(cb, e) {
+        let v = e.type=="mousedown"
+        if (e.button==0) this._mouse.clicked = v
+        else if (e.button==1) this._mouse.scrollClicked = v
+        else if (e.button==2) this._mouse.rightClicked = v
+        else if (e.button==3) this._mouse.extraBackClicked = v
+        else if (e.button==4) this._mouse.extraForwardClicked = v
+
+        if (typeof cb == "function") cb(this._mouse, e)
+    }
+
+    setmousedown(cb) {
+        const onmousedown=e=>this.#mouseClicks(cb, e)
+        
         this._frame.addEventListener("mousedown", onmousedown)
         return ()=>this._frame.removeEventListener("mousedown", onmousedown)
     }
 
     setmouseup(cb) {
-        const onmouseup=e=>{
-            if (e.button==0) this._mouse.clicked = false
-            else if (e.button==1) this._mouse.scrollClicked = false
-            else if (e.button==2) this._mouse.rightClicked = false
-            else if (e.button==3) this._mouse.extraBackClicked = false
-            else if (e.button==4) this._mouse.extraForwardClicked = false
-
-            if (typeof cb == "function") cb(this._mouse, e)
-        }
+        const onmouseup=e=>this.#mouseClicks(cb, e)
+        
         this._frame.addEventListener("mouseup", onmouseup)
         return ()=>this._frame.removeEventListener("mouseup", onmouseup)
-    }
-
-    setmouseleave(cb) {
-        const onmouseleave=e=>{
-            this._mouse = {x:Infinity, y:Infinity}
-            if (typeof cb == "function") cb(this._mouse, e)
-        }
-        this._frame.addEventListener("mouseleave", onmouseleave)
-        return ()=>this._frame.removeEventListener("mouseleave", onmouseleave)
     }
     
 	get cvs() {return this._cvs}

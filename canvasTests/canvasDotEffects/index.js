@@ -74,7 +74,7 @@ let le = new Grid("abcdefg\nhijklm\nnopqrs\ntuvwxyz", [5, 5], 50, null, [10,200]
         ctx.stroke()
     })
     ctx.globalCompositeOperation = "source-over"
-})
+}, null)
 
 
 cvsINDEX.add({[Shape.childrenPath]:adotShape})
@@ -82,15 +82,11 @@ cvsINDEX.add({[Shape.childrenPath]:test})
 cvsINDEX.add(le.asSource())
 
 // USER ACTIONS
-function mousemovements(m) {
-    mouseInfo.textContent = "("+m.x+", "+m.y+")"
-    cvsINDEX.refs.forEach(el=>el.ratioPos=[m.x,m.y])
-}
 cvsINDEX.setmousemove(m=>{
-    mousemovements(m)
+    mouseInfo.textContent = "("+m.x+", "+m.y+")"
 })
 cvsINDEX.setmouseleave(m=>{
-    mousemovements(m)
+    mouseInfo.textContent = "("+m.x+", "+m.y+")"
 })
 cvsINDEX.setmousedown()
 cvsINDEX.setmouseup()

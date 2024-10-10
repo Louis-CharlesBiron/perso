@@ -4,13 +4,10 @@
 - on dot hover / click
 - rotate shape
 - good support for custom ratioPos source (ball)
-- shape show center adaptative
+- shape see center but good (prob useing draw())
 
 - make another dedicated repos for this project
 - fix scaling
-
-- finish up the Letter class / functions
-- cleanup Letters.js
 
 
 // ADJUSTMENTS / PERFORMANCE ?
@@ -25,6 +22,7 @@
 
 
 // MAYBE
+- ratioPos depending on multiple pos
 - simple collision / reflections
 - some sort of shape editor ~
 - something like gd frame animation for ratioPos

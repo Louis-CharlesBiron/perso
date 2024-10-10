@@ -4,7 +4,7 @@
 //
 
 class Shape {
-    constructor(pos, dots, radius, rgba, limit, drawEffectCB) {
+    constructor(pos, dots, radius, rgba, limit, drawEffectCB, ratioPosCB) {
         this._cvs
         this._id = idGiver++
         this._pos = pos||[0,0]
@@ -15,6 +15,7 @@ class Shape {
         this._dots = []
         this._ratioPos = [Infinity,Infinity]
         this._drawEffectCB = drawEffectCB // (ctx, Dot, ratio)
+        this._ratioPosCB = ratioPosCB
     }
 
     initialize() {
@@ -60,7 +61,7 @@ class Shape {
         this._dots.forEach(x=>x.limit=limit)
     }
 
-    moveBy(x, y) {
+    moveBy(x, y) {// to fix
         this._dots.forEach(d=>{
             if (x) d.x += x
             if (y) d.y += y
@@ -75,7 +76,7 @@ class Shape {
         this._pos = [x??this._pos[0], y??this._pos[1]]
     }
 
-    scale(scale, dotRelative) {
+    scale(scale, dotRelative) {// to fix
         let distX = (this._pos[0]-this._dots[0].x)*(scale[0]??scale), distY = (this._pos[1]-this._dots[0].y)*(scale[1]??scale)
         this._dots.forEach(d=>{
             if (dotRelative) {
@@ -125,9 +126,11 @@ class Shape {
     get drawEffectCB() {return this._drawEffectCB}
     get ratioPos() {return this._ratioPos}
     static get childrenPath() {return "dots"}
+    get ratioPosCB() {return this._ratioPosCB}
 
     set cvs(cvs) {this._cvs = cvs}
 	set pos(_pos) {return this._pos = _pos}
     set ratioPos(ratioPos) {this._ratioPos = ratioPos}
     set drawEffectCB(cb) {this._drawEffectCB = cb}
+    set ratioPosCB(cb) {this._ratioPosCB = cb}
 }

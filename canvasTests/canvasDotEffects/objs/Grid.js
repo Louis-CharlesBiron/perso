@@ -3,10 +3,10 @@
 // Please don't use or credit this code as your own.
 //
 class Grid extends Shape {
-    constructor(keys, gaps=[25, 25], spacing, source, pos, radius, rgba, limit, drawEffectCB) {
-        super(pos, null, radius, rgba, limit, drawEffectCB)
+    constructor(keys, gaps=[25, 25], spacing, source, pos, radius, rgba, limit, drawEffectCB, ratioPosCB) {
+        super(pos, null, radius, rgba, limit, drawEffectCB, ratioPosCB)
 
-        this._keys = keys // keys to convert to source values 
+        this._keys = keys // keys to convert to source's values 
         this._gaps = gaps ?? [25, 25]// [x, y] gap length within the dots
         this._source = source ?? fontSource5x5// symbols' source 
         this._spacing = spacing ?? this._source.width*this._gaps[0]+this._gaps[0]-this._source.width+this._radius // gap length within symbols

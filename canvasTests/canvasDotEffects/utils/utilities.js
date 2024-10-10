@@ -27,7 +27,7 @@ class FPSCounter {
     getFps() {//or run in the loop
         this._avg.push(this.getFpsRaw())
         if (this._avg.length > this._avgSampleSize) this._avg.shift()
-        return Math.floor(this._avg.reduce((a, b)=>a+b,0)/this._avgSampleSize)
+        return Math.floor(Math.min(this._avg.reduce((a, b)=>a+b,0)/this._avgSampleSize, this._maxFps))
     }
 
     get maxFps() {return this._maxFps-1}

@@ -68,6 +68,7 @@ class Canvas {
         this._timeStamp = time
         this.calcDeltaTime(time)
         this.calcMouseSpeed()
+
         this.clear()
         this.draw()
         
@@ -86,7 +87,7 @@ class Canvas {
     }
 
     draw() {
-        [...this._els.defs, ...this._els.refs.flatMap(x=>{
+        [...this._els.defs, ...this.refs, ...this._els.refs.flatMap(x=>{
             let o=Object.entries(x)
             return o[0][1][o[0][0]]
         })].forEach(el=>{

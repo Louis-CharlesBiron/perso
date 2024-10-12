@@ -2,11 +2,10 @@
 // YES TODO
 - follow functions
 - on dot hover / click
+- filled shapes
 - rotate shape
-- good support for custom ratioPos source (ball)
 - shape see center but good (prob useing draw())
 
-- make another dedicated repos for this project
 - fix scaling
 
 
@@ -14,12 +13,14 @@
 - shape setup() function    -> avoid shape related global vars outside of the new Shape() call
 - shape onSetup()           -> ex: setStaticConnections for dots
 
+- ex: adotshape, move shape pos when dot moves? see similar situations
+- make the ratioPos object (mouse or anything else) have all the mouse's current infos
 
 
 
 
 
-
+- make another dedicated repos for this project
 
 // MAYBE
 - ratioPos depending on multiple pos

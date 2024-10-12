@@ -67,6 +67,7 @@ class Dot {
     get id() {return this._id}
     get x() {return this._x}
     get y() {return this._y}
+    get pos() {return [this._x, this._y]}
     get radius() {return this._radius}
 	get initPos() {return this._initPos}
     get rgba() {return this._rgba}

@@ -24,6 +24,10 @@ class Shape {
         else if (this._initDots?.length) this.add(this._initDots)
     }
 
+    draw() {
+        if (typeof this._ratioPosCB == "function") this._ratioPos = this._ratioPosCB(this)
+    }
+
     add(dot) {
         this._dots.push(...[dot].flat().map(x=>{
             x.rgba = [...this._rgba]
@@ -31,6 +35,10 @@ class Shape {
             x.parent = this
             return x
         }))
+    }
+
+    remove(id) {
+        this._dots = this._dots.filter(x=>x!==id)
     }
 
     createFromString(str, topLeftPos=[0,0], gaps=[25, 25], dotChar="o") {//

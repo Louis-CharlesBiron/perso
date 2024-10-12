@@ -31,7 +31,6 @@ const fpsCounter = new FPSCounter(), cvsINDEX = new Canvas(canvas, ()=>{//loopin
      ctx.closePath()
 
 })
-toggleCenter(test)
 
 let mouseup = false, adotShapeAnim
 let adotShape = new Shape([10,10],[new Dot(10,10)], null, null, null, (ctx, dot, ratio, m, dist)=>{
@@ -51,16 +50,17 @@ let adotShape = new Shape([10,10],[new Dot(10,10)], null, null, null, (ctx, dot,
         dot.y = m.y
     } else if (mouseup) {
         mouseup = false
-        adotShapeAnim = dot.addForce(Math.min(mod(m.speed, ratio)/4, 300), m.dir, 750+ratio*1000, Anim.easeOutQuad)
+        adotShapeAnim = dot.addForce(Math.min(mod(m.speed, ratio)/4, 300), m.dir, 750+ratio*1200, Anim.easeOutQuad)
     }
 })
 
 let le = new Grid("abcdefg\nhijklm\nnopqrs\ntuvwxyz", [5, 5], 50, null, [10,200], 2, null, null, (ctx, dot, ratio, m, dist)=>{
     dot.radius = mod(DEFAULT_RADIUS, ratio, DEFAULT_RADIUS)
+    let rp = dot.ratioPos
     if (dist < 200) {
-        ctx.strokeStyle = formatColor([dot.r,dot.g,dot.b,mod(0.1, ratio)])
+        ctx.strokeStyle = formatColor([dot.r,dot.g,dot.b,mod(0.5, ratio)])
             ctx.beginPath()
-            ctx.moveTo(m.x, m.y)
+            ctx.moveTo(rp[0], rp[1])
             ctx.lineTo(dot.x, dot.y)
             ctx.stroke()
    }
@@ -74,7 +74,9 @@ let le = new Grid("abcdefg\nhijklm\nnopqrs\ntuvwxyz", [5, 5], 50, null, [10,200]
         ctx.stroke()
     })
     ctx.globalCompositeOperation = "source-over"
-}, null)
+}, ()=>{
+    return adotShape.dots[0].pos
+})
 
 
 cvsINDEX.add({[Shape.childrenPath]:adotShape})

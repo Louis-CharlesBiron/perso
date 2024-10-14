@@ -4,17 +4,13 @@
 - on dot hover / click
 - filled shapes
 - rotate shape
-- shape see center but good (prob useing draw())
 
 - fix scaling
 
-
 // ADJUSTMENTS / PERFORMANCE ?
-- shape setup() function    -> avoid shape related global vars outside of the new Shape() call
-- shape onSetup()           -> ex: setStaticConnections for dots
 
 - ex: adotshape, move shape pos when dot moves? see similar situations
-- make the ratioPos object (mouse or anything else) have all the mouse's current infos
+- make the ratioPos object (mouse or anything else) have all the mouse's current infos?
 
 
 
@@ -23,6 +19,7 @@
 - make another dedicated repos for this project
 
 // MAYBE
+- non square grid sources
 - ratioPos depending on multiple pos
 - simple collision / reflections
 - some sort of shape editor ~

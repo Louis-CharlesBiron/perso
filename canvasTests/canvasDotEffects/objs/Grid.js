@@ -6,9 +6,9 @@ class Grid extends Shape {
     constructor(keys, gaps=[25, 25], spacing, source, pos, radius, rgba, limit, drawEffectCB, ratioPosCB) {
         super(pos, null, radius, rgba, limit, drawEffectCB, ratioPosCB)
 
-        this._keys = keys // keys to convert to source's values 
-        this._gaps = gaps ?? [25, 25]// [x, y] gap length within the dots
-        this._source = source ?? fontSource5x5// symbols' source 
+        this._keys = keys                                                                                         // keys to convert to source's values 
+        this._gaps = gaps ?? [25, 25]                                                                             // [x, y] gap length within the dots
+        this._source = source ?? fontSource5x5                                                                    // symbols' source 
         this._spacing = spacing ?? this._source.width*this._gaps[0]+this._gaps[0]-this._source.width+this._radius // gap length within symbols
 
         if (this._keys) super.add(this.createGrid())
@@ -25,12 +25,11 @@ class Grid extends Shape {
     }
 
     createSymbol(symbol, pos=super.pos) {
-        let dotGroup = [], [gx, gy] = this._gaps,
-        xi=[0,0], yi=0, // y index
-        ar = Math.sqrt(this._source.width*this._source.height), // source radius
-        s = this._source[symbol.toUpperCase()]
-        if (s) s.map((d,i)=>[new Dot(pos[0]+(xi[0]=d[0]??xi[0]+1,isNaN(Math.abs(d[0]))?xi[0]:Math.abs(d[0]))*gx, pos[1]+(yi+=(xi[0]<=xi[1]||!i)||Math.sign(1/xi[0])==-1)*gy), d[1], yi*ar+(xi[1]=Math.abs(xi[0]))]).forEach(([dot, c, p],_,a)=>{
-            D.places.forEach(x=>{c&x[0]&&dot.addConnection(a.find(n=>n[2]==p+x[1](ar))?.[0])}) 
+        let dotGroup = [], [gx, gy] = this._gaps, xi=[0,0], yi=0, s = this._source[symbol.toUpperCase()],
+        ar = Math.sqrt(this._source.width*this._source.height) // source radius
+        
+        if (s) s.map((d,i)=>[new Dot([pos[0]+(xi[0]=d[0]??xi[0]+1,isNaN(Math.abs(d[0]))?xi[0]:Math.abs(d[0]))*gx, pos[1]+(yi+=(xi[0]<=xi[1]||!i)||Math.sign(1/xi[0])==-1)*gy]), d[1], yi*ar+(xi[1]=Math.abs(xi[0]))]).forEach(([dot, c, p],_,a)=>{
+            D.places.forEach(dir=>{c&dir[0]&&dot.addConnection(a.find(n=>n[2]==p+dir[1](ar))?.[0])}) 
             dotGroup.push(dot)
         })
         return dotGroup

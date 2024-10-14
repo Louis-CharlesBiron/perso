@@ -100,7 +100,7 @@ class Canvas {
     }
 
     reset() {
-        this.refs.forEach(r=>r.reset())
+        this.refs.filter(x=>x.fragile).forEach(r=>r.reset())
     }
 
     setSize(w, h) {

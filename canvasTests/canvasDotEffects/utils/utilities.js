@@ -36,7 +36,7 @@ class FPSCounter {
     set avgSample(s) {this._avgSampleSize = s}
 }
 
-Array.prototype.last=function(){return this[this.length-1]}
+Array.prototype.last=function(index=0){return this[this.length-1-index]}
 
 function getDist(x1, y1, x2, y2) {
     return Math.sqrt((x1-x2)**2 + (y1-y2)**2)
@@ -66,11 +66,42 @@ function getAcceptableDif(n, okDif) {
 const SHOW_CENTERS_DOT_ID = {}
 function toggleCenter(shape, radius=5, color=[255,0,0,1]) {
     if (!SHOW_CENTERS_DOT_ID[shape.id]) {
-        let dot = new Dot(shape.x, shape.y, radius, color)
+        let dot = new Dot(()=>[shape.x, shape.y], radius, color)
         SHOW_CENTERS_DOT_ID[shape.id] = dot.id
         cvsINDEX.add(dot, true)
     } else {
         cvsINDEX.remove(SHOW_CENTERS_DOT_ID[shape.id])
-        SHOW_CENTERS_DOT_ID[shape.id] = void 1
+        SHOW_CENTERS_DOT_ID[shape.id] = undefined
     }
+}
+
+// GENERICS //
+function _drawDotConnections(dot, rgba=[255,255,255,1], isSourceOver=false) {
+    let ctx = dot.ctx
+    if (!isSourceOver) ctx.globalCompositeOperation = "destination-over"
+    if (dot.connections.length) dot.connections.forEach(c=>{
+         ctx.strokeStyle = formatColor(rgba)
+         ctx.beginPath()
+         ctx.moveTo(dot.x, dot.y)
+         ctx.lineTo(c.x, c.y)
+         ctx.stroke()
+     })
+     if (!isSourceOver) ctx.globalCompositeOperation = "source-over"
+}
+
+function _drawOuterRing(dot, rgba=[255,255,255,1], multiplier) {
+    let ctx = dot.ctx
+    ctx.strokeStyle = formatColor(rgba)
+    ctx.beginPath()
+    ctx.arc(dot.x, dot.y, dot.radius*multiplier, 0, CIRC)
+    ctx.stroke()
+}
+
+function _drawConnections(dot, rgba=[255,255,255,1], sourcePos) {
+    let ctx = dot.ctx
+    ctx.strokeStyle = formatColor(rgba)
+    ctx.beginPath()
+    ctx.moveTo(sourcePos[0], sourcePos[1])
+    ctx.lineTo(dot.x, dot.y)
+    ctx.stroke()
 }

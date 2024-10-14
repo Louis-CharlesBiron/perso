@@ -159,6 +159,7 @@ chrome.storage.local.get((r)=>{
                 n.includes("aftermath") ||
                 n.includes("bloodbath") ||
                 n.includes("apollo 11") ||
+                n.includes("sigma interface") ||
                 n == "sonic wavesunix"
             ) newBeaten(l.title)
         })

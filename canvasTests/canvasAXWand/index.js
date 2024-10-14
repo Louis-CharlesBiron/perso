@@ -13,19 +13,19 @@ obstacles = [
     new Obs([0,0], [0,cvs.height]),// border left
     new Obs([cvs.width,0], [cvs.width,cvs.height]),// border right
 
-    //new Obs([100,150], [10, 450]),
-    //new Obs([100,655], [600, 700]),
-    //new Obs([210,355], [500, 400]),
-    //new Obs([300,150], [400, 350]),
+    new Obs([100,150], [10, 450]),
+    new Obs([100,655], [600, 700]),
+    new Obs([210,355], [500, 400]),
+    new Obs([300,150], [400, 350]),
     //new Obs([random(randPad, cvs.width-randPad),random(randPad, cvs.height-randPad)], [random(randPad, cvs.width-randPad), random(randPad, cvs.height-randPad)]),
     //new Obs([random(randPad, cvs.width-randPad),random(randPad, cvs.height-randPad)], [random(randPad, cvs.width-randPad), random(randPad, cvs.height-randPad)]),
     //new Obs([random(randPad, cvs.width-randPad),random(randPad, cvs.height-randPad)], [random(randPad, cvs.width-randPad), random(randPad, cvs.height-randPad)]),
     //new Obs([random(randPad, cvs.width-randPad),random(randPad, cvs.height-randPad)], [random(randPad, cvs.width-randPad), random(randPad, cvs.height-randPad)]),
     //new Obs([random(randPad, cvs.width-randPad),random(randPad, cvs.height-randPad)], [random(randPad, cvs.width-randPad), random(randPad, cvs.height-randPad)]),
 
-    new Obs([43, 144], [463, 624]),
-    new Obs([181, 492], [510, 372]),
-    new Obs([597, 643], [294, 147]),
+    //new Obs([43, 144], [463, 624]),
+    //new Obs([181, 492], [510, 372]),
+    //new Obs([597, 643], [294, 147]),
 ]
 
 cvs.add(source)

@@ -41,6 +41,7 @@ class Dot {
 
     queueAnim(anim, force) {
         if (this.currentAnim && force) this.currentAnim.end()
+        if (!anim.endCallback) anim.endCallback=()=>{this._anims.shift()}
         this._anims.push(anim)
         return anim
     }

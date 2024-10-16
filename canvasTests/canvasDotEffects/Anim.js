@@ -1,10 +1,10 @@
 let animIdGiver = 0
 class Anim {
     constructor(animation, duration, easing, endCallback) {
-        this._id = animIdGiver++                    //the main animation ()=>{}
-        this._animation = animation                 //the main animation ()=>{}
+        this._id = animIdGiver++                    
+        this._animation = animation                 //the main animation (progress)=>
         this._duration = duration??1000             //duration in ms
-        this._easing = easing||Anim.easeInOutQuad   //easing function ()=>{}
+        this._easing = easing||(x=>x)               //easing function (x)=>
         this._endCallback = endCallback             //function called when animation is over
 
         this._startTime = null                      //start time
@@ -24,6 +24,7 @@ class Anim {
     }
 
     end() {
+        this._animation(1)
         this._hasEnded = true
         if (typeof this._endCallback == "function") this._endCallback()
     }

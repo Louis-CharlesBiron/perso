@@ -32,6 +32,7 @@ class FPSCounter {
 
     get maxFps() {return this._maxFps-1}
     get avgSample() {return this._avgSampleSize}
+    get fpsRaw() {return this._t.length}
     
     set avgSample(s) {this._avgSampleSize = s}
 }

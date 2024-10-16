@@ -1,5 +1,5 @@
 const fpsCounter = new FPSCounter(), cvsINDEX = new Canvas(canvas, ()=>{//looping
-    fpsDisplay.textContent = fpsCounter.getFps()
+    fpsDisplay.textContent = fpsCounter.getFps()+"\n"+fpsCounter.fpsRaw
     mouseSpeed.textContent = cvsINDEX?.mouse?.speed?.toFixed(2)+" px/sec"
     mouseAngle.textContent = cvsINDEX?.mouse?.dir?.toFixed(2)+" deg"
 })

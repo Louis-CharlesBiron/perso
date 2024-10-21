@@ -4,6 +4,7 @@
 - on dot hover / click
 - filled shapes
 - rotate shape
+- shape / dot onsetup
 
 - fix scaling
 

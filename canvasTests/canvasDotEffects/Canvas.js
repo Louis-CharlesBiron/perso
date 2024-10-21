@@ -125,7 +125,7 @@ class Canvas {
                 let ref = Object.values(o)[0]
                 ref.cvs = this
                 ref.initialize()
-            }
+            } else o.initialize()
             this._els[isDef?"defs":"refs"].push(o)
         }
     }
@@ -133,6 +133,10 @@ class Canvas {
     remove(id) {
         this._els.defs = this._els.defs.filter(x=>x.id!==id)
         this._els.refs = this._els.refs.filter(x=>Object.values(x)[0].id!==id)
+    }
+
+    get(id) {
+        return this.allEls.find(el=>el.id == id)
     }
 
     getObjs(instance) {

@@ -26,6 +26,8 @@ class Shape {
         else if (this._initDots?.length) this.add(this._initDots)
         
         if (typeof this._initPos == "function") this._pos = this._initPos(this, this._dots)
+
+        this._dots.forEach(d=>d.initialize())
     }
 
     draw() {

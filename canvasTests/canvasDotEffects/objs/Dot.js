@@ -15,13 +15,15 @@ class Dot {
         this._connections = []    
     }
 
+    initialize() {
+        if (typeof this._pos == "function") {console.log(this._pos, "initialize");this._pos = this._initPos(this, this._parent)}
+    }
+
     draw(ctx, time) {
         ctx.fillStyle = formatColor(this._rgba)
         ctx.beginPath()
         ctx.arc(this.x, this.y, this._radius, 0, CIRC)
         ctx.fill()
-
-        if (typeof this._initPos == "function") this._pos = this._initPos(this, this._parent)
 
         if (typeof this.drawEffectCB == "function") {
             let dist = this.getDistance(), rawRatio = this.getRatio(dist)
@@ -65,10 +67,16 @@ class Dot {
         }, time, easing, ()=>this._anims.shift()), true)
     }
 
-    test() {
-
+    follow(duration, easing, ...progressSeparations) {
+        console.log(this._pos, "ADSASDASD")
+        let [ix, iy] = this._pos
+        this.queueAnim(new Anim((prog)=>{
+            let [nx, ny] = Object.values(progressSeparations.reduce((a,b)=>Object.keys(b)[0]>prog?a:b))[0](prog, this, ix, iy)
+            this.x = ix+nx
+            this.y = iy+ny
+        }, duration, easing))
     }
-
+    
     get id() {return this._id}
     get x() {return this._pos[0]}
     get y() {return this._pos[1]}

@@ -29,17 +29,16 @@ toggleCenter(test)
 let test2 = new Shape((shape, dots)=>{
     dots[0].addConnection(dots.last())
     dots[1].addConnection(dots.last(1))
-
-
     return [100,100]
-},[new Dot((dot, shape)=>{return [shape.x,20]}),new Dot([80,40]),new Dot([150,60]),new Dot([250,80]),
-], DEFAULT_RADIUS, DEFAULT_RGBA, 100, (ctx, dot, ratio)=>{
+},[new Dot((dot, shape)=>[shape.x,20]),new Dot([80,40]),new Dot([150,60]),new Dot([250,80])], DEFAULT_RADIUS, DEFAULT_RGBA, 100, (ctx, dot, ratio)=>{
     dot.a = mod(1, ratio, 0.8)
     dot.radius = mod(DEFAULT_RADIUS*2, ratio, DEFAULT_RADIUS*2*0.8)
 
     _drawOuterRing(dot, [255,255,255,0.2], 1.5)
     _drawDotConnections(dot, [255,0,0,mod(1, ratio, 0.8)])
 })
+
+
 
 let mouseup = false, adotShapeAnim
 let adotShape = new Shape([10,10],[new Dot([10,10])], null, null, null, (ctx, dot, ratio, m, dist)=>{
@@ -76,6 +75,9 @@ cvsINDEX.add({[Shape.childrenPath]:adotShape})
 cvsINDEX.add({[Shape.childrenPath]:test})
 cvsINDEX.add(le.asSource())
 cvsINDEX.add(test2.asSource())
+
+let w=400, h=50, freq=4
+test2.dots.last().follow(3000, null, {0:(prog, obj, ix)=>[w*prog, Math.sin((obj.x-ix)*(Math.PI/(w/freq)))*h]}, {0.5:(prog, obj, ix)=>[w-w*prog, Math.sin((obj.x-ix)*(Math.PI/(w/freq))+Math.PI)*h]})
 
 // USER ACTIONS
 let mMove=m=>mouseInfo.textContent = "("+m.x+", "+m.y+")"

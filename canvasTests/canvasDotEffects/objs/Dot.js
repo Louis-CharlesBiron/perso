@@ -69,12 +69,13 @@ class Dot {
         }, time, easing, ()=>this._anims.shift()), true)
     }
 
-    follow(duration, easing, ...progressSeparations) {
+    follow(duration, easing, action,  ...progressSeparations) {
         let [ix, iy] = this._pos
         this.queueAnim(new Anim((prog)=>{
             let [nx, ny] = Object.values(progressSeparations.reduce((a,b)=>Object.keys(b)[0]>prog?a:b))[0](prog, this, ix, iy)
             this.x = ix+nx
             this.y = iy+ny
+
         }, duration, easing))
     }
     

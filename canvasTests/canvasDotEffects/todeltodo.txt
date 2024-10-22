@@ -4,7 +4,6 @@
 - on dot hover / click
 - filled shapes
 - rotate shape
-- shape / dot onsetup
 
 - fix scaling
 
@@ -14,6 +13,7 @@
 // ADJUSTMENTS / PERFORMANCE ?
 - ex: adotshape, move shape pos when dot moves? see similar situations
 - refractor common attributes into new Obj class
+- infinite animation
 
 
 

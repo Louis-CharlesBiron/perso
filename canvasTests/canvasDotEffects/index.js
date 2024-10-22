@@ -37,8 +37,8 @@ let test2 = new Shape((shape, dots)=>{
     _drawOuterRing(dot, [255,255,255,0.2], 1.5)
     _drawDotConnections(dot, [255,0,0,mod(1, ratio, 0.8)])
 }, undefined, (shape)=>{
-    let w=400, h=50, freq=4
-    shape.dots.last().follow(3000, null, {0:(prog, obj, ix)=>[w*prog, Math.sin((obj.x-ix)*(Math.PI/(w/freq)))*h]}, {0.5:(prog, obj, ix)=>[w-w*prog, Math.sin((obj.x-ix)*(Math.PI/(w/freq))+Math.PI)*h]})
+    let w=400, h=50, freq=4, dot = shape.dots.last()
+    dot.follow(3000, null, {0:(prog, obj, ix)=>[w*prog, Math.sin((obj.x-ix)*(Math.PI/(w/freq)))*h]}, {0.5:(prog, obj, ix)=>[w-w*prog, Math.sin((obj.x-ix)*(Math.PI/(w/freq))+Math.PI)*h]})
 })
 
 
@@ -69,7 +69,7 @@ let le = new Grid("abcdefg\nhijklm\nnopqrs\ntuvwxyz", [5, 5], 50, null, [10,200]
     }
 
    _drawDotConnections(dot, [255,0,0,1])
-})
+}, ()=>adotShape.dots[0].pos)
 
 
 cvsINDEX.add(adotShape.asSource())

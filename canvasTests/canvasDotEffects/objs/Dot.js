@@ -4,7 +4,7 @@
 //
 
 class Dot {
-    constructor(pos, radius, rgba) {
+    constructor(pos, radius, rgba, setupCB) {
         this._id = idGiver++
         this._initPos = pos||[0,0]
         this._pos = this._initPos
@@ -13,10 +13,12 @@ class Dot {
         this._parent = null
         this._anims = []
         this._connections = []    
+        this._setupCB = setupCB    
     }
 
     initialize() {
-        if (typeof this._pos == "function") {console.log(this._pos, "initialize");this._pos = this._initPos(this, this._parent)}
+        if (typeof this._pos == "function") this._pos = this._initPos(this, this._parent)
+        if (typeof this._setupCB == "function") this._setupCB(this, this._parent)
     }
 
     draw(ctx, time) {
@@ -68,7 +70,6 @@ class Dot {
     }
 
     follow(duration, easing, ...progressSeparations) {
-        console.log(this._pos, "ADSASDASD")
         let [ix, iy] = this._pos
         this.queueAnim(new Anim((prog)=>{
             let [nx, ny] = Object.values(progressSeparations.reduce((a,b)=>Object.keys(b)[0]>prog?a:b))[0](prog, this, ix, iy)

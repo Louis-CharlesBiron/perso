@@ -4,7 +4,7 @@
 //
 
 class Shape {
-    constructor(pos, dots, radius, rgba, limit, drawEffectCB, ratioPosCB, fragile) {
+    constructor(pos, dots, radius, rgba, limit, drawEffectCB, ratioPosCB, setupCB, fragile) {
         this._cvs
         this._id = idGiver++
         this._initPos = pos || [0,0]            // initial shape center pos declaration / setup
@@ -17,6 +17,7 @@ class Shape {
         this._ratioPos = [Infinity,Infinity]    // position of ratio target object 
         this._drawEffectCB = drawEffectCB       // (ctx, Dot, ratio, mouse, distance, rawRatio)=>
         this._ratioPosCB = ratioPosCB           // custom ratio pos target (Shape, dots)=>
+        this._setupCB = setupCB                 // custom ratio pos target (Shape, dots)=>
         this._fragile = fragile||false          // whether the shape resets on document visibility change 
     }
 
@@ -27,6 +28,7 @@ class Shape {
         
         if (typeof this._initPos == "function") this._pos = this._initPos(this, this._dots)
 
+        if (typeof this._setupCB == "function") this._setupCB(this)
         this._dots.forEach(d=>d.initialize())
     }
 
@@ -141,10 +143,12 @@ class Shape {
     get ratioPos() {return this._ratioPos}
     static get childrenPath() {return "dots"}
     get ratioPosCB() {return this._ratioPosCB}
+    get setupCB() {return this._setupCB}
 
     set cvs(cvs) {this._cvs = cvs}
 	set pos(_pos) {return this._pos = _pos}
     set ratioPos(ratioPos) {this._ratioPos = ratioPos}
     set drawEffectCB(cb) {this._drawEffectCB = cb}
     set ratioPosCB(cb) {this._ratioPosCB = cb}
+    set setupCB(cb) {this._setupCB = cb}
 }

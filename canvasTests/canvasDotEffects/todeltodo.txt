@@ -29,7 +29,7 @@ d.queueAnim(new Anim((prog)=>{
         d.x = (ix+w) - w * prog
         d.y = iy + Math.sin((d.x-ix)*(Math.PI/(w/freq))+Math.PI)*h
     }
-    cvsINDEX.add(new Dot([d.x, d.y], 2, [255,0,0,1]),true)
+    CVS.add(new Dot([d.x, d.y], 2, [255,0,0,1]),true)
 }, 3000, (x)=>x))
  
 

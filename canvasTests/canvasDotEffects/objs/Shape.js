@@ -28,7 +28,9 @@ class Shape {
         
         if (typeof this._initPos == "function") this._pos = this._initPos(this, this._dots)
 
+        console.log("shape setup called", this.id)
         if (typeof this._setupCB == "function") this._setupCB(this)
+        
         this._dots.forEach(d=>d.initialize())
     }
 

@@ -1,7 +1,7 @@
-const fpsCounter = new FPSCounter(), cvsINDEX = new Canvas(canvas, ()=>{//looping
+const fpsCounter = new FPSCounter(), CVS = new Canvas(canvas, ()=>{//looping
     fpsDisplay.textContent = fpsCounter.getFps()+"\n"+fpsCounter.fpsRaw
-    mouseSpeed.textContent = cvsINDEX?.mouse?.speed?.toFixed(2)+" px/sec"
-    mouseAngle.textContent = cvsINDEX?.mouse?.dir?.toFixed(2)+" deg"
+    mouseSpeed.textContent = CVS?.mouse?.speed?.toFixed(2)+" px/sec"
+    mouseAngle.textContent = CVS?.mouse?.dir?.toFixed(2)+" deg"
 })
 
 // DECLARE OBJS
@@ -38,9 +38,17 @@ let test2 = new Shape((shape, dots)=>{
     _drawDotConnections(dot, [255,0,0,mod(1, ratio, 0.8)])
 }, undefined, (shape)=>{
     let w=400, h=50, freq=4, dot = shape.dots.last()
-    dot.follow(3000, null, {0:(prog, obj, ix)=>[w*prog, Math.sin((obj.x-ix)*(Math.PI/(w/freq)))*h]}, {0.5:(prog, obj, ix)=>[w-w*prog, Math.sin((obj.x-ix)*(Math.PI/(w/freq))+Math.PI)*h]})
-})
+    console.log("SETUP CALLED 2", shape.id)
+    dot.follow(1000, null, (prog, obj)=>{
+        let d = new Dot(obj.pos_, 3)
+        d.queueAnim(new Anim((progress)=>{
+            d.a=1-progress
+            if (progress==1) d.remove()
+        }, 1000))
+        CVS.add(d, true)
 
+    }, {0:(prog, obj, ix,iy)=>[ix+w*prog, iy+Math.sin((obj.x-ix)*(Math.PI/(w/freq)))*h]}, {0.5:(prog, obj, ix, iy)=>[ix+w-w*prog, iy+Math.sin((obj.x-ix)*(Math.PI/(w/freq))+Math.PI)*h]})
+})
 
 
 let mouseup = false, adotShapeAnim
@@ -72,18 +80,18 @@ let le = new Grid("abcdefg\nhijklm\nnopqrs\ntuvwxyz", [5, 5], 50, null, [10,200]
 }, ()=>adotShape.dots[0].pos)
 
 
-cvsINDEX.add(adotShape.asSource())
-cvsINDEX.add(test.asSource())
-cvsINDEX.add(le.asSource())
-cvsINDEX.add(test2.asSource())
+CVS.add(adotShape.asSource())
+CVS.add(test.asSource())
+CVS.add(le.asSource())
+CVS.add(test2.asSource())
 
 // USER ACTIONS
 let mMove=m=>mouseInfo.textContent = "("+m.x+", "+m.y+")"
-cvsINDEX.setmousemove(mMove)
-cvsINDEX.setmouseleave(mMove)
-cvsINDEX.setmousedown()
-cvsINDEX.setmouseup()
+CVS.setmousemove(mMove)
+CVS.setmouseleave(mMove)
+CVS.setmousedown()
+CVS.setmouseup()
 
 // START
-cvsINDEX.startLoop()
+CVS.startLoop()
 

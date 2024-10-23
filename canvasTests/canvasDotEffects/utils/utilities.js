@@ -69,9 +69,9 @@ function toggleCenter(shape, radius=5, color=[255,0,0,1]) {
     if (!SHOW_CENTERS_DOT_ID[shape.id]) {
         let dot = new Dot(()=>[shape.x, shape.y], radius, color)
         SHOW_CENTERS_DOT_ID[shape.id] = dot.id
-        cvsINDEX.add(dot, true)
+        CVS.add(dot, true)
     } else {
-        cvsINDEX.remove(SHOW_CENTERS_DOT_ID[shape.id])
+        CVS.remove(SHOW_CENTERS_DOT_ID[shape.id])
         SHOW_CENTERS_DOT_ID[shape.id] = undefined
     }
 }

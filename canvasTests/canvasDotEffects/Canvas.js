@@ -60,7 +60,7 @@ class Canvas {
     startLoop() {
         if (!this._looping) {
             this._looping = true
-            this.loop()
+            this.loop(0)
         }
     }
 
@@ -125,7 +125,10 @@ class Canvas {
                 let ref = Object.values(o)[0]
                 ref.cvs = this
                 ref.initialize()
-            } else o.initialize()
+            } else {
+                o.parent = this
+                o.initialize()
+            }
             this._els[isDef?"defs":"refs"].push(o)
         }
     }

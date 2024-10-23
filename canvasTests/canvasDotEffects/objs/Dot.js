@@ -17,7 +17,6 @@ class Dot {
     }
 
     initialize() {
-        if (this.id == 13)console.log("SETUP CALLED 1")
         if (typeof this._pos == "function") this._pos = this._initPos(this, this._parent)
         if (typeof this._setupCB == "function") this._setupCB(this, this._parent)
     }
@@ -32,8 +31,6 @@ class Dot {
             let dist = this.getDistance(), rawRatio = this.getRatio(dist)
             this.drawEffectCB(ctx, this, Math.min(1, rawRatio), this.cvs.mouse, dist, rawRatio)
         }
-
-        if (this.id==test2.dots.last().id && time<1000) console.log("GETFRAME CALLED", this._anims[0], time)
 
         if (this._anims[0]) this._anims[0].getFrame(time)
     }
@@ -74,7 +71,6 @@ class Dot {
 
     follow(duration, easing, action,  ...progressSeparations) {
         let [ix, iy] = this._pos, c1=0,c2=0
-        console.log("FOLLOW CALL INSIDE")
         
         //let d = test2.dots.last(), w = 400, h = 50, freq = 4
         //d.queueAnim(new Anim((prog)=>{
@@ -85,12 +81,10 @@ class Dot {
         //        d.x = ix + (w * prog)
         //        d.y = iy + (Math.sin((d.x-ix)*(Math.PI/(w/freq)))*h)
         //    }
-        //    console.log(d.x, d.y, getDist(d.x, d.y, ix, iy))
         //    CVS.add(new Dot([d.x, d.y], 2, [255,0,0,1]),true)
         //}, 1000, (x)=>x))
 
         this.queueAnim(new Anim((prog)=>{
-            console.log("ANIM FRAME:", c1++, prog, progressSeparations.reduce((a,b)=>Object.keys(b)[0]>prog?a:b,0))
             let [nx, ny] = Object.values(progressSeparations.reduce((a,b)=>Object.keys(b)[0]>prog?a:b,0))[0](prog, this, ix, iy)
             this.x = nx//ix+nx
             this.y = ny//iy+ny

@@ -38,16 +38,27 @@ let test2 = new Shape((shape, dots)=>{
     _drawDotConnections(dot, [255,0,0,mod(1, ratio, 0.8)])
 }, undefined, (shape)=>{
     let w=400, h=50, freq=4, dot = shape.dots.last()
-    console.log("SETUP CALLED 2", shape.id)
-    dot.follow(1000, null, (prog, obj)=>{
-        let d = new Dot(obj.pos_, 3)
-        d.queueAnim(new Anim((progress)=>{
-            d.a=1-progress
-            if (progress==1) d.remove()
-        }, 1000))
-        CVS.add(d, true)
 
-    }, {0:(prog, obj, ix,iy)=>[ix+w*prog, iy+Math.sin((obj.x-ix)*(Math.PI/(w/freq)))*h]}, {0.5:(prog, obj, ix, iy)=>[ix+w-w*prog, iy+Math.sin((obj.x-ix)*(Math.PI/(w/freq))+Math.PI)*h]})
+    let d = test2.dots.last(), ix=d.x, iy=d.y
+d.queueAnim(new Anim((prog)=>{
+    if (prog < 0.5) {
+        d.x = ix + w * prog
+        d.y = iy + Math.sin((d.x-ix)*(Math.PI/(w/freq)))*h
+    } else {
+        d.x = (ix+w) - w * prog
+        d.y = iy + Math.sin((d.x-ix)*(Math.PI/(w/freq))+Math.PI)*h
+    }
+    CVS.add(new Dot([d.x, d.y], 2, [255,0,0,1]),true)
+}, 1000, (x)=>x))
+
+    //dot.follow(1000, null, (prog, obj)=>{
+    //    let d = new Dot(obj.pos_, 3)
+    //        d.queueAnim(new Anim((progress)=>{
+    //            //d.a=1-progress
+    //            //if (progress==1) d.remove()
+    //        }, 1000))
+    //        CVS.add(d, true)
+    //}, {0:(prog, obj, ix,iy)=>[ix+w*prog, iy+Math.sin((obj.x-ix)*(Math.PI/(w/freq)))*h]}, {0.5:(prog, obj, ix, iy)=>[ix+w-w*prog, iy+Math.sin((obj.x-ix)*(Math.PI/(w/freq))+Math.PI)*h]})
 })
 
 

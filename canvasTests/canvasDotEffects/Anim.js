@@ -10,19 +10,14 @@ class Anim {
         this._startTime = null                      //start time
         this._progress = 0                          //animation progress
         this._hasEnded = false                      //if animation has ended
-
-        this._frame=0
     }
 
     getFrame(time) {//run in loop
-        console.log("GETFRAME INSIDE CALLED", time, this._startTime)
         if (!this._hasEnded) {
             // SET START TIME
             if (this._startTime==null) this._startTime = time
             // PLAY ANIMATION
             if (time<this._startTime+this._duration) {
-                this._frame++
-                console.log("GETFRAME CALLED INSIDE prog:", (time-this._startTime)/this._duration, time)
                 this._animation(this._progress = this._easing((time-this._startTime)/this._duration))}
             // END
             else this.end()
@@ -30,8 +25,6 @@ class Anim {
     }
 
     end() {
-        this._frame++
-        console.log(this._progress)
         this._animation(1)
         this._hasEnded = true
         if (typeof this._endCallback == "function") this._endCallback()

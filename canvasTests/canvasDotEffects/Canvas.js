@@ -3,12 +3,13 @@
 // Please don't use or credit this code as your own.
 //
 
-const DEFAULT_CVSDE_ATTR = "_CVSDE", DEFAULT_CVSFRAMEDE_ATTR = "_CVSDE_F", DEFAULT_CTX_SETTINGS = {"lineCap":"round", "imageSmoothingEnabled":false, "lineWidth":2, "fillStyle":"aliceblue", "stokeStyle":"aliceblue"}, TIMEOUT_FN = window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame||window.msRequestAnimationFrame, CIRC = 2*Math.PI, DEFAULT_COLOR = "aliceblue", DEFAULT_RGBA=[255,255,255,1], DEFAULT_RADIUS = 5, DEFAULT_CANVAS_WIDTH = 800, DEFAULT_CANVAS_HEIGHT = 800, DEFAULT_CANVAS_STYLES = {position:"absolute",width:"100%",height:"100%","background-color":"transparent",border:"none",outline:"none","pointer-events":"none !important","z-index":0,padding:"0 !important",margin:"0"}, DEFAULT_MOUSE_DECELERATION = 0.8, DEFAULT_MOUSE_MOVE_TRESHOLD = 0.1, DEFAULT_MOUSE_ANGULAR_DECELERATION = 0.2
+const DEFAULT_FRAME_SKIPPING_DELAY = 13; DEFAULT_CVSDE_ATTR = "_CVSDE", DEFAULT_CVSFRAMEDE_ATTR = "_CVSDE_F", DEFAULT_CTX_SETTINGS = {"lineCap":"round", "imageSmoothingEnabled":false, "lineWidth":2, "fillStyle":"aliceblue", "stokeStyle":"aliceblue"}, TIMEOUT_FN = window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame||window.msRequestAnimationFrame, CIRC = 2*Math.PI, DEFAULT_COLOR = "aliceblue", DEFAULT_RGBA=[255,255,255,1], DEFAULT_RADIUS = 5, DEFAULT_CANVAS_WIDTH = 800, DEFAULT_CANVAS_HEIGHT = 800, DEFAULT_CANVAS_STYLES = {position:"absolute",width:"100%",height:"100%","background-color":"transparent",border:"none",outline:"none","pointer-events":"none !important","z-index":0,padding:"0 !important",margin:"0"}, DEFAULT_MOUSE_DECELERATION = 0.8, DEFAULT_MOUSE_MOVE_TRESHOLD = 0.1, DEFAULT_MOUSE_ANGULAR_DECELERATION = 0.2
 let idGiver = 0
 
 class Canvas {
     //privates
     #lastFrame = 0  // for delta time
+    #frameSkipsOffset = null // for
 
     constructor(cvs, loopingCallback, frame, settings=DEFAULT_CTX_SETTINGS) {
         this._cvs = cvs                                         //html canvas el
@@ -26,6 +27,7 @@ class Canvas {
         this._maxDeltaTime = 0.1                                //max delta time in seconds
         this._deltaTime = null                                  //useable delta time in seconds
         this._timeStamp = null                                  //requestanimationframe timestamp in ms
+        this._fixedTimeStamp = null                             //fixed (offsets lag spikes) requestanimationframe timestamp in ms
 
         this._windowListeners = this.initWindowListeners()      //[onresize, onvisibilitychange]
         
@@ -65,15 +67,27 @@ class Canvas {
     }
 
     loop(time) {
+        let delay = Math.abs((time-this._timeStamp)-this.deltaTime*1000)
+        if (this._fixedTimeStamp==0) this._fixedTimeStamp = time-this.#frameSkipsOffset
+        if (time && delay < DEFAULT_FRAME_SKIPPING_DELAY) {
+            //console.log("draw", this._fixedTimeStamp, time, delay, "|", this.#frameSkipsOffset)
+            this.calcMouseSpeed()
+
+            this.clear()
+            this.draw()
+            
+            if (this._cb) this._cb() //custom callback
+
+            this._fixedTimeStamp = 0
+        } else if (time) {
+            this.#frameSkipsOffset += DEFAULT_FRAME_SKIPPING_DELAY
+            this._fixedTimeStamp = time-this.#frameSkipsOffset
+            this.#frameSkipsOffset += DEFAULT_FRAME_SKIPPING_DELAY
+            //console.log(delay, time, "FRAME SKIPPED")
+        }
+
         this._timeStamp = time
         this.calcDeltaTime(time)
-        this.calcMouseSpeed()
-
-        this.clear()
-        this.draw()
-        
-        if (this._cb) this._cb() //custom callback
-
         if (this._looping) TIMEOUT_FN(this.loop.bind(this))
     }
 
@@ -91,7 +105,7 @@ class Canvas {
             let o=Object.entries(x)
             return o[0][1][o[0][0]]
         })].forEach(el=>{
-            if (el.draw) el.draw(this._ctx, this._timeStamp)
+            if (el.draw) el.draw(this._ctx, this._fixedTimeStamp||this._timeStamp)
         })
     }
 

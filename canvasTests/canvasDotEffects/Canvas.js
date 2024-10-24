@@ -69,7 +69,7 @@ class Canvas {
     loop(time) {
         let delay = Math.abs((time-this._timeStamp)-this.deltaTime*1000)
         if (this._fixedTimeStamp==0) this._fixedTimeStamp = time-this.#frameSkipsOffset
-        if (time && delay < DEFAULT_FRAME_SKIPPING_DELAY) {
+        if (time && this._fixedTimeStamp && delay < DEFAULT_FRAME_SKIPPING_DELAY) {
             //console.log("draw", this._fixedTimeStamp, time, delay, "|", this.#frameSkipsOffset)
             this.calcMouseSpeed()
 
@@ -83,7 +83,7 @@ class Canvas {
             this.#frameSkipsOffset += DEFAULT_FRAME_SKIPPING_DELAY
             this._fixedTimeStamp = time-this.#frameSkipsOffset
             this.#frameSkipsOffset += DEFAULT_FRAME_SKIPPING_DELAY
-            //console.log(delay, time, "FRAME SKIPPED")
+            console.log(delay, time, "FRAME SKIPPED")
         }
 
         this._timeStamp = time

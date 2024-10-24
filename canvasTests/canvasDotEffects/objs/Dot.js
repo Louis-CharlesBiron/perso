@@ -70,7 +70,7 @@ class Dot {
     }
 
     follow(duration, easing, action,  ...progressSeparations) {
-        let [ix, iy] = this._pos, c1=0,c2=0
+        let [ix, iy] = this._pos
         
         //let d = test2.dots.last(), w = 400, h = 50, freq = 4
         //d.queueAnim(new Anim((prog)=>{
@@ -83,11 +83,20 @@ class Dot {
         //    }
         //    CVS.add(new Dot([d.x, d.y], 2, [255,0,0,1]),true)
         //}, 1000, (x)=>x))
-
         this.queueAnim(new Anim((prog)=>{
-            let [nx, ny] = Object.values(progressSeparations.reduce((a,b)=>Object.keys(b)[0]>prog?a:b,0))[0](prog, this, ix, iy)
-            this.x = nx//ix+nx
-            this.y = ny//iy+ny
+    let w=400, h=50, freq=4
+    let c
+            if (prog < 0.5) {
+                c = 0
+                console.log(c, w*prog, Math.sin((this.x-ix)*(Math.PI/(w/freq)))*h, [w*prog, Math.sin((this.x-ix)*(Math.PI/(w/freq)))*h])
+            } else {
+                c=0.5
+                console.log(c, w-w*prog, Math.sin((this.x-ix)*(Math.PI/(w/freq))+Math.PI)*h, [w-w*prog, Math.sin((this.x-ix)*(Math.PI/(w/freq))+Math.PI)*h])
+            }   
+            let [nx, ny] = Object.values(progressSeparations.reduce((a,b)=>Object.keys(b)[0]>prog?a:b))[0](prog, this, ix, iy)
+            console.log(progressSeparations.reduce((a,b)=>Object.keys(b)[0]>prog?a:b), nx, ny, c)
+            this.x = ix+nx
+            this.y = iy+ny
             if (typeof action == "function") action(prog, this)
         }, duration, easing))
 

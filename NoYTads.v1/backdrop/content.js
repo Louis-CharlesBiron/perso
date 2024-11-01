@@ -31,7 +31,7 @@ function init() {
         })
 
         //video ads
-        if (document.querySelectorAll("[class*=ad-preview]").length) {
+        if (document.querySelectorAll("[class*=ad-avatar], [class*=ad-pod], [class*=skip-ad-button]").length) {
             let vid = document.querySelector("#movie_player video")
             vid.currentTime = vid.duration
         }

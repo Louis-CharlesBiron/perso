@@ -267,7 +267,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
     align-items: center;
 }
 
-#edit_close, #s_close {
+#edit_close, #s_close, #settings_menu_close {
     position: absolute;
     top: 0px;
     right: 0px;
@@ -967,4 +967,12 @@ span.thing3 {
 span.thing1 {
     width: 40%;
     text-align: end;
+}
+
+#settings_p {
+    position: absolute;
+    left: 17%;
+    top: 3.5%;
+    cursor: pointer;
+    z-index: 11;
 }

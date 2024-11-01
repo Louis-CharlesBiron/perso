@@ -2,6 +2,8 @@
 // MyDemonList Extension by Louis-Charles Biron
 // Please don't use or credit this code as your own.
 //
+// This code is quite messy
+//
 
 let level_list = []
 
@@ -118,6 +120,12 @@ function close_edit_menu() {
 edit_close.onclick=close_edit_menu
 
 add_level.onclick=()=>{edit()}
+
+
+settings_menu_close.onclick=()=>settings_menu.style.display = "none"
+
+settings_p.onclick=()=>
+    settings_menu.style.display = ""
 
 
 let mainSongsID = [500476, 522654, 523561, 49854, 404997, 485351, 168734, 529148, 291458, 516735, 505816, 350290, 479319, 790341, 368392, 568699, 230308, 472925, 641172, 503731, 860287, 1284388]

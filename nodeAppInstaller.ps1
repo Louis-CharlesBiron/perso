@@ -8,7 +8,6 @@ $dest = "C:\DESTINATION" # TEMP FOLDER
 Copy-Item -Path $source -Destination $dest -Recurse
 Set-Location $dest
 
-
 #NODE RUNTIME
 $node = "$dest\$appName\nodeRuntime\node.exe"
 

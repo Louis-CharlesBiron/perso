@@ -1,5 +1,0 @@
-// JS
-// Template Extension by Louis-Charles Biron
-// Please don't use nor credit this code as your own.
-//
-

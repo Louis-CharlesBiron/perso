@@ -1,0 +1,13 @@
+.LevelDetails {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3%;
+    padding-top: 2%;
+    border-top: 3px solid black;
+    letter-spacing: 1px;
+    user-select: text;
+}
+
+.ld_detail {
+    margin-top: 1.5%;
+}

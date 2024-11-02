@@ -1,0 +1,73 @@
+.LevelDisplay {
+    width: 90%;
+    padding: 2%;
+    background-color: #292b2f;
+    border: 2px solid black;
+    border-radius: 2px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.ld_main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.ld_top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.ld_img {
+    width: 96px;
+    height: 96px;
+    opacity: 0.5;
+    outline: 2px solid rgb(240 248 255 / 85%);
+    border-radius: 2px;
+}
+
+.ld_display {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 6%;
+    margin-left: 5%;
+    width: calc(100% - 98px - 5%);
+}
+
+.ld_name {
+    font-weight: bold;
+    font-size: 1.35em;
+}
+
+.ld_expand {
+    position: absolute;
+    bottom: -4px;
+    right: -5px;
+    width: 10.5%;
+    cursor: pointer;
+}
+
+.ld_edit {
+    position: absolute;
+    top: 3px;
+    right: -1px;
+    width: 8.5%;
+    cursor: pointer;
+}
+
+.ld_edit > svg {
+    fill: #616263 !important;
+}
+
+.ld_link {
+    margin-top: 4%;
+    text-indent: 2%;
+    width: 50%;
+}

@@ -1,0 +1,47 @@
+import { useRef, useState } from 'react'
+import './CSS/LevelDisplay.css'
+import IconButton from './IconButton'
+import LevelDetails from './LevelDetails'
+import Level from '../models/Level'
+import { capitalize } from "../Utils/Utility"
+
+/**
+ * Don't forget the doc!
+ * @param {*}
+ */
+function LevelDisplay({level}) {
+
+    const [expanded, setExpanded] = useState(false),
+           expandBtnRef = useRef(null)
+
+    function toggleExpanded() {
+        setExpanded(x => !x)
+        expandBtnRef.current.classList[expanded ? "remove" : "add"]("flip")
+        expandBtnRef.current.title = expanded ? "See details" : "Hide details"
+    }
+
+
+    return <div className="LevelDisplay">
+
+        <div className="ld_main">
+            <IconButton className="ld_expand" size="48" ref={expandBtnRef} onClick={toggleExpanded}>$expand</IconButton>
+            <IconButton className="ld_edit" size="32">$edit</IconButton>
+
+            <div className="ld_top">
+                <iframe src={level.url} loading="lazy" frameBorder="0" title={"Cool Video of "+level.name} className="ld_img" allow="autoplay; encrypted-media; picture-in-picture;"></iframe>
+                <div className="ld_display">
+                    <span className="ld_name" title={level.title}><span className="level1">#1</span> - {level.name}</span>
+                    <span id="ld_link" className="link" title={"Open "+level.url}>Completion Vid</span>
+                </div>
+            </div>
+        </div>
+
+
+        {expanded && [Level.PERSO_INFOS_DISPLAY_PROPS, Level.LEVEL_INFOS_DISPLAY_PROPS].map((info, i)=>
+            <LevelDetails key={i} list={info.map(({prop, mod})=>({key:capitalize(prop), value:mod?level[mod](level[prop]):level[prop]})).filter(x=>x.value)} className="LevelDetails"></LevelDetails>
+        )}
+
+
+    </div>
+}
+export default LevelDisplay

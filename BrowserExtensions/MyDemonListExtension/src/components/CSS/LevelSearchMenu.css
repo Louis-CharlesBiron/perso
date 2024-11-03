@@ -1,0 +1,112 @@
+.LevelSearchMenu {
+    width: 90%;
+    height: 81%;
+    display: flex;
+    flex-direction: column;
+    padding: 2% 0%;
+    outline: solid black 3px;
+    background-color: #141313;
+    color: #cbd9e6;
+    border-radius: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lsm_inputs {
+    width: 90%;
+    height: 20%;
+    margin-left: 2%;
+    margin-right: 1%;
+    display: flex;
+    flex-direction: row;
+}
+
+.lsm_filterSettings {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 70%;
+    align-items: center;
+}
+
+.lsm_filterSettings > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+}
+
+.lsm_filterWhich {
+    background-color: #1d1d1d;
+    border: none;
+    border-bottom: 2px solid #a3b6c6;
+    border-radius: 1px;
+    outline: none;
+    color: #c0d5e6;
+    width: 40%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.lsm_filterMode {
+    background-color: #1d1d1d;
+    border: none;
+    border-bottom: 2px solid #a3b6c6;
+    border-radius: 1px;
+    outline: none;
+    color: #c0d5e6;
+    width: 16%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    text-align: center;
+}
+
+.lsm_filterInput {
+    width: 40%;
+    height: 80%;
+    background-color: #1d1d1d;
+    border: none;
+    border-bottom: 2px solid #a3b6c6;
+    border-radius: 1px;
+    outline: none;
+    color: #c0d5e6;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.lsm_resultsParent {
+    width: 90%;
+    height: 71%;
+    margin-left: 2%;
+    margin-right: 1%;
+}
+
+.lsm_resultCountParent {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 3px solid black;
+    padding-bottom: 1%;
+    letter-spacing: 4px;
+    font-size: 1.2em;
+    border-radius: 2px;
+}
+
+#lsm_resultList {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3%;
+    overflow: overlay;
+    height: 93%;
+}
+
+.lsm_result {
+    margin-bottom: 5px;
+    cursor: pointer;
+}

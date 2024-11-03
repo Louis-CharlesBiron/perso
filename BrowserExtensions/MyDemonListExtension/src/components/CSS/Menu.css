@@ -1,3 +1,35 @@
 .Menu {
-    
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #151515;
+    width: 100%;
+    height: 100%;
+    z-index: 1010;
+}
+
+.m_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.m_close {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    cursor: pointer;
+}
+
+.m_header {
+    font-size: 1.4em;
+    letter-spacing: 3px;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: rgb(240 248 255 / 30%);
+    margin: 2% 0%;
 }

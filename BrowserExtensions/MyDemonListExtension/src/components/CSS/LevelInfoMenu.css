@@ -1,0 +1,176 @@
+.LevelInfoMenu {
+    width: 90%;
+    height: 75%;
+    display: flex;
+    flex-direction: column;
+    padding: 2% 0%;
+    outline: solid black 3px;
+    background-color: #141313;
+    color: #cbd9e6;
+    border-radius: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.LevelInfoMenu label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+    text-indent: 8px;
+    white-space: nowrap;
+    letter-spacing: 1.5px;
+    font-size: 0.97em;
+}
+
+.LevelInfoMenu input {
+    background-color: #1d1d1d;
+    border: none;
+    border-bottom: 2px solid #a3b6c6;
+    border-radius: 1px;
+    outline: none;
+    color: #c0d5e6;
+    width: 90%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    text-indent: 3px;
+}
+
+.lim_hv {
+    position: absolute;
+    left: 0.5%;
+    top: 91.1%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.lim_hv > input {
+    background-color: transparent;
+    border: none;
+    opacity: .1;
+    font-size: 0.7em;
+    letter-spacing: 1px;
+    margin-top: -2.5%;
+}
+
+.lim_valuesID {
+    width: 83%;
+    height: 12%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.lim_valuesID > label {
+    height: 75%;
+    width: 48%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.lim_valuesID > label > input {
+    height: 60%;
+    width: 72%;
+}
+
+.lim_valuesID > label > div {
+    cursor: pointer;
+    height: 80%;
+    width: 55%;
+    display: flex;
+    padding: 0% 4%;
+    letter-spacing: 2px;
+    color: #cbd9e6;
+    background-color: #1d1d1d;
+    border: 2px solid #a3b6c6;
+    border-radius: 2px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 24%;
+    outline: none;
+}
+
+.lim_values {
+    display: flex;
+    flex-direction: row;
+    height: 90%;
+    width: 90%;
+    justify-content: flex-end;
+}
+
+.lim_values > div {
+    height: 100%;
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.lim_e_diff {
+    background-color: #1d1d1d;
+    border: none;
+    border-bottom: 2px solid #a3b6c6;
+    border-radius: 1px;
+    outline: none;
+    color: #c0d5e6;
+    width: 92.5%;
+    height: 60%;
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+.yoyo {
+    display: flex;
+    width: 100%;
+    height: 60%;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+.yoyo > input {
+    width: 70%;
+    text-align: center;
+}
+
+.lim_errorDiv {
+    color: #bb0404;
+    font-size: 0.8em;
+    position: absolute;
+    top: 1%;
+    left: 1.6%;
+    width: 40%;
+    letter-spacing: 1px;
+    font-weight: bold;
+    opacity: 0;
+}
+
+.lim_saveBtn {
+    position: absolute;
+    bottom: 10px;
+    background-color: #1d1d1d;
+    border: 2px solid #505f6a;
+    border-radius: 4px;
+    outline: none;
+    color: #c0d5e6;
+    height: 6%;
+    width: 25%;
+    letter-spacing: 2px;
+    cursor: pointer;
+}
+
+.lim_deleteBtn {
+    position: absolute;
+    bottom: 5px;
+    right: 2px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}

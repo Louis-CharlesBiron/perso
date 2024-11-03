@@ -5,6 +5,10 @@ import MainList from './components/MainList'
 import StatusInfo from './components/StatusInfo'
 import LevelManager from './models/LevelManager'
 import {LevelsContext} from './components/contexts/LevelsContext.jsx'
+import Menu from './components/Menu.jsx'
+import LevelInfoMenu from './components/LevelInfoMenu.jsx'
+import LevelSearchMenu from './components/LevelSearchMenu.jsx'
+import SettingsMenu from './components/SettingsMenu.jsx'
 
 function App() {
 
@@ -18,6 +22,18 @@ function App() {
 
       <MainHeader/>
       <MainList/>
+
+      {/* <Menu headerText="Create">
+        <LevelInfoMenu></LevelInfoMenu>
+      </Menu> */}
+ 
+      {/* <Menu headerText="Search">
+        <LevelSearchMenu></LevelSearchMenu>
+      </Menu> */}
+
+      <Menu headerText="Settings">
+        <SettingsMenu></SettingsMenu>
+      </Menu>
       
     </LevelsContext.Provider>
   )

@@ -1,9 +1,10 @@
-import { useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import './CSS/LevelDisplay.css'
 import IconButton from './IconButton'
 import LevelDetails from './LevelDetails'
 import Level from '../models/Level'
 import { capitalize } from "../Utils/Utility"
+import { ActiveMenuContext, MENU_TYPES } from './contexts/ActiveMenuContext'
 
 /**
  * Don't forget the doc!
@@ -12,7 +13,10 @@ import { capitalize } from "../Utils/Utility"
 function LevelDisplay({level}) {
 
     const [expanded, setExpanded] = useState(false),
-           expandBtnRef = useRef(null)
+          expandBtnRef = useRef(null),
+          [,setActiveMenu] = useContext(ActiveMenuContext)
+
+
 
     function toggleExpanded() {
         setExpanded(x => !x)
@@ -20,18 +24,17 @@ function LevelDisplay({level}) {
         expandBtnRef.current.title = expanded ? "See details" : "Hide details"
     }
 
-
     return <div className="LevelDisplay">
 
         <div className="ld_main">
             <IconButton className="ld_expand" size="48" ref={expandBtnRef} onClick={toggleExpanded}>$expand</IconButton>
-            <IconButton className="ld_edit" size="32">$edit</IconButton>
+            <IconButton className="ld_edit" size="32" onClick={()=>setActiveMenu(MENU_TYPES.LEVEL)}>$edit</IconButton>
 
             <div className="ld_top">
                 <iframe src={level.url} loading="lazy" frameBorder="0" title={"Cool Video of "+level.name} className="ld_img" allow="autoplay; encrypted-media; picture-in-picture;"></iframe>
                 <div className="ld_display">
                     <span className="ld_name" title={level.title}><span className="level1">#1</span> - {level.name}</span>
-                    <span id="ld_link" className="link" title={"Open "+level.url}>Completion Vid</span>
+                    <span className="link ld_link" title={"Open "+level.url}>Completion Vid</span>
                 </div>
             </div>
         </div>

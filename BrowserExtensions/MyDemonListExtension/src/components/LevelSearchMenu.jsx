@@ -8,8 +8,8 @@ function LevelSearchMenu() {
     return <div className="LevelSearchMenu">
 
         {/* FILTER SETTINGS */}
-        <div class="lsm_inputs">
-            <div class="lsm_filterSettings">
+        <div className="lsm_inputs">
+            <div className="lsm_filterSettings">
                 <span>Filter levels by:</span>
                 <div>
                     <select className="lsm_filterWhich">

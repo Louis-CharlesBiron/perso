@@ -1,14 +1,23 @@
-- menu component (add level, modify level, search, settings)
-- sidebar component (overview, profile)
 
-- section component
 
-- overview
-- profile
-- search
-- settings
 
+FUNCTIONNALITIES
 - storage
 - add/modify/delete level
 - import/export
 
+--OVERVIEW
+-
+--PROFILE
+- 
+
+
+
+- css hover/active
+
+
+
+
+DONE
+- menu component (add level, modify level, search, settings)
+- sidebar component (overview, profile)

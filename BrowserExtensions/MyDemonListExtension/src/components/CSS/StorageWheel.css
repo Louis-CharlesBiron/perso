@@ -1,0 +1,49 @@
+.StorageWheel {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sw_back {
+    stroke: #534f4f;
+}
+
+.sw_wheel {
+    fill: #181717;
+    position: relative;
+    border-radius: 100%;
+}
+
+.sw_progress {
+    fill: none;
+    stroke: #78addb;
+    transition: stroke-dasharray 0.45s ease-out 0s;
+    stroke-dasharray: 0, 900, 900;
+    transform-origin: center;
+    transform: rotateZ(270deg);
+}
+
+.sw_infoParent {
+    position: absolute;
+    width: 132px;
+    height: 76px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12.5px !important;
+}
+
+.sw_storageSelect {
+    text-align: center;
+    border: 1px solid #a1b7c1;
+    border-bottom: 2px solid #a3b6c6;
+    padding: 2%;
+    background-color: #1d1d1d;
+    border-radius: 3px;
+    color: #c0d5e6;
+    outline: none;
+    
+}

@@ -1,0 +1,172 @@
+
+.InfoSection > label {
+    font-weight: bold;
+    font-size: 1.3em;
+    width: 100%;
+    text-align: center;
+    text-decoration: underline;
+    text-decoration-color: rgb(240 248 255 / 35%);
+    text-underline-offset: 2px;
+}
+
+
+/* SIMPLE */
+
+.is_simple {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 2% 0%;
+    padding: 4% 0%;
+    border: 2px solid #535557;
+    border-radius: 3px;
+    background-color: #151517;
+    font-weight: bold;
+}
+
+.is_simple > span {
+    font-size: 0.95em;
+    margin-top: 2%;
+    font-weight: normal;
+}
+
+/* LIST */
+
+.is_list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+    margin: 2% 0%;
+    padding: 4% 0%;
+    border: 2px solid #535557;
+    border-radius: 3px;
+    background-color: #151517;
+}
+
+.is_list > div {
+    width: 85%;
+    font-size: 0.95em;
+    padding-right: 4%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 2%;
+    align-items: flex-start;
+    margin-right: 1%;
+}
+
+.is_list span {
+    text-transform: capitalize;
+}
+
+/* ICON LIST */
+
+.is_iconList > div > span {
+    margin-top: 3%;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1em;
+}
+
+.is_iconList > div > span > span {
+    width: 39%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.is_iconList > div > span > span > label {
+    cursor: pointer;
+}
+
+/* SIMPLE INPUT */
+
+.is_block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 2% 0%;
+    padding: 4% 0%;
+    border: 2px solid #535557;
+    border-radius: 3px;
+    background-color: #151517;
+}
+
+.is_simpleInput > input {
+    width: 50%;
+    height: 15%;
+    padding: 2%;
+    margin-top: 2%;
+    background-color: #1c1c1d;
+    border: none;
+    border-bottom: 2px solid #a3b6c6;
+    border-radius: 2px;
+    color: aliceblue;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-align: center;
+    outline: none;
+}
+
+/* ICON_LIST2 */
+
+.is_dtWrapper {
+    width: 93% !important;
+}
+
+.is_demonTotals {
+    width: 70%;
+}
+
+.is_dtkey {
+    width: 25% !important;
+}
+
+.is_dt1 {
+    width: 40%;
+    text-align: end;
+}
+
+.is_dt2 {
+    width: 20%;
+    text-align: center;
+}
+.is_dt3 {
+    width: 35%;
+    text-align: start;
+}
+
+/* INFO_LIST */
+
+.is_infoList > div {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2%;
+    width: 80%;
+    align-items: center;
+    margin-right: 1%;
+}
+
+.is_infoList > div > div {
+    margin-top: 5%;
+    width: 72%;
+    display: flex;
+    font-weight: bold;
+    justify-content: space-between;
+}
+
+.is_infoList > div > div > span {
+    font-weight: normal;
+}
+
+.InfoSection:hover {
+    border: 2px solid #a2a8ac;
+    border-radius: 6px;
+}
+

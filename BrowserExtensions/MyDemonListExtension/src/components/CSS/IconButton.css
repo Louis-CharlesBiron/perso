@@ -1,6 +1,10 @@
 svg {
     fill: #9ea4a9;
-    transition: 0.3s all;
+    transition: 0.05s all !important;
+}
+
+svg:hover {
+    fill: aliceblue;
 }
 
 .iconButton {
@@ -13,4 +17,6 @@ svg {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
+

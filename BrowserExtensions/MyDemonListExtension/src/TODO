@@ -5,9 +5,33 @@ FUNCTIONNALITIES
 - storage
 - add/modify/delete level
 - import/export
+- lastDeleted
+
+--LIST
+- manage ranks
+- css for ranks
+
+--ADD LEVEL
+- api call
+- save
+~ check field values?
+~ scroll into view
+
+--MODIFY LEVEL
+- api call
+- display already existing info
+- get all field value and update level and save
+- remove level
+
+--SETTINGS
+- 
+
+--SEARCH
+- 
 
 --OVERVIEW
--
+- 
+
 --PROFILE
 - 
 

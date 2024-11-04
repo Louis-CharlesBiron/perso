@@ -9,13 +9,14 @@ import { ActiveMenuContext, MENU_TYPES } from './contexts/ActiveMenuContext'
  * @param {html} children: main content of the menu  
  */
 function Menu({headerText, children}) {
-    const [activeMenu, setActiveMenu] = useContext(ActiveMenuContext)
+    const [activeMenu, setActiveMenu] = useContext(ActiveMenuContext),
+          isCreationMenu = activeMenu && typeof activeMenu == "object" && headerText.toUpperCase()==MENU_TYPES.LEVEL
 
     return <>{
-        activeMenu==headerText.toUpperCase() && <div className="Menu">
+        (activeMenu==headerText.toUpperCase() || isCreationMenu) && <div className="Menu">
             <div className="m_content">
                 <IconButton size="42" className="m_close" onClick={()=>setActiveMenu(MENU_TYPES.CLOSED)}>$close</IconButton>
-                <h2 className="m_header">{headerText}</h2>
+                <h2 className="m_header">{isCreationMenu ? "Edit" : headerText}</h2>
                 {children}
             </div>
         </div>

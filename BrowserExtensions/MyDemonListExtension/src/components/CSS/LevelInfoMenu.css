@@ -140,18 +140,6 @@
     text-align: center;
 }
 
-.lim_errorDiv {
-    color: #bb0404;
-    font-size: 0.8em;
-    position: absolute;
-    top: 1%;
-    left: 1.6%;
-    width: 40%;
-    letter-spacing: 1px;
-    font-weight: bold;
-    opacity: 0;
-}
-
 .lim_saveBtn {
     position: absolute;
     bottom: 10px;
@@ -173,4 +161,35 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
+}
+
+.lim_errorDiv {
+    color: #c70606;
+    font-size: 0.9em;
+    position: absolute;
+    top: 1%;
+    left: 1.6%;
+    width: 40%;
+    letter-spacing: 1px;
+    font-weight: bold;
+    opacity: 0;
+}
+
+.lim_errorDivAnim {
+    animation: errorAnim 3s 0s 1 forwards;
+}
+
+@keyframes errorAnim {
+    0% {
+        opacity: 0;
+    }
+    15% {
+        opacity: 1;
+    }
+    85% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }

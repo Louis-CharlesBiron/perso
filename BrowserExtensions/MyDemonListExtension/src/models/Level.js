@@ -5,60 +5,78 @@
 let idGiver = 0
 
 class Level {
-    constructor(name, title, url, attempts, progs, time, date, enjoy, id, length, song, songURL, objects, diff, creator, featureLevel, gameVersion, lazyLength, storageType) {
+    constructor(nameOrLevel, title, url, attempts, progs, time, date, enjoy, id, length, song, songURL, objects, diff, creator, featureLevel, gameVersion, lazyLength, storageType) {
         this._uid = idGiver++
         
-        if (typeof name == "object") {}
+        if (typeof nameOrLevel == "object") {
+            id = nameOrLevel.id
+            title = nameOrLevel.title
+            url = nameOrLevel.url
+            attempts = nameOrLevel.attempts
+            progs = nameOrLevel.progs
+            time = nameOrLevel.time
+            date = nameOrLevel.date
+            enjoy = nameOrLevel.enjoy
+            length = nameOrLevel.length
+            song = nameOrLevel.song
+            songURL = nameOrLevel.songURL
+            objects = nameOrLevel.objects
+            diff = nameOrLevel.diff
+            creator = nameOrLevel.creator
+            featureLevel = nameOrLevel.featureLevel
+            gameVersion = nameOrLevel.gameVersion
+            lazyLength = nameOrLevel.lazyLength
+            storageType = nameOrLevel.storageType
+            nameOrLevel = nameOrLevel.name
+        }
 
         //this.rank
-        this._id = id                            // in-game level id
-        this._name = name                        // level name
-        this._title = title                      // level hover title
-        this._url = url                          // completion url
-        this._attempts = attempts                // attempt count
-        this._progs = progs                      // list of progresses ("1 3 5 12")??
-        this._time = time                        // time taken (days)
-        this._date = date                        // completion date (format: "2024-11-02")
-        this._enjoy = enjoy                      // enjoyement rating
-        this._length = length                    // level length as string (ex: "2:01")
-        this._song = song                        // song name
-        this._songURL = songURL                  // song url
-        this._objects = objects                  // object count
-        this._diff = diff                        // level difficulty
-        this._creator = creator                  // level's creator name
-        this._featureLevel = featureLevel        // level feature rating (int)
-        this._lazyLength = lazyLength            // level length rating (Small - XL)
-        this._gameVersion = gameVersion          // game version at time of release date 
-        this._storageType = storageType||"local" // storage type (sync / local)
+        this._id = id                                   // in-game level id
+        this._name = nameOrLevel||"Unnamed "+this._uid  // level name
+        this._title = title                             // level hover title
+        this._url = url                                 // completion url
+        this._attempts = attempts                       // attempt count
+        this._progs = progs                             // list of progresses ("1 3 5 12")??
+        this._time = time                               // time taken (days)
+        this._date = date                               // completion date in ms
+        this._enjoy = enjoy                             // enjoyement rating
+        this._length = length                           // level length as string (ex: "2:01")
+        this._song = song                               // song name
+        this._songURL = songURL                         // song url
+        this._objects = objects                         // object count
+        this._diff = diff                               // level difficulty
+        this._creator = creator                         // level's creator name
+        this._featureLevel = featureLevel               // level feature rating (int)
+        this._lazyLength = lazyLength                   // level length rating (Small - XL)
+        this._gameVersion = gameVersion                 // game version at time of release date 
+        this._storageType = storageType||"local"        // storage type (sync / local)
     }
 
-
-    getCompletionDate() {
-        return new Date(this._date+" 00:00")
-    }
 
     test(asd) {
         return "TEST MOD WORK"+asd
     }
 
-    getLengthInSeconds() {
-        return (this._length+"")?.split(":").reduce((a, b, i)=>a+=i?+b:b*60,0)||0
-    }
+    // getLengthInSeconds() {
+    //     return (this._length+"")?.split(":").reduce((a, b, i)=>a+=i?+b:b*60,0)||0
+    // }
 
-    getFormatedLength() {
-        let t = msToTime(this.getLengthInSeconds()*1000)
-        return `${pad0(t[3])}:${pad0(t[4])} (${this._lazyLength})`
-    }
+    // getFormatedLength() {
+    //     let t = msToTime(this.getLengthInSeconds()*1000)
+    //     return `${pad0(t[3])}:${pad0(t[4])} (${this._lazyLength})`
+    // }
 
     save() {
         
     }
 
-    update() {
+    remove() {
 
     }
 
-    remove() {
+    
+    update() {
+
     }
 
     static get PERSO_INFOS_DISPLAY_PROPS() {

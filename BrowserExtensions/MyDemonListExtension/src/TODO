@@ -1,11 +1,16 @@
 
+OTHERS
+- cool bg ?
+- css hover/active
 
 
 FUNCTIONNALITIES
 - storage
-- add/modify/delete level
-- import/export
 - lastDeleted
+- synced global settings
+
+--LEVEL DISPLAY
+- display stats nicely
 
 --LIST
 - manage ranks
@@ -14,30 +19,38 @@ FUNCTIONNALITIES
 --ADD LEVEL
 - api call
 - save
+- storage type
 ~ check field values?
 ~ scroll into view
 
 --MODIFY LEVEL
 - api call
+- storage type
 - display already existing info
 - get all field value and update level and save
 - remove level
 
 --SETTINGS
-- 
+- get settings in exported format, text and file (export)
+- load and save levels by import (import) maybe do a invité profile
+- see storage used
+- set default storage
 
 --SEARCH
-- 
+- search levels
+- scroll into view
 
 --OVERVIEW
-- 
+- display stats
+- top 3s make able to see more
+- difficulty filter
 
 --PROFILE
-- 
+- api call to display stats
+- color cube icon
 
 
 
-- css hover/active
 
 
 

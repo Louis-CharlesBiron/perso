@@ -5,79 +5,74 @@ class LevelManager {
         this._levelsState = levelsState
         this._lastDeleted = null
         this._initialized = false
-        if (!this._levelsState[0].length && !this._initialized) this.initialize()
+        if (!this._levelsState[0].length && !this._initialized) this.load()
     }
 
     // Add level to the list and saves
     add(level) {
         this.setLevels(levels=>{
             let v = levels.concat(level)
-            this.save(v)
-            return v
+            // add to storage
         })
     }
 
     // Deletes level from the list and saves
-    remove(uid) {
+    remove(id) {
         this.setLevels(levels=>{
-            let v = levels.filter(l=>l.uid!==uid)
-            this.save(v)
-            return v
+            let v = levels.filter(l=>l.id!==id)
+            // remove from storage
         })
     }
 
     // update Level ({level:Level, updatedProps:{name:"test", date:123})
-    //update(level, updatedProps) {
-    //    this.setProduits(ps=>{
-    //        let i = ps.findIndex(x=>x.uid==level.uid), levels = ps.filter(x=>x.uid!==level.uid),
-    //            v = levels.slice(0, i).concat(Produit.fromObject({...level.toObject(), ...updatedProps}), levels.slice(i))
-    //        this.save(v)
-    //        return v
-    //    })
-    //}
-
-    get(uid) {
-        return this.levels.find(x=>x.uid==uid)
+    update(level, updatedProps) {
+        let updatedLevel//TODO
+        this.setLevels(levels=>{
+            let i = levels.findIndex(x=>x.id==level.id), ls = levels.filter(x=>x.id!==level.id),
+                v = ls.slice(0, i).concat(/*Produit.fromObject({...level.toObject(), ...updatedProps})*/["temp"], ls.slice(i))
+                return v
+        })
     }
+
+    get(id) {
+        return this.levels.find(x=>x.id==id)
+    }
+
 
     // STORAGE //
-    initialize() {
-        if (!this._initialized) {
-            setTimeout(()=>{// simulate chrome.storage callback
-                this.setLevels([
-                    new Level("name1", "title", "url", "attempts", "progs", "11", "2024-11-02", "enjoy", 128, "2:1", "song", "songurl", "objs", "insane", "creator", "featureLvl", "gameVer", "lazyLen", "storageType"),
-                    new Level("name2", "title", "url", "attempts", "progs", "11", "2024-11-02", "enjoy", 128, "2:1", "song", "songurl", "objs", "insane", "creator", "featureLvl", "gameVer", "lazyLen", "storageType"),
-                    new Level("name2", "title", "url", "attempts", "progs", "11", "2024-11-02", "enjoy", 128, "2:1", "song", "songurl", "objs", "insane", "creator", "featureLvl", "gameVer", "lazyLen", "storageType"),
-                    new Level("name2", "title", "url", "attempts", "progs", "11", "2024-11-02", "enjoy", 128, "2:1", "song", "songurl", "objs", "insane", "creator", "featureLvl", "gameVer", "lazyLen", "storageType"),
-                    new Level("name2", "title", "url", "attempts", "progs", "11", "2024-11-02", "enjoy", 128, "2:1", "song", "songurl", "objs", "insane", "creator", "featureLvl", "gameVer", "lazyLen", "storageType"),
-                    new Level("name2", "title", "url", "attempts", "progs", "11", "2024-11-02", "enjoy", 128, "2:1", "song", "songurl", "objs", "insane", "creator", "featureLvl", "gameVer", "lazyLen", "storageType"),
-                    new Level("name2", "title", "url", "attempts", "progs", "11", "2024-11-02", "enjoy", 128, "2:1", "song", "songurl", "objs", "insane", "creator", "featureLvl", "gameVer", "lazyLen", "storageType"),
-                    new Level("name2", "title", "url", "attempts", "progs", "11", "2024-11-02", "enjoy", 128, "2:1", "song", "songurl", "objs", "insane", "creator", "featureLvl", "gameVer", "lazyLen", "storageType"),
-                    new Level("name2", "title", "url", "attempts", "progs", "11", "2024-11-02", "enjoy", 128, "2:1", "song", "songurl", "objs", "insane", "creator", "featureLvl", "gameVer", "lazyLen", "storageType"),
-                    new Level("name2", "title", "url", "attempts", "progs", "11", "2024-11-02", "enjoy", 128, "2:1", "song", "songurl", "objs", "insane", "creator", "featureLvl", "gameVer", "lazyLen", "storageType"),
-                    new Level("name2", "title", "url", "attempts", "progs", "11", "2024-11-02", "enjoy", 128, "2:1", "song", "songurl", "objs", "insane", "creator", "featureLvl", "gameVer", "lazyLen", "storageType"),
-                    new Level("name2", "title", "url", "attempts", "progs", "11", "2024-11-02", "enjoy", 128, "2:1", "song", "songurl", "objs", "insane", "creator", "featureLvl", "gameVer", "lazyLen", "storageType"),
-                    new Level("name2", "title", "url", "attempts", "progs", "11", "2024-11-02", "enjoy", 128, "2:1", "song", "songurl", "objs", "insane", "creator", "featureLvl", "gameVer", "lazyLen", "storageType"),
-                    new Level("name2", "title", "url", "attempts", "progs", "11", "2024-11-02", "enjoy", 128, "2:1", "song", "songurl", "objs", "insane", "creator", "featureLvl", "gameVer", "lazyLen", "storageType"),
-                    new Level("name2", "title", "url", "attempts", "progs", "11", "2024-11-02", "enjoy", 128, "2:1", "song", "songurl", "objs", "insane", "creator", "featureLvl", "gameVer", "lazyLen", "storageType"),
-                    new Level("name2", "title", "url", "attempts", "progs", "11", "2024-11-02", "enjoy", 128, "2:1", "song", "songurl", "objs", "insane", "creator", "featureLvl", "gameVer", "lazyLen", "storageType"),
-                    new Level("name2", "title", "url", "attempts", "progs", "11", "2024-11-02", "enjoy", 128, "2:1", "song", "songurl", "objs", "insane", "creator", "featureLvl", "gameVer", "lazyLen", "storageType"),
-                    new Level("name2", "title", "url", "attempts", "progs", "11", "2024-11-02", "enjoy", 128, "2:1", "song", "songurl", "objs", "insane", "creator", "featureLvl", "gameVer", "lazyLen", "storageType"),
-                    new Level("name2", "title", "url", "attempts", "progs", "11", "2024-11-02", "enjoy", 128, "2:1", "song", "songurl", "objs", "insane", "creator", "featureLvl", "gameVer", "lazyLen", "storageType"),
-                ])
-            },100)
-        }
-        this._initialized = true
-    }
 
-    save() {
-        console.log("SAVE TODO")
+    saveAll() {
+        console.log("SAVEALL? TODO")
+
+
     }
 
     load() {
+        // chrome.storage.sync.get(synced=>{
+            // set global settings
+            // chrome.storage.local.get(local=>{
+                // this.setLevels
+                //this._initialized = true
+            // })
+        // })
+        setTimeout(()=>{// simulate chrome.storage callback
 
+            let r = {
+                // settings
+                $u:"LCB79",
+                $s:"local",
+                $l:[123012309, 128, 129],
+                // levels
+                128:{a:128, b:"this._name", c:"this._title", d:"this._url", e:"this._attempts", f:"this._progs", g:"this._time", h:"this._date", i:"this._enjoy", j:"this._length", k:"this._song", l:"this._songURL", m:"this._objects", n:"insane", o:"creator", p:"this._featureLevel", q:"this._gameVersion", r:"this._lazyLength", s:"this._storageType"},
+                129:{a:129, b:"this._name1", c:"this._title", d:"this._url", e:"this._attempts", f:"this._progs", g:"this._time", h:"this._date", i:"this._enjoy", j:"this._length", k:"this._song", l:"this._songURL", m:"this._objects", n:"insane", o:"creator", p:"this._featureLevel", q:"this._gameVersion", r:"this._lazyLength", s:"this._storageType"},
+                123012309:{a:123012309, b:"this._name2", c:"this._title", d:"this._url", e:"this._attempts", f:"this._progs", g:"this._time", h:"this._date", i:"this._enjoy", j:"this._length", k:"this._song", l:"this._songURL", m:"this._objects", n:"insane", o:"creator", p:"this._featureLevel", q:"this._gameVersion", r:"this._lazyLength", s:"this._storageType"},
+            }
+
+
+            this.setLevels(r.$l.map((id, rank)=>Level.toInstance(r[id], rank)))
+            this._initialized = true
+        },100)
     }
-
 
     get levels() {
         return this._levelsState[0]

@@ -2,37 +2,34 @@
 // MyDemonList Extension by Louis-Charles Biron
 // Please don't use or credit this code as your own.
 //
-let idGiver = 0
+let oLevelCount=0
 
 class Level {
-    constructor(nameOrLevel, title, url, attempts, progs, time, date, enjoy, id, length, song, songURL, objects, diff, creator, featureLevel, gameVersion, lazyLength, storageType) {
-        this._uid = idGiver++
-        
-        if (typeof nameOrLevel == "object") {
-            id = nameOrLevel.id
-            title = nameOrLevel.title
-            url = nameOrLevel.url
-            attempts = nameOrLevel.attempts
-            progs = nameOrLevel.progs
-            time = nameOrLevel.time
-            date = nameOrLevel.date
-            enjoy = nameOrLevel.enjoy
-            length = nameOrLevel.length
-            song = nameOrLevel.song
-            songURL = nameOrLevel.songURL
-            objects = nameOrLevel.objects
-            diff = nameOrLevel.diff
-            creator = nameOrLevel.creator
-            featureLevel = nameOrLevel.featureLevel
-            gameVersion = nameOrLevel.gameVersion
-            lazyLength = nameOrLevel.lazyLength
-            storageType = nameOrLevel.storageType
-            nameOrLevel = nameOrLevel.name
+    constructor(idOrLevel, rank, name, title, url, attempts, progs, time, date, enjoy, length, song, songURL, objects, diff, creator, featureLevel, gameVersion, lazyLength, storageType) {
+        if (typeof idOrLevel == "object") {
+            name = idOrLevel.name ?? idOrLevel[1]
+            title = idOrLevel.title ?? idOrLevel[2]
+            url = idOrLevel.url ?? idOrLevel[3]
+            attempts = idOrLevel.attempts ?? idOrLevel[4]
+            progs = idOrLevel.progs ?? idOrLevel[5]
+            time = idOrLevel.time ?? idOrLevel[6]
+            date = idOrLevel.date ?? idOrLevel[7]
+            enjoy = idOrLevel.enjoy ?? idOrLevel[8]
+            length = idOrLevel instanceof Array ? idOrLevel[9] : idOrLevel.length
+            song = idOrLevel.song ?? idOrLevel[10]
+            songURL = idOrLevel.songURL ?? idOrLevel[11]
+            objects = idOrLevel.objects ?? idOrLevel[12]
+            diff = idOrLevel.diff ?? idOrLevel[13]
+            creator = idOrLevel.creator ?? idOrLevel[14]
+            featureLevel = idOrLevel.featureLevel ?? idOrLevel[15]
+            gameVersion = idOrLevel.gameVersion ?? idOrLevel[16]
+            lazyLength = idOrLevel.lazyLength ?? idOrLevel[17]
+            storageType = idOrLevel.storageType ?? idOrLevel[18]
+            idOrLevel = idOrLevel.id ?? idOrLevel[0]
         }
 
-        //this.rank
-        this._id = id                                   // in-game level id
-        this._name = nameOrLevel||"Unnamed "+this._uid  // level name
+        this._id = idOrLevel                            // in-game level id (UNIQUE)
+        this._name = name||"Unnamed "+oLevelCount++     // level name
         this._title = title                             // level hover title
         this._url = url                                 // completion url
         this._attempts = attempts                       // attempt count
@@ -50,12 +47,22 @@ class Level {
         this._lazyLength = lazyLength                   // level length rating (Small - XL)
         this._gameVersion = gameVersion                 // game version at time of release date 
         this._storageType = storageType||"local"        // storage type (sync / local)
+
+        this._rank = rank                               // level's personnal ranking on the list
     }
 
-
-    test(asd) {
-        return "TEST MOD WORK"+asd
+    toStorageFormat() {
+        return {a:this._id, b:this._name, c:this._title, d:this._url, e:this._attempts, f:this._progs, g:this._time, h:this._date, i:this._enjoy, j:this._length, k:this._song, l:this._songURL, m:this._objects, n:this._diff, o:this._creator, p:this._featureLevel, q:this._gameVersion, r:this._lazyLength, s:this._storageType}
     }
+
+    toObject() {
+
+    }
+
+    save() {
+        chrome.storage[this._storageType].set({})
+    }
+
 
     // getLengthInSeconds() {
     //     return (this._length+"")?.split(":").reduce((a, b, i)=>a+=i?+b:b*60,0)||0
@@ -66,21 +73,19 @@ class Level {
     //     return `${pad0(t[3])}:${pad0(t[4])} (${this._lazyLength})`
     // }
 
-    save() {
-        
+
+    // Storage format to Level instance
+    static toInstance(obj, rank) {
+        return new Level(Object.values(obj), rank)
     }
 
-    remove() {
-
-    }
-
-    
-    update() {
+    // From plain js to Level Instance
+    static fromObject() {
 
     }
 
     static get PERSO_INFOS_DISPLAY_PROPS() {
-        return [{prop:"attempts"}, {prop:"progs"}, {prop:"time"}, {prop:"date", mod:"test"}, {prop:"enjoy"}]
+        return [{prop:"attempts"}, {prop:"progs"}, {prop:"time"}, {prop:"date", mod:"getLengthInSeconds"}, {prop:"enjoy"}]
     }
 
     static get LEVEL_INFOS_DISPLAY_PROPS() {
@@ -89,7 +94,7 @@ class Level {
 
 	get uid() {return this._uid}
 	get id() {return this._id}
-	//get rank() {return this.rank}
+	get rank() {return this._rank}
 	get name() {return this._name}
 	get title() {return this._title}
 	get url() {return this._url}

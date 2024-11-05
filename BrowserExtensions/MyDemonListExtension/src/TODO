@@ -7,20 +7,19 @@ OTHERS
 FUNCTIONNALITIES
 - storage
 - lastDeleted
-- synced global settings
+- synced global settings (username, defaultStorage, )
 
 --LEVEL DISPLAY
 - display stats nicely
 
 --LIST
-- manage ranks
 - css for ranks
 
 --ADD LEVEL
 - api call
 - save
 - storage type
-~ check field values?
+- check field values? (FOR ID)
 ~ scroll into view
 
 --MODIFY LEVEL
@@ -29,6 +28,8 @@ FUNCTIONNALITIES
 - display already existing info
 - get all field value and update level and save
 - remove level
+- edit id
+- check field values? (FOR ID)
 
 --SETTINGS
 - get settings in exported format, text and file (export)

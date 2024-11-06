@@ -1,10 +1,11 @@
-import { useContext, useRef } from "react"
+import { useContext, useEffect, useRef } from "react"
 import "./CSS/LevelInfoMenu.css"
 import IconButton from "./IconButton"
 import { ActiveMenuContext, MENU_TYPES } from "./contexts/ActiveMenuContext"
-import { getFormatedDate, getUsedInputs, MAIN_SONGS_ID } from "../Utils/Utility"
+import { capitalize, getFormatedDate, getUsedInputs, MAIN_SONGS_ID } from "../Utils/Utility"
 import Level from "../models/Level"
 import { LevelsContext } from "./contexts/LevelsContext"
+import LevelManager from "../models/LevelManager"
 
 /**
  * Don"t forget the doc!
@@ -42,7 +43,7 @@ function LevelInfoMenu() {
             inputs.creator.value = stats.author||""
             inputs.gameVersion.value = stats.gameVersion||""
             inputs.lazyLength.value = stats.length||""
-            inputs.featureLevel.value = !!stats.stars+[stats.featured, stats.epic, stats.legendary, stats.mythic].reduce((a, b)=>a+b,0)??""
+            inputs.featureLevel.value = !!stats.stars+[stats.featured, stats.epic, stats.legendary, stats.mythic].reduce((a, b)=>a+b,0)
 
         }).catch(e=>errorPopup("There is no existing level for this id"))
         else errorPopup("Enter a valid id to search")
@@ -51,16 +52,23 @@ function LevelInfoMenu() {
     // Creates or saves level
     function action() {
         const values = getUsedInputs(inputsRef.current, true)
-        console.log(values)
 
-        if (isLevelEdit) {// Save level
-            console.log("TODO EDIT LEVEL")
-        } else {// Create new level
-            let level = new Level(values)
-            levelManager.add(level)
-        }
+        if (isLevelEdit) {
+            // Edit/Save Level
+            levelManager.update(levelEdit, values)
+            setActiveMenu(MENU_TYPES.CLOSED)
 
-        setActiveMenu(MENU_TYPES.CLOSED)
+        } else if (values.id) {
+            // Create new Level
+            if (levelManager.get(values.id)) errorPopup("A level with this id already exists")
+            else {
+                let level = new Level(values)
+                levelManager.add(level)
+                setActiveMenu(MENU_TYPES.CLOSED)
+            }
+
+        } else errorPopup("The Id must be defined to create a level")
+
     }
 
     // adjust arrow navigation for the rank input
@@ -71,9 +79,32 @@ function LevelInfoMenu() {
     }
 
     function deleteLevel() {
-        levelManager.remove(levelEdit?.uid)
+        levelManager.remove(levelEdit)
         setActiveMenu(MENU_TYPES.CLOSED)
     }
+
+    useEffect(()=>{
+        let inputs = Object.values(inputsRef.current)
+
+        inputs.forEach(el=>{
+            // clear input when right click
+            el.oncontextmenu=e=>{
+                if (el.id !== "lim_isSelect") {
+                    e.preventDefault()
+                    el.value = ""
+                }
+            }
+
+            // Fill input to current value when in edit mode
+            if (isLevelEdit && el.placeholder) {
+                el.onfocus=()=>el.value = el.placeholder
+                el.onblur=()=>{
+                    if (el.value == el.placeholder) el.value = ""
+                }
+            }
+        })
+
+    }, [])
 
     return <div className="LevelInfoMenu">
 
@@ -102,11 +133,15 @@ function LevelInfoMenu() {
                 <label title="Name of the song used in the level">Song: <input ref={el=>inputsRef.current["song"]=el} type="text" placeholder={levelEdit?.song||"..."} autoComplete="off"/></label>
                 <label title="The link that leads to the song">Song URL: <input ref={el=>inputsRef.current["songURL"]=el} type="url" placeholder={levelEdit?.songURL||"https..."} autoComplete="off"/></label> 
                 <label title="Number of objects used in the level">Objects: <input ref={el=>inputsRef.current["objects"]=el} type="number"  min="1" placeholder={levelEdit?.objects||"1..."} autoComplete="off"/></label>
-                <label title="The in game difficulty of the level">Difficulty: <select ref={el=>inputsRef.current["diff"]=el} className="lim_e_diff">
-                    <option value={levelEdit?.diff||""}>{levelEdit?.diff||""}</option>
+                <label title="The in game difficulty of the level">Difficulty: 
+                    <select id="lim_isSelect" defaultValue="hard" ref={el=>inputsRef.current["diff"]=el} className="lim_e_diff">
+                    {isLevelEdit && <>
+                        <option value="">{levelEdit?.diff ? capitalize(levelEdit.diff)+" Demon" : ""}</option>
+                        <option disabled>- - -</option>
+                    </>}
                     <option value="extreme">Extreme Demon</option>
                     <option value="insane">Insane Demon</option>
-                    <option value="hard">Hard Demon</option>
+                    <option defaultChecked value="hard">Hard Demon</option>
                     <option value="medium">Medium Demon</option>
                     <option value="easy">Easy Demon</option>
                 </select></label>

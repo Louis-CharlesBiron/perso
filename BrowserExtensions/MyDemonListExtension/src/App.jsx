@@ -20,8 +20,6 @@ function App() {
         activeMenu = useState(MENU_TYPES.CLOSED),
         mainListRef = useRef(null)
 
-        console.log(levelManager)
-
   return (
     <LevelsContext.Provider value={levelManager}>
     <ActiveMenuContext.Provider value={activeMenu}>

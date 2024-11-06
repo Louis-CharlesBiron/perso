@@ -24,5 +24,9 @@ function getFormatedDate(msDate) {
     return `${pad0(d.getFullYear())}-${pad0(d.getMonth()+1)}-${pad0(d.getDate())}`
 }
 
+// returns an custom Object instance as a plain JS object 
+function getFormatedObject(obj) {
+    return Object.keys(obj).map(x => x.replace("_", "")).reduce((a, b) => (a[b] = obj[b], a), {})
+}
 
-export {capitalize, getUsedInputs, getFormatedDate, pad0, MAIN_SONGS_ID}
+export {capitalize, getFormatedObject, getUsedInputs, getFormatedDate, pad0, MAIN_SONGS_ID}

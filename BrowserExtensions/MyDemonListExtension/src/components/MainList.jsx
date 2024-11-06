@@ -1,4 +1,4 @@
-import { forwardRef, useContext, useEffect } from 'react'
+import { forwardRef, useContext } from 'react'
 import './CSS/MainList.css'
 import LevelDisplay from './LevelDisplay'
 import { LevelsContext } from './contexts/LevelsContext'
@@ -16,7 +16,7 @@ const MainList = forwardRef((props, ref)=>{
             {
                 levelManager.levels.length ? levelManager.levels.map((level, i)=>
                     <LevelDisplay level={level} key={i}></LevelDisplay>
-                ) : <div className="nolvlyet">No Levels Yet...</div>
+                ) : <div className="ml_nolvlyet">No Levels Yet...</div>
             }
         </div>
     </>

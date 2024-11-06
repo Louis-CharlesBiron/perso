@@ -1,50 +1,53 @@
+-MAYBES
+- check input values
+- random id
+
 
 OTHERS
 - cool bg ?
 - css hover/active
+- level transfer from storage type to other
 
 
 FUNCTIONNALITIES
-- storage
 - lastDeleted
 - synced global settings (username, defaultStorage, )
+
 
 --LEVEL DISPLAY
 - display stats nicely
 
+
 --LIST
-- css for ranks
+
 
 --ADD LEVEL
-- api call
-- save
-- storage type
-- check field values? (FOR ID)
-~ scroll into view
+- storage type UI
+~ scroll into view?
+
 
 --MODIFY LEVEL
-- api call
-- storage type
-- display already existing info
-- get all field value and update level and save
-- remove level
-- edit id
-- check field values? (FOR ID)
+- storage type UI
+
 
 --SETTINGS
 - get settings in exported format, text and file (export)
 - load and save levels by import (import) maybe do a invité profile
+- delete all stored
 - see storage used
 - set default storage
+
 
 --SEARCH
 - search levels
 - scroll into view
 
+
 --OVERVIEW
 - display stats
 - top 3s make able to see more
 - difficulty filter
+
 
 --PROFILE
 - api call to display stats

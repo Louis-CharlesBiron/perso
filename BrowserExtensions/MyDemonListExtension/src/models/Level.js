@@ -1,12 +1,13 @@
 // JS
 // MyDemonList Extension by Louis-Charles Biron
 // Please don't use or credit this code as your own.
-//
-let oLevelCount=0
+
+import { getFormatedObject } from "../Utils/Utility"
 
 class Level {
     constructor(idOrLevel, rank, name, title, url, attempts, progs, time, date, enjoy, length, song, songURL, objects, diff, creator, featureLevel, gameVersion, lazyLength, storageType) {
         if (typeof idOrLevel == "object") {
+            rank ??= idOrLevel.rank
             name = idOrLevel.name ?? idOrLevel[1]
             title = idOrLevel.title ?? idOrLevel[2]
             url = idOrLevel.url ?? idOrLevel[3]
@@ -29,7 +30,7 @@ class Level {
         }
 
         this._id = idOrLevel                            // in-game level id (UNIQUE)
-        this._name = name||"Unnamed "+oLevelCount++     // level name
+        this._name = name                               // level name
         this._title = title                             // level hover title
         this._url = url                                 // completion url
         this._attempts = attempts                       // attempt count
@@ -56,7 +57,7 @@ class Level {
     }
 
     toObject() {
-
+        return getFormatedObject(this)
     }
 
     save() {
@@ -64,9 +65,9 @@ class Level {
     }
 
 
-    // getLengthInSeconds() {
-    //     return (this._length+"")?.split(":").reduce((a, b, i)=>a+=i?+b:b*60,0)||0
-    // }
+    getLengthInSeconds() {
+        return (this._length+"")?.split(":").reduce((a, b, i)=>a+=i?+b:b*60,0)||0
+    }
 
     // getFormatedLength() {
     //     let t = msToTime(this.getLengthInSeconds()*1000)
@@ -80,8 +81,8 @@ class Level {
     }
 
     // From plain js to Level Instance
-    static fromObject() {
-
+    static fromObject(obj) {
+        return new Level(obj)
     }
 
     static get PERSO_INFOS_DISPLAY_PROPS() {
@@ -92,7 +93,9 @@ class Level {
         return [{prop:"id"}, {prop:"creator"}, {prop:"length"}, {prop:"song"}, {prop:"objects"}, {prop:"diff"}]
     }
 
-	get uid() {return this._uid}
+    set rank(rank) {this._rank = rank}
+    set name(name) {this._name = name}
+
 	get id() {return this._id}
 	get rank() {return this._rank}
 	get name() {return this._name}

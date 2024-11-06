@@ -9,10 +9,26 @@
     overflow-y: overlay;
 }
 
-.nolvlyet {
+.ml_nolvlyet {
     margin-top: 15%;
     font-style: italic;
     letter-spacing: 3px;
     color: #adb2b6;
     font-size: 1.3em;
+}
+
+@keyframes selectedAnim {
+    0% {
+        background-color: #292b2f;
+    }
+    50% {
+        background-color: #253d37
+    }
+    100% {
+        background-color: #292b2f;
+    }
+}
+
+.ml_selectedAnim {
+    animation: selectedAnim 2s cubic-bezier(0.075, 0.82, 0.165, 1) 0s 1 forwards;
 }

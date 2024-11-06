@@ -4,7 +4,7 @@ import IconButton from './IconButton'
 import LevelDetails from './LevelDetails'
 import Level from '../models/Level'
 import { capitalize } from "../Utils/Utility"
-import { ActiveMenuContext, MENU_TYPES } from './contexts/ActiveMenuContext'
+import { ActiveMenuContext } from './contexts/ActiveMenuContext'
 
 /**
  * Don't forget the doc!
@@ -15,8 +15,6 @@ function LevelDisplay({level}) {
     const [expanded, setExpanded] = useState(false),
           expandBtnRef = useRef(null),
           [,setActiveMenu] = useContext(ActiveMenuContext)
-
-
 
     function toggleExpanded() {
         setExpanded(x => !x)
@@ -38,7 +36,7 @@ function LevelDisplay({level}) {
                 }
             
                 <div className="ld_display">
-                    <span className="ld_name" title={level.title}><span className="level1">#1</span> - {level.name}</span>
+                    <span className={"ld_name"} title={level.title}><span className={"ld_level"+level.rank}>#{level.rank}</span> - {level.name}</span>
                     <span className="link ld_link" title={"Open "+level.url}>Completion Vid</span>
                 </div>
             </div>

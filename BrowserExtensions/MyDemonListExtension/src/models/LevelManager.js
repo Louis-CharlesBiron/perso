@@ -1,46 +1,7 @@
+import { fakechrome } from "../App"
 import Level from "./Level"
 
-let fakechrome = {storage:{
-    syncv:{
-        // settings
-        $u:"LCB79",
-        $s:"local",
-        $l:[123012309, 333, 128, 111, 129, 222],
-        // levels
-        128:{a:128, b:"this._name128", c:"this._title", d:"this._url", e:"this._attempts", f:"this._progs", g:"this._time", h:"this._date", i:"this._enjoy", j:"this._length", k:"this._song", l:"this._songURL", m:"this._objects", n:"insane", o:"creator", p:"this._featureLevel", q:"this._gameVersion", r:"this._lazyLength", s:"sync"},
-        129:{a:129, b:"this._name129", c:"this._title", d:"this._url", e:"this._attempts", f:"this._progs", g:"this._time", h:"this._date", i:"this._enjoy", j:"this._length", k:"this._song", l:"this._songURL", m:"this._objects", n:"insane", o:"creator", p:"this._featureLevel", q:"this._gameVersion", r:"this._lazyLength", s:"sync"},
-        123012309:{a:123012309, b:"this._name123012309", c:"this._title", d:"this._url", e:"this._attempts", f:"this._progs", g:"this._time", h:"this._date", i:"this._enjoy", j:"this._length", k:"this._song", l:"this._songURL", m:"this._objects", n:"insane", o:"creator", p:"this._featureLevel", q:"this._gameVersion", r:"this._lazyLength", s:"sync"},
-    },
-    localv:{
-        // levels
-        111:{a:111, b:"this._name111", c:"this._title", d:"this._url", e:"this._attempts", f:"this._progs", g:"this._time", h:"this._date", i:"this._enjoy", j:"this._length", k:"this._song", l:"this._songURL", m:"this._objects", n:"insane", o:"creator", p:"this._featureLevel", q:"this._gameVersion", r:"this._lazyLength", s:"local"},
-        222:{a:222, b:"this._name222", c:"this._title", d:"this._url", e:"this._attempts", f:"this._progs", g:"this._time", h:"this._date", i:"this._enjoy", j:"this._length", k:"this._song", l:"this._songURL", m:"this._objects", n:"insane", o:"creator", p:"this._featureLevel", q:"this._gameVersion", r:"this._lazyLength", s:"local"},
-        333:{a:333, b:"this._name333", c:"this._title", d:"this._url", e:"this._attempts", f:"this._progs", g:"this._time", h:"this._date", i:"this._enjoy", j:"this._length", k:"this._song", l:"this._songURL", m:"this._objects", n:"insane", o:"creator", p:"this._featureLevel", q:"this._gameVersion", r:"this._lazyLength", s:"local"},
-    },
-    sync:{
-        get:(cb)=>{
-            setTimeout(()=>cb(fakechrome.storage.syncv), 100)
-        },
-        set:(obj)=>{
-            setTimeout(()=>fakechrome.storage.syncv[Object.keys(obj)[0]] = Object.values(obj)[0], 100)
-        },
-        remove:(key)=>{
-            setTimeout(()=>delete fakechrome.storage.syncv[key], 100)
-        }
-    },
-    local:{
-        get:(cb)=>{
-            setTimeout(()=>cb(fakechrome.storage.localv), 100)
-        },
-        set:(obj)=>{
-            setTimeout(()=>fakechrome.storage.localv[Object.keys(obj)[0]] = Object.values(obj)[0], 100)
-        },
-        remove:(key)=>{
-            setTimeout(()=>delete fakechrome.storage.localv[key], 100)
-        }
-    }
-}}
-
+// Level management
 class LevelManager {
     constructor(levelsState) {
         this._levelsState = levelsState
@@ -49,7 +10,7 @@ class LevelManager {
         if (!this._levelsState[0].length && !this._initialized) this.load()
     }
 
-    // Add level to the list and saves
+    // Adds level to the list and saves
     add(level) {
         let ir = isNaN(level.rank-1) ? this.levels.length : level.rank-1
         if (!level.name) level.name = "Unnamed "+(this.levels.length+1)
@@ -84,16 +45,14 @@ class LevelManager {
     update(level, updatedProps) {
         let updatedLevel = Level.fromObject({...level.toObject(), ...updatedProps}),
             rankDif = (level.rank-updatedProps.rank)||0
-        //console.log("UPDATED LEVEL:", updatedLevel, updatedLevel.rank, level.toObject().rank, updatedProps.rank, level.rank, rankDif)
 
         // Update list
         this.setLevels(levels=>{
             let i = levels.findIndex(x=>x.id==level.id), ls = levels.filter(x=>x.id!==level.id),
                 v = (ls.slice(0, i-rankDif).concat(updatedLevel, ls.slice(i-rankDif))).map((l,i)=>(l.rank=i+1,l))
 
-                console.log(rankDif, v.map(l=>l.id), v)
-            
-
+                // Update storage type
+                if (updatedProps.storageType) fakechrome.storage[level.storageType].remove(level.id)
                 // Update storage id
                 if (updatedProps.id) fakechrome.storage[updatedLevel.storageType].remove(level.id)
                 // Update storage ranks
@@ -111,13 +70,6 @@ class LevelManager {
 
 
     // STORAGE //
-
-    saveAll() {
-        console.log("SAVEALL? TODO")
-
-
-    }
-
     load() {
         console.log(fakechrome)
         fakechrome.storage.sync.get(synced=>{

@@ -26,6 +26,7 @@ function LevelSearchMenu() {
                         <option value="length">Length</option>
                         <option value="objects">Objects</option>
                         <option value="diff">Difficulty</option>
+                        <option value="storageType">Storage Type</option>
                     </select>
                     <select className="lsm_filterMode">
                         <option value="match">*=</option>

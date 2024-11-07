@@ -2,12 +2,14 @@ import { useContext, useEffect, useRef } from 'react'
 import './CSS/MainHeader.css'
 import IconButton from './IconButton'
 import { ActiveMenuContext, MENU_TYPES } from './contexts/ActiveMenuContext'
+import { UserContext } from './contexts/UserContext'
 
 /**
  * Main app header
  */
 function MainHeader({mainListRef}) {
     const [,setActiveMenu] = useContext(ActiveMenuContext),
+          username = useContext(UserContext).username,
           fastTravelRef = useRef(null)
 
     function fastTravel() {
@@ -31,7 +33,7 @@ function MainHeader({mainListRef}) {
         <IconButton size="42" className="mh_openStats" onClick={()=>setActiveMenu(MENU_TYPES.OVERVIEW)}>$stats</IconButton>
         <IconButton size="30" className="mh_openSettings" onClick={()=>setActiveMenu(MENU_TYPES.SETTINGS)}>$settings</IconButton>
         <div className="mh_goProfile" title="Open profile" onClick={()=>setActiveMenu(MENU_TYPES.PROFILE)}>
-               <label htmlFor="username">LCB79</label><span>'s DemonList</span>
+               <label htmlFor="username">{username}</label><span>'s DemonList</span>
         </div>
         <div className="mh_buttonGroup">
             <IconButton size="24" onClick={()=>setActiveMenu(MENU_TYPES.SEARCH)}>$search</IconButton>

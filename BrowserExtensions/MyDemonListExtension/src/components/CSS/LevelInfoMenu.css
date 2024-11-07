@@ -41,8 +41,8 @@
 
 .lim_hv {
     position: absolute;
-    left: 0.5%;
-    top: 91.1%;
+    left: 0%;
+    top: 0.5%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -192,4 +192,23 @@
     100% {
         opacity: 0;
     }
+}
+
+.lim_storageType {
+    position: absolute;
+    bottom: 3%;
+    left: 3%;
+    width: 50%;
+    font-size: 0.85em;
+}
+
+.lim_storageType > select {
+    background-color: #1d1d1d;
+    border: none;
+    border-bottom: 2px solid #a3b6c6;
+    border-radius: 1px;
+    outline: none;
+    color: #c0d5e6;
+    text-align: center;
+    letter-spacing: 1px;
 }

@@ -6,7 +6,7 @@
 OTHERS
 - cool bg ?
 - css hover/active
-- level transfer from storage type to other
+- remove fakechrome
 
 
 FUNCTIONNALITIES
@@ -20,14 +20,19 @@ FUNCTIONNALITIES
 
 --LIST
 
-
 --ADD LEVEL
-- storage type UI
 ~ scroll into view?
 
-
 --MODIFY LEVEL
-- storage type UI
+
+--PROFILE
+
+
+--OVERVIEW
+- display stats
+- top 3s make able to see more
+- difficulty filter
+
 
 
 --SETTINGS
@@ -43,22 +48,7 @@ FUNCTIONNALITIES
 - scroll into view
 
 
---OVERVIEW
-- display stats
-- top 3s make able to see more
-- difficulty filter
-
-
---PROFILE
-- api call to display stats
-- color cube icon
 
 
 
 
-
-
-
-DONE
-- menu component (add level, modify level, search, settings)
-- sidebar component (overview, profile)

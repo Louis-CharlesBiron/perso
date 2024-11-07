@@ -1,4 +1,6 @@
-const MAIN_SONGS_ID = [500476, 522654, 523561, 49854, 404997, 485351, 168734, 529148, 291458, 516735, 505816, 350290, 479319, 790341, 368392, 568699, 230308, 472925, 641172, 503731, 860287, 1284388]
+const MAIN_SONGS_ID = [500476, 522654, 523561, 49854, 404997, 485351, 168734, 529148, 291458, 516735, 505816, 350290, 479319, 790341, 368392, 568699, 230308, 472925, 641172, 503731, 860287, 1284388],
+      DEMON_TYPES = ["easy", "medium", "hard", "insane", "extreme"],
+      EMPTY_STATS1 = {easy:0,medium:0,hard:0,insane:0,extreme:0,weekly:0,gauntlet:0}
 
 
 function capitalize(str) {
@@ -24,9 +26,14 @@ function getFormatedDate(msDate) {
     return `${pad0(d.getFullYear())}-${pad0(d.getMonth()+1)}-${pad0(d.getDate())}`
 }
 
+// adds commas between numbers, ex: 10000 -> 10,000
+function numSep(num) {
+    return [...num].toReversed().reduce((x, y, i)=>{return y+(!!i&&i%3==0?",":"")+x},"")
+}
+
 // returns an custom Object instance as a plain JS object 
 function getFormatedObject(obj) {
     return Object.keys(obj).map(x => x.replace("_", "")).reduce((a, b) => (a[b] = obj[b], a), {})
 }
 
-export {capitalize, getFormatedObject, getUsedInputs, getFormatedDate, pad0, MAIN_SONGS_ID}
+export {capitalize, getFormatedObject, getUsedInputs, getFormatedDate, pad0, numSep, MAIN_SONGS_ID, DEMON_TYPES, EMPTY_STATS1}

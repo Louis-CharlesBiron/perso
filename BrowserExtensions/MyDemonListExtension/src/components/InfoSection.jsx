@@ -22,7 +22,7 @@ const InfoSection = forwardRef(({type=INFO_SECTION.SIMPLE, headerText, title="",
                     <label title={title}>{headerText}</label>
                     <div>
                         {/* ex value: ["string1", "string2", "string3"...] */}
-                        {value && value.map((v,i)=><span key={i}>{v}</span>)}
+                        {value && value.map((v,i)=><span className="is_listSpan" key={i}>{v}</span>)}
                     </div>
                 </div>
             : type==INFO_SECTION.ICON_LIST ?

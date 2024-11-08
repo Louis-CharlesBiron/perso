@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useRef } from 'react'
 import './CSS/Sidebar.css'
 import IconButton from './IconButton'
 import { ActiveMenuContext, MENU_TYPES } from './contexts/ActiveMenuContext'
@@ -9,9 +9,10 @@ import { UserContext } from './contexts/UserContext'
  */
 function Sidebar({headerText, children}) {
     const [activeMenu, setActiveMenu] = useContext(ActiveMenuContext),
-          userManager = useContext(UserContext)
+          userManager = useContext(UserContext),
+          siderbarBgElement = useRef(null)
 
-    return <div className={"s_bg"+(activeMenu==headerText.toUpperCase()?" s_out":"")}>
+    return <div ref={siderbarBgElement} className={"s_bg"+(activeMenu==headerText.toUpperCase()?" s_out":"")} onClick={e=>e.target==siderbarBgElement.current && setActiveMenu(MENU_TYPES.CLOSED)}>
         <div className="Sidebar">
             <IconButton className="s_close" size="48" onClick={()=>setActiveMenu(MENU_TYPES.CLOSED)}>$close</IconButton>
             <div className="si_cube">

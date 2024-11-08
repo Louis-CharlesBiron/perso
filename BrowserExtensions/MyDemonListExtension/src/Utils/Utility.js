@@ -28,12 +28,15 @@ function getFormatedDate(msDate) {
 
 // adds commas between numbers, ex: 10000 -> 10,000
 function numSep(num) {
-    return [...num].toReversed().reduce((x, y, i)=>{return y+(!!i&&i%3==0?",":"")+x},"")
+    return [...num+""].toReversed().reduce((x, y, i)=>{return y+(!!i&&i%3==0?",":"")+x},"")
 }
 
 // returns an custom Object instance as a plain JS object 
 function getFormatedObject(obj) {
     return Object.keys(obj).map(x => x.replace("_", "")).reduce((a, b) => (a[b] = obj[b], a), {})
 }
+
+Array.prototype.last=function(index=0){return this[this.length-1-index]}
+
 
 export {capitalize, getFormatedObject, getUsedInputs, getFormatedDate, pad0, numSep, MAIN_SONGS_ID, DEMON_TYPES, EMPTY_STATS1}

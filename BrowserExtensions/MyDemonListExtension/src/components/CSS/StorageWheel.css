@@ -44,6 +44,9 @@
     background-color: #1d1d1d;
     border-radius: 3px;
     color: #c0d5e6;
-    outline: none;
-    
+    outline: none;   
+}
+
+.sw_wheel:hover {
+    fill: #181717 !important;
 }

@@ -60,6 +60,11 @@
     text-transform: capitalize;
 }
 
+.is_listSpan {
+    margin-top: 3%;
+    width: 95%;
+}
+
 /* ICON LIST */
 
 .is_iconList > div > span {

@@ -73,9 +73,9 @@ export const fakechrome = {storage:{
       $s:"local",
       $l:[123012309, 333, 128, 111, 129, 222],
       // levels
-      128:{a:128, b:"this._name128", c:"this._title", d:"this._url", e:"this._attempts", f:"this._progs", g:"this._time", h:"this._date", i:"this._enjoy", j:"this._length", k:"this._song", l:"this._songURL", m:"this._objects", n:"insane", o:"creator", p:"this._featureLevel", q:"this._gameVersion", r:"this._lazyLength", s:"sync"},
-      129:{a:129, b:"this._name129", c:"this._title", d:"this._url", e:"this._attempts", f:"this._progs", g:"this._time", h:"this._date", i:"this._enjoy", j:"this._length", k:"this._song", l:"this._songURL", m:"this._objects", n:"insane", o:"creator", p:"this._featureLevel", q:"this._gameVersion", r:"this._lazyLength", s:"sync"},
-      123012309:{a:123012309, b:"this._name123012309", c:"this._title", d:"this._url", e:"this._attempts", f:"this._progs", g:"this._time", h:"this._date", i:"this._enjoy", j:"this._length", k:"this._song", l:"this._songURL", m:"this._objects", n:"insane", o:"creator", p:"this._featureLevel", q:"this._gameVersion", r:"this._lazyLength", s:"sync"},
+      128:{a:128, b:"this._name128", c:"this._title", d:"this._url", e:"this._attempts", f:"1 3 4 10 100", g:"1", h:"this._date", i:"this._enjoy", j:"this._length", k:"this._song", l:"this._songURL", m:"this._objects", n:"insane", o:"creator", p:"this._featureLevel", q:"this._gameVersion", r:"this._lazyLength", s:"sync"},
+      129:{a:129, b:"this._name129", c:"this._title", d:"this._url", e:"this._attempts", f:"9 68 100", g:"22", h:"this._date", i:"this._enjoy", j:"this._length", k:"this._song", l:"this._songURL", m:"this._objects", n:"insane", o:"creator", p:"this._featureLevel", q:"this._gameVersion", r:"this._lazyLength", s:"sync"},
+      123012309:{a:123012309, b:"this._name123012309", c:"this._title", d:"this._url", e:"this._attempts", f:"this._progs", g:"333", h:"this._date", i:"this._enjoy", j:"this._length", k:"this._song", l:"this._songURL", m:"this._objects", n:"insane", o:"creator", p:"this._featureLevel", q:"this._gameVersion", r:"this._lazyLength", s:"sync"},
   },
   localv:{
       // levels

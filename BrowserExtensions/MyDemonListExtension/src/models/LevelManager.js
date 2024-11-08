@@ -76,9 +76,7 @@ class LevelManager {
             //set global settings
 
             fakechrome.storage.local.get(local=>{
-                let all = {...synced, ...local},
-                    levels = synced.$l.map((id, rank)=>Level.toInstance(all[id], rank+1))
-
+                let all = {...synced, ...local}, levels = synced.$l.map((id, rank)=>Level.toInstance(all[id], rank+1))
                 this.setLevels(levels)
                 this._initialized = true
             })
@@ -91,6 +89,10 @@ class LevelManager {
 
     get setLevels() {
         return this._levelsState[1]
+    }
+
+    get initialized() {
+        return this._initialized
     }
 }
 

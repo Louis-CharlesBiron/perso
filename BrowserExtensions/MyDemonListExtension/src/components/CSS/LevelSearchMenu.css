@@ -49,6 +49,7 @@
     display: flex;
     align-items: center;
     flex-direction: row;
+    text-align: center;
 }
 
 .lsm_filterMode {
@@ -78,6 +79,7 @@
     display: flex;
     align-items: center;
     flex-direction: row;
+    text-align: center;
 }
 
 .lsm_resultsParent {
@@ -109,4 +111,14 @@
 .lsm_result {
     margin-bottom: 5px;
     cursor: pointer;
+    text-overflow: ellipsis;
+    white-space: pre;
+}
+
+.lsm_resultList {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3%;
+    overflow: overlay;
+    height: 93%;
 }

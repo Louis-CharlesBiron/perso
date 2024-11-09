@@ -1,5 +1,8 @@
+.InfoSection {
+    position: relative;
+}
 
-.InfoSection > label {
+.InfoSection label {
     font-weight: bold;
     font-size: 1.3em;
     width: 100%;
@@ -48,7 +51,7 @@
 .is_list > div {
     width: 85%;
     font-size: 0.95em;
-    padding-right: 4%;
+    padding-right: 5%;
     display: flex;
     flex-direction: column;
     margin-top: 2%;
@@ -58,11 +61,35 @@
 
 .is_list span {
     text-transform: capitalize;
+    text-indent: -5%;
+    margin-left: 5%;
 }
 
 .is_listSpan {
     margin-top: 3%;
     width: 95%;
+}
+
+.is_placeholder {
+    width: 100%;
+    margin-top: 2%;
+    text-align: center;
+    font-size: 1.1em;
+    opacity: 0.75;
+}
+
+.is_listHeader {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center;
+}
+
+.is_listInfo {
+    position: absolute;
+    top: 1.5%;
+    right: 0.5%;
+    font-size: 0.9em;
+    opacity: 0.3;
 }
 
 /* ICON LIST */

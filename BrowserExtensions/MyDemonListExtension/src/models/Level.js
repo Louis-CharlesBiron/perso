@@ -2,7 +2,7 @@
 // MyDemonList Extension by Louis-Charles Biron
 // Please don't use or credit this code as your own.
 
-import { getFormatedObject } from "../Utils/Utility"
+import { daysBetweenDates, getFormatedObject, getLengthInSeconds, msToTime, pad0 } from "../Utils/Utility"
 
 class Level {
     constructor(idOrLevel, rank, name, title, url, attempts, progs, time, date, enjoy, length, song, songURL, objects, diff, creator, featureLevel, gameVersion, lazyLength, storageType) {
@@ -60,19 +60,15 @@ class Level {
         return getFormatedObject(this)
     }
 
-    save() {
-        chrome.storage[this._storageType].set({})
+    getFormatedLength() {
+        let t = msToTime(getLengthInSeconds(this._length)*1000)
+        return `${pad0(t[3])}:${pad0(t[4])} (${this._lazyLength})`
     }
 
-
-    getLengthInSeconds() {
-        return (this._length+"")?.split(":").reduce((a, b, i)=>a+=i?+b:b*60,0)||0
+    getDaysAgo() {
+        let days = daysBetweenDates(this._date)
+        return isNaN(days) ? -1 : days
     }
-
-    // getFormatedLength() {
-    //     let t = msToTime(this.getLengthInSeconds()*1000)
-    //     return `${pad0(t[3])}:${pad0(t[4])} (${this._lazyLength})`
-    // }
 
 
     // Storage format to Level instance

@@ -56,7 +56,6 @@ function LevelInfoMenu() {
         else {
             if (isLevelEdit) {
                 // Edit/Save Level
-    
                 levelManager.update(levelEdit, values)
                 setActiveMenu(MENU_TYPES.CLOSED)
     

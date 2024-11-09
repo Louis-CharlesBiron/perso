@@ -1,5 +1,6 @@
-import { forwardRef } from 'react'
+import { forwardRef, useState } from 'react'
 import './CSS/InfoSection.css'
+import IconButton from './IconButton'
 
 /**
  * Don't forget the doc!
@@ -7,22 +8,38 @@ import './CSS/InfoSection.css'
  * @param {String} headerText header text of the section
  * @param {String || String[] || Object[]} value the text or texts to display
  */
-const InfoSection = forwardRef(({type=INFO_SECTION.SIMPLE, headerText, title="", value, defaultValue, onChange, placeholder}, ref)=>{
-    return <>
+const InfoSection = forwardRef(({type=INFO_SECTION.SIMPLE, headerText, title="", value, defaultValue, onChange, placeholder, onIconClick}, ref)=>{
+    
+    const [currentListPage, setCurrentListPage] = useState(0),
+          listCapacity = 3, listIndex = currentListPage*listCapacity,
+          v_ll = value?.length,
+          maxPage = Math.floor(v_ll/listCapacity)+!!(v_ll%listCapacity)||0, hasPages = maxPage>1
 
+    return <>
         {
             type==INFO_SECTION.SIMPLE ?
                 <div className="InfoSection is_simple" title={title}>
                     {headerText}
                     {/* ex value: "string1" */}
-                    <span>{value}</span>
+                    {value ? 
+                        <span>{value}</span>
+                        : <span className="is_placeholder">No Levels yet...</span>
+                    }
                 </div>
             : type==INFO_SECTION.LIST ?
                 <div className="InfoSection is_list">
-                    <label title={title}>{headerText}</label>
+                    {hasPages&&<span className="is_listInfo">{currentListPage+1+"/"+maxPage}</span>}
+                    <div className="is_listHeader">
+                        {hasPages&&<IconButton className="r90" onClick={()=>setCurrentListPage(v=>!v?maxPage-1:--v)}>$expand</IconButton>}
+                        <label title={title}>{headerText}</label>
+                        {hasPages&&<IconButton className="r270" onClick={()=>setCurrentListPage(v=>v==maxPage-1?0:++v)}>$expand</IconButton>}
+                    </div>
                     <div>
                         {/* ex value: ["string1", "string2", "string3"...] */}
-                        {value && value.map((v,i)=><span className="is_listSpan" key={i}>{v}</span>)}
+                        {v_ll ? 
+                            value.slice(listIndex, listIndex+listCapacity).map((v,i)=><span className="is_listSpan" key={i}>{v}</span>)
+                            : <span className="is_placeholder">No Levels yet...</span>
+                        }
                     </div>
                 </div>
             : type==INFO_SECTION.ICON_LIST ?
@@ -34,7 +51,7 @@ const InfoSection = forwardRef(({type=INFO_SECTION.SIMPLE, headerText, title="",
                             <span key={i} title={entry.title}>
                                 {entry.demonType+" demon:"}
                                 <span>{entry.demon}
-                                    <label title={"Filter by: "+entry.demonType+" demon"}>
+                                    <label title={"Filter by "+entry.demonType+" demon"} onClick={e=>onIconClick(e, entry.demonType)}>
                                         <img src={"src/assets/img/"+entry.demonType+".png"} className="small_icon"/>
                                     </label>
                                 </span>

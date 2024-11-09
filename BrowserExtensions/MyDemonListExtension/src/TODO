@@ -1,12 +1,15 @@
 -MAYBES
 - check input values
 - random id
+- mass data prevention: load only 100 at a time (mainlist, search menu)
 
 
 OTHERS
 - cool bg ?
 - css hover/active
 - remove fakechrome
+- documentation
+- remove <StrictMode>?
 
 
 FUNCTIONNALITIES
@@ -27,12 +30,11 @@ FUNCTIONNALITIES
 
 --PROFILE
 
-
 --OVERVIEW
-- display stats
-- top 3s make able to see more
-- difficulty filter
 
+--SEARCH
+- scroll into view
+- better specific display (date, length)
 
 
 --SETTINGS
@@ -43,12 +45,9 @@ FUNCTIONNALITIES
 - set default storage
 
 
---SEARCH
-- search levels
-- scroll into view
 
-
-
-
+-- IDEAS: 
+- CCdata.dat file or idk, get data from this
+- platformer level support
 
 

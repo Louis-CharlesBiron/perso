@@ -1,4 +1,4 @@
-import { fakechrome } from "../App"
+import { chrome } from "../App"
 import Level from "./Level"
 
 // Level management
@@ -7,7 +7,7 @@ class LevelManager {
         this._levelsState = levelsState
         this._lastDeleted = null
         this._initialized = false
-        if (!this._levelsState[0].length && !this._initialized) this.load()
+        if (!this._levelsState[0] && !this._initialized) this.load()
     }
 
     // Adds level to the list and saves
@@ -18,8 +18,8 @@ class LevelManager {
         this.setLevels(levels=>{
             let v = (levels.slice(0, ir).concat(level, levels.slice(ir))).map((l,i)=>(l.rank=i+1,l))
 
-            fakechrome.storage[level.storageType].set({[level.id]: level.toStorageFormat()})
-            fakechrome.storage.sync.set({$l: v.map(l=>l.id)})
+            chrome.storage[level.storageType].set({[level.id]: level.toStorageFormat()})
+            chrome.storage.sync.set({$l: v.map(l=>l.id)})
             
             return v
         })
@@ -30,8 +30,8 @@ class LevelManager {
         this.setLevels(levels=>{
             let v = levels.filter(l=>l.id!==level.id).map((l,i)=>(l.rank=i+1,l))
 
-            fakechrome.storage[level.storageType].remove(level.id)
-            fakechrome.storage.sync.set({$l: v.map(l=>l.id)})
+            chrome.storage[level.storageType].remove(level.id)
+            chrome.storage.sync.set({$l: v.map(l=>l.id)})
 
             return v
         })
@@ -52,13 +52,13 @@ class LevelManager {
                 v = (ls.slice(0, i-rankDif).concat(updatedLevel, ls.slice(i-rankDif))).map((l,i)=>(l.rank=i+1,l))
 
                 // Update storage type
-                if (updatedProps.storageType) fakechrome.storage[level.storageType].remove(level.id)
+                if (updatedProps.storageType) chrome.storage[level.storageType].remove(level.id)
                 // Update storage id
-                if (updatedProps.id) fakechrome.storage[updatedLevel.storageType].remove(level.id)
+                if (updatedProps.id) chrome.storage[updatedLevel.storageType].remove(level.id)
                 // Update storage ranks
-                if (rankDif || updatedProps.id) fakechrome.storage.sync.set({$l: v.map(l=>l.id)})
+                if (rankDif || updatedProps.id) chrome.storage.sync.set({$l: v.map(l=>l.id)})
                 // Update storage Level
-                fakechrome.storage[updatedLevel.storageType].set({[updatedLevel.id]: updatedLevel.toStorageFormat()})
+                chrome.storage[updatedLevel.storageType].set({[updatedLevel.id]: updatedLevel.toStorageFormat()})
                 
                 return v
         })
@@ -68,14 +68,24 @@ class LevelManager {
         return this.levels.find(x=>x.id==id)
     }
 
+    saveAll(data) {
+        console.log(data)
+        chrome.storage.sync.set({
+            $u: data.$u,
+            $l: data.$l
+            // TODO SAVE ALL LEVELS
+        })
+    }
 
     // STORAGE //
-    load() {
-        console.log(fakechrome)
-        fakechrome.storage.sync.get(synced=>{
+    load(data) {
+        console.log(chrome)
+        // manual load
+        if (data) this.setLevels(data.$l.map((id, rank)=>Level.toInstance(data.l.find(l=>l.a==id), rank+1)))
+        // Auto storage load
+        else chrome.storage.sync.get(synced=>{
             //set global settings
-
-            fakechrome.storage.local.get(local=>{
+            chrome.storage.local.get(local=>{
                 let all = {...synced, ...local}, levels = synced.$l.map((id, rank)=>Level.toInstance(all[id], rank+1))
                 this.setLevels(levels)
                 this._initialized = true

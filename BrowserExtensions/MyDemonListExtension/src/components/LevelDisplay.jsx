@@ -5,10 +5,11 @@ import LevelDetails from './LevelDetails'
 import Level from '../models/Level'
 import { capitalize } from "../Utils/Utility"
 import { ActiveMenuContext } from './contexts/ActiveMenuContext'
+import { chrome } from '../App'
 
 /**
- * Don't forget the doc!
- * @param {*}
+ * Displays a level in details
+ * @param {Level} level: a Level instance
  */
 function LevelDisplay({level}) {
 
@@ -37,14 +38,14 @@ function LevelDisplay({level}) {
             
                 <div className="ld_display">
                     <span className={"ld_name"} title={level.title}><span className={"ld_level"+level.rank}>#{level.rank}</span> - {level.name}</span>
-                    <span className="link ld_link" title={"Open "+level.url}>Completion Vid</span>
+                    <span className="link ld_link" title={"Open "+level.url} onClick={()=>chrome.windows.create({url:level.url})}>Completion Vid</span>
                 </div>
             </div>
         </div>
 
 
         {expanded && [Level.PERSO_INFOS_DISPLAY_PROPS, Level.LEVEL_INFOS_DISPLAY_PROPS].map((info, i)=>
-            <LevelDetails key={i} list={info.map(({prop, mod})=>({key:capitalize(prop), value:mod?level[mod](level[prop]):level[prop]})).filter(x=>x.value)} className="LevelDetails"></LevelDetails>
+            <LevelDetails key={i} list={info.map(({prop, mod, displayProp})=>({key:capitalize(displayProp||prop), value:mod?level[mod](level[prop]):level[prop], title:prop=="song"?"Open "+level[mod]():"", className:prop=="song"?"link":null, onClick:prop=="song"?()=>chrome.windows.create({url:level[mod]()}):null})).filter(x=>x.value)} className="LevelDetails"></LevelDetails>
         )}
 
     </div>

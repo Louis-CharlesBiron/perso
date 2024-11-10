@@ -2,7 +2,7 @@
 // MyDemonList Extension by Louis-Charles Biron
 // Please don't use or credit this code as your own.
 
-import { daysBetweenDates, getFormatedObject, getLengthInSeconds, msToTime, pad0 } from "../Utils/Utility"
+import { capitalize, daysBetweenDates, FEATURE_LEVELS, getFormatedDate, getFormatedObject, getLengthInSeconds, msToTime, numSep, pad0 } from "../Utils/Utility"
 
 class Level {
     constructor(idOrLevel, rank, name, title, url, attempts, progs, time, date, enjoy, length, song, songURL, objects, diff, creator, featureLevel, gameVersion, lazyLength, storageType) {
@@ -60,15 +60,24 @@ class Level {
         return getFormatedObject(this)
     }
 
-    getFormatedLength() {
+    getFormatedLength(hideLazyLength) {
         let t = msToTime(getLengthInSeconds(this._length)*1000)
-        return `${pad0(t[3])}:${pad0(t[4])} (${this._lazyLength})`
+        return pad0(t[3])+":"+pad0(t[4])+(hideLazyLength==true?"":" ("+this._lazyLength+")")
     }
 
     getDaysAgo() {
         let days = daysBetweenDates(this._date)
         return isNaN(days) ? -1 : days
     }
+
+    _formatProgs() {return this._progs.split(/ +/g).map(p=>p.trim()+"%").join(" ")} 
+    _formatTime() {return this._time+" Day"+(this._time>1?"s":"")}
+    _formatDate() {return getFormatedDate(this._date)+" ("+daysBetweenDates(this._date)+" days ago)"}
+    _formatEnjoy() {return this._enjoy+"/100"}
+    _formatId() {return this._id+(+this._gameVersion?" ("+this._gameVersion+")":"")}
+    _formatObjects() {return +this._objects ? numSep(this._objects) : ""}
+    _formatDiff() {return capitalize(this._diff)+" Demon"+(FEATURE_LEVELS[this._featureLevel]?" ("+FEATURE_LEVELS[this._featureLevel]+")":"")}
+    _getSongURL() {return this._songURL}
 
 
     // Storage format to Level instance
@@ -82,11 +91,11 @@ class Level {
     }
 
     static get PERSO_INFOS_DISPLAY_PROPS() {
-        return [{prop:"attempts"}, {prop:"progs"}, {prop:"time"}, {prop:"date", mod:"getLengthInSeconds"}, {prop:"enjoy"}]
+        return [{prop:"attempts"}, {prop:"progs",mod:"_formatProgs",displayProp:"progresses"}, {prop:"time",mod:"_formatTime",displayProp:"time to beat"}, {prop:"date",mod:"_formatDate",displayProp:"beaten on"}, {prop:"enjoy",mod:"_formatEnjoy",displayProp:"enjoyement"}]
     }
 
     static get LEVEL_INFOS_DISPLAY_PROPS() {
-        return [{prop:"id"}, {prop:"creator"}, {prop:"length"}, {prop:"song"}, {prop:"objects"}, {prop:"diff"}]
+        return [{prop:"id",mod:"_formatId"}, {prop:"creator"}, {prop:"length",mod:"getFormatedLength"}, {prop:"song", mod:"_getSongURL"}, {prop:"objects",mod:"_formatObjects",displayProp:"object count"}, {prop:"diff",mod:"_formatDiff",displayProp:"difficulty"}]
     }
 
     set rank(rank) {this._rank = rank}

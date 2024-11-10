@@ -53,3 +53,9 @@
     justify-content: center;
     height: 5%;
 }
+
+.sm_inline {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

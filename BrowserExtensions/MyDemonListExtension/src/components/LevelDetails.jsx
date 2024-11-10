@@ -1,7 +1,6 @@
 import './CSS/LevelDetails.css'
 
 /**
- * Don't forget the doc!
  * @param {list} Array of details objects -> [{key:"attempts", value:"123", className?:"someclass", title?:"sometext", onclick?:()=>{}}] 
  */
 function LevelDetails({list, className}) {

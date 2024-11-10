@@ -7,8 +7,7 @@ import Level from "../models/Level"
 import { LevelsContext } from "./contexts/LevelsContext"
 
 /**
- * Don"t forget the doc!
- * @param {*}
+ * Menu for level creation and edition
  */
 function LevelInfoMenu() {
     const inputsRef = useRef({}),
@@ -64,6 +63,13 @@ function LevelInfoMenu() {
                     let level = new Level(values)
                     levelManager.add(level)
                     setActiveMenu(MENU_TYPES.CLOSED)
+                        function scrollIntoView(i) {
+        let el = mainListRef.current.children[i]
+        setActiveMenu(MENU_TYPES.CLOSED)
+        el.scrollIntoView()
+        el.classList.add("ml_selectedAnim")
+        setTimeout(()=>el.classList.remove("ml_selectedAnim"),2000)
+    }
             } else errorPopup("The Id must be defined to create a level")
         }
     }

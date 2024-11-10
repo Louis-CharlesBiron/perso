@@ -5,11 +5,11 @@
 
 
 OTHERS
-- cool bg ?
-- css hover/active
 - remove fakechrome
-- documentation
+- file headers (do not copy code plz)
+- default storage in background.js
 - remove <StrictMode>?
+- test all
 
 
 FUNCTIONNALITIES
@@ -17,14 +17,24 @@ FUNCTIONNALITIES
 - synced global settings (username, defaultStorage, )
 
 
---LEVEL DISPLAY
-- display stats nicely
+--SETTINGS
+- exported text format
+- save levels by import
+- import by text
+- delete all stored
+- confirm popup
 
+- see storage used
+- set default storage
+
+- css
+
+
+--LEVEL DISPLAY
 
 --LIST
 
 --ADD LEVEL
-~ scroll into view?
 
 --MODIFY LEVEL
 
@@ -33,21 +43,12 @@ FUNCTIONNALITIES
 --OVERVIEW
 
 --SEARCH
-- scroll into view
-- better specific display (date, length)
-
-
---SETTINGS
-- get settings in exported format, text and file (export)
-- load and save levels by import (import) maybe do a invité profile
-- delete all stored
-- see storage used
-- set default storage
 
 
 
 -- IDEAS: 
 - CCdata.dat file or idk, get data from this
 - platformer level support
+- cool bg
 
 

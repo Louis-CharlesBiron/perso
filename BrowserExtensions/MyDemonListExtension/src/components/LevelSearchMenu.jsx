@@ -2,13 +2,14 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import './CSS/LevelSearchMenu.css'
 import { LevelsContext } from './contexts/LevelsContext'
 import { getFormatedDate, getLengthInSeconds } from '../Utils/Utility'
+import { ActiveMenuContext, MENU_TYPES } from './contexts/ActiveMenuContext'
 
 /**
- * Don't forget the doc!
- * @param {*}
+ * Menu for detailed level search
  */
-function LevelSearchMenu() {
+function LevelSearchMenu({mainListRef}) {
     const levelManager = useContext(LevelsContext),
+          [,setActiveMenu] = useContext(ActiveMenuContext),
           inputsRef = useRef({}),
           [filteredLevels, setFilteredLevels] = useState({levels:levelManager.levels, filter:"name"})
 
@@ -16,14 +17,11 @@ function LevelSearchMenu() {
         levelSearch(inputsRef.current.v.value, inputsRef.current.filter.value, inputsRef.current.mode.value)
     }
 
-
-
-
-
     // probably works
     function levelSearch(v, filter, mode) {
         let filteredList = [], ulist = levelManager.levels.map((x,i)=>({v:filter=="date"?getFormatedDate(x[filter]):x[filter], i}))
 
+        // filter type
         if (filter == "gameVersion") {//gameVersion: only numbers
             ulist = ulist.map(x=>({v:x.v?.match(/[0-9.]+/g)?.[0]||null, i:x.i}))
             v = (mode == "range") ? v.match(/[0-9]{1}[.]{0,1}[0-9]+/g)||[1.0, 2.2]: v
@@ -37,6 +35,7 @@ function LevelSearchMenu() {
             else if (mode == "bigger"||mode == "smaller") v = getLengthInSeconds(v)||0
         }
         
+        // mode
         if (mode == "match") filteredList = ulist.filter(x => (x.v+"")?.toLowerCase()?.includes((v+"")?.toLowerCase()) && x.v!=null)
         else if (mode == "strict") filteredList = ulist.filter(x => x.v == v && x.v!=null)
         else if (mode == "bigger") filteredList = ulist.filter(x => x.v > +v && x.v!=null)
@@ -45,10 +44,17 @@ function LevelSearchMenu() {
             let limits = ["date", "gameVersion", "length"].includes(filter) ? v : v.match(/[0-9]+/g)??[0,0]
             filteredList = ulist.filter(x=>(x.v >= limits[0]) && (x.v <= limits[1]) && x.v!=null)
         }
-        console.log(filteredList, v, ulist.map(x=>x.v))
+
         setFilteredLevels({levels:filteredList.map(x=>levelManager.levels[x.i]), filter})
     }
 
+    function scrollIntoView(i) {
+        let el = mainListRef.current.children[i]
+        setActiveMenu(MENU_TYPES.CLOSED)
+        el.scrollIntoView()
+        el.classList.add("ml_selectedAnim")
+        setTimeout(()=>el.classList.remove("ml_selectedAnim"),2000)
+    }
 
     return <div className="LevelSearchMenu">
         {/* FILTER SETTINGS */}
@@ -89,7 +95,12 @@ function LevelSearchMenu() {
                <div className="lsm_resultCountParent">Results (<span>{(filteredLevels.length||0)+"/"+levelManager.levels.length}</span>)</div>
                <div className="lsm_resultList">
                 {
-                    filteredLevels.levels.map((l,i)=><span className="lsm_result" key={i}>{`(#${l.rank}) ${l.name}, ${filteredLevels.filter}:${l[filteredLevels.filter]}`}</span>)
+                    filteredLevels.levels.map((l,i)=><span onClick={()=>scrollIntoView(l.rank-1)} className="lsm_result" key={i}>{`(#${l.rank}) ${l.name}, ${filteredLevels.filter}:${
+                        filteredLevels.filter=="date" ?
+                            getFormatedDate(l.date) :
+                        filteredLevels.filter=="length" ?
+                        l.getFormatedLength(true):l[filteredLevels.filter]
+                    }`}</span>)
                 }
                </div>
             </div>

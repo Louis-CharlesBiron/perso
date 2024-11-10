@@ -1,8 +1,7 @@
 import './CSS/StorageWheel.css'
 
 /**
- * Don't forget the doc!
- * @param {*}
+ * Displays a wheel-like storage viewer
  */
 function StorageWheel({size=150}) {
     return <div className="StorageWheel">

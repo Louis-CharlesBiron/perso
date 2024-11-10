@@ -1,4 +1,4 @@
-import { fakechrome } from "../App"
+import { chrome } from "../App"
 
 // Manages user settings
 class UserManager {
@@ -11,14 +11,14 @@ class UserManager {
         if (!this.username && !this.playerColors && !this._initialized) this.load()
     }
 
-
-
-
+    saveUsername(username) {
+        chrome.storage.sync.set({$u:this.username})
+    }
 
     // STORAGE //
     load() {
         this._initialized = true
-        fakechrome.storage.sync.get(sync=>{
+        chrome.storage.sync.get(sync=>{
             this.setUsername(sync.$u)
         })
     }

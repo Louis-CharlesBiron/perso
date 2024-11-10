@@ -3,7 +3,6 @@ import './CSS/InfoSection.css'
 import IconButton from './IconButton'
 
 /**
- * Don't forget the doc!
  * @param {INFO_SECTION} type type of container used to display 
  * @param {String} headerText header text of the section
  * @param {String || String[] || Object[]} value the text or texts to display

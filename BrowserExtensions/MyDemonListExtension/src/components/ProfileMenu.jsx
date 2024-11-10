@@ -1,15 +1,12 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import InfoSection, { INFO_SECTION } from './InfoSection'
-import { fakechrome } from '../App'
+import { chrome } from '../App'
 import { UserContext } from './contexts/UserContext'
 import { DEMON_TYPES, EMPTY_STATS1 } from '../Utils/Utility'
 
 /**
- * Don't forget the doc!
- * @param {*}
+ * The sidebar menu displaying in-game stats about the user 
  */
-
-
 function ProfileMenu() {
     const usernameInputRef = useRef(null),
           userManager = useContext(UserContext),
@@ -21,11 +18,11 @@ function ProfileMenu() {
     function fetchProfile(u) {
         //I love GD cologne!
         if (u) fetch('https://gdbrowser.com/api/profile/'+u).then(r=>r.json()).then(stats=>{
-            console.log(stats)
+            
             // Adjust username
             if (u !== stats.username) {
                 userManager.setUsername(stats.username)
-                fakechrome.storage.sync.set({$u:stats.username})
+                userManager.saveUsername(stats.username)
             }
 
             // Icon color

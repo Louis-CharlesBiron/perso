@@ -5,8 +5,7 @@ import { LevelsContext } from './contexts/LevelsContext'
 
 
 /**
- * Don't forget the doc!
- * @param {*}
+ * The main list displaying all levels
  */
 const MainList = forwardRef((props, ref)=>{
     const levelManager = useContext(LevelsContext)
@@ -14,7 +13,7 @@ const MainList = forwardRef((props, ref)=>{
     return <>
         <div className="MainList" ref={ref}>
             {
-                levelManager.levels.length ? levelManager.levels.map((level, i)=>
+                levelManager.levels?.length ? levelManager.levels.map((level, i)=>
                     <LevelDisplay level={level} key={i}></LevelDisplay>
                 ) : <div className="ml_nolvlyet">No Levels Yet...</div>
             }

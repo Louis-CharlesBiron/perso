@@ -1,7 +1,7 @@
 const MAIN_SONGS_ID = [500476, 522654, 523561, 49854, 404997, 485351, 168734, 529148, 291458, 516735, 505816, 350290, 479319, 790341, 368392, 568699, 230308, 472925, 641172, 503731, 860287, 1284388],
       DEMON_TYPES = ["easy", "medium", "hard", "insane", "extreme"],
-      EMPTY_STATS1 = {easy:0,medium:0,hard:0,insane:0,extreme:0,weekly:0,gauntlet:0}
-
+      EMPTY_STATS1 = {easy:0,medium:0,hard:0,insane:0,extreme:0,weekly:0,gauntlet:0},
+      FEATURE_LEVELS = ["no rate", "rate", "featured", "epic", "legendary", "mythic"]
 
 function capitalize(str) {
     return str.replaceAll(/(?:\s|^)[a-z]/g,x=>x.toUpperCase())
@@ -57,4 +57,13 @@ function getLengthInSeconds(lengthStr) {
     return lengthStr?.match(/[0-9]{1,2}/g)?.reduce((a,b,i)=>a+=i?+b:b*60,0)||0
 }
 
-export {capitalize, getFormatedObject, getUsedInputs, getFormatedDate, pad0, numSep, msToTime, daysBetweenDates, getLengthInSeconds, MAIN_SONGS_ID, DEMON_TYPES, EMPTY_STATS1}
+
+function readFile(file, callback) {// callback(file, content)
+    let fr = new FileReader()
+    fr.onload=e=>callback(file, e.target.result)
+    fr.readAsText(file)
+}
+
+function isValidJson(str) {try{JSON.parse(str)}catch(e){return 0}return 1}
+
+export {capitalize, isValidJson, readFile, getFormatedObject, getUsedInputs, getFormatedDate, pad0, numSep, msToTime, daysBetweenDates, getLengthInSeconds, MAIN_SONGS_ID, DEMON_TYPES, EMPTY_STATS1, FEATURE_LEVELS}

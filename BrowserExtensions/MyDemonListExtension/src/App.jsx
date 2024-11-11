@@ -1,4 +1,7 @@
-import { useRef, useState } from 'react'
+// JSX
+// MyDemonList Extension by Louis-Charles Biron
+// Please don't use or credit this code as your own.
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import MainHeader from './components/MainHeader'
 import MainList from './components/MainList'
@@ -6,6 +9,7 @@ import StatusInfo from './components/StatusInfo'
 import LevelManager from './models/LevelManager'
 import {LevelsContext} from './components/contexts/LevelsContext.jsx'
 import {UserContext} from './components/contexts/UserContext.jsx'
+import {OnLineContext} from './components/contexts/OnLineContext.jsx'
 import Menu from './components/Menu.jsx'
 import LevelInfoMenu from './components/LevelInfoMenu.jsx'
 import LevelSearchMenu from './components/LevelSearchMenu.jsx'
@@ -15,23 +19,36 @@ import { ActiveMenuContext, MENU_TYPES } from './components/contexts/ActiveMenuC
 import OverviewMenu from './components/OverviewMenu.jsx'
 import ProfileMenu from './components/ProfileMenu.jsx'
 import UserManager from './models/UserManager.js'
+import IconButton from './components/IconButton.jsx'
+import { random } from './Utils/Utility.js'
 
 function App() {
 
   const levelManager = new LevelManager(useState(null)),
-        userManager = new UserManager(useState(null), useState(null)),
+        userManager = new UserManager(useState(null), useState(null), useState(false), useState("local")),
         activeMenu = useState(MENU_TYPES.CLOSED),
         mainListRef = useRef(null),
-        usernameState = useState(null)
+        usernameState = useState(null),
+        [version, setVersion] = useState(null),
+        [onLine, setOnLine] = useState(navigator.onLine)
+
+  useEffect(()=>{
+    //Display version
+    chrome.management.getSelf(e=>setVersion(e.version))
+    //Set default storage type
+    chrome.storage.sync.get(r=>userManager.setDefaultStorageType(r.$s))
+  })
 
 
   return (
     <LevelsContext.Provider value={levelManager}>
     <UserContext.Provider value={userManager}>
     <ActiveMenuContext.Provider value={activeMenu}>
+    <OnLineContext.Provider value={setOnLine}>
 
-      <StatusInfo className="version">V2.0</StatusInfo>
-      {/* <StatusInfo className="onLine"></StatusInfo> TODO */}
+      <StatusInfo className="si_version">{version&&"V"+version}</StatusInfo>
+      {!onLine&&<StatusInfo className="si_onLine">OFFLINE</StatusInfo>}
+      <StatusInfo className="si_hasUnsavedChanges">{userManager.hasUnsavedChanges&&<IconButton disabled={true} size={24} title="WARNING: you currently have unsaved changes, save or revert them to access all features">$warn</IconButton>}</StatusInfo>
 
       <MainHeader mainListRef={mainListRef} usernameState={usernameState[0]}/>
       <MainList ref={mainListRef}/>
@@ -56,6 +73,7 @@ function App() {
         <ProfileMenu/>
       </Sidebar>
       
+    </OnLineContext.Provider>
     </ActiveMenuContext.Provider>
     </UserContext.Provider>
     </LevelsContext.Provider>
@@ -68,10 +86,10 @@ export default App
 
 export const chrome = {
   downloads: {
-    download:(obj)=>console.log("DOWNLOADING FILE "+obj)
+    download:(obj)=>console.log("DOWNLOADING FILE ",obj)
   },
   windows: {
-    create:(obj)=>console.log("NEW WINDOW CREATED AT "+obj.url)
+    create:(obj)=>console.log("NEW WINDOW CREATED AT ",obj)
   },
   storage:{
   syncv:{
@@ -100,7 +118,12 @@ export const chrome = {
       },
       remove:(key)=>{
           setTimeout(()=>delete chrome.storage.syncv[key], 100)
-      }
+      },
+      clear:()=>chrome.storage.syncv = {},
+      QUOTA_BYTES:102400,
+      getBytesInUse:(cb)=>{
+        setTimeout(()=>cb(random(100, 100000)), 100)
+      },
   },
   local:{
       get:(cb)=>{
@@ -111,7 +134,14 @@ export const chrome = {
       },
       remove:(key)=>{
           setTimeout(()=>delete chrome.storage.localv[key], 100)
-      }
+      },
+      clear:()=>chrome.storage.localv = {},
+      getBytesInUse:(cb)=>{
+        setTimeout(()=>cb(random(100, 100000)), 100)
+      },
   }
-}
+},
+  management: {
+    getSelf:(cb)=>setTimeout(()=>cb({version:"2.0"}),100)
+  }
 }

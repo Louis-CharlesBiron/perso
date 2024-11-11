@@ -1,3 +1,6 @@
+// JSX
+// MyDemonList Extension by Louis-Charles Biron
+// Please don't use or credit this code as your own.
 import { useContext, useEffect, useRef } from "react"
 import "./CSS/LevelInfoMenu.css"
 import IconButton from "./IconButton"
@@ -5,15 +8,17 @@ import { ActiveMenuContext, MENU_TYPES } from "./contexts/ActiveMenuContext"
 import { capitalize, getFormatedDate, getUsedInputs, MAIN_SONGS_ID } from "../Utils/Utility"
 import Level from "../models/Level"
 import { LevelsContext } from "./contexts/LevelsContext"
+import { OnLineContext } from "./contexts/OnLineContext"
+import { UserContext } from "./contexts/UserContext"
 
-/**
- * Menu for level creation and edition
- */
+// Menu for level creation and edition
 function LevelInfoMenu() {
     const inputsRef = useRef({}),
           [levelEdit,setActiveMenu] = useContext(ActiveMenuContext), isLevelEdit = levelEdit&&typeof levelEdit=="object",
           levelManager = useContext(LevelsContext),
-          errorMsgRef = useRef(null)
+          defaultStorageType = useContext(UserContext).defaultStorageType,
+          errorMsgRef = useRef(null),
+          setOnLine = useContext(OnLineContext)
 
     // displays error popup
     function errorPopup(message) {
@@ -106,14 +111,13 @@ function LevelInfoMenu() {
                 }
             }
         })
-
     }, [])
 
     return <div className="LevelInfoMenu">
 
         {/* VALUE FIELDS */}
         <div className="lim_storageType" title="Storage Type">Storage:
-            <select ref={el=>inputsRef.current["storageType"]=el}  autoComplete="off">
+            <select ref={el=>inputsRef.current["storageType"]=el}  autoComplete="off" defaultValue={isLevelEdit?undefined:defaultStorageType}>
                 {isLevelEdit && <>
                         <option value="" title="Selected">{levelEdit?.storageType ? "("+capitalize(levelEdit.storageType)+")" : ""}</option>
                         <option disabled>- - -</option>
@@ -127,7 +131,7 @@ function LevelInfoMenu() {
 
         <div className="lim_valuesID">
             <label title="The in game ID of the level">Id: <input placeholder={levelEdit?.id||"..."} ref={el=>inputsRef.current["id"]=el} type="number" autoComplete="off"/></label>
-            <label title="Click to enter a level from Id"><div>Search <IconButton onClick={e=>navigator.onLine?searchById(e.ctrlKey):errorPopup("Cannot search, no internet connection")} size="22">$search</IconButton> </div>
+            <label title="Click to enter a level from Id"><div>Search <IconButton onClick={e=>(setOnLine(navigator.onLine),navigator.onLine)?searchById(e.ctrlKey):errorPopup("Cannot search, no internet connection")} size="22">$search</IconButton> </div>
             </label>
         </div>
 

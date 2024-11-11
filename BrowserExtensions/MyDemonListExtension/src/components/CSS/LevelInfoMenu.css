@@ -1,3 +1,7 @@
+/* CSS
+  MyDemonList Extension by Louis-Charles Biron
+  Please don't use or credit this code as your own.
+*/
 .LevelInfoMenu {
     width: 90%;
     height: 75%;
@@ -169,7 +173,7 @@
     position: absolute;
     top: 1%;
     left: 1.6%;
-    width: 40%;
+    width: 38%;
     letter-spacing: 1px;
     font-weight: bold;
     opacity: 0;

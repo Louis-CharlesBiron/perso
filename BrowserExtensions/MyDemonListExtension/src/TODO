@@ -1,34 +1,29 @@
 -MAYBES
-- check input values
 - random id
 - mass data prevention: load only 100 at a time (mainlist, search menu)
+- check input values
+- write readme
 
 
 OTHERS
 - remove fakechrome
-- file headers (do not copy code plz)
-- default storage in background.js
 - remove <StrictMode>?
+
+- file headers (do not copy code plz)
+
 - test all
+- check if enough storage when adding to sync, else disable it
 
 
 FUNCTIONNALITIES
 - lastDeleted
-- synced global settings (username, defaultStorage, )
+
+
+
+
 
 
 --SETTINGS
-- exported text format
-- save levels by import
-- import by text
-- delete all stored
-- confirm popup
-
-- see storage used
-- set default storage
-
-- css
-
 
 --LEVEL DISPLAY
 

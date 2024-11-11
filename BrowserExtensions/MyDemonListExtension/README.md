@@ -1,1 +1,1 @@
-TEMPLATE REACT PROJECT
+Mydemonlist extension

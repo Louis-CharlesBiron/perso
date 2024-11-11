@@ -1,7 +1,6 @@
 // JS
 // MyDemonList Extension by Louis-Charles Biron
 // Please don't use or credit this code as your own.
-
 import { capitalize, daysBetweenDates, FEATURE_LEVELS, getFormatedDate, getFormatedObject, getLengthInSeconds, msToTime, numSep, pad0 } from "../Utils/Utility"
 
 class Level {

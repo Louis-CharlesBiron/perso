@@ -1,12 +1,13 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+// JSX
+// MyDemonList Extension by Louis-Charles Biron
+// Please don't use or credit this code as your own.
+import { useContext, useRef, useState } from 'react'
 import './CSS/LevelSearchMenu.css'
 import { LevelsContext } from './contexts/LevelsContext'
 import { getFormatedDate, getLengthInSeconds } from '../Utils/Utility'
 import { ActiveMenuContext, MENU_TYPES } from './contexts/ActiveMenuContext'
 
-/**
- * Menu for detailed level search
- */
+// Menu for detailed level search
 function LevelSearchMenu({mainListRef}) {
     const levelManager = useContext(LevelsContext),
           [,setActiveMenu] = useContext(ActiveMenuContext),

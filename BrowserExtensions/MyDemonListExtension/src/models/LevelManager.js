@@ -1,3 +1,6 @@
+// JS
+// MyDemonList Extension by Louis-Charles Biron
+// Please don't use or credit this code as your own.
 import { chrome } from "../App"
 import Level from "./Level"
 
@@ -7,6 +10,8 @@ class LevelManager {
         this._levelsState = levelsState
         this._lastDeleted = null
         this._initialized = false
+        
+
         if (!this._levelsState[0] && !this._initialized) this.load()
     }
 
@@ -66,15 +71,6 @@ class LevelManager {
 
     get(id) {
         return this.levels.find(x=>x.id==id)
-    }
-
-    saveAll(data) {
-        console.log(data)
-        chrome.storage.sync.set({
-            $u: data.$u,
-            $l: data.$l
-            // TODO SAVE ALL LEVELS
-        })
     }
 
     // STORAGE //

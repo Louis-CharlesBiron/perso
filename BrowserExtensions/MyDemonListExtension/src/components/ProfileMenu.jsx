@@ -1,23 +1,27 @@
+// JSX
+// MyDemonList Extension by Louis-Charles Biron
+// Please don't use or credit this code as your own.
 import { useContext, useEffect, useRef, useState } from 'react'
 import InfoSection, { INFO_SECTION } from './InfoSection'
 import { chrome } from '../App'
 import { UserContext } from './contexts/UserContext'
-import { DEMON_TYPES, EMPTY_STATS1 } from '../Utils/Utility'
+import { DEMON_TYPES, DISABLED_MESSAGE, EMPTY_STATS1 } from '../Utils/Utility'
+import { OnLineContext } from './contexts/OnLineContext'
 
-/**
- * The sidebar menu displaying in-game stats about the user 
- */
+//The sidebar menu displaying in-game stats about the user 
 function ProfileMenu() {
     const usernameInputRef = useRef(null),
           userManager = useContext(UserContext),
           [userProfileInfoStats, setUserProfileInfoStats] = useState([]),
-          [userProfileDemonsStats, setUserProfileDemonsStats] = useState({demons:[],total:"X",distinctClassic:"X",distinctPlat:"X"})
+          [userProfileDemonsStats, setUserProfileDemonsStats] = useState({demons:[],total:"X",distinctClassic:"X",distinctPlat:"X"}),
+          setOnLine = useContext(OnLineContext)
+
 
     let fetchRegulatorId
 
     function fetchProfile(u) {
         //I love GD cologne!
-        if (u) fetch('https://gdbrowser.com/api/profile/'+u).then(r=>r.json()).then(stats=>{
+        if (u && u!=="???" && (setOnLine(navigator.onLine),navigator.onLine)) fetch('https://gdbrowser.com/api/profile/'+u).then(r=>r.json()).then(stats=>{
             
             // Adjust username
             if (u !== stats.username) {
@@ -77,7 +81,7 @@ function ProfileMenu() {
 
 
     return <>
-        <InfoSection ref={usernameInputRef} onChange={e=>tryFetchProfile(e)} defaultValue={userManager.username} placeholder={userManager.username} type={INFO_SECTION.SIMPLE_INPUT} headerText="Username"></InfoSection>
+        <InfoSection disabled={userManager.hasUnsavedChanges} title={userManager.hasUnsavedChanges?DISABLED_MESSAGE:"Change username"} ref={usernameInputRef} onChange={e=>tryFetchProfile(e)} defaultValue={userManager.username} placeholder={userManager.username} type={INFO_SECTION.SIMPLE_INPUT} headerText="Username"></InfoSection>
         <InfoSection type={INFO_SECTION.INFO_LIST} headerText="Profile Info" value={userProfileInfoStats}></InfoSection>
         <InfoSection type={INFO_SECTION.ICON_LIST2} headerText={"Profile Demons ("+userProfileDemonsStats.total+" / "+(userProfileDemonsStats.distinctClassic+userProfileDemonsStats.distinctPlat)+")"} title={"Classic: "+userProfileDemonsStats.distinctClassic+" | Plat.: "+userProfileDemonsStats.distinctPlat+" | Distinct Total: "+(userProfileDemonsStats.distinctClassic+userProfileDemonsStats.distinctPlat)} value={userProfileDemonsStats.demons}></InfoSection>
     </>

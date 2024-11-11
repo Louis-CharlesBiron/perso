@@ -1,7 +1,12 @@
+// JS
+// MyDemonList Extension by Louis-Charles Biron
+// Please don't use or credit this code as your own.
+
 const MAIN_SONGS_ID = [500476, 522654, 523561, 49854, 404997, 485351, 168734, 529148, 291458, 516735, 505816, 350290, 479319, 790341, 368392, 568699, 230308, 472925, 641172, 503731, 860287, 1284388],
       DEMON_TYPES = ["easy", "medium", "hard", "insane", "extreme"],
       EMPTY_STATS1 = {easy:0,medium:0,hard:0,insane:0,extreme:0,weekly:0,gauntlet:0},
-      FEATURE_LEVELS = ["no rate", "rate", "featured", "epic", "legendary", "mythic"]
+      FEATURE_LEVELS = ["no rate", "rate", "featured", "epic", "legendary", "mythic"],
+      DISABLED_MESSAGE = "WARNING: you currently have unsaved changes, please save or revert them to access this feature"
 
 function capitalize(str) {
     return str.replaceAll(/(?:\s|^)[a-z]/g,x=>x.toUpperCase())
@@ -57,6 +62,9 @@ function getLengthInSeconds(lengthStr) {
     return lengthStr?.match(/[0-9]{1,2}/g)?.reduce((a,b,i)=>a+=i?+b:b*60,0)||0
 }
 
+function random(min, max) {
+    return Math.floor(Math.random()*(max-min+1))+min
+}
 
 function readFile(file, callback) {// callback(file, content)
     let fr = new FileReader()
@@ -66,4 +74,4 @@ function readFile(file, callback) {// callback(file, content)
 
 function isValidJson(str) {try{JSON.parse(str)}catch(e){return 0}return 1}
 
-export {capitalize, isValidJson, readFile, getFormatedObject, getUsedInputs, getFormatedDate, pad0, numSep, msToTime, daysBetweenDates, getLengthInSeconds, MAIN_SONGS_ID, DEMON_TYPES, EMPTY_STATS1, FEATURE_LEVELS}
+export {capitalize, random, isValidJson, readFile, getFormatedObject, getUsedInputs, getFormatedDate, pad0, numSep, msToTime, daysBetweenDates, getLengthInSeconds, MAIN_SONGS_ID, DEMON_TYPES, EMPTY_STATS1, FEATURE_LEVELS, DISABLED_MESSAGE}

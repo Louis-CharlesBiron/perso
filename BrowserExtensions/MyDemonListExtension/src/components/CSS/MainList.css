@@ -1,3 +1,7 @@
+/* CSS
+  MyDemonList Extension by Louis-Charles Biron
+  Please don't use or credit this code as your own.
+*/
 .MainList {
     width: 100%;
     height: 85%;
@@ -15,6 +19,20 @@
     letter-spacing: 3px;
     color: #adb2b6;
     font-size: 1.3em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ml_nolvlyet > span {
+    margin-top: 2%;
+    font-size: 0.75em;
+    width: 75%;
+    text-align: center;
+    opacity: 0.5;
+}
+.ml_nolvlyet > span:hover {
+    opacity: 1;
 }
 
 @keyframes selectedAnim {

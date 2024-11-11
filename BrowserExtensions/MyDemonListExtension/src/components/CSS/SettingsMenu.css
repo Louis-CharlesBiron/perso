@@ -1,3 +1,7 @@
+/* CSS
+  MyDemonList Extension by Louis-Charles Biron
+  Please don't use or credit this code as your own.
+*/
 .SettingsMenu {
     width: 90%;
     height: 80%;
@@ -58,4 +62,59 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.sm_exportSection {
+    height: 15%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: 1.1em;
+}
+
+.sm_importSection {
+    height: 64%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: 1.1em;
+}
+
+.sm_fileInputParent {
+    height: 20% !important;
+    cursor: pointer;
+}
+.sm_fileInputParent > input {
+    height: 40% !important;
+    text-align: center;
+}
+
+.sm_importSection button {
+    background-color: #1d1d1d;
+    border: 2px solid #505f6a;
+    border-radius: 4px;
+    outline: none;
+    color: #c0d5e6;
+    width: 58%;
+    font-size: 0.8em;
+    padding: 2% 0%;
+    letter-spacing: 2px;
+    cursor: pointer;
+}
+
+.sm_defStorage {
+    text-align: center;
+    border: 1px solid #a1b7c1;
+    border-bottom: 2px solid #a3b6c6;
+    padding: 2%;
+    background-color: #1d1d1d;
+    border-radius: 3px;
+    color: #c0d5e6;
+    outline: none;
+    width: 40%;
+    letter-spacing: 2px;
 }

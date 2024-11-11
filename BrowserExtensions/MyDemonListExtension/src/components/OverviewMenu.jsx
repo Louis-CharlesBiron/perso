@@ -1,12 +1,12 @@
+// JSX
+// MyDemonList Extension by Louis-Charles Biron
+// Please don't use or credit this code as your own.
 import { useContext, useState } from 'react'
 import InfoSection, { INFO_SECTION } from './InfoSection'
 import {LevelsContext} from './contexts/LevelsContext'
 import { capitalize, DEMON_TYPES, getLengthInSeconds, numSep } from '../Utils/Utility'
 
-
-/**
- * The sidebar menu displaying stats about the ranked levels
- */
+// The sidebar menu displaying stats about the ranked levels
 function OverviewMenu() {
     const levelManager = useContext(LevelsContext),
           [diffFilter, setDiffFilter] = useState(null)

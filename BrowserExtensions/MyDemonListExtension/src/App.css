@@ -1,3 +1,7 @@
+/* CSS
+  MyDemonList Extension by Louis-Charles Biron
+  Please don't use or credit this code as your own.
+*/
 html, body, #root {
   background-color: #18181a;
   color: aliceblue;
@@ -54,13 +58,23 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 }
 
 select {
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 .clickable {
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
+.hidden {
+  display: none !important;
+}
 
+.noMouse {
+  pointer-events: none;
+}
+
+.green {
+    color: rgb(1, 171, 1) !important;
+}
 
 

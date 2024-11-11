@@ -1,3 +1,6 @@
+// JSX
+// MyDemonList Extension by Louis-Charles Biron
+// Please don't use or credit this code as your own.
 import { forwardRef, useState } from 'react'
 import './CSS/InfoSection.css'
 import IconButton from './IconButton'
@@ -7,7 +10,7 @@ import IconButton from './IconButton'
  * @param {String} headerText header text of the section
  * @param {String || String[] || Object[]} value the text or texts to display
  */
-const InfoSection = forwardRef(({type=INFO_SECTION.SIMPLE, headerText, title="", value, defaultValue, onChange, placeholder, onIconClick}, ref)=>{
+const InfoSection = forwardRef(({type=INFO_SECTION.SIMPLE, headerText, title="", value, defaultValue, onChange, placeholder, onIconClick, disabled}, ref)=>{
     
     const [currentListPage, setCurrentListPage] = useState(0),
           listCapacity = 3, listIndex = currentListPage*listCapacity,
@@ -75,9 +78,9 @@ const InfoSection = forwardRef(({type=INFO_SECTION.SIMPLE, headerText, title="",
                     </div>
                 </div>
             : type==INFO_SECTION.SIMPLE_INPUT ?
-                <div className="InfoSection is_block is_simpleInput">
-                    <label title={title}>{headerText}</label>
-                    <input placeholder={placeholder} onChange={onChange} defaultValue={defaultValue} ref={ref} type="text" id="username" autoComplete='off' autoCorrect='false'/>
+                <div  title={title} className="InfoSection is_block is_simpleInput">
+                    <label>{headerText}</label>
+                    <input disabled={disabled} placeholder={placeholder} onChange={onChange} defaultValue={defaultValue} ref={ref} type="text" id="username" autoComplete='off' autoCorrect='false'/>
                 </div>
             : type==INFO_SECTION.INFO_LIST ?
                 <div className="InfoSection is_block is_infoList">

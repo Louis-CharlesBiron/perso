@@ -1,11 +1,15 @@
+// JSX
+// MyDemonList Extension by Louis-Charles Biron
+// Please don't use or credit this code as your own.
 import { useContext, useRef, useState } from 'react'
 import './CSS/LevelDisplay.css'
 import IconButton from './IconButton'
 import LevelDetails from './LevelDetails'
 import Level from '../models/Level'
-import { capitalize } from "../Utils/Utility"
+import { capitalize, DISABLED_MESSAGE } from "../Utils/Utility"
 import { ActiveMenuContext } from './contexts/ActiveMenuContext'
 import { chrome } from '../App'
+import { UserContext } from './contexts/UserContext'
 
 /**
  * Displays a level in details
@@ -15,7 +19,8 @@ function LevelDisplay({level}) {
 
     const [expanded, setExpanded] = useState(false),
           expandBtnRef = useRef(null),
-          [,setActiveMenu] = useContext(ActiveMenuContext)
+          [,setActiveMenu] = useContext(ActiveMenuContext),
+          hasUnsavedChanges = useContext(UserContext).hasUnsavedChanges
 
     function toggleExpanded() {
         setExpanded(x => !x)
@@ -27,7 +32,7 @@ function LevelDisplay({level}) {
 
         <div className="ld_main">
             <IconButton className="ld_expand" size="48" ref={expandBtnRef} onClick={toggleExpanded}>$expand</IconButton>
-            <IconButton className="ld_edit" size="32" onClick={()=>setActiveMenu(level)}>$edit</IconButton>
+            <IconButton className="ld_edit" size="32" onClick={()=>setActiveMenu(level)} disabled={hasUnsavedChanges} title={hasUnsavedChanges?DISABLED_MESSAGE:"Edit level"}>$edit</IconButton>
 
             <div className="ld_top">
                 {

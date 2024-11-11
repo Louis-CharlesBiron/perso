@@ -1,4 +1,7 @@
-import { useContext, useState } from 'react'
+// JSX
+// MyDemonList Extension by Louis-Charles Biron
+// Please don't use or credit this code as your own.
+import { useContext } from 'react'
 import './CSS/Menu.css'
 import IconButton from './IconButton'
 import { ActiveMenuContext, MENU_TYPES } from './contexts/ActiveMenuContext'

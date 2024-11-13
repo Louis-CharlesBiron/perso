@@ -6,7 +6,8 @@ const MAIN_SONGS_ID = [500476, 522654, 523561, 49854, 404997, 485351, 168734, 52
       DEMON_TYPES = ["easy", "medium", "hard", "insane", "extreme"],
       EMPTY_STATS1 = {easy:0,medium:0,hard:0,insane:0,extreme:0,weekly:0,gauntlet:0},
       FEATURE_LEVELS = ["no rate", "rate", "featured", "epic", "legendary", "mythic"],
-      DISABLED_MESSAGE = "WARNING: you currently have unsaved changes, please save or revert them to access this feature"
+      DISABLED_MESSAGE = "WARNING: you currently have unsaved changes, please save or revert them to access this feature",
+      MAX_USERNAME_LL = 18
 
 function capitalize(str) {
     return str.replaceAll(/(?:\s|^)[a-z]/g,x=>x.toUpperCase())
@@ -74,4 +75,11 @@ function readFile(file, callback) {// callback(file, content)
 
 function isValidJson(str) {try{JSON.parse(str)}catch(e){return 0}return 1}
 
-export {capitalize, random, isValidJson, readFile, getFormatedObject, getUsedInputs, getFormatedDate, pad0, numSep, msToTime, daysBetweenDates, getLengthInSeconds, MAIN_SONGS_ID, DEMON_TYPES, EMPTY_STATS1, FEATURE_LEVELS, DISABLED_MESSAGE}
+
+function getByteSize(obj={}) {
+    return new TextEncoder().encode(JSON.stringify(obj)).length
+}
+
+
+
+export {capitalize, random, getByteSize, isValidJson, readFile, getFormatedObject, getUsedInputs, getFormatedDate, pad0, numSep, msToTime, daysBetweenDates, getLengthInSeconds, MAIN_SONGS_ID, DEMON_TYPES, EMPTY_STATS1, FEATURE_LEVELS, DISABLED_MESSAGE, MAX_USERNAME_LL}

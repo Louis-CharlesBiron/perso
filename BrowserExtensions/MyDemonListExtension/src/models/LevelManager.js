@@ -8,7 +8,6 @@ import Level from "./Level"
 class LevelManager {
     constructor(levelsState) {
         this._levelsState = levelsState
-        this._lastDeleted = null
         this._initialized = false
         
 
@@ -75,18 +74,32 @@ class LevelManager {
 
     // STORAGE //
     load(data) {
-        console.log(chrome)
+        console.log(chrome, "WHY SO MANY")
         // manual load
         if (data) this.setLevels(data.$l.map((id, rank)=>Level.toInstance(data.l.find(l=>l.a==id), rank+1)))
         // Auto storage load
-        else chrome.storage.sync.get(synced=>{
-            //set global settings
-            chrome.storage.local.get(local=>{
-                let all = {...synced, ...local}, levels = synced.$l.map((id, rank)=>Level.toInstance(all[id], rank+1))
-                this.setLevels(levels)
-                this._initialized = true
-            })
-        })
+        else chrome.storage.sync.get(synced=>chrome.storage.local.get(local=>{
+                let all = {...synced, ...local}, levels = synced.$l?.map((id, rank)=>Level.toInstance(all[id], rank+1))
+
+                // If older version, need to convert storage
+                if (synced.$l && synced.$l.some(x=>isNaN(+x))) {
+                    console.log("BACKUP", all)
+                    let newRankList = synced.$l.map(name=>synced[name].id).filter(x=>x),
+                        newLevelsList = synced.$l.reduce((a,b)=>(synced[b].id?a[synced[b].id]=new Level(synced[b]).toStorageFormat():(void 1),a),{}),
+                        displayLevelsList = newRankList.map((id, rank)=>Level.toInstance(newLevelsList[id], rank+1))
+                    
+                    chrome.storage.sync.clear()
+                    chrome.storage.sync.set({$l: newRankList, $u:synced.$u})
+                    chrome.storage.local.set(newLevelsList)
+
+                    this.setLevels(displayLevelsList)
+                    this._initialized = true
+                } else {
+                    //normal load
+                    this.setLevels(levels)
+                    this._initialized = true
+                }
+        }))
     }
 
     get levels() {

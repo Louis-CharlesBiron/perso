@@ -4,7 +4,7 @@
 import { capitalize, daysBetweenDates, FEATURE_LEVELS, getFormatedDate, getFormatedObject, getLengthInSeconds, msToTime, numSep, pad0 } from "../Utils/Utility"
 
 class Level {
-    constructor(idOrLevel, rank, name, title, url, attempts, progs, time, date, enjoy, length, song, songURL, objects, diff, creator, featureLevel, gameVersion, lazyLength, storageType) {
+    constructor(idOrLevel, rank, name, title, url, attempts, progs, time, date, enjoy, length, song, songURL, objects, diff, creator, featureLevel, gameVersion, lazyLength, storageType) {        
         if (typeof idOrLevel == "object") {
             rank ??= idOrLevel.rank
             name = idOrLevel.name ?? idOrLevel[1]
@@ -27,6 +27,7 @@ class Level {
             storageType = idOrLevel.storageType ?? idOrLevel[18]
             idOrLevel = idOrLevel.id ?? idOrLevel[0]
         }
+        if (typeof date == "string") date = new Date(date+" 00:00").getTime()
 
         this._id = idOrLevel                            // in-game level id (UNIQUE)
         this._name = name                               // level name

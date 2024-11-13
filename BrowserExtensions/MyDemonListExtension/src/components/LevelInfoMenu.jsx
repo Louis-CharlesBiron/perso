@@ -5,11 +5,12 @@ import { useContext, useEffect, useRef } from "react"
 import "./CSS/LevelInfoMenu.css"
 import IconButton from "./IconButton"
 import { ActiveMenuContext, MENU_TYPES } from "./contexts/ActiveMenuContext"
-import { capitalize, getFormatedDate, getUsedInputs, MAIN_SONGS_ID } from "../Utils/Utility"
+import { capitalize, getByteSize, getFormatedDate, getUsedInputs, MAIN_SONGS_ID, MAX_USERNAME_LL } from "../Utils/Utility"
 import Level from "../models/Level"
 import { LevelsContext } from "./contexts/LevelsContext"
 import { OnLineContext } from "./contexts/OnLineContext"
 import { UserContext } from "./contexts/UserContext"
+import { chrome } from "../App"
 
 // Menu for level creation and edition
 function LevelInfoMenu() {
@@ -55,26 +56,36 @@ function LevelInfoMenu() {
     // Creates or saves level
     function action() {
         const values = getUsedInputs(inputsRef.current, true)
-
         if (levelManager.get(values.id)) errorPopup("A level with this id already exists")
         else {
-            if (isLevelEdit) {
-                // Edit/Save Level
-                levelManager.update(levelEdit, values)
-                setActiveMenu(MENU_TYPES.CLOSED)
-    
-            } else if (values.id) {
-                // Create new Level
-                    let level = new Level(values)
+            if (isLevelEdit) {// Edit/Save Level
+                if (getByteSize(values) > 2 && (levelEdit.storageType=="sync" || values.storageType == "sync")) {
+                    chrome.storage.sync.getBytesInUse(bytes=>{
+                        if (bytes+(getByteSize(Level.fromObject({...levelEdit.toObject(), ...values}))-getByteSize(levelEdit))+MAX_USERNAME_LL > chrome.storage.sync.QUOTA_BYTES) errorPopup("Unable to update level: Synced storage is full")
+                        else {
+                            levelManager.update(levelEdit, values)
+                            setActiveMenu(MENU_TYPES.CLOSED)
+                        }
+                    })
+                } else {
+                    levelManager.update(levelEdit, values)
+                    setActiveMenu(MENU_TYPES.CLOSED)
+                }
+            } else if (values.id) {// Create new Level
+                let level = new Level(values)
+                //Check sync storage capacity
+                if (level.storageType=="sync") {
+                    chrome.storage.sync.getBytesInUse(bytes=>{
+                        if (bytes+getByteSize(level.toStorageFormat())+MAX_USERNAME_LL > chrome.storage.sync.QUOTA_BYTES) errorPopup("Unable to create level: Synced storage is full")
+                        else {
+                            levelManager.add(level)
+                            setActiveMenu(MENU_TYPES.CLOSED)
+                        }
+                    })
+                } else {
                     levelManager.add(level)
                     setActiveMenu(MENU_TYPES.CLOSED)
-                        function scrollIntoView(i) {
-        let el = mainListRef.current.children[i]
-        setActiveMenu(MENU_TYPES.CLOSED)
-        el.scrollIntoView()
-        el.classList.add("ml_selectedAnim")
-        setTimeout(()=>el.classList.remove("ml_selectedAnim"),2000)
-    }
+                }
             } else errorPopup("The Id must be defined to create a level")
         }
     }

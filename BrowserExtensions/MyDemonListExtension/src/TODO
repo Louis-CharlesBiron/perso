@@ -3,25 +3,26 @@
 - mass data prevention: load only 100 at a time (mainlist, search menu)
 - check input values
 - write readme
-
-
-OTHERS
-- remove fakechrome
-- remove <StrictMode>?
-
-- file headers (do not copy code plz)
-
-- test all
-- check if enough storage when adding to sync, else disable it
-
-
-FUNCTIONNALITIES
 - lastDeleted
 
 
+-- FOR PRODUCTION
+- remove fakechrome
+
+- test all (in production mode)
+- fix the 1000x rerender at launch
+- merge from 1.7.1 -> 2.0
 
 
+-- IDEAS:
+- all level changer (set all specific storageType)
 
+- CCdata.dat file or idk, get data from this
+- platformer level support
+- cool bg
+
+
+--FUNCTIONNALITIES
 
 --SETTINGS
 
@@ -39,11 +40,5 @@ FUNCTIONNALITIES
 
 --SEARCH
 
-
-
--- IDEAS: 
-- CCdata.dat file or idk, get data from this
-- platformer level support
-- cool bg
 
 

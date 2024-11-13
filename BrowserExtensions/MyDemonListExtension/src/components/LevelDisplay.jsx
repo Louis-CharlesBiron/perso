@@ -50,7 +50,7 @@ function LevelDisplay({level}) {
 
 
         {expanded && [Level.PERSO_INFOS_DISPLAY_PROPS, Level.LEVEL_INFOS_DISPLAY_PROPS].map((info, i)=>
-            <LevelDetails key={i} list={info.map(({prop, mod, displayProp})=>({key:capitalize(displayProp||prop), value:mod?level[mod](level[prop]):level[prop], title:prop=="song"?"Open "+level[mod]():"", className:prop=="song"?"link":null, onClick:prop=="song"?()=>chrome.windows.create({url:level[mod]()}):null})).filter(x=>x.value)} className="LevelDetails"></LevelDetails>
+            <LevelDetails key={i} list={info.map(({prop, mod, displayProp})=>({key:capitalize(displayProp||prop), value:mod&&!prop=="song"?level[mod](level[prop]):level[prop], title:prop=="song"?"Open "+level[mod]():"", className:prop=="song"?"link":null, onClick:prop=="song"?()=>chrome.windows.create({url:level[mod]()}):null})).filter(x=>x.value)} className="LevelDetails"></LevelDetails>
         )}
 
     </div>

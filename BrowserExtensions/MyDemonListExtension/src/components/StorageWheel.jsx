@@ -9,7 +9,7 @@ import { chrome } from '../App'
  * Displays a wheel-like storage viewer
  */
 const StorageWheel = forwardRef(({size=150}, ref)=>{
-    const QB = chrome.storage.sync.QUOTA_BYTES, DEFAULT_TYPE = "sync",
+    const QB = chrome.storage.sync.QUOTA_BYTES, QBL = chrome.storage.local.QUOTA_BYTES, DEFAULT_TYPE = "sync",
         [storage, setStorage] = useState({type:DEFAULT_TYPE, bytesUsed:null})
 
     function displayStorage(type=DEFAULT_TYPE) {
@@ -27,7 +27,7 @@ const StorageWheel = forwardRef(({size=150}, ref)=>{
     return <div className="StorageWheel">
         <svg className="sw_wheel" width={size} height={size}>
             <circle className="sw_back" strokeWidth={size*0.1} cx={size/2} cy={size/2} r={size/2}></circle>
-            <circle className="sw_progress" strokeWidth={size*0.1} cx={size/2} cy={size/2} r={size/2} style={{strokeDasharray: (storage.bytesUsed*414/QB)+", 911, 999"}}></circle>
+            <circle className="sw_progress" strokeWidth={size*0.1} cx={size/2} cy={size/2} r={size/2} style={{strokeDasharray: (storage.bytesUsed*414/(storage.type=="sync"?QB:QBL))+", 911, 999"}}></circle>
         </svg>
         <div className="sw_infoParent">
             <select className="sw_storageSelect" onInput={e=>displayStorage(e.target.value)}>

@@ -2,7 +2,7 @@
 // MyDemonList Extension by Louis-Charles Biron
 // Please don't use or credit this code as your own.
 import { useContext, useRef, useState } from 'react'
-import { chrome } from '../App'
+// import { chrome } from '../App'
 import './CSS/SettingsMenu.css'
 import IconButton from './IconButton'
 import StorageWheel from './StorageWheel'
@@ -43,8 +43,6 @@ function SettingsMenu() {
 
                 if (data.$u) userManager.setUsername(data.$u)
                 levelManager.load(data)
-
-                console.log(data)
             }
         })
     }

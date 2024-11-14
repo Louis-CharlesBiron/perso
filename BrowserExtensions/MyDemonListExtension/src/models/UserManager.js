@@ -1,7 +1,7 @@
 // JS
 // MyDemonList Extension by Louis-Charles Biron
 // Please don't use or credit this code as your own.
-import { chrome } from "../App"
+// import { chrome } from '../App'
 
 // Manages user settings
 class UserManager {

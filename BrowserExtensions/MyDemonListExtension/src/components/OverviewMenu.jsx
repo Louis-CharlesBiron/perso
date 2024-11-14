@@ -31,7 +31,6 @@ function OverviewMenu() {
         longestJourneys = levels.filter(l=>+l.time).toSorted((a,b)=>b.time-a.time),
 
         longestLevels = levels.toSorted((a,b)=>getLengthInSeconds(b.length)-getLengthInSeconds(a.length)),
-        shortestLevels = longestLevels.toReversed(),
 
         recentCompletions = levels.filter(l=>l.getDaysAgo()>=0).toSorted((a,b)=>a.getDaysAgo()-b.getDaysAgo()),
 
@@ -50,7 +49,6 @@ function OverviewMenu() {
         <InfoSection headerText="Worst Deaths"       type={INFO_SECTION.LIST} value={worstDeaths.map(l=>`(#${l.level.rank}) ${l.level.name}, At ${100-l.value}%`)}></InfoSection>
         <InfoSection headerText="Longest Journeys"   type={INFO_SECTION.LIST} value={longestJourneys.map(l=>`(#${l.rank}) ${l.name}, ${l.time} Days`)}></InfoSection>
         <InfoSection headerText="Longest Levels"     type={INFO_SECTION.LIST} value={longestLevels.map(l=>`(#${l.rank}) ${l.name}, ${l.getFormatedLength()}`)}></InfoSection>
-        <InfoSection headerText="Shortest Levels"    type={INFO_SECTION.LIST} value={shortestLevels.map(l=>`(#${l.rank}) ${l.name}, ${l.getFormatedLength()}`)}></InfoSection>
         <InfoSection headerText="Recent Completions" type={INFO_SECTION.LIST} value={recentCompletions.map(l=>`(#${l.rank}) ${l.name}, ${l.getDaysAgo()} Days Ago`)}></InfoSection>
     </>
 }

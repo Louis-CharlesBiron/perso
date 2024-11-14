@@ -1,26 +1,5 @@
--MAYBES
-- random id
-- mass data prevention: load only 100 at a time (mainlist, search menu)
-- check input values
-- write readme
-- lastDeleted
-
-
+TODO
 -- FOR PRODUCTION
-- remove fakechrome
-
-- test all (in production mode)
-- fix the 1000x rerender at launch
-- merge from 1.7.1 -> 2.0
-
-
--- IDEAS:
-- all level changer (set all specific storageType)
-
-- CCdata.dat file or idk, get data from this
-- platformer level support
-- cool bg
-
 
 --FUNCTIONNALITIES
 
@@ -39,6 +18,29 @@
 --OVERVIEW
 
 --SEARCH
+
+
+
+
+
+-MAYBES
+- random id
+- mass data prevention: load only 100 at a time (mainlist, search menu)
+- check input values
+- write readme
+- lastDeleted
+- fix the 10x rerender at launch
+- storage manager
+- check urls (can prob be used for hacking or smtg)
+
+
+
+-- IDEAS:
+- all level changer (set all specific storageType)
+
+- CCdata.dat file or idk, get data from this
+- platformer level support
+- cool bg
 
 
 

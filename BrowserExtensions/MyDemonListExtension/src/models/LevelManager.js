@@ -1,7 +1,7 @@
 // JS
 // MyDemonList Extension by Louis-Charles Biron
 // Please don't use or credit this code as your own.
-import { chrome } from "../App"
+// import { chrome } from '../App'
 import Level from "./Level"
 
 // Level management
@@ -74,7 +74,6 @@ class LevelManager {
 
     // STORAGE //
     load(data) {
-        console.log(chrome, "WHY SO MANY")
         // manual load
         if (data) this.setLevels(data.$l.map((id, rank)=>Level.toInstance(data.l.find(l=>l.a==id), rank+1)))
         // Auto storage load
@@ -83,7 +82,7 @@ class LevelManager {
 
                 // If older version, need to convert storage
                 if (synced.$l && synced.$l.some(x=>isNaN(+x))) {
-                    console.log("BACKUP", all)
+                    console.log("(CONSOLE BACKUP)", all)
                     let newRankList = synced.$l.map(name=>synced[name].id).filter(x=>x),
                         newLevelsList = synced.$l.reduce((a,b)=>(synced[b].id?a[synced[b].id]=new Level(synced[b]).toStorageFormat():(void 1),a),{}),
                         displayLevelsList = newRankList.map((id, rank)=>Level.toInstance(newLevelsList[id], rank+1))

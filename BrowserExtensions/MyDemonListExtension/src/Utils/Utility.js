@@ -22,7 +22,7 @@ function capitalize(str) {
 function getUsedInputs(inputs, asValues) {
     let inps = Object.entries(inputs).filter(x => x[1]?.value), dateIndex = inps.findIndex(x => x[0] == "date")
     if (dateIndex + 1) inps[dateIndex][1] = { value: new Date(inps[dateIndex][1].value + " 00:00").getTime() }
-    return asValues ? inps.reduce((a, b) => (a[b[0]] = b[1].value.trim(), a), {}) : inps.map(x => x[1])
+    return asValues ? inps.reduce((a, b) => (a[b[0]] = typeof b[1].value=="string"?b[1].value.trim():b[1].value, a), {}) : inps.map(x => x[1])
 }
 
 function pad0(num) {return num< 10?"0"+num:num}

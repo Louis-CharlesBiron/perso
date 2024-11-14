@@ -8,7 +8,7 @@ import LevelDetails from './LevelDetails'
 import Level from '../models/Level'
 import { capitalize, DISABLED_MESSAGE } from "../Utils/Utility"
 import { ActiveMenuContext } from './contexts/ActiveMenuContext'
-import { chrome } from '../App'
+// import { chrome } from '../App'
 import { UserContext } from './contexts/UserContext'
 
 /**
@@ -37,7 +37,7 @@ function LevelDisplay({level}) {
             <div className="ld_top">
                 {
                     level?.url?.includes(location.host)||!level?.url?.includes("http") ?
-                        <img className="ld_levelImg" src={"src/assets/img/"+(level.diff||"hard")+".png"}></img>
+                        <img className="ld_levelImg" src={"assets/"+(level.diff||"hard")+".png"}></img>
                         : <iframe src={level.url} loading="lazy" frameBorder="0" title={"Cool Video of "+level.name} className="ld_img" allow="autoplay; encrypted-media; picture-in-picture;"></iframe>
                 }
             
@@ -50,7 +50,7 @@ function LevelDisplay({level}) {
 
 
         {expanded && [Level.PERSO_INFOS_DISPLAY_PROPS, Level.LEVEL_INFOS_DISPLAY_PROPS].map((info, i)=>
-            <LevelDetails key={i} list={info.map(({prop, mod, displayProp})=>({key:capitalize(displayProp||prop), value:mod&&!prop=="song"?level[mod](level[prop]):level[prop], title:prop=="song"?"Open "+level[mod]():"", className:prop=="song"?"link":null, onClick:prop=="song"?()=>chrome.windows.create({url:level[mod]()}):null})).filter(x=>x.value)} className="LevelDetails"></LevelDetails>
+            <LevelDetails key={i} list={info.map(({prop, mod, displayProp})=>({key:capitalize(displayProp||prop), value:mod&&prop!=="song"?level[mod](level[prop]):level[prop], title:prop=="song"?"Open "+level[mod]():"", className:prop=="song"?"link":null, onClick:prop=="song"?()=>chrome.windows.create({url:level[mod]()}):null})).filter(x=>x.value)} className="LevelDetails"></LevelDetails>
         )}
 
     </div>

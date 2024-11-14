@@ -3,7 +3,6 @@
 // Please don't use or credit this code as your own.
 import { useContext, useEffect, useRef, useState } from 'react'
 import InfoSection, { INFO_SECTION } from './InfoSection'
-import { chrome } from '../App'
 import { UserContext } from './contexts/UserContext'
 import { DEMON_TYPES, DISABLED_MESSAGE, EMPTY_STATS1 } from '../Utils/Utility'
 import { OnLineContext } from './contexts/OnLineContext'

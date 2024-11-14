@@ -54,7 +54,7 @@ const InfoSection = forwardRef(({type=INFO_SECTION.SIMPLE, headerText, title="",
                                 {entry.demonType+" demon:"}
                                 <span>{entry.demon}
                                     <label title={"Filter by "+entry.demonType+" demon"} onClick={e=>onIconClick(e, entry.demonType)}>
-                                        <img src={"src/assets/img/"+entry.demonType+".png"} className="small_icon"/>
+                                        <img src={"assets/"+entry.demonType+".png"} className="small_icon"/>
                                     </label>
                                 </span>
                             </span>)
@@ -72,7 +72,7 @@ const InfoSection = forwardRef(({type=INFO_SECTION.SIMPLE, headerText, title="",
                                 <span className="is_demonTotals">
                                     <span title="Classic demons" className="is_dt1">{entry.cdemon}</span><span className="is_dt2" title="Classic | Plat.">|</span><span title="Plat. demons" className="is_dt3">{entry.pdemon}</span>
                                 </span>
-                                <img src={"src/assets/img/"+entry.demonType+".png"} className="small_icon"/>
+                                <img src={"assets/"+entry.demonType+".png"} className="small_icon"/>
                             </span>)
                         }
                     </div>

@@ -3,7 +3,7 @@
 // Please don't use or credit this code as your own.
 import { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
 import './CSS/StorageWheel.css'
-import { chrome } from '../App'
+// import { chrome } from '../App'
 
 /**
  * Displays a wheel-like storage viewer

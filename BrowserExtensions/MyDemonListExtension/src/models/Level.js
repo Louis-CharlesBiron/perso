@@ -27,7 +27,10 @@ class Level {
             storageType = idOrLevel.storageType ?? idOrLevel[18]
             idOrLevel = idOrLevel.id ?? idOrLevel[0]
         }
-        if (typeof date == "string") date = new Date(date+" 00:00").getTime()
+
+        // adjustements
+        if (typeof date == "string") date = isNaN(new Date(date+" 00:00").getTime()) ? "" : new Date(date+" 00:00").getTime()
+        if (typeof url == "string") url = url.replace("watch?v=","embed/")
 
         this._id = idOrLevel                            // in-game level id (UNIQUE)
         this._name = name                               // level name
@@ -53,7 +56,7 @@ class Level {
     }
 
     toStorageFormat() {
-        return {a:this._id, b:this._name, c:this._title, d:this._url, e:this._attempts, f:this._progs, g:this._time, h:this._date, i:this._enjoy, j:this._length, k:this._song, l:this._songURL, m:this._objects, n:this._diff, o:this._creator, p:this._featureLevel, q:this._gameVersion, r:this._lazyLength, s:this._storageType}
+        return {a:this._id, b:this._name??"", c:this._title??"", d:this._url??"", e:this._attempts??"", f:this._progs??"", g:this._time??"", h:this._date??"", i:this._enjoy??"", j:this._length??"", k:this._song??"", l:this._songURL??"", m:this._objects??"", n:this._diff??"", o:this._creator??"", p:this._featureLevel??"", q:this._gameVersion??"", r:this._lazyLength??"", s:this._storageType??""}
     }
 
     toObject() {
@@ -62,7 +65,7 @@ class Level {
 
     getFormatedLength(hideLazyLength) {
         let t = msToTime(getLengthInSeconds(this._length)*1000)
-        return pad0(t[3])+":"+pad0(t[4])+(hideLazyLength==true?"":" ("+this._lazyLength+")")
+        return pad0(t[3])+":"+pad0(t[4])+(hideLazyLength==true?"":(this._lazyLength?" ("+this._lazyLength+")":""))
     }
 
     getDaysAgo() {
@@ -70,12 +73,12 @@ class Level {
         return isNaN(days) ? -1 : days
     }
 
-    _formatProgs() {return this._progs.split(/ +/g).map(p=>p.trim()+"%").join(" ")} 
-    _formatTime() {return this._time+" Day"+(this._time>1?"s":"")}
-    _formatDate() {return getFormatedDate(this._date)+" ("+daysBetweenDates(this._date)+" days ago)"}
-    _formatEnjoy() {return this._enjoy+"/100"}
+    _formatProgs() {return this._progs?this._progs.split(/ +/g).map(p=>p.trim()+"%").join(" "):""} 
+    _formatTime() {return this._time?this._time+" Day"+(this._time>1?"s":""):""}
+    _formatDate() {return this._date?getFormatedDate(this._date)+(this.getDaysAgo()==-1?"":" ("+this.getDaysAgo()+" days ago)"):""}
+    _formatEnjoy() {return this._enjoy?this._enjoy+"/100":""}
     _formatId() {return this._id+(+this._gameVersion?" ("+this._gameVersion+")":"")}
-    _formatObjects() {return +this._objects ? numSep(this._objects) : ""}
+    _formatObjects() {return +this._objects?numSep(this._objects):""}
     _formatDiff() {return capitalize(this._diff)+" Demon"+(FEATURE_LEVELS[this._featureLevel]?" ("+FEATURE_LEVELS[this._featureLevel]+")":"")}
     _getSongURL() {return this._songURL}
 
@@ -121,8 +124,6 @@ class Level {
 	get lazyLength() {return this._lazyLength}
 	get gameVersion() {return this._gameVersion}
 	get storageType() {return this._storageType}
-
-
 }
 
 export default Level

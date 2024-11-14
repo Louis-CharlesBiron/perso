@@ -10,7 +10,7 @@ import Level from "../models/Level"
 import { LevelsContext } from "./contexts/LevelsContext"
 import { OnLineContext } from "./contexts/OnLineContext"
 import { UserContext } from "./contexts/UserContext"
-import { chrome } from "../App"
+// import { chrome } from '../App'
 
 // Menu for level creation and edition
 function LevelInfoMenu() {
@@ -114,11 +114,20 @@ function LevelInfoMenu() {
                 }
             }
 
+            el.onkeydown=e=>{
+                let k = e.key.toLowerCase()
+                if (k=="enter") action()
+            }
+
             // Fill input to current value when in edit mode
-            if (isLevelEdit && el.placeholder) {
-                el.onfocus=()=>el.value = el.placeholder
+            let p = el.placeholder
+            if (isLevelEdit && p) {
+                el.onfocus=()=>{
+                    if (Object.values(levelEdit).includes(p))
+                    el.value = p
+                }
                 el.onblur=()=>{
-                    if (el.value == el.placeholder) el.value = ""
+                    if (el.value == p) el.value = ""
                 }
             }
         })
@@ -153,7 +162,7 @@ function LevelInfoMenu() {
                 <label>Attempts: <input ref={el=>inputsRef.current["attempts"]=el} type="number" min="0" placeholder={levelEdit?.attempts||"1..."} autoComplete="off"/></label>
                 <label title="All the new bests on the level. (Enter values as such: 2 5 8 9 17 42 53 78 98 100)">Progresses: <input ref={el=>inputsRef.current["progs"]=el} type="text" placeholder={levelEdit?.progs||"2 5 8 9..."} autoComplete="off"/></label>
                 <label title="Time, in days, taken to beat the level">Time taken: <input ref={el=>inputsRef.current["time"]=el} type="text" placeholder={levelEdit?.time||"1..."} autoComplete="off"/></label>
-                <label title="The date of the completion">Beaten on: <input ref={el=>inputsRef.current["date"]=el} type="date" autoComplete="off"/></label>
+                <label title="The date of the completion">Beaten on: <input title={isLevelEdit?"Currently: "+getFormatedDate(levelEdit.date):undefined} ref={el=>inputsRef.current["date"]=el} type="date" autoComplete="off"/></label>
                 <label>Enjoyement: <div className="yoyo"><input ref={el=>inputsRef.current["enjoy"]=el} type="text" placeholder={levelEdit?.enjoy||"..."} autoComplete="off"/>/100</div></label>
             </div>
 

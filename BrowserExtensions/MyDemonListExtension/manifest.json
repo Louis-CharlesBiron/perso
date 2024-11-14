@@ -5,7 +5,7 @@
     "version_name": "2.0",
     "manifest_version": 3,
     "icons": {
-        "128": "/src/assets/img/favicon.png"
+        "128": "/assets/favicon.png"
     },
     "commands": {
       "_execute_action": { 

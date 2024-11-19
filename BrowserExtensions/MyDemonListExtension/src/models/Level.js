@@ -85,7 +85,7 @@ class Level {
 
     // Storage format to Level instance
     static toInstance(obj, rank) {
-        return new Level(Object.values(obj), rank)
+        return obj ? new Level(Object.values(obj), rank) : void 1
     }
 
     // From plain js to Level Instance

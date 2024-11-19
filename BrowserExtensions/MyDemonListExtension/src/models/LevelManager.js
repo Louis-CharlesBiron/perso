@@ -78,7 +78,7 @@ class LevelManager {
         if (data) this.setLevels(data.$l.map((id, rank)=>Level.toInstance(data.l.find(l=>l.a==id), rank+1)))
         // Auto storage load
         else chrome.storage.sync.get(synced=>chrome.storage.local.get(local=>{
-                let all = {...synced, ...local}, levels = synced.$l?.map((id, rank)=>Level.toInstance(all[id], rank+1))
+                let all = {...synced, ...local}, levels = synced.$l?.map((id, rank)=>Level.toInstance(all[id], rank+1)).filter(x=>x)
 
                 // If older version, need to convert storage
                 if (synced.$l && synced.$l.some(x=>isNaN(+x))) {

@@ -30,7 +30,7 @@ class Level {
 
         // adjustements
         if (typeof date == "string") date = isNaN(new Date(date+" 00:00").getTime()) ? "" : new Date(date+" 00:00").getTime()
-        if (typeof url == "string") url = url.replace("watch?v=","embed/")
+        if (typeof url == "string") url = url.replace("watch?v=","embed/").replace("youtu.be", "www.youtube.com/embed")
 
         this._id = idOrLevel                            // in-game level id (UNIQUE)
         this._name = name                               // level name

@@ -123,8 +123,7 @@ function LevelInfoMenu() {
             let p = el.placeholder
             if (isLevelEdit && p) {
                 el.onfocus=()=>{
-                    if (Object.values(levelEdit).includes(p))
-                    el.value = p
+                    if (Object.values(levelEdit).includes(p) && !el.value.length) el.value = p
                 }
                 el.onblur=()=>{
                     if (el.value == p) el.value = ""

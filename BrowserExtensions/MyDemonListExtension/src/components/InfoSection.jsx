@@ -1,7 +1,7 @@
 // JSX
 // MyDemonList Extension by Louis-Charles Biron
 // Please don't use or credit this code as your own.
-import { forwardRef, useState } from 'react'
+import { forwardRef, useImperativeHandle, useState } from 'react'
 import './CSS/InfoSection.css'
 import IconButton from './IconButton'
 
@@ -16,6 +16,10 @@ const InfoSection = forwardRef(({type=INFO_SECTION.SIMPLE, headerText, title="",
           listCapacity = 3, listIndex = currentListPage*listCapacity,
           v_ll = value?.length,
           maxPage = Math.floor(v_ll/listCapacity)+!!(v_ll%listCapacity)||0, hasPages = maxPage>1
+
+        useImperativeHandle(ref, ()=>({
+          reset:()=>setCurrentListPage(0)
+        }))
 
     return <>
         {

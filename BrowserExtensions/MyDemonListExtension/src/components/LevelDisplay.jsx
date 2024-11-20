@@ -36,7 +36,7 @@ function LevelDisplay({level}) {
 
             <div className="ld_top">
                 {
-                    level?.url?.includes(location.host)||!level?.url?.includes("http") ?
+                    level?.url?.includes(location.host)||!level?.url?.includes("http")||level?.url?.endsWith("/") ?
                         <img className="ld_levelImg" src={"assets/"+(level.diff||"hard")+".png"}></img>
                         : <iframe src={level.url} loading="lazy" frameBorder="0" title={"Cool Video of "+level.name} className="ld_img" allow="autoplay; encrypted-media; picture-in-picture;"></iframe>
                 }

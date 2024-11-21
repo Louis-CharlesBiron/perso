@@ -19,26 +19,26 @@ class LevelManager {
         let ir = isNaN(level.rank-1) ? this.levels.length : level.rank-1
         if (!level.name) level.name = "Unnamed "+(this.levels.length+1)
 
-        this.setLevels(levels=>{
+        chrome.storage.sync.get("$l", sync=>this.setLevels(levels=>{
             let v = (levels.slice(0, ir).concat(level, levels.slice(ir))).map((l,i)=>(l.rank=i+1,l))
 
             chrome.storage[level.storageType].set({[level.id]: level.toStorageFormat()})
-            chrome.storage.sync.set({$l: v.map(l=>l.id)})
+            chrome.storage.sync.set({$l: [...new Set(v.map(l=>l.id).concat(sync.$l))]})
             
             return v
-        })
+        }))
     }
 
     // Deletes level from the list and saves
     remove(level) {
-        this.setLevels(levels=>{
+        chrome.storage.sync.get("$l", sync=>this.setLevels(levels=>{
             let v = levels.filter(l=>l.id!==level.id).map((l,i)=>(l.rank=i+1,l))
 
             chrome.storage[level.storageType].remove(level.id)
-            chrome.storage.sync.set({$l: v.map(l=>l.id)})
+            chrome.storage.sync.set({$l: [...new Set((v.map(l=>l.id).concat(sync.$l)).filter(l=>l!==level.id))]})
 
             return v
-        })
+        }))
     }
 
     /**
@@ -51,7 +51,7 @@ class LevelManager {
             rankDif = (level.rank-updatedProps.rank)||0
 
         // Update list
-        this.setLevels(levels=>{
+        chrome.storage.sync.get("$l", sync=>this.setLevels(levels=>{
             let i = levels.findIndex(x=>x.id==level.id), ls = levels.filter(x=>x.id!==level.id),
                 v = (ls.slice(0, i-rankDif).concat(updatedLevel, ls.slice(i-rankDif))).map((l,i)=>(l.rank=i+1,l))
 
@@ -60,12 +60,12 @@ class LevelManager {
                 // Update storage id
                 if (updatedProps.id) chrome.storage[updatedLevel.storageType].remove(level.id)
                 // Update storage ranks
-                if (rankDif || updatedProps.id) chrome.storage.sync.set({$l: v.map(l=>l.id)})
+                if (rankDif || updatedProps.id) chrome.storage.sync.set({$l: [...new Set(v.map(l=>l.id).concat(sync.$l))]})
                 // Update storage Level
                 chrome.storage[updatedLevel.storageType].set({[updatedLevel.id]: updatedLevel.toStorageFormat()})
                 
                 return v
-        })
+        }))
     }
 
     get(id) {

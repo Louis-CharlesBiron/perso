@@ -29,7 +29,7 @@ class Level {
         }
 
         // adjustements
-        if (typeof date == "string") date = isNaN(new Date(date+" 00:00").getTime()) ? "" : new Date(date+" 00:00").getTime()
+        if (typeof date == "string") date = isNaN(new Date(date+" 00:00").getTime()) ? null : new Date(date+" 00:00").getTime()
         if (typeof url == "string") url = url.replace("watch?v=","embed/").replace("youtu.be", "www.youtube.com/embed")
 
         this._id = idOrLevel                            // in-game level id (UNIQUE)
@@ -70,7 +70,7 @@ class Level {
 
     getDaysAgo() {
         let days = daysBetweenDates(this._date)
-        return isNaN(days) ? -1 : days
+        return isNaN(days)||days==null ? -1 : days
     }
 
     _formatProgs() {return this._progs?this._progs.split(/ +/g).map(p=>p.trim()+"%").join(" "):""} 

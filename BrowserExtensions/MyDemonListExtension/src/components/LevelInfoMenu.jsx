@@ -5,7 +5,7 @@ import { useContext, useEffect, useRef } from "react"
 import "./CSS/LevelInfoMenu.css"
 import IconButton from "./IconButton"
 import { ActiveMenuContext, MENU_TYPES } from "./contexts/ActiveMenuContext"
-import { capitalize, getByteSize, getFormatedDate, getUsedInputs, MAIN_SONGS_ID, MAX_USERNAME_LL } from "../Utils/Utility"
+import { capitalize, getByteSize, getFormatedDate, getUsedInputs, isUserValue, MAIN_SONGS_ID, MAX_USERNAME_LL } from "../Utils/Utility"
 import Level from "../models/Level"
 import { LevelsContext } from "./contexts/LevelsContext"
 import { OnLineContext } from "./contexts/OnLineContext"
@@ -32,14 +32,12 @@ function LevelInfoMenu() {
     // gdbrowser API call to retreive level info and fill up form 
     function searchById(force) {
         // I Love GD Cologne :D
-        let inputs = inputsRef.current, id = getUsedInputs(inputsRef.current, true).id
+        let inputs = inputsRef.current, id = getUsedInputs(inputsRef.current, true).id||+inputsRef.current.id.placeholder
         if (id) fetch("https://gdbrowser.com/api/level/"+id).then(r=>r.json()).then((stats)=>{
-            if (force) inputs.name.value=inputs.song.value=inputs.songURL.value=inputs.objects.value=inputs.id.value=""
-
-            inputs.song.value ||= stats.songName||""
-            inputs.songURL.value ||= `https://www.newgrounds.com/audio/listen/${stats.customSong||MAIN_SONGS_ID[+stats.songID.match(/[0-9]+/gi)[0]-1]||""}`
-            inputs.date.value ||= getFormatedDate()
-            inputs.objects.value ||= stats.objects||""
+            if (force || !isUserValue(levelEdit, inputs.song)) inputs.song.value = stats.songName||""
+            if (force || !isUserValue(levelEdit, inputs.songURL)) inputs.songURL.value = `https://www.newgrounds.com/audio/listen/${stats.customSong||MAIN_SONGS_ID[+stats.songID.match(/[0-9]+/gi)[0]-1]||""}`
+            if (force || !isUserValue(levelEdit, inputs.date)) inputs.date.value = getFormatedDate()
+            if (force || !isUserValue(levelEdit, inputs.objects)) inputs.objects.value = stats.objects||""
 
             inputs.name.value = stats.name
             inputs.id.value = stats.id
@@ -123,7 +121,7 @@ function LevelInfoMenu() {
             let p = el.placeholder
             if (isLevelEdit && p) {
                 el.onfocus=()=>{
-                    if (Object.values(levelEdit).includes(p) && !el.value.length) el.value = p
+                    if (isUserValue(levelEdit, el)) el.value = p
                 }
                 el.onblur=()=>{
                     if (el.value == p) el.value = ""
@@ -161,7 +159,7 @@ function LevelInfoMenu() {
                 <label>Attempts: <input ref={el=>inputsRef.current["attempts"]=el} type="number" min="0" placeholder={levelEdit?.attempts||"1..."} autoComplete="off"/></label>
                 <label title="All the new bests on the level. (Enter values as such: 2 5 8 9 17 42 53 78 98 100)">Progresses: <input ref={el=>inputsRef.current["progs"]=el} type="text" placeholder={levelEdit?.progs||"2 5 8 9..."} autoComplete="off"/></label>
                 <label title="Time, in days, taken to beat the level">Time taken: <input ref={el=>inputsRef.current["time"]=el} type="text" placeholder={levelEdit?.time||"1..."} autoComplete="off"/></label>
-                <label title="The date of the completion">Beaten on: <input title={isLevelEdit?"Currently: "+getFormatedDate(levelEdit.date):undefined} ref={el=>inputsRef.current["date"]=el} type="date" autoComplete="off"/></label>
+                <label title="The date of the completion">Beaten on: <input placeholder={levelEdit?.date||"..."} title={isLevelEdit?"Currently: "+getFormatedDate(levelEdit.date):undefined} ref={el=>inputsRef.current["date"]=el} type="date" autoComplete="off"/></label>
                 <label>Enjoyement: <div className="yoyo"><input ref={el=>inputsRef.current["enjoy"]=el} type="text" placeholder={levelEdit?.enjoy||"..."} autoComplete="off"/>/100</div></label>
             </div>
 

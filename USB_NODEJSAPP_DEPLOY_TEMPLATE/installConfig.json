@@ -1,0 +1,12 @@
+{
+    "appName":"ROOT_APP_TEMPLATE",
+    "appRoot": "src",
+    "appMain": "server.js",
+    "appExecutablesRoot": "ex",
+    "installPath": "%temp%",
+    "hideAppFolder": "true",
+    "runnerWindowType":"normal",
+    "runnableFileType":"exe",
+    "logs": "true",
+    "confirmLogs": "false"
+}

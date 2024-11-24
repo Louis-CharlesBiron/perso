@@ -29,8 +29,8 @@ class Level {
         }
 
         // adjustements
-        if (typeof date == "string") date = isNaN(new Date(date+" 00:00").getTime()) ? "" : new Date(date+" 00:00").getTime()
-        if (typeof url == "string") url = url.replace("watch?v=","embed/")
+        if (typeof date == "string") date = isNaN(new Date(date+" 00:00").getTime()) ? null : new Date(date+" 00:00").getTime()
+        if (typeof url == "string") url = url.replace("watch?v=","embed/").replace("youtu.be", "www.youtube.com/embed")
 
         this._id = idOrLevel                            // in-game level id (UNIQUE)
         this._name = name                               // level name
@@ -70,7 +70,7 @@ class Level {
 
     getDaysAgo() {
         let days = daysBetweenDates(this._date)
-        return isNaN(days) ? -1 : days
+        return isNaN(days)||days==null ? -1 : days
     }
 
     _formatProgs() {return this._progs?this._progs.split(/ +/g).map(p=>p.trim()+"%").join(" "):""} 
@@ -85,7 +85,7 @@ class Level {
 
     // Storage format to Level instance
     static toInstance(obj, rank) {
-        return new Level(Object.values(obj), rank)
+        return obj ? new Level(Object.values(obj), rank) : void 1
     }
 
     // From plain js to Level Instance

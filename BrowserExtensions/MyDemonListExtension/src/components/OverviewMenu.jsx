@@ -1,7 +1,7 @@
 // JSX
 // MyDemonList Extension by Louis-Charles Biron
 // Please don't use or credit this code as your own.
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import InfoSection, { INFO_SECTION } from './InfoSection'
 import {LevelsContext} from './contexts/LevelsContext'
 import { capitalize, DEMON_TYPES, getLengthInSeconds, numSep } from '../Utils/Utility'
@@ -9,7 +9,13 @@ import { capitalize, DEMON_TYPES, getLengthInSeconds, numSep } from '../Utils/Ut
 // The sidebar menu displaying stats about the ranked levels
 function OverviewMenu() {
     const levelManager = useContext(LevelsContext),
-          [diffFilter, setDiffFilter] = useState(null)
+          [diffFilter, setDiffFilter] = useState(null),
+          listsSections = useRef([])
+
+    function changeFilter(type) {
+        setDiffFilter(f=>f==type ? null : type)
+        listsSections.current.forEach(x=>x.reset())
+    }
 
     let levels = levelManager.levels?.filter(l=>!diffFilter||l.diff==diffFilter)||[],
         totalStars = levels.length*10,
@@ -37,19 +43,19 @@ function OverviewMenu() {
         demons = DEMON_TYPES.reduce((a,b)=>a.concat({demonType:b, demon:(levelManager.levels?.filter(l=>l.diff==b)||[]).length}),[])
 
     return <>
-        <InfoSection headerText={"Ranked Demons"+(diffFilter?" ("+capitalize(diffFilter)+")":"")} type={INFO_SECTION.ICON_LIST} value={demons} onIconClick={(e, type)=>setDiffFilter(f=>f==type ? null : type)}></InfoSection>
+        <InfoSection headerText={"Ranked Demons"+(diffFilter?" ("+capitalize(diffFilter)+")":"")} type={INFO_SECTION.ICON_LIST} value={demons} onIconClick={(e, type)=>changeFilter(type)}></InfoSection>
         <InfoSection headerText="Total Stars"       value={totalStars+"★"}></InfoSection>
         <InfoSection headerText="Total Attempts"    value={totalAttempts&&numSep(totalAttempts)}></InfoSection>
         <InfoSection headerText="Most Objects"      value={mostObjects&&mostObjects?.name+" ("+numSep(mostObjects?.objects)+")"}></InfoSection>
         <InfoSection headerText="Least Objects"     value={leastObjects&&leastObjects?.name+" ("+numSep(leastObjects?.objects)+")"}></InfoSection>
         <InfoSection headerText="Oldest Level"      value={oldestLevel&&oldestLevel?.name+" (Id: "+oldestLevel?.id+")"}></InfoSection>
         <InfoSection headerText="Most Recent Level" value={mostRecentLevel&&mostRecentLevel?.name+" (Id: "+mostRecentLevel?.id+")"}></InfoSection>
-        <InfoSection headerText="Most Attempts"      type={INFO_SECTION.LIST} value={mostAttempts}></InfoSection>
-        <InfoSection headerText="Biggest Flukes"     type={INFO_SECTION.LIST} value={biggestFlukes.map(l=>`(#${l.level.rank}) ${l.level.name}, From ${100-l.value}% (${l.value}%)`)}></InfoSection>
-        <InfoSection headerText="Worst Deaths"       type={INFO_SECTION.LIST} value={worstDeaths.map(l=>`(#${l.level.rank}) ${l.level.name}, At ${100-l.value}%`)}></InfoSection>
-        <InfoSection headerText="Longest Journeys"   type={INFO_SECTION.LIST} value={longestJourneys.map(l=>`(#${l.rank}) ${l.name}, ${l.time} Days`)}></InfoSection>
-        <InfoSection headerText="Longest Levels"     type={INFO_SECTION.LIST} value={longestLevels.map(l=>`(#${l.rank}) ${l.name}, ${l.getFormatedLength()}`)}></InfoSection>
-        <InfoSection headerText="Recent Completions" type={INFO_SECTION.LIST} value={recentCompletions.map(l=>`(#${l.rank}) ${l.name}, ${l.getDaysAgo()} Days Ago`)}></InfoSection>
+        <InfoSection headerText="Most Attempts"      type={INFO_SECTION.LIST} value={mostAttempts} ref={fns=>listsSections.current[0]=fns}></InfoSection>
+        <InfoSection headerText="Biggest Flukes"     type={INFO_SECTION.LIST} value={biggestFlukes.map(l=>`(#${l.level.rank}) ${l.level.name}, From ${100-l.value}% (${l.value}%)`)} ref={fns=>listsSections.current[1]=fns}></InfoSection>
+        <InfoSection headerText="Worst Deaths"       type={INFO_SECTION.LIST} value={worstDeaths.map(l=>`(#${l.level.rank}) ${l.level.name}, At ${100-l.value}%`)} ref={fns=>listsSections.current[2]=fns}></InfoSection>
+        <InfoSection headerText="Longest Journeys"   type={INFO_SECTION.LIST} value={longestJourneys.map(l=>`(#${l.rank}) ${l.name}, ${l.time} Days`)} ref={fns=>listsSections.current[3]=fns}></InfoSection>
+        <InfoSection headerText="Longest Levels"     type={INFO_SECTION.LIST} value={longestLevels.map(l=>`(#${l.rank}) ${l.name}, ${l.getFormatedLength()}`)} ref={fns=>listsSections.current[4]=fns}></InfoSection>
+        <InfoSection headerText="Recent Completions" type={INFO_SECTION.LIST} value={recentCompletions.map(l=>`(#${l.rank}) ${l.name}, ${l.getDaysAgo()} Days Ago`)} ref={fns=>listsSections.current[5]=fns}></InfoSection>
     </>
 }
 export default OverviewMenu

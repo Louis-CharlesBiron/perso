@@ -55,7 +55,7 @@ function msToTime(ms=0) {// y:0, d:1, h:2, m:3, s:4, ms:5
 }
 
 function daysBetweenDates(d1, d2=Date.now()) {
-    return Math.floor(Math.abs(d1-d2)/86400000)
+    return d1 ? Math.floor(Math.abs(d1-d2)/86400000) : null
 }
 
 // 5:00 -> 300
@@ -80,6 +80,10 @@ function getByteSize(obj={}) {
     return new TextEncoder().encode(JSON.stringify(obj)).length
 }
 
+function isUserValue(level, el) {
+    let vals = Object.values(level)
+    return typeof level=="object" && (vals.includes(el.placeholder)||vals.includes(+el.placeholder)) && !el.value.length
+}
 
 
-export {capitalize, random, getByteSize, isValidJson, readFile, getFormatedObject, getUsedInputs, getFormatedDate, pad0, numSep, msToTime, daysBetweenDates, getLengthInSeconds, MAIN_SONGS_ID, DEMON_TYPES, EMPTY_STATS1, FEATURE_LEVELS, DISABLED_MESSAGE, MAX_USERNAME_LL}
+export {capitalize, random, isUserValue, getByteSize, isValidJson, readFile, getFormatedObject, getUsedInputs, getFormatedDate, pad0, numSep, msToTime, daysBetweenDates, getLengthInSeconds, MAIN_SONGS_ID, DEMON_TYPES, EMPTY_STATS1, FEATURE_LEVELS, DISABLED_MESSAGE, MAX_USERNAME_LL}

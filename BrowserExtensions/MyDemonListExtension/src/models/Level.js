@@ -55,6 +55,7 @@ class Level {
         this._rank = rank                               // level's personnal ranking on the list
     }
 
+    // TODO ADD RANK IN THIS ↓
     toStorageFormat() {
         return {a:this._id, b:this._name??"", c:this._title??"", d:this._url??"", e:this._attempts??"", f:this._progs??"", g:this._time??"", h:this._date??"", i:this._enjoy??"", j:this._length??"", k:this._song??"", l:this._songURL??"", m:this._objects??"", n:this._diff??"", o:this._creator??"", p:this._featureLevel??"", q:this._gameVersion??"", r:this._lazyLength??"", s:this._storageType??""}
     }
